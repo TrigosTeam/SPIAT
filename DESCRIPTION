@@ -1,0 +1,47 @@
+Package: SPIAT
+Type: Package
+Title: Spatial Image Analysis of Tissues
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Anna",
+           family="Trigos",
+           role=c("aut", "cre"),
+           email="anna.trigos@petermac.org"),
+    person(given = "Tom",
+           family = " Yang",
+           role="aut",
+           email="volkanozcoban1@gmail.com"),
+    person(given = "Volkan",
+           family=" Ozkoban",
+           role="aut",
+           email = "volkanozcoban1@gmail.com"))
+Maintainer: Anna Trigos <anna.trigos@petermac.org>
+Description: Spatial analysis of tissues obtained 
+    using multiplex immunohistochemistry.
+    Converts INFORM or HALO images into a SingleCellExperiment class
+    and carry out spatial analysis including distance calculations, plotting
+    marker expressions and more. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0), apcluster (>= 1.4.7), ggplot2 (>= 3.2.1),
+        gridExtra (>= 2.3), gtools (>= 3.8.1), magrittr (>= 1.5),
+        pheatmap (>= 1.0.12), RColorBrewer (>= 1.1-2), reshape2 (>=
+        1.4.3), tidyr (>= 1.0.0), dplyr (>= 0.8.3), plotly (>= 4.9.0),
+        RANN (>= 2.6.1), pracma (>= 2.2.5), dbscan (>= 1.1-5), mmand
+        (>= 1.5.4), tibble (>= 2.1.3), SingleCellExperiment (>= 1.4.1),
+        Rphenograph (>= 0.99.1), igraph (>= 1.2.4.1), gridExtra (>=
+        2.3)
+Imports: qpdf(>= 1.1)
+Suggests: knitr, rmarkdown,
+SystemRequirements:
+biocViews:
+BugReports: None to date
+Collates:
+RoxygenNote: 7.0.2
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2020-04-06 07:33:30 UTC; atrigos
+Author: Anna Trigos [aut, cre],
+  Tom Yang [aut],
+  Volkan Ozkoban [aut]
