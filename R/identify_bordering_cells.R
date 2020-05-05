@@ -9,6 +9,10 @@
 #' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the marker population
 #' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the marker population
 #' @import SingleCellExperiment
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @importFrom dbscan frNN
+#' @import ggplot2
 #' @export
 
 #sce_object <- sce_ovarian_panimmune1
@@ -17,6 +21,10 @@
 #radius <- 200 #larger the more cells are considered
 #lower_bound <- 0.4
 #upper_bound <- 0.6
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
+# imported all functions from ggplot2 since many functions are interdependent
 
 identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
 
@@ -43,19 +51,35 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
   #get the tumour cells and other cells
   tumour_cells <- formatted_data[formatted_data$Phenotype == tumour_marker, ]
   other_cells <- formatted_data[!grepl(tumour_marker, formatted_data$Phenotype), ]
-
+  
+  #CHECK
+  if (nrow(tumour_cells) == 0){
+    stop("There are no tumour_cells in the dataset for the specified marker")
+  }
+  if (nrow(other_cells) == 0){
+    stop("There are no stroma cells in the dataset")
+  }
+  
   #remove tumour cells with no tumour cells within the radius
   tumour_cell_cords <- tumour_cells[,c("Cell.X.Position", "Cell.Y.Position")]
   tumour_nn <- frNN(tumour_cell_cords, eps=rm_noise_radius, sort=FALSE)  #row index matching the row num
   #get the row index of those cells with neighbours
   idx <- unique(unlist(tumour_nn$id))
   tumour_cells_w_neighbours <- tumour_cells[idx, ]
+  #CHECK
+  if (nrow(tumour_cells_w_neighbours) == 0) {
+    stop("No tumour cells left after noise removal, please try a more lenient radius")
+  }
 
   #remove stroma cells with no stroma cells within a specific radius
   other_cell_cords <- other_cells[,c("Cell.X.Position", "Cell.Y.Position")]
   other_nn <- frNN(other_cell_cords, eps=rm_noise_radius, sort=FALSE)
   idx <- unique(unlist(other_nn$id))
   other_cells_w_neighbours <- other_cells[idx, ]
+  #CHECK
+  if (nrow(other_cells_w_neighbours) == 0) {
+    stop("No stroma cells left after noise removal, please try a more lenient radius")
+  }
 
   #create df of all cells
   all_cells <- rbind(tumour_cells_w_neighbours, other_cells_w_neighbours)
@@ -83,6 +107,11 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
     if (prop_non_tumour >= lower_bound && prop_non_tumour <= upper_bound) {
       border_cells <- rbind(border_cells, tumour_cells[row_num, ])
     }
+  }
+  
+  #CHECK
+  if (nrow(border_cells) == 0){
+    stop("There are no border cells found for the specified radius")
   }
 
   r <- ggplot(border_cells, aes(x = Cell.X.Position, y = Cell.Y.Position)) +

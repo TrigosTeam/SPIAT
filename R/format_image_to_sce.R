@@ -16,27 +16,48 @@
 #' contains the column names for the expression level of each of the markers.
 #' It must be in the same order as the markers specified.
 #' @import SingleCellExperiment
-#' @import utils
+#' @importFrom utils read.csv read.delim
 
 format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_interest = NULL, intensity_columns_interest) {
 
     #replace the spaces and non-alphanumeric characters as a '.' for column selection
     intensity_columns_interest <- gsub("[^[:alnum:]]", ".", intensity_columns_interest)
     dye_columns_interest <- gsub("[^[:alnum:]]", ".", dye_columns_interest)
-
+    
     #process the data based on data format
     if (format == "HALO"){
         #following is from format_HALO_new
 
         #read in the image
         image <- read.csv(image)
+        
+        #CHECK - if image contains all the columns specified and vectors of same length
+        image_colnames <- colnames(image)
+        if (!all(intensity_columns_interest %in% image_colnames)) {
+            stop("One or more Intensity_columns_interest not found in image")
+        }
+        if (!all(dye_columns_interest %in% image_colnames)) {
+            stop("One or more dye_columns_interest not found in image")
+        }
+        marker_count <- length(markers)
+        intensity_col_count <- length(intensity_columns_interest)
+        dye_col_count <- length(dye_columns_interest)
+        if (marker_count != intensity_col_count || marker_count != dye_col_count || intensity_col_count != dye_col_count) {
+            stop("The number of dyes, columns and markers do not match")
+        }
 
         #First remove all non-DAPI cells
         idx <- which(markers == "DAPI")
+        
+        #CHECK - if DAPI is in the dyes
+        if (length(idx) == 0) {
+            stop("Please include DAPI in the markers")
+        }
+        
         DAPI_col_name <- dye_columns_interest[idx]
         DAPI_non_zero_rows <- which(image[,DAPI_col_name] != 0)
         image <- image[DAPI_non_zero_rows,]
-
+        
         #extract intensities
         intensity_of_markers <- image[,intensity_columns_interest]
         colnames(intensity_of_markers) <- markers
@@ -104,6 +125,17 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
         #remove all rows with empty phenotype/no markers
         image <- image[image$Phenotype != "",]
         image <- image[!is.na(image$Phenotype), ]
+        
+        #CHECK - if image contains all the columns specified and vectors of same length
+        image_colnames <- colnames(image)
+        if (!all(intensity_columns_interest %in% image_colnames)) {
+            stop("One or more Intensity_columns_interest not found in image")
+        }
+        marker_count <- length(markers)
+        intensity_col_count <- length(intensity_columns_interest)
+        if (marker_count != intensity_col_count) {
+            stop("The number of dyes and columns does not match")
+        }
 
         ###added: extract intensities
         intensity_of_markers <- image[,intensity_columns_interest]
@@ -139,7 +171,7 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
         image$Phenotype <- gsub(",$","", image$Phenotype)
 
     } else{
-        return("Please enter a valid format")
+        stop("Please enter a valid format: INFORM/HALO")
     }
 
     #create the formatted_data with intensity levels

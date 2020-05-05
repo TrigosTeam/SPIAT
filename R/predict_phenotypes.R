@@ -12,8 +12,16 @@
 #' @param tumour_marker String containing the tumour_marker used for the image.
 #' @param baseline_markers Markers not found on tumour cells to refine the threshold
 #' @import SingleCellExperiment
-#' @import pracma
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @importFrom pracma findpeaks
+#' @importFrom stats complete.cases density
+#' @importFrom mmand threshold
+#' @import ggplot2
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_predicted_cutoff = FALSE, thresholds = NULL, tumour_marker,
                                baseline_markers) {
@@ -24,6 +32,12 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
     expression_matrix <- assay(sce_object)
 
     markers <- rownames(expression_matrix)
+    
+    #CHECK
+    if (is.element(tumour_marker, markers) == FALSE) {
+      stop("Tumour marker not found")
+    }
+    
     cell_ids <- colnames(expression_matrix)
 
     rownames(expression_matrix) <- NULL

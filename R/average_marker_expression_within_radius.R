@@ -11,11 +11,14 @@
 #' @param target_marker A string specifying the marker to calculate its average expression
 #' @param radius An integer specifying the radius of search for cells around the reference cells
 #' @import dplyr
-#' @import tibble
-#' @import dbscan
+#' @importFrom tibble rownames_to_column
+#' @importFrom dbscan frNN
 #' @import stats
 #' @import SingleCellExperiment
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 
 average_marker_expression_within_radius <- function(sce_object, reference_marker, target_marker, radius = 20) {
@@ -38,20 +41,21 @@ average_marker_expression_within_radius <- function(sce_object, reference_marker
 
     #Select the cells that express the reference marker
     reference_cells <- formatted_data[grepl(reference_marker, formatted_data$Phenotype),]
-
+    if (nrow(reference_cells) == 0) {
+        stop("There are no reference cells found for the marker")
+    }
+    
     #Target cells are don't contain the reference marker
     target_cells <- formatted_data[grepl(target_marker, formatted_data$Phenotype),]
-
+    if (nrow(target_cells) == 0) {
+        stop("There are no target cells found for the marker")
+    }
+    
     #Remove cells coexpressing both markers
     common_cells <- reference_cells$Cell.ID[reference_cells$Cell.ID %in% target_cells$Cell.ID]
 
     reference_cells <- reference_cells[!(reference_cells$Cell.ID %in% common_cells),]
     target_cells <- target_cells[!(target_cells$Cell.ID %in% common_cells),]
-
-    #Check
-    if (nrow(reference_cells) == 0 || nrow(target_cells) == 0) {
-        return("There are no reference cells or target cells, calculation aborted")
-    }
 
     #Get the coordinates to find neighbours
     reference_cell_cords <- reference_cells[,c("Cell.X.Position", "Cell.Y.Position")]
@@ -63,7 +67,7 @@ average_marker_expression_within_radius <- function(sce_object, reference_marker
 
     #check
     if (length(rownums) == 0) {
-        return("There are no target cells within the radius, cannot calculate average expression")
+        stop("There are no target cells within the specified radius, cannot calculate average expression")
     } else {
         target_within_radius <- target_cells[rownums,]
         average_marker_expression <- mean(target_within_radius[,target_marker])

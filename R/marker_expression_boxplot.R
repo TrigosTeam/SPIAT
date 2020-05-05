@@ -5,8 +5,14 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param marker Marker being queried
 #' @import SingleCellExperiment
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases
+#' @import ggplot2
 #' @export
 
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_expression_boxplot <- function(sce_object, marker){
 
@@ -37,20 +43,19 @@ marker_expression_boxplot <- function(sce_object, marker){
     if (nrow(expression_true) != 0) {
         expression_true$expression <- "P"
     } else{
-        print(paste("There are no cells positive for ", marker, sep=""))
+        stop(paste("There are no cells positive for ", marker, sep=""))
     }
 
     if (nrow(expression_false) != 0){
         expression_false$expression <- "N"
     } else{
-        print(paste("There are no cells negative for ", marker, sep=""))
+        stop(paste("There are no cells negative for ", marker, sep=""))
     }
 
     #bind the 2 dataframes together
     expression_by_marker <- rbind(expression_true, expression_false)
-    if (nrow(expression_true) != 0 & nrow(expression_false) != 0){
-        expression_by_marker$expression <- factor(expression_by_marker$expression, levels=c("P", "N"))
-    }
+    expression_by_marker$expression <- factor(expression_by_marker$expression, levels=c("P", "N"))
+    
     #plot boxplot
     title <- paste("Level of ", marker, sep="")
 

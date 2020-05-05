@@ -3,6 +3,7 @@
 #' @description Plots distances between cells as a violin plot
 #'
 #' @param cell_to_cell_dist Output from calculate_all_distances_between_phenotypes
+#' @import ggplot2
 #' @export
 
 

@@ -8,6 +8,7 @@
 #' @param reference_marker String specifying the reference marker
 #' @param target_marker String specifying the marker to calculate its average expression
 #' @param radii Vector of integers specifying the search radius around reference cells
+#' @import ggplot2
 #' @export
 
 plot_average_expression <- function(sce_object, reference_marker, target_marker, radii) {
@@ -18,7 +19,7 @@ plot_average_expression <- function(sce_object, reference_marker, target_marker,
         result <- average_marker_expression_within_radius(sce_object, reference_marker, target_marker, radius = radius)
         #check
         if(!is.numeric(result)) {
-            return(print(paste("Cannot calculate average expression for radius = ", radius, sep = "")))
+            stop(paste("Cannot calculate average expression for radius = ", radius, sep = ""))
         }
         average_expression_result <- c(average_expression_result, result)
     }

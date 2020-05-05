@@ -9,6 +9,7 @@
 #' @import plotly
 #' @import SingleCellExperiment
 #' @import gridExtra
+#' @import ggplot2
 #' @export
 
 marker_prediction_plot <- function(predicted_data, marker) {

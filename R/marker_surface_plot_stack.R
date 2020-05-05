@@ -6,16 +6,24 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param num_splits Integer specifying the number of splits on the image, higher
 #' splits equal to higher resolution. Recommendation: 10-100
-#' @param markers Vector of marker names for plotting
+#' @param markers_to_plot Vector of marker names for plotting
 #' @param sep Integer specifying the distance separation between each surface plot.
 #' We recommend values in the 1-2 range.
 #' @param x_position_min Integer specifying the minimum x boundary to be splitted
 #' @param x_position_max Integer specifying the maximum x boundary to be splitted
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom plotly plot_ly add_trace 
+#' @importFrom stats aggregate
 #' @export
 
-marker_surface_plot_stack <- function(sce_object, num_splits, markers, sep = 1,
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
+
+marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, sep = 1,
                                 x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
 
@@ -24,6 +32,12 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers, sep = 1,
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
     expression_matrix <- assay(sce_object)
+    markers <- rownames(expression_matrix)
+    
+    #CHECK
+    if (!all(markers_to_plot %in% markers)) {
+        stop("One or more markers specified cannot be found")
+    }
 
     cell_ids <- colnames(expression_matrix)
 
@@ -112,7 +126,7 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers, sep = 1,
     #value to separate the plots
     i <- 0
 
-    for (marker in markers) {
+    for (marker in markers_to_plot) {
 
         #skip DAPI expressions
         if (marker == "DAPI"){

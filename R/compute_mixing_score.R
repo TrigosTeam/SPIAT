@@ -8,7 +8,15 @@
 #' @param reference_marker String specifying the reference marker
 #' @param target_marker String specifying the target marker
 #' @param radius Integer specifying the radius. Only cells within this radius will be considered.
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases
+#' @importFrom dbscan frNN
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 compute_mixing_score <- function(sce_object, reference_marker, target_marker, radius = 20) {
 
@@ -27,7 +35,10 @@ compute_mixing_score <- function(sce_object, reference_marker, target_marker, ra
   reference_cells <- reference_cells[!grepl(target_marker, reference_cells$Phenotype), ]
 
   if (nrow(reference_cells) == 0) {
-    return("There are no reference cells, cannot calculate mixing score")
+    stop("There are no reference cells of specified marker, cannot calculate mixing score")
+  }
+  if (nrow(target_cells) == 0) {
+    stop("There are no target cells of specified marker")
   }
 
   print(paste("Number of reference cells:", nrow(reference_cells)))
@@ -51,6 +62,6 @@ compute_mixing_score <- function(sce_object, reference_marker, target_marker, ra
     mixing_score <- reference_target_interactions/reference_reference_interactions
     return (mixing_score)
   } else {
-    return ("There are no interactions between reference cells, cannot calculate mixing score")
+    stop("There are no interactions between reference cells for the specified radius, cannot calculate mixing score")
   }
 }

@@ -4,10 +4,19 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param radius Integer specifying the radius of search.
-#' @param min_cluster_size Minimum number of cells in a cluster
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases hclust cutree
+#' @importFrom apcluster negDistMat
+#' @import ggplot2
 #' @export
 
-identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius, min_cluster_size) {
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
+# imported ggplo2 as interdependency of functions
+
+identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
@@ -28,11 +37,16 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius, m
 
   ######remove cells without a phenotype
   formatted_data <- formatted_data[formatted_data$Phenotype != "OTHER", ]
-  cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+  #cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
 
   #select cells to include if phenotypes of interest are specified
   if (!is.null(phenotypes_of_interest)) {
     formatted_data <- formatted_data[formatted_data$Phenotype %in% phenotypes_of_interest,]
+  }
+  
+  #CHECK
+  if (nrow(formatted_data) == 0) {
+    stop("There are no cells in data/no cells for the phenotypes of interest")
   }
 
   rownames(formatted_data) <- formatted_data$Cell.ID
@@ -65,7 +79,11 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius, m
         local_clusters <- cutree(h, h = 0.5)
 
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
+      } else {
+        stop("The radius specified may be too small, no clusters were found")
       }
+  } else {
+      stop("The radius specified may be too small, no clusters were found")
     }
 
   #get number_of_clusters

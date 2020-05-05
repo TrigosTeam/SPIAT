@@ -8,7 +8,14 @@
 #' @param num_splits Integer specifying the blurring level (number of splits) for the image.
 #' Higher numbers result in higher resolution.
 #' @import SingleCellExperiment
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats aggregate
+#' @import ggplot2
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
 
@@ -19,6 +26,12 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     expression_matrix <- assay(sce_object)
 
     markers <- rownames(expression_matrix)
+    
+    #CHECK
+    if (is.element(marker, markers) == FALSE) {
+        stop("The marker specified is not in the data")
+    }
+    
     cell_ids <- colnames(expression_matrix)
 
     rownames(expression_matrix) <- NULL

@@ -14,12 +14,15 @@
 #' @param x_position_max Integer used to specify the maximum x boundary to be splitted
 #' @param y_position_min Integer used to specify the minimum y boundary to be splitted
 #' @param y_position_max Integer used to specify the maximum y boundary to be splitted
-#' @import RColorBrewer
+#' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
 #' @import qpdf
-#' @import grDevices
+#' @importFrom grDevices pdf dev.off
+#' @import SingleCellExperiment
+#' @importFrom stats complete.cases setNames
 #' @export
 
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){
@@ -31,6 +34,11 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     cell_loc <- data.frame(colData(sce_object))
     cell_loc <- cell_loc[complete.cases(cell_loc),]
     cell_loc$Cell_type <- as.character(cell_loc$Phenotype)
+    
+    #CHECK
+    if (nrow(cell_loc) == 0) {
+        stop("There are no cells in the data")
+    }
 
     #Selects x and y region to plot
     if(is.null(x_position_min)){
@@ -177,6 +185,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     if(isTRUE(plot)){
         print(full_image)
         dev.off()
+        print("PDF saved successfully")
     }
     return(divided_image_obj)
 }

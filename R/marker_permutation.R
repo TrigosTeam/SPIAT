@@ -6,6 +6,10 @@
 #' @param tumour_marker String with the name of the marker used for tumour cells
 #' @param num_iter Integer specifying the number of iterations for bootstrapping
 #' @import SingleCellExperiment
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases
+#' @importFrom utils combn
 #' @export
 
 marker_permutation <- function(sce_object, num_iter) {

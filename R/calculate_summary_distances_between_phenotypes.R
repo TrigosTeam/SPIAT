@@ -7,9 +7,15 @@
 #' @param combinations_of_interest Vector of marker combinations to consider if all_marker_combinations
 #' is FALSE
 #' @import apcluster
-#' @import RANN
-#' @import gtools
+#' @importFrom RANN nn2
+#' @importFrom gtools permutations
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 calculate_summary_distances_between_phenotypes <- function(sce_object, all_marker_combinations = TRUE,
                                                    combinations_of_interest = NULL) {
@@ -39,6 +45,10 @@ calculate_summary_distances_between_phenotypes <- function(sce_object, all_marke
         }
         #keep those cells that are selected
         formatted_data <- formatted_data[formatted_data$Phenotype %in% combinations_of_interest, ]
+        #CHECK
+        if (nrow(formatted_data) == 0){
+            stop("No cells belong to the specified marker combinations of interest")
+        }
         print("Markers had been selected in pair-wise distance calculation: ")
         print(unique(formatted_data$Cell_type))
     }

@@ -6,8 +6,16 @@
 #' @param remove_other If TRUE, the plotting will exclude cells with only DAPI marker
 #' @param cell_phenotypes_of_interest Vector containing phenotypes to be considered,
 #' if NULL, all phenotype combinations will be calculated
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases
+#' @importFrom apcluster negDistMat
+#' @importFrom reshape2 melt
 #' @export
 
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 calculate_all_distances_between_phenotypes <- function(sce_object, remove_other = TRUE, cell_phenotypes_of_interest = NULL){
 
@@ -15,11 +23,15 @@ calculate_all_distances_between_phenotypes <- function(sce_object, remove_other 
     dat <- data.frame(colData(sce_object))
     dat <- dat[complete.cases(dat),]
     dat<- dat %>% rownames_to_column("Cell.ID") #convert rowname to column
-
+    
     #Selects all rows in the data file which only contains the cells of interest
     if(!is.null(cell_phenotypes_of_interest)){
         unique_cell_phenotypes_selected <- as.vector(unique(unlist(cell_phenotypes_of_interest)))
         dat <- dat[dat$Phenotype %in% unique_cell_phenotypes_selected,]
+    }
+    #CHECK
+    if (nrow(dat) == 0) {
+      stop("There are no cells or no cells of specified phenotypes")
     }
 
     dat <- dat[,c("Cell.ID","Phenotype", "Cell.X.Position", "Cell.Y.Position")]
