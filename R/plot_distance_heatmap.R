@@ -4,6 +4,7 @@
 #'
 #' @param phenotype_distances_result Dataframe output from calculate_distances_between_phenotypes
 #' @param metric Metric to be plotted. One of "mean", "std.dev" or "median".
+#' @import ggplot2
 #' @export
 
 plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){

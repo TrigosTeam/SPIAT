@@ -3,8 +3,14 @@
 #' @description Calculates the average minimum distance of all cells in the sce_object
 #'
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
-#' @import RANN
+#' @importFrom RANN nn2
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 average_minimum_distance <- function(sce_object) {
 
@@ -14,6 +20,12 @@ average_minimum_distance <- function(sce_object) {
 
     #extract the cell coordinates
     all_cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+    
+    #CHECK
+    if (nrow(all_cell_cords) == 0) {
+        stop("No cells found in average minimum distance calculation")
+    }
+    
     #calculate the closest 2 neighbours, 1st being itself
     all_closest <- nn2(data = all_cell_cords, k = 2)
 

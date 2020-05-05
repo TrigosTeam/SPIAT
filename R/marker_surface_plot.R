@@ -11,7 +11,15 @@
 #' @param x_position_max Integer specifying the maximum x boundary to be splitted
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats aggregate
+#' @importFrom plotly plot_ly add_surface
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
@@ -23,6 +31,12 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     expression_matrix <- assay(sce_object)
 
     markers <- rownames(expression_matrix)
+    
+    #CHECK
+    if (is.element(marker, markers) == FALSE) {
+        stop("Data does not contain marker specified")
+    }
+    
     cell_ids <- colnames(expression_matrix)
 
     rownames(expression_matrix) <- NULL

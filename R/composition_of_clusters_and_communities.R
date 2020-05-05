@@ -4,6 +4,7 @@
 #' specific marker within each cluster and the number of cells in the cluster.
 #' @param formatted_data_with_clusters - a dataframe output from generate_clusters
 #' @param column_to_consider Column name to consider as community/clusters
+#' @importFrom stats aggregate
 #' @export
 
 composition_of_clusters_and_communities <- function(formatted_data_with_clusters, column_to_consider) {
@@ -21,7 +22,7 @@ composition_of_clusters_and_communities <- function(formatted_data_with_clusters
       cluster_size <- table(formatted_data_with_clusters$Cluster)
       composition$Total_number_of_cells <- as.vector(cluster_size[match(composition$Cluster, names(cluster_size))])
     }else{
-      print("Only Community and Cluster are accepted as valid column names")
+      stop("Only Community and Cluster are accepted as valid column names")
     }
 
     composition$Percentage <- (composition$Number_of_cells/composition$Total_number_of_cells)*100

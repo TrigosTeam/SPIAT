@@ -11,7 +11,16 @@
 #' @import Rphenograph
 #' @import ggplot2
 #' @import igraph
+#' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom dbscan dbscan
+#' @import ggplot2
 #' @export
+
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
+# imported ggplot2 due to interdependency of functions
 
 identify_cell_communities <- function(sce_object, clustering_method = "rphenograph", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
 
@@ -40,6 +49,11 @@ identify_cell_communities <- function(sce_object, clustering_method = "rphenogra
     if (!is.null(phenotypes_of_interest)) {
         formatted_data <- formatted_data[formatted_data$Phenotype %in% phenotypes_of_interest,]
     }
+    
+    #CHECK
+    if (nrow(formatted_data) == 0) {
+      stop("There are no cells in data/no cells for the phenotypes of interest")
+    }
 
     if (clustering_method == "rphenograph") {
         Rphenograph_out <- Rphenograph(cell_cords, k = min_community_size)
@@ -50,7 +64,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "rphenogra
         #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
         formatted_data$Community <- factor(db$cluster + 1)
     } else {
-        return(print("Please select a valid clustering method: Rphenograph or dbscan"))
+        stop("Please select a valid clustering method: Rphenograph or dbscan")
     }
 
     #start a plot for visualizing communities

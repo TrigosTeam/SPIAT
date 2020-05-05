@@ -8,8 +8,10 @@
 #' @param column_to_consider Column name to consider as community/clusters
 #' @import RColorBrewer
 #' @import pheatmap
-#' @import reshape2
+#' @importFrom reshape2 dcast
 #' @export
+
+#ColorRampPalette is from 'dichromat' package but loaded by 'pheatmap'
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, column_to_consider) {
 
@@ -31,7 +33,7 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
     composition2 <- composition[,c("Phenotype", "Cluster", "Percentage")]
     composition2 <- dcast(composition2,  Phenotype ~ Cluster, value.var="Percentage")
   }else{
-    print("Only Community and Cluster are accepted as valid column names")
+    stop("Only Community and Cluster are accepted as valid column names")
   }
 
 

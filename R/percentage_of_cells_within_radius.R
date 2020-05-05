@@ -11,12 +11,14 @@
 #' @param radius Integer specifying the radius of search for cells around the reference cells.
 #' Radii of ~100 are recommended. If too small, too few cells might be present
 #' @import dplyr
-#' @import tibble
-#' @import dbscan
+#' @importFrom tibble rownames_to_column
+#' @importFrom dbscan frNN
 #' @import stats
 #' @import SingleCellExperiment
 #' @export
 
+# %>% operator is in package 'magrittr' but imported by dplyr
+# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100){
 
@@ -27,9 +29,9 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
   reference_phenotypes <- formatted_data[formatted_data$Phenotype == reference_phenotypes,]
   target_phenotypes <- formatted_data[formatted_data$Phenotype == target_phenotypes,]
   
-  #check
+  #CHECK
   if (nrow(reference_phenotypes) == 0 || nrow(target_phenotypes) == 0) {
-    return("There are no reference cells or target cells, calculation aborted")
+    stop("There are no reference cells or target cells, calculation aborted")
   }
 
   #get the coordinates to find neighbours
@@ -41,9 +43,9 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
 
   rownums <- unique(unlist(search_result$id))
 
-  #check
+  #CHECK
   if (length(rownums) == 0) {
-    return("There are no target cells within the radius")
+    stop("There are no target cells within the radius")
   } else {
     output_percentage <- vector()
     cell_IDs <- vector()
