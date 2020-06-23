@@ -31,7 +31,7 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
   
   #CHECK
   if (nrow(reference_phenotypes) == 0 || nrow(target_phenotypes) == 0) {
-    stop("There are no reference cells or target cells, calculation aborted")
+    stop("There are no reference cells or no target cells, calculation aborted")
   }
 
   #get the coordinates to find neighbours
@@ -54,7 +54,8 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
       radius_cells <- search_result$id[[cell]]
       radius_cells <- radius_cells[radius_cells != cell]
       radius_cells <- formatted_data[radius_cells,]
-      percentage <- (sum(radius_cells$Phenotype == target_phenotypes)/nrow(radius_cells))*100
+      
+      percentage <- (nrow(radius_cells[radius_cells$Cell.ID %in% target_phenotypes$Cell.ID, ])/nrow(radius_cells))*100
       output_percentage <- c(output_percentage, percentage)
       cell_IDs <- c(cell_IDs, formatted_data[cell,"Cell.ID"])
     }

@@ -38,6 +38,7 @@ average_marker_expression_within_radius <- function(sce_object, reference_marker
     colnames(expression_df) <- markers
 
     formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- formatted_data[complete.cases(formatted_data), ]
 
     #Select the cells that express the reference marker
     reference_cells <- formatted_data[grepl(reference_marker, formatted_data$Phenotype),]
@@ -70,7 +71,7 @@ average_marker_expression_within_radius <- function(sce_object, reference_marker
         stop("There are no target cells within the specified radius, cannot calculate average expression")
     } else {
         target_within_radius <- target_cells[rownums,]
-        average_marker_expression <- mean(target_within_radius[,target_marker])
+        average_marker_expression <- mean(target_within_radius[,target_marker], na.rm=TRUE)
     }
     return(average_marker_expression)
 }
