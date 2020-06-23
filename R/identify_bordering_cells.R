@@ -3,11 +3,11 @@
 #' @description Identifies the cells bordering a group of cells of a particular phenotype
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param marker Cells positive for this marker will be used as reference
+#' @param reference_marker Cells positive for this marker will be used as reference
 #' @param rm_noise_radius Number specifying the radius used for noise. Larger numbers, more leniency
 #' @param radius Number specifying the search radius. Larger numbers, more cells to be considered
-#' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the marker population
-#' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the marker population
+#' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population
+#' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population
 #' @import SingleCellExperiment
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
@@ -16,7 +16,7 @@
 #' @export
 
 #sce_object <- sce_ovarian_panimmune1
-#tumour_marker <- "WT1"
+#reference_marker <- "WT1"
 #rm_noise_radius <- 50 #larger the more lenient it is
 #radius <- 200 #larger the more cells are considered
 #lower_bound <- 0.4
@@ -26,7 +26,7 @@
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported all functions from ggplot2 since many functions are interdependent
 
-identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
+identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
 
   formatted_data <- data.frame(colData(sce_object))
 
@@ -48,27 +48,27 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
 
   #####################
 
-  #get the tumour cells and other cells
-  tumour_cells <- formatted_data[formatted_data$Phenotype == tumour_marker, ]
-  other_cells <- formatted_data[!grepl(tumour_marker, formatted_data$Phenotype), ]
+  #get the reference cells and other cells
+  reference_cells <- formatted_data[formatted_data$Phenotype == reference_marker, ]
+  other_cells <- formatted_data[!grepl(reference_marker, formatted_data$Phenotype), ]
   
   #CHECK
-  if (nrow(tumour_cells) == 0){
-    stop("There are no tumour_cells in the dataset for the specified marker")
+  if (nrow(reference_cells) == 0){
+    stop("There are no reference_cells in the dataset for the specified marker")
   }
   if (nrow(other_cells) == 0){
     stop("There are no stroma cells in the dataset")
   }
   
-  #remove tumour cells with no tumour cells within the radius
-  tumour_cell_cords <- tumour_cells[,c("Cell.X.Position", "Cell.Y.Position")]
-  tumour_nn <- frNN(tumour_cell_cords, eps=rm_noise_radius, sort=FALSE)  #row index matching the row num
+  #remove reference cells with no reference cells within the radius
+  reference_cell_cords <- reference_cells[,c("Cell.X.Position", "Cell.Y.Position")]
+  reference_nn <- frNN(reference_cell_cords, eps=rm_noise_radius, sort=FALSE)  #row index matching the row num
   #get the row index of those cells with neighbours
-  idx <- unique(unlist(tumour_nn$id))
-  tumour_cells_w_neighbours <- tumour_cells[idx, ]
+  idx <- unique(unlist(reference_nn$id))
+  reference_cells_w_neighbours <- reference_cells[idx, ]
   #CHECK
-  if (nrow(tumour_cells_w_neighbours) == 0) {
-    stop("No tumour cells left after noise removal, please try a more lenient radius")
+  if (nrow(reference_cells_w_neighbours) == 0) {
+    stop("No reference cells left after noise removal, please try a more lenient radius")
   }
 
   #remove stroma cells with no stroma cells within a specific radius
@@ -82,15 +82,15 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
   }
 
   #create df of all cells
-  all_cells <- rbind(tumour_cells_w_neighbours, other_cells_w_neighbours)
+  all_cells <- rbind(reference_cells_w_neighbours, other_cells_w_neighbours)
   all_cell_cords <- all_cells[,c("Cell.X.Position", "Cell.Y.Position")]
 
-  #use tumour cells as reference, search for neighbours and get tumour cells with 40~60% stroma cells around
-  all_nn <- frNN(x=all_cell_cords, eps=radius, query=tumour_cell_cords, sort=FALSE)
-  tumour_row_nums <- rownames(tumour_cells)
-  border_cells <- data.frame(matrix(ncol = ncol(tumour_cells), nrow = 0))
-  colnames(border_cells) <- colnames(tumour_cells)
-  for (row_num in tumour_row_nums) {
+  #use reference_cells, search for neighbours and get reference cells with 40~60% stroma cells around
+  all_nn <- frNN(x=all_cell_cords, eps=radius, query=reference_cell_cords, sort=FALSE)
+  reference_row_nums <- rownames(reference_cells)
+  border_cells <- data.frame(matrix(ncol = ncol(reference_cells), nrow = 0))
+  colnames(border_cells) <- colnames(reference_cells)
+  for (row_num in reference_row_nums) {
     nn_index <- all_nn$id[row_num]
     unlisted_index <- unique(unlist(nn_index))
     nn_num = length(unlisted_index)
@@ -100,12 +100,12 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
 
     nn <- all_cells[unlisted_index, ]
 
-    non_tumour_count <- nrow(nn[!grepl(tumour_marker, nn$Phenotype), ])
+    non_reference_count <- nrow(nn[!grepl(reference_marker, nn$Phenotype), ])
 
-    prop_non_tumour <- non_tumour_count/nn_num
+    prop_non_reference <- non_reference_count/nn_num
 
-    if (prop_non_tumour >= lower_bound && prop_non_tumour <= upper_bound) {
-      border_cells <- rbind(border_cells, tumour_cells[row_num, ])
+    if (prop_non_reference >= lower_bound && prop_non_reference <= upper_bound) {
+      border_cells <- rbind(border_cells, reference_cells[row_num, ])
     }
   }
   
@@ -117,7 +117,7 @@ identify_bordering_cells <- function(sce_object, tumour_marker, rm_noise_radius,
   r <- ggplot(border_cells, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
     geom_point(size = 0.1) +
     guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
-    labs(colour = paste("log10","(", as.character(tumour_marker)," Intensity", ")", sep="")) +
+    labs(colour = paste("log10","(", as.character(reference_marker)," Intensity", ")", sep="")) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "white"),
