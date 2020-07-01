@@ -67,11 +67,13 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
             actual_phenotype <- cbind(actual_phenotype, cell_IDs)
 
             rows <- formatted_data[grepl(marker, formatted_data$Phenotype), ]
-            actual_phenotype[actual_phenotype$Cell.ID %in% rows$Cell.ID,]$Phenotype_status <- 1
-
-            actual_phenotype <- data.frame(actual_phenotype[,1])
-            colnames(actual_phenotype) <- paste(marker, "_actual_phenotype", sep="")
-            formatted_data <- cbind(formatted_data, actual_phenotype)
+            if(nrow(rows) > 0){
+              actual_phenotype[actual_phenotype$Cell.ID %in% rows$Cell.ID,]$Phenotype_status <- 1
+              
+              actual_phenotype <- data.frame(actual_phenotype[,1])
+              colnames(actual_phenotype) <- paste(marker, "_actual_phenotype", sep="")
+              formatted_data <- cbind(formatted_data, actual_phenotype)  
+            }
         }
     }
 

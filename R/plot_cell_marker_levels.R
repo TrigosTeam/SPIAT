@@ -1,6 +1,6 @@
 #' plot_cell_marker_levels
 #'
-#' @description Produces a scatter plot of the expression of every marker in each cell.
+#' @description Produces a scatter plot of the level of every marker in each cell.
 #' Cells that were not phenotyped as being positive for the particular marker are excluded.
 #'
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce

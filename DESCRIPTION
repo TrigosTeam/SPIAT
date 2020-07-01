@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 0.3.0
+Version: 0.2
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -38,10 +38,10 @@ SystemRequirements:
 biocViews:
 BugReports: None to date
 Collates:
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2020-04-06 07:33:30 UTC; atrigos
+Packaged: 2020-05-24 05:26:06 UTC; atrigos
 Author: Anna Trigos [aut, cre],
   Tom Yang [aut],
   Volkan Ozkoban [aut]

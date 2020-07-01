@@ -4,7 +4,6 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param radius Integer specifying the radius of search.
-#' @param plot_cluster_label True to plot the label of clusters
 #' @import dplyr
 #' @import SingleCellExperiment
 #' @importFrom tibble rownames_to_column
@@ -17,7 +16,7 @@
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplo2 as interdependency of functions
 
-identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius, plot_cluster_label = FALSE) {
+identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
@@ -88,31 +87,28 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius, p
     }
 
   #get number_of_clusters
-  number_of_clusters <- length(which(!is.na((unique(formatted_data$Cluster)))))
+  number_of_clusters <- length(unique(formatted_data$Cluster))
 
   #label the Cluster centre by averaging x and y
 
   label_location <- vector()
   for (Clusternumber in 1:number_of_clusters) {
     cells_in_Cluster <- formatted_data[formatted_data$Cluster == Clusternumber, ]
-    cells_in_Cluster <- cells_in_Cluster[complete.cases(cells_in_Cluster), ]
     minX <- min(cells_in_Cluster$Cell.X.Position)
     maxX <- max(cells_in_Cluster$Cell.X.Position)
     minY <- min(cells_in_Cluster$Cell.Y.Position)
     maxY <- max(cells_in_Cluster$Cell.Y.Position)
     averageX <- (minX + maxX)/2
     averageY <- (minY + maxY)/2
-    
+
     label_location <- rbind(label_location,c(Clusternumber, averageX, averageY))
   }
   label_location <- as.data.frame(label_location)
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
 
-  q <- ggplot(formatted_data, aes(x=formatted_data$Cell.X.Position, y=formatted_data$Cell.Y.Position))
-  q <- q + geom_point(aes(color = formatted_data$Cluster), size = 0.01)
-  if (plot_cluster_label == TRUE) {
-    q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
-  }
+  q <- ggplot(formatted_data, aes(x=Cell.X.Position, y=Cell.Y.Position))
+  q <- q + geom_point(aes(color = Cluster), size = 0.01)
+  q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
   q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
   q <- q + theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),

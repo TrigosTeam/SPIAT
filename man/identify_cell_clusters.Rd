@@ -4,19 +4,12 @@
 \alias{identify_cell_clusters}
 \title{identify_cell_clusters}
 \usage{
-identify_cell_clusters(
-  sce_object,
-  phenotypes_of_interest,
-  radius,
-  min_cluster_size
-)
+identify_cell_clusters(sce_object, phenotypes_of_interest, radius)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{radius}{Integer specifying the radius of search.}
-
-\item{min_cluster_size}{Minimum number of cells in a cluster}
 }
 \description{
 Uses Euclidean distances to identify clusters of cells within a specified radius.

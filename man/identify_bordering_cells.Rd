@@ -6,7 +6,7 @@
 \usage{
 identify_bordering_cells(
   sce_object,
-  tumour_marker,
+  reference_marker,
   rm_noise_radius,
   radius,
   lower_bound,
@@ -16,15 +16,15 @@ identify_bordering_cells(
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
+\item{reference_marker}{Cells positive for this marker will be used as reference}
+
 \item{rm_noise_radius}{Number specifying the radius used for noise. Larger numbers, more leniency}
 
 \item{radius}{Number specifying the search radius. Larger numbers, more cells to be considered}
 
-\item{lower_bound}{Number specifying the minumum proportion of non-marker cells in the radius of the marker population}
+\item{lower_bound}{Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population}
 
-\item{upper_bound}{Number specifying the maximum proportion of non-marker cells in the radius of the marker population}
-
-\item{marker}{Cells positive for this marker will be used as reference}
+\item{upper_bound}{Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population}
 }
 \description{
 Identifies the cells bordering a group of cells of a particular phenotype

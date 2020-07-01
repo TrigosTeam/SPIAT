@@ -21,6 +21,6 @@ plot_cell_marker_levels(
 \item{return_data}{TRUE if the function should return the formatted data for plotting}
 }
 \description{
-Produces a scatter plot of the expression of every marker in each cell.
+Produces a scatter plot of the level of every marker in each cell.
 Cells that were not phenotyped as being positive for the particular marker are excluded.
 }
