@@ -13,19 +13,18 @@ format_image_to_sce(
 )
 }
 \arguments{
-\item{format}{- a string: either "INFORM" or "HALO"}
+\item{format}{String defining the software use for cell segmentation. Options: "INFORM" or "HALO"}
 
-\item{image}{- a string of the location of either HALO csv file or INFORM textfile}
+\item{image}{String of the path location of either HALO csv file or INFORM textfile}
 
-\item{markers}{- a vector containing the markers used for staining}
+\item{markers}{Vector containing the markers used for staining}
 
-\item{dye_columns_interest}{- only for HALO formats, it is a vector of length equal to
-markers which contains the column names for marker expression status, either 0
-for no expression or 1 for expression. it must be in the same order as the markers}
+\item{dye_columns_interest}{(Only for HALO formats) Vector of names of the columns with the marker status 
+(i.e. those indicating 1 or 0 for whether the cell is positive or negative for the marker). 
+Column names must match the order of the 'markers' parameter.}
 
-\item{intensity_columns_interest}{- a vector of length equal to the markers which
-contains the column names for the expression level of each of the markers.
-It must be in the same order as the markers specified.}
+\item{intensity_columns_interest}{Vector with the names of the columns with the level of each marker.
+Column names must match the order of the 'markers' parameter}
 }
 \description{
 Formats an INFORM or HALO image into a singlecellexperiment class

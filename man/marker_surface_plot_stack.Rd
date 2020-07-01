@@ -7,7 +7,7 @@
 marker_surface_plot_stack(
   sce_object,
   num_splits,
-  markers,
+  markers_to_plot,
   sep = 1,
   x_position_min = NULL,
   x_position_max = NULL,
@@ -21,7 +21,7 @@ marker_surface_plot_stack(
 \item{num_splits}{Integer specifying the number of splits on the image, higher
 splits equal to higher resolution. Recommendation: 10-100}
 
-\item{markers}{Vector of marker names for plotting}
+\item{markers_to_plot}{Vector of marker names for plotting}
 
 \item{sep}{Integer specifying the distance separation between each surface plot.
 We recommend values in the 1-2 range.}

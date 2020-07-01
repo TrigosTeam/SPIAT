@@ -61,6 +61,7 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
   map_cols <- colorRampPalette(c("white", "red"))(100)
   anno_cols <- list(Total_cells = c("white", "blue"))
   pheatmap(as.matrix(composition2), color = map_cols,
-           annotation_col = cluster_size, annotation_colors = anno_cols,
+           #annotation_col = cluster_size, 
+           annotation_colors = anno_cols,
            cluster_cols=TRUE, cluster_rows=TRUE)
 }
