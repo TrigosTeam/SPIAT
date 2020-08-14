@@ -3,7 +3,6 @@
 #' @description Creates random combinations of phenotypes by shuffling markers and
 #' calculates the enrichment and depletion p values
 #' @param sce_object SingleCellExperiment object in the form of output from format_image_to_sce
-#' @param tumour_marker String with the name of the marker used for tumour cells
 #' @param num_iter Integer specifying the number of iterations for bootstrapping
 #' @import SingleCellExperiment
 #' @import dplyr
