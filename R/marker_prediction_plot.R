@@ -6,9 +6,8 @@
 #'
 #' @param predicted_data Output from predict_phenotypes
 #' @param marker Marker to plot
-#' @import plotly
 #' @import SingleCellExperiment
-#' @import gridExtra
+#' @importFrom gridExtra grid.arrange
 #' @import ggplot2
 #' @export
 

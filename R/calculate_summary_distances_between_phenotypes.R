@@ -6,7 +6,7 @@
 #' will be calculated
 #' @param combinations_of_interest Vector of marker combinations to consider if all_marker_combinations
 #' is FALSE
-#' @import apcluster
+#' @importFrom apcluster negDistMat
 #' @importFrom RANN nn2
 #' @importFrom gtools permutations
 #' @import dplyr
