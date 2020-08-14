@@ -11,6 +11,8 @@
 #' The order must match the marker order, and it should be NA for DAPI.
 #' @param tumour_marker String containing the tumour_marker used for the image.
 #' @param baseline_markers Markers not found on tumour cells to refine the threshold
+#' @param plot_actual_cutoff logical, should the actual cutoff be used in the plot?
+#' @param plot_predicted_cutoff logical, should the predicted cutoff be used in the plot?
 #' @import SingleCellExperiment
 #' @import dplyr
 #' @importFrom tibble rownames_to_column

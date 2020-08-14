@@ -16,6 +16,10 @@ predict_phenotypes(
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
+\item{plot_actual_cutoff}{logical, should the actual cutoff be used in the plot?}
+
+\item{plot_predicted_cutoff}{logical, should the predicted cutoff be used in the plot?}
+
 \item{thresholds}{(Optional) Vector of numbers specifying the cutoff of a positive reading.
 The order must match the marker order, and it should be NA for DAPI.}
 

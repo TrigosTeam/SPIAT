@@ -3,6 +3,7 @@
 #' @description Uses Euclidean distances to identify clusters of cells within a specified radius.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @param radius Integer specifying the radius of search.
 #' @import dplyr
 #' @import SingleCellExperiment

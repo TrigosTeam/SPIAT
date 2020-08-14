@@ -9,6 +9,8 @@ identify_cell_clusters(sce_object, phenotypes_of_interest, radius)
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
+\item{phenotypes_of_interest}{Vector of phenotypes to consider}
+
 \item{radius}{Integer specifying the radius of search.}
 }
 \description{
