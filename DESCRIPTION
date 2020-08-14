@@ -30,7 +30,7 @@ Depends: R (>= 3.5.0), apcluster (>= 1.4.7), ggplot2 (>= 3.2.1),
         1.4.3), tidyr (>= 1.0.0), dplyr (>= 0.8.3), plotly (>= 4.9.0),
         RANN (>= 2.6.1), pracma (>= 2.2.5), dbscan (>= 1.1-5), mmand
         (>= 1.5.4), tibble (>= 2.1.3), SingleCellExperiment (>= 1.4.1),
-        Rphenograph (>= 0.99.1), igraph (>= 1.2.4.1), gridExtra (>=
+        graph (>= 1.2.4.1), gridExtra (>=
         2.3)
 Imports: qpdf(>= 1.1)
 Suggests: knitr, rmarkdown,
@@ -38,7 +38,7 @@ SystemRequirements:
 biocViews:
 BugReports: None to date
 Collates:
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2020-05-24 05:26:06 UTC; atrigos

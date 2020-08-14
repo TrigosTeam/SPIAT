@@ -3,12 +3,11 @@
 #' @description Identifies communities of cells based on their location. It excludes cells without a phenotype
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param clustering_method String specifying which clustering algorithm to use. Options:
-#' "rphenograph" and "dbscan"
+#' @param clustering_method String specifying which clustering algorithm to use. Current options:
+#' "dbscan"
 #' @param radius Integer specifying the radius of search. Required for "dbscan"
 #' @param min_community_size Minimum number of cells in a community
 #' @param phenotypes_of_interest Vector of phenotypes to consider
-#' @import Rphenograph
 #' @import ggplot2
 #' @import igraph
 #' @import dplyr
@@ -22,7 +21,7 @@
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplot2 due to interdependency of functions
 
-identify_cell_communities <- function(sce_object, clustering_method = "rphenograph", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
+identify_cell_communities <- function(sce_object, clustering_method = "dbscan", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
@@ -55,16 +54,13 @@ identify_cell_communities <- function(sce_object, clustering_method = "rphenogra
       stop("There are no cells in data/no cells for the phenotypes of interest")
     }
 
-    if (clustering_method == "rphenograph") {
-        Rphenograph_out <- Rphenograph(cell_cords, k = min_community_size)
-        formatted_data$Community <- factor(membership(Rphenograph_out[[2]]))
-    } else if (clustering_method == "dbscan") {
+    if (clustering_method == "dbscan") {
         #Use dbscan to generate clusters
         db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_community_size)
         #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
         formatted_data$Community <- factor(db$cluster + 1)
     } else {
-        stop("Please select a valid clustering method: Rphenograph or dbscan")
+        stop("Please select a valid clustering method, current options: dbscan")
     }
 
     #start a plot for visualizing communities

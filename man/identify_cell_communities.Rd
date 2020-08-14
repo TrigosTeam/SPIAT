@@ -6,7 +6,7 @@
 \usage{
 identify_cell_communities(
   sce_object,
-  clustering_method = "rphenograph",
+  clustering_method = "dbscan",
   radius = NULL,
   min_community_size = 50,
   phenotypes_of_interest = NULL
@@ -15,8 +15,8 @@ identify_cell_communities(
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{clustering_method}{String specifying which clustering algorithm to use. Options:
-"rphenograph" and "dbscan"}
+\item{clustering_method}{String specifying which clustering algorithm to use. Current options:
+"dbscan"}
 
 \item{radius}{Integer specifying the radius of search. Required for "dbscan"}
 
