@@ -9,7 +9,6 @@
 #' @param min_community_size Minimum number of cells in a community
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
-#' @import igraph
 #' @import dplyr
 #' @import SingleCellExperiment
 #' @importFrom tibble rownames_to_column

@@ -46,8 +46,7 @@ Imports:
     SingleCellExperiment (>= 1.4.1),
     graph (>= 1.2.4.1),
     gridExtra (>= 2.3),
-    qpdf (>= 1.1),
-    igraph
+    qpdf (>= 1.1)
 Suggests: knitr, rmarkdown,
 SystemRequirements:
 biocViews:
