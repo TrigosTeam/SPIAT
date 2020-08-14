@@ -49,7 +49,7 @@ Imports:
 Suggests: knitr, rmarkdown,
 SystemRequirements:
 biocViews:
-BugReports: None to date
+BugReports: https://github.com/cancer-evolution/SPIAT/issues
 Collates:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
