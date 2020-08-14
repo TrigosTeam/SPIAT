@@ -4,6 +4,10 @@ Spatial Image Analysis of Tissues
 
 R package for the analysis of OPAL multiplex immunohistochemistry images.
 
+Installation
+
+devtools::install_github("cancer-evolution/SPIAT")
+
 Authors:
 
 Tianpei Yang, Volkan Ozcoban, Anu Pasam, Nikolce Kocovski, Angela Pizzolla, Yu-Kuan Huang, Greg Bass, Simon P. Keam, Paul J. Neeson, Shahneen K. Sandhu, David L. Goode, Anna S. Trigos
