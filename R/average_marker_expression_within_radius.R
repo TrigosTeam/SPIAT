@@ -13,7 +13,7 @@
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
-#' @import stats
+#' @importFrom stats complete.cases
 #' @import SingleCellExperiment
 #' @export
 
