@@ -10,7 +10,6 @@
 #' @import SingleCellExperiment
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
-#' @import qpdf
 #' @import ggplot2
 #' @importFrom grDevices pdf dev.off
 #' @export
