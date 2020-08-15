@@ -8,7 +8,7 @@
 #' @import dplyr
 #' @import SingleCellExperiment
 #' @importFrom tibble rownames_to_column
-#' @importFrom stats complete.cases hclust cutree
+#' @importFrom stats complete.cases hclust cutree as.dist
 #' @importFrom apcluster negDistMat
 #' @import ggplot2
 #' @export
