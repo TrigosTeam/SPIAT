@@ -4,7 +4,6 @@
 #'
 #' @param number_of_colours - The number of hexadecimal colours to generate.
 #' @return A vector of hexadecimal colours
-#' @import RColorBrewer
 #' @importFrom grDevices hcl
 
 #HELPER FUNCTION
