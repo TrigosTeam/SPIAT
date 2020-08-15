@@ -4,7 +4,6 @@
 #'
 #' @param colhex - A vector of hexadecimal colours.
 #' @return the human readable colour converted last from \code{colhex}.
-#' @import RColorBrewer
 #' @importFrom grDevices col2rgb colors
 
 #HELPER FUNCTION
