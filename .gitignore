@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 SPIAT.Rproj
+^doc$
+^docs$
+^Meta$
