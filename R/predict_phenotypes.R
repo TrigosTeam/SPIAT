@@ -17,7 +17,7 @@
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom pracma findpeaks
-#' @importFrom stats complete.cases density
+#' @importFrom stats complete.cases density quantile
 #' @importFrom mmand threshold
 #' @import ggplot2
 #' @export

@@ -10,6 +10,7 @@
 #' @importFrom RANN nn2
 #' @importFrom gtools permutations
 #' @import dplyr
+#' @importFrom stats median sd
 #' @import SingleCellExperiment
 #' @importFrom tibble rownames_to_column
 #' @export
