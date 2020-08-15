@@ -13,13 +13,13 @@
 #' @param baseline_markers Markers not found on tumour cells to refine the threshold
 #' @param plot_actual_cutoff logical, should the actual cutoff be used in the plot?
 #' @param plot_predicted_cutoff logical, should the predicted cutoff be used in the plot?
-#' @import SingleCellExperiment
 #' @import dplyr
+#' @import ggplot2
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom pracma findpeaks
 #' @importFrom stats complete.cases density quantile
 #' @importFrom mmand threshold
-#' @import ggplot2
 #' @export
 
 # %>% operator is in package 'magrittr' but imported by dplyr

@@ -6,7 +6,7 @@
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @param radius Integer specifying the radius of search.
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases hclust cutree as.dist
 #' @importFrom apcluster negDistMat

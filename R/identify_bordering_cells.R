@@ -8,7 +8,7 @@
 #' @param radius Number specifying the search radius. Larger numbers, more cells to be considered
 #' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population
 #' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment assay colData
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
@@ -22,8 +22,6 @@
 #lower_bound <- 0.4
 #upper_bound <- 0.6
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported all functions from ggplot2 since many functions are interdependent
 
 identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radius, radius, lower_bound, upper_bound) {

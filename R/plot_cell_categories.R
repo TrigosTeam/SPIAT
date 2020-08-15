@@ -6,9 +6,9 @@
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
 #' @param phenotypes_of_interest Vector of cell phenotypes to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
-#' @import SingleCellExperiment
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom SummarizedExperiment colData assay
 #' @export
 
 plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vector) {

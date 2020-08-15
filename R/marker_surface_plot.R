@@ -12,14 +12,11 @@
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
 #' @importFrom plotly plot_ly add_surface
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
