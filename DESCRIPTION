@@ -54,7 +54,6 @@ Suggests:
 SystemRequirements:
 biocViews:
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
-Collates:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
