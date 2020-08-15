@@ -16,7 +16,6 @@
 #' @param y_position_max Integer used to specify the maximum y boundary to be splitted
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
-#' @import qpdf
 #' @importFrom grDevices pdf dev.off
 #' @import SingleCellExperiment
 #' @importFrom stats complete.cases setNames
