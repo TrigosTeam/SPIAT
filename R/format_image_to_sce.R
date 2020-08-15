@@ -14,7 +14,8 @@
 #' Column names must match the order of the 'markers' parameter.
 #' @param intensity_columns_interest Vector with the names of the columns with the level of each marker.
 #' Column names must match the order of the 'markers' parameter
-#' @import SingleCellExperiment
+#' @importFrom SingleCellExperiment SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom utils read.csv read.delim
 
 format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_interest = NULL, intensity_columns_interest) {
@@ -197,9 +198,9 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     coldata_phenotype <- formatted_data[,"Phenotype"]
     coldata_Xpos <- formatted_data[,"Cell.X.Position"]
     coldata_Ypos <- formatted_data[,"Cell.Y.Position"]
-    colData(sce)$Phenotype <- coldata_phenotype
-    colData(sce)$Cell.X.Position <- coldata_Xpos
-    colData(sce)$Cell.Y.Position <- coldata_Ypos
+    SummarizedExperiment::colData(sce)$Phenotype <- coldata_phenotype
+    SummarizedExperiment::colData(sce)$Cell.X.Position <- coldata_Xpos
+    SummarizedExperiment::colData(sce)$Cell.Y.Position <- coldata_Ypos
 
     return(sce)
 }

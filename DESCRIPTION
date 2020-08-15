@@ -24,7 +24,8 @@ License: GPL-3
 Encoding: UTF-8
 Depends: 
     R (>= 3.5.0),
-    SingleCellExperiment (>= 1.4.1)
+    SingleCellExperiment (>= 1.4.1),
+    SummarizedExperiment
 Imports: 
     apcluster (>= 1.4.7),
     ggplot2 (>= 3.2.1),
