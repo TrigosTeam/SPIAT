@@ -305,12 +305,12 @@ positive reading for marker expression. It also prints to the console of the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing the predicted expression status for a particular marker
 ```{r}
-predicted_image <- predict_phenotypes(formatted_image,
-                                      plot_actual_cutoff = TRUE,
-                                      plot_predicted_cutoff = TRUE,
-                                      thresholds = NULL,
-                                      tumour_marker = "AMACR",
-                                      baseline_markers = c("CD3", "CD4", "CD8"))
+# #predicted_image <- predict_phenotypes(formatted_image,
+#                                       plot_actual_cutoff = TRUE,
+#                                       plot_predicted_cutoff = TRUE,
+#                                       thresholds = NULL,
+#                                       tumour_marker = "AMACR",
+#                                       baseline_markers = c("CD3", "CD4", "CD8"))
 # Commenting out above as get:
 # Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
 ```
