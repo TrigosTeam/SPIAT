@@ -30,9 +30,7 @@ data("formatted_image")
 
 `formatted_image` contains example Inform data already loaded. To load data from a raw Inform file, example code is below.
 
-```{r eval=FALSE}
-raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
-
+```{r}
 markers <- c("DAPI","CD3","PDL1","FOXP3","CD4","CD8","AMACR")
 markers
 
@@ -41,7 +39,9 @@ intensity_columns_interest <- c("Nucleus DAPI (DAPI) Mean (Normalized Counts, To
                                 "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)", "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
                                 "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)")
 intensity_columns_interest
+```
 
+```{r eval=FALSE}
 #####Initializing#####
 
 #Formats an INFORM or HALO image into a singlecellexperiment class
