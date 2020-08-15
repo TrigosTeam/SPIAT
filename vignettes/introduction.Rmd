@@ -18,19 +18,14 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
+# Introduction
+
+<img width="600" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F1.large.jpg"/>
 
 ```{r message=FALSE}
 # load library
 library(SPIAT)
 
-# load example data
-data("formatted_image")
-```
-
-`formatted_image` contains example Inform data already loaded. To load data from a raw Inform file, example code is below.
-
-```{r}
 markers <- c("DAPI","CD3","PDL1","FOXP3","CD4","CD8","AMACR")
 markers
 
@@ -39,7 +34,12 @@ intensity_columns_interest <- c("Nucleus DAPI (DAPI) Mean (Normalized Counts, To
                                 "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)", "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
                                 "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)")
 intensity_columns_interest
+
+# load example data
+data("formatted_image")
 ```
+
+`formatted_image` contains example Inform data already loaded. To load data from a raw Inform file, example code is below.
 
 ```{r eval=FALSE}
 #####Initializing#####
@@ -48,14 +48,14 @@ intensity_columns_interest
 #where the count assay stores the expression level of every marker (rows) for
 #every cell (columns), and cell phenotype, x and y coordinates are stored
 #under colData
-formatted_image <- format_image_to_sce(format="INFORM",
-                                       image=raw_inform_data,
-                                       markers=markers,
-                                       dye_columns_interest=NULL,
-                                       intensity_columns_interest=intensity_columns_interest)
+#formatted_image <- format_image_to_sce(format="INFORM",
+                                       #image=raw_inform_data,
+                                       #markers=markers,
+                                       #dye_columns_interest=NULL,
+                                       #intensity_columns_interest=intensity_columns_interest)
 ```
 
-To look at the phenotypes in the image.
+Select the phenotypes in the image.
 
 ```{r}
 print_phenotypes(formatted_image)
@@ -72,6 +72,8 @@ formatted_image <- select_phenotypes(formatted_image, keep=TRUE,
                                                 "AMACR,PDL1"))
 ```
 
+# Cell proportions/percentages
+
 Calculate the number and proportion of each cell phenotype in image.
 
 ```{r}
@@ -85,7 +87,9 @@ Plot cells proportions as barplots
 plot_cell_percentages(p_cells)
 ```
 
-#Visualization
+# Visualizations
+
+## Boxplots
 
 Produces boxplots of marker levels for cells phenotyped as being positive for the marker, and those that where phenotyped as being negative.
 ```{r}
@@ -99,8 +103,7 @@ marker_expression_boxplot(formatted_image, "CD8")
 marker_expression_boxplot(formatted_image, "AMACR")
 ```
 
-
-##Categorical plot
+## Categorical plot
 
 ```{r}
 phenotypes_of_interest <- c("AMACR", "CD3,CD4", "CD3,CD8")
@@ -108,6 +111,7 @@ colour_vector <- c("darkgrey", "red", "blue")
 plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 ```
 
+## Heatmaps
 
 Blurs the image by splitting the images into small squares.
 The marker levels are then averaged within each square. All cells are considered
@@ -121,25 +125,30 @@ plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD8")
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
 ```
 
+## 3D surface plot
+
 Generates a 3D surface plot of the level of the selected
 marker. Note that the image is blurred based on the 'num_splits' parameter.
 ```{r}
 marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 ```
+## 3D stacked surface plot
 
-Generates stacked 3D surface plots showing normalized
-expression level of specified markers.
+Generates stacked 3D surface plots showing normalized expression level of specified markers.
 
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
 ```
+## Scatter plots
 
 Produces a scatter plot of the expression of every marker in each cell.
 Cells that were not phenotyped as being positive for the particular marker are excluded.
 
 ```{r}
-plot_cell_marker_levels(formatted_image)
+plot_cell_marker_levels(formatted_image, return_data = FALSE)
 ```
+
+## Split images
 
 Takes in a singlecellexperiment object from format_image_to_sce,
 splits the image into specified sections and plots the different combinations
@@ -150,7 +159,7 @@ split_image <- image_splitter(formatted_image, number_of_splits=3)
 ```
 
 
-Cell mixing
+# Cell mixing
 
 Returns the mixing score between a reference marker and a target
 marker. The mixing score is defined by:
@@ -162,6 +171,8 @@ compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = 
 compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
 compute_mixing_score(formatted_image, reference_marker = "CD8", target_marker = "CD4")
 ```
+
+# Marker intensities within radii
 
 Calculation of marker expression levels within a radius
 
@@ -197,8 +208,7 @@ plot_average_expression(formatted_image, reference_marker="CD4", target_marker="
 plot_average_expression(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
-
-#####Distances between phenotypes#####
+# Distances between phenotypes
 
 Calculates the average minimum distance of all cells in the sce_object
 ```{r}
@@ -234,7 +244,7 @@ Plots distances between cells as a violin plot
 plot_cell_distances_violin(distances)
 ```
 
-#####Clustering and communities#####
+# Clustering and communities
 
 Uses Euclidean distances to identify clusters of cells within a specified radius.
 ```{r}
@@ -268,6 +278,7 @@ plot_composition_heatmap(communities_2, column_to_consider="Community")
 communities_3 <- communities_2[communities_2$Phenotype != "AMACR",]
 plot_composition_heatmap(communities_3, column_to_consider="Community")
 ```
+# Neighbourhood proportions
 
 Calculate the percentage of cells surrounding another phenotype
 
@@ -298,6 +309,8 @@ calculates the enrichment and depletion p values
 # "Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
 ```
 
+# Predict phenotypes
+
 Predict phenotypes based on marker expression levels
 
 Produces a density plot showing actual and predicted cutoff of a
@@ -323,4 +336,10 @@ Takes in the returned dataframe from marker_threshold_plot and generates a .pdf 
 #marker_prediction_plot(predicted_image, marker="CD8")
 
 # Commenting out as no predicted_image at moment
+```
+
+# Reproducibility
+
+```{r}
+sessionInfo()
 ```
