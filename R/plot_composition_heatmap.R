@@ -7,7 +7,7 @@
 #' @param log_values TRUE if the percentages should be logged (base 10)
 #' @param column_to_consider Column name to consider as community/clusters
 #' @import RColorBrewer
-#' @import pheatmap
+#' @importFrom pheatmap pheatmap
 #' @importFrom reshape2 dcast
 #' @export
 
