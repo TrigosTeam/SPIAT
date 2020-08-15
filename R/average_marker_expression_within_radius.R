@@ -14,12 +14,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @importFrom stats complete.cases
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment assay colData
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
-
 
 average_marker_expression_within_radius <- function(sce_object, reference_marker, target_marker, radius = 20) {
 

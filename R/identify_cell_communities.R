@@ -10,14 +10,12 @@
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
 #' @import ggplot2
 #' @export
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplot2 due to interdependency of functions
 
 identify_cell_communities <- function(sce_object, clustering_method = "dbscan", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
