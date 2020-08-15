@@ -132,6 +132,7 @@ marker. Note that the image is blurred based on the 'num_splits' parameter.
 ```{r}
 marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 ```
+
 ## 3D stacked surface plot
 
 Generates stacked 3D surface plots showing normalized expression level of specified markers.
@@ -139,6 +140,7 @@ Generates stacked 3D surface plots showing normalized expression level of specif
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
 ```
+
 ## Scatter plots
 
 Produces a scatter plot of the expression of every marker in each cell.
@@ -194,10 +196,10 @@ plot_average_expression(formatted_image, reference_marker="AMACR", target_marker
 ```
 
 ```{r}
-#plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(30, 35, 40, 45, 50, 75, 100))
-
-#Commenting out above as get:
+#Commenting out below as get:
 # "Error in average_marker_expression_within_radius(sce_object, reference_marker,  : There are no target cells within the specified radius, cannot calculate average expression"
+
+#plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
 ```{r}
@@ -278,6 +280,7 @@ plot_composition_heatmap(communities_2, column_to_consider="Community")
 communities_3 <- communities_2[communities_2$Phenotype != "AMACR",]
 plot_composition_heatmap(communities_3, column_to_consider="Community")
 ```
+
 # Neighbourhood proportions
 
 Calculate the percentage of cells surrounding another phenotype
@@ -286,10 +289,11 @@ Calculates the percentage of cells of a target phenotype within a radius from th
 The calculation is done per reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
+#Commenting out below as get:
+# "Error in percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",  : There are no reference cells or no target cells, calculation aborted"
+
 #percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",
 #                                  target_phenotypes = "AMACR", radius=100)
-#Commenting out above as get:
-# "Error in percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",  : There are no reference cells or no target cells, calculation aborted"
 ```
 
 ```{r}
@@ -304,9 +308,11 @@ Creates random combinations of phenotypes by shuffling markers and
 calculates the enrichment and depletion p values
 
 ```{r}
-#sig <- marker_permutation(formatted_image, num_iter = 100)
-# Commenting out above as get:
+# Commenting out below as get:
 # "Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
+
+#sig <- marker_permutation(formatted_image, num_iter = 100)
+
 ```
 
 # Predict phenotypes
@@ -318,24 +324,25 @@ positive reading for marker expression. It also prints to the console of the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing the predicted expression status for a particular marker
 ```{r}
+# Commenting out below as get:
+# Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
+
 # #predicted_image <- predict_phenotypes(formatted_image,
 #                                       plot_actual_cutoff = TRUE,
 #                                       plot_predicted_cutoff = TRUE,
 #                                       thresholds = NULL,
 #                                       tumour_marker = "AMACR",
 #                                       baseline_markers = c("CD3", "CD4", "CD8"))
-# Commenting out above as get:
-# Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
 ```
 
 Takes in the returned dataframe from marker_threshold_plot and generates a .pdf file containing scatter plots of actual expression and predicted expression for every marker.
 
 ```{r}
+# Commenting out as no predicted_image at moment
+
 #marker_prediction_plot(predicted_image, marker="AMACR")
 #marker_prediction_plot(predicted_image, marker="CD4")
 #marker_prediction_plot(predicted_image, marker="CD8")
-
-# Commenting out as no predicted_image at moment
 ```
 
 # Reproducibility
