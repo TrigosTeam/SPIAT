@@ -46,7 +46,10 @@ Imports:
     SingleCellExperiment (>= 1.4.1),
     graph (>= 1.2.4.1),
     qpdf (>= 1.1)
-Suggests: knitr, rmarkdown,
+Suggests: 
+    knitr, 
+    rmarkdown,
+    pkgdown
 SystemRequirements:
 biocViews:
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
