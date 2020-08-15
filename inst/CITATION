@@ -1,7 +1,21 @@
-@article{yang2020spiat,
-  title={SPIAT: An R package for the Spatial Image Analysis of Cells in Tissues},
-  author={Yang, Tianpei and Ozcoban, Volkan and Pasam, Anu and Kocovski, Nikolce and Pizzolla, Angela and Huang, Yu-Kuan and Bass, Greg and Keam, Simon P and Neeson, Paul J and Sandhu, Shahneen K and others},
-  journal={bioRxiv},
-  year={2020},
-  publisher={Cold Spring Harbor Laboratory}
-}
+bibentry(
+  bibtype = "article",
+  title = "SPIAT: An R package for the Spatial Image Analysis of Cells in Tissues",
+  author =c(
+    person("Tianpei", "Yang"),
+    person("Volkan", "Ozcoban"),
+    person("Anu", "Pasam"),
+    person("Nikolce", "Kocovski"),
+    person("Angela", "Pizzolla"),
+    person("Yu-Kuan", "Huang"),
+    person("Greg", "Bass"),
+    person("Simon P", "Keam"),
+    person("Paul J", "Neeson"),
+    person("Shahneen K", "Sandhu"),
+    person("David L", "Goode"),
+    person("Anna S", "Trigos")
+  ),
+  journal = "bioRxiv",
+  year = "2020",
+  doi = "10.1101/2020.05.28.122614"
+)
