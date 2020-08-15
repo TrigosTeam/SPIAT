@@ -15,7 +15,6 @@ Authors@R: c(
            family=" Ozkoban",
            role="aut",
            email = "volkanozcoban1@gmail.com"))
-Maintainer: Anna Trigos <anna.trigos@petermac.org>
 Description: Spatial analysis of tissues obtained 
     using multiplex immunohistochemistry.
     Converts INFORM or HALO images into a SingleCellExperiment class
