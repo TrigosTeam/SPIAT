@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-```{r}
+```{r message=FALSE}
 # load library
 library(SPIAT)
 
