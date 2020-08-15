@@ -6,7 +6,7 @@
 #' @param pheno_to_exclude Vector of phenotype to exclude
 #' @param log_values TRUE if the percentages should be logged (base 10)
 #' @param column_to_consider Column name to consider as community/clusters
-#' @import RColorBrewer
+#' @importFrom RColorBrewer colorRampPalette
 #' @importFrom pheatmap pheatmap
 #' @importFrom reshape2 dcast
 #' @export
