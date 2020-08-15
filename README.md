@@ -1,14 +1,24 @@
-# SPIAT
+<!-- badges: start -->
+[![R build status](https://github.com/mblue9/SPIAT/workflows/.github/workflows/basic_checks.yaml/badge.svg)](https://github.com/mblue9/SPIAT/actions)
+<!-- badges: end -->
 
-Spatial Image Analysis of Tissues
+# SPIAT - Spatial Image Analysis of Tissues
 
 R package for the analysis of OPAL multiplex immunohistochemistry images.
 
-Installation
+<img width="300" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F12.large.jpg"/>
 
+## Installation
+
+```r
 devtools::install_github("cancer-evolution/SPIAT")
+```
 
-Authors:
+## Vignette 
+
+The vignette with an overview of the package can be accessed from the top Menu under Articles.
+
+## Authors:
 
 Tianpei Yang, Volkan Ozcoban, Anu Pasam, Nikolce Kocovski, Angela Pizzolla, Yu-Kuan Huang, Greg Bass, Simon P. Keam, Paul J. Neeson, Shahneen K. Sandhu, David L. Goode, Anna S. Trigos
 
