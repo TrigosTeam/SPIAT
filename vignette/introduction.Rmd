@@ -1,0 +1,323 @@
+---
+title: "Overview of the SPIAT package"
+date: "`r Sys.Date()`"
+package: SPIAT
+output:
+  BiocStyle::html_document:
+    toc_float: true
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Overview of the SPIAT package}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+```{r}
+# load library
+library(SPIAT)
+
+# load example data
+data("formatted_image")
+```
+
+`formatted_image` contains example Inform data already loaded. To load data from a raw Inform file, example code is below.
+
+```{r eval=FALSE}
+raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
+
+markers <- c("DAPI","CD3","PDL1","FOXP3","CD4","CD8","AMACR")
+markers
+
+intensity_columns_interest <- c("Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)","Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
+                                "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)", "Cytoplasm FOXP3 (Opal 570) Mean (Normalized Counts, Total Weighting)", 
+                                "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)", "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
+                                "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)")
+intensity_columns_interest
+
+#####Initializing#####
+
+#Formats an INFORM or HALO image into a singlecellexperiment class
+#where the count assay stores the expression level of every marker (rows) for
+#every cell (columns), and cell phenotype, x and y coordinates are stored
+#under colData
+formatted_image <- format_image_to_sce(format="INFORM",
+                                       image=raw_inform_data,
+                                       markers=markers,
+                                       dye_columns_interest=NULL,
+                                       intensity_columns_interest=intensity_columns_interest)
+```
+
+To look at the phenotypes in the image.
+
+```{r}
+print_phenotypes(formatted_image)
+```
+
+```{r}
+formatted_image <- select_phenotypes(formatted_image, keep=TRUE,
+                                     phenotypes = c("AMACR",
+                                                    "CD3,CD4",
+                                                    "CD3,CD8",
+                                                    "CD3,CD8",
+                                                "CD3,CD4,FOXP3",
+                                                "PDL1",
+                                                "AMACR,PDL1"))
+```
+
+Calculate the number and proportion of each cell phenotype in image.
+
+```{r}
+p_cells <- calculate_cell_proportions(sce_object = formatted_image)
+p_cells
+```
+
+Plot cells proportions as barplots
+
+```{r}
+plot_cell_percentages(p_cells)
+```
+
+#Visualization
+
+Produces boxplots of marker levels for cells phenotyped as being positive for the marker, and those that where phenotyped as being negative.
+```{r}
+marker_expression_boxplot(formatted_image, "CD3")
+marker_expression_boxplot(formatted_image, "PDL1")
+# marker_expression_boxplot(formatted_image, "FOXP3")
+# Commenting out FOXP3 as otherwise get 
+# "Error in marker_expression_boxplot(formatted_image, "FOXP3") : There are no cells positive for FOXP3"
+marker_expression_boxplot(formatted_image, "CD4")
+marker_expression_boxplot(formatted_image, "CD8")
+marker_expression_boxplot(formatted_image, "AMACR")
+```
+
+
+##Categorical plot
+
+```{r}
+phenotypes_of_interest <- c("AMACR", "CD3,CD4", "CD3,CD8")
+colour_vector <- c("darkgrey", "red", "blue")
+plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
+```
+
+
+Blurs the image by splitting the images into small squares.
+The marker levels are then averaged within each square. All cells are considered
+
+```{r}
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "PDL1")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "FOXP3")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD4")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD8")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
+```
+
+Generates a 3D surface plot of the level of the selected
+marker. Note that the image is blurred based on the 'num_splits' parameter.
+```{r}
+marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
+```
+
+Generates stacked 3D surface plots showing normalized
+expression level of specified markers.
+
+```{r}
+marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
+```
+
+Produces a scatter plot of the expression of every marker in each cell.
+Cells that were not phenotyped as being positive for the particular marker are excluded.
+
+```{r}
+plot_cell_marker_levels(formatted_image)
+```
+
+Takes in a singlecellexperiment object from format_image_to_sce,
+splits the image into specified sections and plots the different combinations
+of markers within the image segments.
+
+```{r}
+split_image <- image_splitter(formatted_image, number_of_splits=3)
+```
+
+
+Cell mixing
+
+Returns the mixing score between a reference marker and a target
+marker. The mixing score is defined by:
+the number of target-reference interactions/number of reference-reference interactions
+within a specified radius.
+
+```{r}
+compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "PDL1")
+compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
+compute_mixing_score(formatted_image, reference_marker = "CD8", target_marker = "CD4")
+```
+
+Calculation of marker expression levels within a radius
+
+Calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker.
+Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell
+
+```{r}
+average_marker_expression_within_radius(formatted_image,
+                                        reference_marker ="AMACR",
+                                        target_marker = "CD3",
+                                        radius=30)
+```
+
+Takes in a vector or radii and calculates the average expression
+of a target marker using average_expression function. It plots the expression level as a line graph.
+
+```{r}
+plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+```
+
+```{r}
+#plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(30, 35, 40, 45, 50, 75, 100))
+
+#Commenting out above as get:
+# "Error in average_marker_expression_within_radius(sce_object, reference_marker,  : There are no target cells within the specified radius, cannot calculate average expression"
+```
+
+```{r}
+plot_average_expression(formatted_image, reference_marker="CD4", target_marker="CD8", c(30, 35, 40, 45, 50, 75, 100))
+```
+
+```{r}
+plot_average_expression(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+```
+
+
+#####Distances between phenotypes#####
+
+Calculates the average minimum distance of all cells in the sce_object
+```{r}
+average_minimum_distance(formatted_image) #between cells
+```
+
+Returns the mean, median and standard deviation of the distances between phenotypes
+```{r}
+summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image)
+```
+
+Takes the output of cell_distances and plot the distances as a heatmap
+```{r}
+plot_distance_heatmap(summary_distances)
+```
+
+Returns the distances between cells of different phenotypes
+```{r}
+distances <- calculate_all_distances_between_phenotypes(formatted_image,
+                                                        remove_other = TRUE, 
+                                                        cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+
+plot_cell_distances_violin(distances)
+```
+
+```{r}
+distances <- calculate_all_distances_between_phenotypes(formatted_image, remove_other = TRUE, 
+                                                        cell_phenotypes_of_interest = c("AMACR", "CD3,CD8"))
+```
+
+Plots distances between cells as a violin plot
+```{r}
+plot_cell_distances_violin(distances)
+```
+
+#####Clustering and communities#####
+
+Uses Euclidean distances to identify clusters of cells within a specified radius.
+```{r}
+clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"),
+                                   radius = 30)
+```
+
+Identifies communities of cells based on their location. It excludes cells without a phenotype
+```{r}
+communities <- identify_cell_communities(formatted_image, radius=100)
+# Adding radius=100 as dbscan needs a radius supplied. Not sure if 100 is appropriate but gives 10 communities (Rphenograph gave 17) but increasing or decreasing the radius gives less
+```
+
+Specific marker within each cluster and the number of cells in the cluster.
+```{r}
+clusters_2 <- composition_of_clusters_and_communities(clusters, "Cluster")
+clusters_2 <- clusters_2[clusters_2$Total_number_of_cells >=5,]
+```
+
+Produces a heatmap showing the marker percentages within each cluster and the cluster sizes
+
+```{r}
+plot_composition_heatmap(clusters_2, column_to_consider="Cluster")
+```
+
+```{r}
+communities_2 <- composition_of_clusters_and_communities(communities, "Community")
+plot_composition_heatmap(communities_2, column_to_consider="Community")
+```
+```{r}
+communities_3 <- communities_2[communities_2$Phenotype != "AMACR",]
+plot_composition_heatmap(communities_3, column_to_consider="Community")
+```
+
+Calculate the percentage of cells surrounding another phenotype
+
+Calculates the percentage of cells of a target phenotype within a radius from the cells with a reference phenotype.
+The calculation is done per reference cell, so runtime will depend on the number of reference cells present.
+
+```{r}
+#percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",
+#                                  target_phenotypes = "AMACR", radius=100)
+#Commenting out above as get:
+# "Error in percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",  : There are no reference cells or no target cells, calculation aborted"
+```
+
+```{r}
+identify_bordering_cells(formatted_image, reference_marker = "AMACR",
+                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+                         upper_bound=0.7)
+```
+
+Get p-value for phenotypes
+
+Creates random combinations of phenotypes by shuffling markers and
+calculates the enrichment and depletion p values
+
+```{r}
+#sig <- marker_permutation(formatted_image, num_iter = 100)
+# Commenting out above as get:
+# "Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
+```
+
+Predict phenotypes based on marker expression levels
+
+Produces a density plot showing actual and predicted cutoff of a
+positive reading for marker expression. It also prints to the console of the
+number of true positives (TP), true negatives (TN), false positives (FP) and
+false negatives (FN) under the prediction. It returns a dataframe containing the predicted expression status for a particular marker
+```{r}
+predicted_image <- predict_phenotypes(formatted_image,
+                                      plot_actual_cutoff = TRUE,
+                                      plot_predicted_cutoff = TRUE,
+                                      thresholds = NULL,
+                                      tumour_marker = "AMACR",
+                                      baseline_markers = c("CD3", "CD4", "CD8"))
+# Commenting out above as get:
+# Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
+```
+
+Takes in the returned dataframe from marker_threshold_plot and generates a .pdf file containing scatter plots of actual expression and predicted expression for every marker.
+
+```{r}
+#marker_prediction_plot(predicted_image, marker="AMACR")
+#marker_prediction_plot(predicted_image, marker="CD4")
+#marker_prediction_plot(predicted_image, marker="CD8")
+
+# Commenting out as no predicted_image at moment
+```
