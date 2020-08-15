@@ -7,15 +7,12 @@
 #' @param print TRUE for plots to be printed, FALSE otherwise
 #' @param filename Path and name of output pdf file if to be printing to a file, if required
 #' @param return_data TRUE if the function should return the formatted data for plotting
-#' @import SingleCellExperiment
 #' @import dplyr
-#' @importFrom tibble rownames_to_column
 #' @import ggplot2
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
 #' @importFrom grDevices pdf dev.off
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 plot_cell_marker_levels <- function(sce_object, print = TRUE, filename=NULL, return_data=TRUE) {
 

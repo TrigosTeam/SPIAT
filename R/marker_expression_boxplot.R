@@ -4,15 +4,12 @@
 #' for the marker, and those that where phenotyped as being negative.
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param marker Marker being queried
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @import ggplot2
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_expression_boxplot <- function(sce_object, marker){
 

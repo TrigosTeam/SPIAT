@@ -4,8 +4,8 @@
 #' calculates the enrichment and depletion p values
 #' @param sce_object SingleCellExperiment object in the form of output from format_image_to_sce
 #' @param num_iter Integer specifying the number of iterations for bootstrapping
-#' @import SingleCellExperiment
 #' @import dplyr
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom utils combn
