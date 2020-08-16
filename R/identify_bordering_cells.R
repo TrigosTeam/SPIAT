@@ -25,6 +25,9 @@
 # imported all functions from ggplot2 since many functions are interdependent
 
 identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
+  
+  # setting these column names to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- NULL
 
   formatted_data <- data.frame(colData(sce_object))
 

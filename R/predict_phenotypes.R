@@ -27,6 +27,9 @@
 
 predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_predicted_cutoff = FALSE, thresholds = NULL, tumour_marker,
                                baseline_markers) {
+  
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Marker_level <- NULL
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column

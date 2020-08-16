@@ -18,7 +18,10 @@
 # imported ggplo2 as interdependency of functions
 
 identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
-
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
+  
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
