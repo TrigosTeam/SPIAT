@@ -25,6 +25,9 @@
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){
+    
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Cell.X.Position <- Cell.Y.Position <- Cell_type <- NULL
 
     #turn the sce object name into string as a filename
     image_filename <- deparse(substitute(sce_object))
