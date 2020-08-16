@@ -18,6 +18,8 @@ marker_expression_boxplot <- function(sce_object, marker){
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
     expression_matrix <- assay(sce_object)
+    
+    markers <- rownames(expression_matrix)
 
     cell_ids <- colnames(expression_matrix)
 
