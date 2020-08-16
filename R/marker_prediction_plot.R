@@ -12,6 +12,10 @@
 #' @export
 
 marker_prediction_plot <- function(predicted_data, marker) {
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- NULL
+  
   #get the markers
   actual_phenotype_colnames <- predicted_data[grepl("_actual_phenotype", colnames(predicted_data))]
   markers <- gsub("_actual_phenotype", "", actual_phenotype_colnames)

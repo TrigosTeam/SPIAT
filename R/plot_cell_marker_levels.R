@@ -15,6 +15,9 @@
 #' @export
 
 plot_cell_marker_levels <- function(sce_object, print = TRUE, filename=NULL, return_data=TRUE) {
+  
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Cell.X.Position <- Cell.Y.Position <- NULL
 
     formatted_data <- data.frame(colData(sce_object))
 

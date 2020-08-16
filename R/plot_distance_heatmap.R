@@ -8,6 +8,9 @@
 #' @export
 
 plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
+  
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Target <- Nearest <- Mean <- Std.Dev <- Median <- NULL
 
     if(metric == "mean"){
       limit <- range(unlist(phenotype_distances_result$Mean), na.rm=TRUE)

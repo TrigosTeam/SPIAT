@@ -15,6 +15,9 @@
 #' @export
 
 plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
+    
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    xcord <- ycord <- NULL
 
     formatted_data <- data.frame(colData(sce_object))
 
