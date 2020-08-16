@@ -1,9 +1,7 @@
 ---
 title: "Overview of the SPIAT package"
-author: 
-- Anna Trigos
-- Tom Yang
-- Volkan Ozkoban
+author: "Anna Trigos, Tom Yang, Volkan Ozkoban"
+date: "`r BiocStyle::doc_date()`"
 package: SPIAT
 output:
   BiocStyle::html_document:
@@ -20,15 +18,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
+SPIAT (Spatial Image Analysis of Tissues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools. SPIAT includes our novel algorithms for the identification of cell clusters, cell margins and cell gradients, the calculation of neighbourhood proportions, and algorithms for the prediction of cell phenotypes. SPIAT also includes speedy implementations of the calculation of cell distances and detection of cell communities. This version of SPIAT is directly compatible with Opal multiplex immunohistochemistry images analysed through the HALO and InForm analysis software, but its intuitive implementation allows use with a diversity of platforms.
+
 <img width="600" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F1.large.jpg"/>
+
+# Setting up the data
 
 ```{r message=FALSE}
 # load library
 library(SPIAT)
 
+# specify markers
 markers <- c("DAPI","CD3","PDL1","FOXP3","CD4","CD8","AMACR")
 markers
 
+# specify columns of interest
 intensity_columns_interest <- c("Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)","Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
                                 "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)", "Cytoplasm FOXP3 (Opal 570) Mean (Normalized Counts, Total Weighting)", 
                                 "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)", "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
@@ -39,7 +43,7 @@ intensity_columns_interest
 data("formatted_image")
 ```
 
-`formatted_image` contains example Inform data already loaded. To load data from a raw Inform file, example code is below.
+`formatted_image` contains example Inform data already formatted. To load data from a raw Inform file, example code is below.
 
 ```{r eval=FALSE}
 #####Initializing#####
