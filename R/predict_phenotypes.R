@@ -155,7 +155,7 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
     #calculate the predictions
     if (!is.null(thresholds)) {
       #there is a threshold value specified for the marker, use the threshold
-      marker_threshold <- thresholds[match(tumour_,markers)]
+      marker_threshold <- thresholds[match(tumour_marker,markers)]
       print(paste("(", tumour_marker, " has threshold specified: ", as.character(marker_threshold), ")", sep=""))
       selected_valley_xcord <- NULL
 
