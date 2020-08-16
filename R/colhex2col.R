@@ -12,6 +12,10 @@
 #Date: 2nd December, 2019
 #Availability: https://gist.github.com/sklarz-bgu/01a550f59cdf5bc85a48e15f5e94a6ba
 colhex2col <- function(colhex) {
+    
+    # setting this to NULL as otherwise get "no visible binding for global variable" in R check
+    . <- NULL
+    
     # Convert hex to RGB
     mycol   <- colhex %>% col2rgb()
     # Convert all x11 colors to RGB, adn transform
