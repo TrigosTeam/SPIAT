@@ -53,8 +53,8 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
 
   if(log_values){
     composition2 <- apply(composition2, 2, log10)
-    composition2[is.nan(composition2_log10)] <- 1000
-    composition2[composition2_log10 == 1000] <- min(composition2_log10)-1
+    composition2[is.nan(composition2)] <- 1000
+    composition2[composition2 == 1000] <- min(composition2)-1
   }
 
   #plot the heatmap
