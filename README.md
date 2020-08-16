@@ -6,11 +6,12 @@
 
 R package for the analysis of OPAL multiplex immunohistochemistry images.
 
-<img width="300" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F12.large.jpg"/>
+<img width="600" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F4.large.jpg"/>
 
 ## Installation
 
 ```r
+# install.packages('devtools')
 devtools::install_github("cancer-evolution/SPIAT")
 ```
 
