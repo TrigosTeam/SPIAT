@@ -294,7 +294,7 @@ The calculation is done per reference cell, so runtime will depend on the number
 # "Error in percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",  : There are no reference cells or no target cells, calculation aborted"
 
 #percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",
-                                  target_phenotypes = "AMACR", radius=100)
+#                                  target_phenotypes = "AMACR", radius=100)
 ```
 
 ```{r}
