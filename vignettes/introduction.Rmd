@@ -197,10 +197,7 @@ plot_average_expression(formatted_image, reference_marker="AMACR", target_marker
 ```
 
 ```{r}
-#Commenting out below as get:
-# "Error in average_marker_expression_within_radius(sce_object, reference_marker,  : There are no target cells within the specified radius, cannot calculate average expression"
-
-#plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(30, 35, 40, 45, 50, 75, 100))
+plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(40, 45, 60, 75, 100))
 ```
 
 ```{r}
