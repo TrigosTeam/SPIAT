@@ -42,10 +42,11 @@ Imports:
     mmand (>= 1.5.4),
     tibble (>= 2.1.3)
 Suggests:
-    BiocStyle, 
+    BiocStyle,
     knitr,
     rmarkdown,
-    pkgdown
+    pkgdown,
+    testthat
 biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
 RoxygenNote: 7.1.1
