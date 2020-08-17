@@ -29,14 +29,19 @@ SPIAT (Spatial Image Analysis of Tissues) is an R package with a suite of data p
 library(SPIAT)
 
 # specify markers
-markers <- c("DAPI","CD3","PDL1","FOXP3","CD4","CD8","AMACR")
+markers <- c("DAPI","CD3","PDL1","CD4","CD8","AMACR")
+
 markers
 
 # specify columns of interest
-intensity_columns_interest <- c("Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)","Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
-                                "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)", "Cytoplasm FOXP3 (Opal 570) Mean (Normalized Counts, Total Weighting)", 
-                                "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)", "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
-                                "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)")
+intensity_columns_interest <- c(
+  "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
+  "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
+  "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"
+  )
 intensity_columns_interest
 
 # load example data
@@ -46,17 +51,14 @@ data("formatted_image")
 `formatted_image` contains example Inform data already formatted. To load data from a raw Inform file, example code is below.
 
 ```{r eval=FALSE}
-#####Initializing#####
-
 #Formats an INFORM or HALO image into a singlecellexperiment class
-#where the count assay stores the expression level of every marker (rows) for
-#every cell (columns), and cell phenotype, x and y coordinates are stored
-#under colData
+#where the count assay stores the expression level of every marker (rows) for every cell (columns), and cell phenotype, x and y coordinates are stored under colData
+#raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
 #formatted_image <- format_image_to_sce(format="INFORM",
-                                       #image=raw_inform_data,
-                                       #markers=markers,
-                                       #dye_columns_interest=NULL,
-                                       #intensity_columns_interest=intensity_columns_interest)
+                                #        image=raw_inform_data,
+                                #        markers=markers,
+                                #        dye_columns_interest=NULL,
+                                # intensity_columns_interest=intensity_columns_interest)
 ```
 
 Select the phenotypes in the image.
@@ -71,7 +73,6 @@ formatted_image <- select_phenotypes(formatted_image, keep=TRUE,
                                                     "CD3,CD4",
                                                     "CD3,CD8",
                                                     "CD3,CD8",
-                                                "CD3,CD4,FOXP3",
                                                 "PDL1",
                                                 "AMACR,PDL1"))
 ```
@@ -99,9 +100,6 @@ Produces boxplots of marker levels for cells phenotyped as being positive for th
 ```{r}
 marker_expression_boxplot(formatted_image, "CD3")
 marker_expression_boxplot(formatted_image, "PDL1")
-# marker_expression_boxplot(formatted_image, "FOXP3")
-# Commenting out FOXP3 as otherwise get 
-# "Error in marker_expression_boxplot(formatted_image, "FOXP3") : There are no cells positive for FOXP3"
 marker_expression_boxplot(formatted_image, "CD4")
 marker_expression_boxplot(formatted_image, "CD8")
 marker_expression_boxplot(formatted_image, "AMACR")
@@ -123,7 +121,6 @@ The marker levels are then averaged within each square. All cells are considered
 ```{r}
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "PDL1")
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "FOXP3")
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD4")
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD8")
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
@@ -297,7 +294,7 @@ The calculation is done per reference cell, so runtime will depend on the number
 # "Error in percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",  : There are no reference cells or no target cells, calculation aborted"
 
 #percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD3",
-#                                  target_phenotypes = "AMACR", radius=100)
+                                  target_phenotypes = "AMACR", radius=100)
 ```
 
 ```{r}
@@ -312,11 +309,7 @@ Creates random combinations of phenotypes by shuffling markers and
 calculates the enrichment and depletion p values
 
 ```{r}
-# Commenting out below as get:
-# "Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
-
-#sig <- marker_permutation(formatted_image, num_iter = 100)
-
+sig <- marker_permutation(formatted_image, num_iter = 100)
 ```
 
 # Predict phenotypes
@@ -328,25 +321,20 @@ positive reading for marker expression. It also prints to the console of the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing the predicted expression status for a particular marker
 ```{r}
-# Commenting out below as get:
-# Error in `$<-.data.frame`(`*tmp*`, Phenotype, value = "FOXP3,") : replacement has 1 row, data has 0"
-
-# #predicted_image <- predict_phenotypes(formatted_image,
-#                                       plot_actual_cutoff = TRUE,
-#                                       plot_predicted_cutoff = TRUE,
-#                                       thresholds = NULL,
-#                                       tumour_marker = "AMACR",
-#                                       baseline_markers = c("CD3", "CD4", "CD8"))
+predicted_image <- predict_phenotypes(formatted_image,
+                                      plot_actual_cutoff = TRUE,
+                                      plot_predicted_cutoff = TRUE,
+                                      thresholds = NULL,
+                                      tumour_marker = "AMACR",
+                                      baseline_markers = c("CD3", "CD4", "CD8"))
 ```
 
 Takes in the returned dataframe from marker_threshold_plot and generates a .pdf file containing scatter plots of actual expression and predicted expression for every marker.
 
 ```{r}
-# Commenting out as no predicted_image at moment
-
-#marker_prediction_plot(predicted_image, marker="AMACR")
-#marker_prediction_plot(predicted_image, marker="CD4")
-#marker_prediction_plot(predicted_image, marker="CD8")
+marker_prediction_plot(predicted_image, marker="AMACR")
+marker_prediction_plot(predicted_image, marker="CD4")
+marker_prediction_plot(predicted_image, marker="CD8")
 ```
 
 # Reproducibility
