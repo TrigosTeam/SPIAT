@@ -18,6 +18,14 @@ test_that("plot_cell_categories() creates a plot", {
     expect_is(p, "ggplot")
 })
 
+test_that("plot_cell_percentages() creates a plot", {
+    
+    p_cells <- calculate_cell_proportions(sce_object = formatted_image)
+    
+    p <- plot_cell_percentages(p_cells)
+    
+    expect_is(p, "ggplot")
+})
 
 test_that("plot_marker_level_heatmap() creates a plot", {
     
@@ -26,15 +34,6 @@ test_that("plot_marker_level_heatmap() creates a plot", {
     expect_is(p, "ggplot")
     
 })
-
-
-# test_that("plot_cell_marker_levels() creates a plot", {
-# 
-#     p <- plot_cell_marker_levels(formatted_image, return_data = FALSE)
-# 
-#     expect_is(p, "ggplot")
-# 
-# })
 
 
 test_that("plot_distance_heatmap() creates a plot", {
@@ -46,19 +45,6 @@ test_that("plot_distance_heatmap() creates a plot", {
     expect_is(p, "ggplot")
     
 })
-
-
-# test_that("plot_cell_distances_violin() creates a plot", {
-# 
-#     distances <- calculate_all_distances_between_phenotypes(formatted_image,
-#                                                             remove_other = TRUE,
-#                                                             cell_phenotypes_of_interest = c("AMACR", "PDL1"))
-# 
-#     p <- plot_cell_distances_violin(distances)
-# 
-#     expect_is(p, "ggplot")
-# 
-# })
 
 
 test_that("plot_composition_heatmap() creates a plot", {
@@ -74,3 +60,56 @@ test_that("plot_composition_heatmap() creates a plot", {
     
 })
 
+
+test_that("identify_bordering_cells() creates a plot", {
+    
+    p <- identify_bordering_cells(formatted_image, reference_marker = "AMACR",
+                                  rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+                                  upper_bound=0.7)
+    
+    expect_is(p, "ggplot")
+    
+})
+
+
+test_that("marker_expression_boxplot() creates a plot", {
+    
+    p <- marker_expression_boxplot(formatted_image, "CD3")
+    
+    expect_is(p, "ggplot")
+    
+})
+
+
+test_that("marker_prediction_plot() creates a plot", {
+    
+    predicted_image <- predict_phenotypes(formatted_image,
+                                          plot_actual_cutoff = TRUE,
+                                          plot_predicted_cutoff = TRUE,
+                                          thresholds = NULL,
+                                          tumour_marker = "AMACR",
+                                          baseline_markers = c("CD3", "CD4", "CD8"))
+    
+    p <- marker_prediction_plot(predicted_image, marker="AMACR")
+    
+    expect_is(p, "gtable")
+    
+})
+
+
+test_that("marker_prediction_plot() creates a plot", {
+    
+    p <- marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
+    
+    expect_is(p, "plotly")
+    
+})
+
+
+test_that("marker_surface_plot_stack() creates a plot", {
+    
+    p <- marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
+    
+    expect_is(p, "plotly")
+    
+})
