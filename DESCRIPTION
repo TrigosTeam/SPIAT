@@ -49,5 +49,6 @@ Suggests:
     testthat
 biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
+LazyData: true
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
