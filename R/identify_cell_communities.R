@@ -64,8 +64,8 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     }
 
     #start a plot for visualizing communities
-    q <- ggplot(formatted_data, aes(x=formatted_data$Cell.X.Position, y=formatted_data$Cell.Y.Position))
-    q <- q + geom_point(aes(color = formatted_data$Community), size = 0.01)
+    q <- ggplot(formatted_data, aes(x=Cell.X.Position, y=Cell.Y.Position))
+    q <- q + geom_point(aes(color = Community), size = 0.01)
 
     #get number_of_communities
     number_of_communities <- length(unique(formatted_data$Community))
