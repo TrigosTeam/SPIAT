@@ -1,7 +1,5 @@
 context("plotting")
 
-formatted_image <- SPIAT::formatted_image 
-
 test_that("plot_average_expression() creates a plot", {
     
     p <- plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="CD4", radii=c(30, 35, 40, 45, 50, 75, 100))
