@@ -44,9 +44,10 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
     }
   }
   
-  
   #set all phenotypes of those that aren't in phenotypes_of_interest to be "OTHER"
-  formatted_data[!formatted_data$Phenotype %in% phenotypes_of_interest,]$Phenotype <- "OTHER"
+  if (any(!formatted_data$Phenotype %in% phenotypes_of_interest)) {
+    formatted_data[!formatted_data$Phenotype %in% phenotypes_of_interest,]$Phenotype <- "OTHER"
+  }
   
   
   #Assign the colour to corresponding phenotypes in df
@@ -55,11 +56,14 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
     idx <- which(phenotypes_of_interest == phenotype)
     formatted_data[formatted_data$Phenotype == phenotype, ]$color <- colour_vector[idx]
   }
-  formatted_data[formatted_data$Phenotype == "OTHER", ]$color <- "lightgrey"
-  
-  
-  all_phenotypes <- c(phenotypes_of_interest, "OTHER")
-  all_colours <- c(colour_vector, "lightgrey")
+  if (any(formatted_data$Phenotype == "OTHER")) {
+    formatted_data[formatted_data$Phenotype == "OTHER", ]$color <- "lightgrey"
+    all_phenotypes <- c(phenotypes_of_interest, "OTHER")
+    all_colours <- c(colour_vector, "lightgrey")
+  } else {
+    all_phenotypes <- phenotypes_of_interest
+    all_colours <- colour_vector
+  }
   
   p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype)) +
     geom_point(aes(colour = Phenotype), size = 1) +
