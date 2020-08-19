@@ -6,6 +6,7 @@ package: SPIAT
 output:
   BiocStyle::html_document:
     toc_float: true
+bibliography: "`r file.path(system.file(package='SPIAT', 'vignettes'), 'introduction.bib')`"    
 vignette: >
   %\VignetteIndexEntry{Overview of the SPIAT package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -255,7 +256,7 @@ While we recommend users to test out different thresholds and then visualise the
 average_minimum_distance(formatted_image)
 ```
 
-The second type of cell aggregates are “communities”, as previously defined (9). Here, communities correspond to micro-niches or micro-ecosystems of cells that are geographically located close to each other. The main distinction between clusters and communities is that the algorithm for the detection of communities used by `identify_cell_communities` does not take into account cell phenotype. Therefore, communities often consist of a combination of different cell types, including tumour cells. *dbscan* is used as the clustering algorithm to detect communities. Cells without a phenotype are excluded.
+The second type of cell aggregates are “communities”, as previously defined [@jackson2020single]. Here, communities correspond to micro-niches or micro-ecosystems of cells that are geographically located close to each other. The main distinction between clusters and communities is that the algorithm for the detection of communities used by `identify_cell_communities` does not take into account cell phenotype. Therefore, communities often consist of a combination of different cell types, including tumour cells. *dbscan* is used as the clustering algorithm to detect communities [@hahsler2019dbscan]. Cells without a phenotype are excluded.
 
 ```{r}
 communities <- identify_cell_communities(formatted_image, radius=100)
