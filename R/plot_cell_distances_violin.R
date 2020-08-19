@@ -12,6 +12,9 @@ plot_cell_distances_violin <- function(cell_to_cell_dist){
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Pair <- Distance <- NULL
   
+  # remove NAs in input
+  cell_to_cell_dist <- cell_to_cell_dist[complete.cases(cell_to_cell_dist),]
+  
   for(pair in unique(cell_to_cell_dist$Pair)){
     temp <- cell_to_cell_dist[cell_to_cell_dist$Pair == pair,]
     violin_plot <- ggplot(temp, aes(x = Pair, y = Distance)) + geom_violin() +
