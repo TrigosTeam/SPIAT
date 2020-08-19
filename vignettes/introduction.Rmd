@@ -151,27 +151,28 @@ colour_vector <- c("darkgrey", "red", "blue")
 plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 ```
 
-## Heatmaps
-
-For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are
-averaged within each.
-
-```{r}
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
-```
-
 ## Scatter plots
 
 The intensity of each marker can be visualized individually, which can be used to check for an uneven staining or high background intensity. `plot_cell_marker_levels` produces a scatter plot of the expression of every marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
 ```{r}
-plot_cell_marker_levels(formatted_image, return_data = FALSE)
+plot_cell_marker_levels(formatted_image, "CD3")
+```
+
+
+## Heatmaps
+
+For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the `num_splits` parameter.
+
+```{r}
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
 ```
 
 
 ## 3D surface plot
 
-We can generate a 3D surface plot of the level of the selected marker with `marker_surface_plot`. Note that the image is blurred based on the 'num_splits' parameter.
+We can generate a 3D surface plot of the level of the selected marker with `marker_surface_plot`. The image is blurred based on the `num_splits` parameter.
+
 ```{r}
 marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 ```
@@ -183,6 +184,7 @@ To stack the surface plots of multiple markers in a single plot we have implemen
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD3", "AMACR"))
 ```
+
 Stacked surface plots of the AMACR (prostate cancer cell) and CD3 (T cell) markers in prostate tissue shows how AMACR and CD3 are mutually exclusive (valleys and mountains are opposite).
 
 # Identifying gradients of cells
