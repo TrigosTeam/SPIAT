@@ -4,23 +4,14 @@
 \alias{plot_cell_marker_levels}
 \title{plot_cell_marker_levels}
 \usage{
-plot_cell_marker_levels(
-  sce_object,
-  print = TRUE,
-  filename = NULL,
-  return_data = TRUE
-)
+plot_cell_marker_levels(sce_object, marker)
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
 
-\item{print}{TRUE for plots to be printed, FALSE otherwise}
-
-\item{filename}{Path and name of output pdf file if to be printing to a file, if required}
-
-\item{return_data}{TRUE if the function should return the formatted data for plotting}
+\item{marker}{Marker to plot}
 }
 \description{
-Produces a scatter plot of the level of every marker in each cell.
+Produces a scatter plot of the level of a marker in each cell.
 Cells that were not phenotyped as being positive for the particular marker are excluded.
 }
