@@ -81,24 +81,24 @@ test_that("calculate_all_distances_between_phenotypes() works", {
 
 test_that("identify_cell_clusters() works", {
     
-    cells <- c("Cell_78", "Cell_174", "Cell_195", "Cell_237")
+    cells <- c("Cell_78", "Cell_195", "Cell_237")
     res <- data.frame(row.names = cells,
                       Cell.ID = cells,
-                      Phenotype = c("CD3,CD4", "CD3,CD4", "CD3,CD8", "CD3,CD8"),
-                      Cell.X.Position = c(1079, 2471, 1145, 1119),
-                      Cell.Y.Position = c(15, 29, 33, 40),
-               DAPI = c(14.7, 12.8, 12.7, 11),
-               CD3 = c(3.67, 2.39, 1.3, 1.38),
-               PDL1 = c(0.357, 0.2, 0.114, 0.23),
-               CD4 = c(3.74, 1.22, 1.9, 1.3),
-               CD8 = c(0.319, 0.05, 9.982, 4.254),
-               AMACR = c(0.034, 0.069, 0.514, 0.061),
-               Cluster = c("Cluster_1", "Cluster_NA", "Cluster_1", "Cluster_1"))
+                      Phenotype = c("CD3,CD4", "CD3,CD8", "CD3,CD8"),
+                      Cell.X.Position = c(1079, 1145, 1119),
+                      Cell.Y.Position = c(15, 33, 40),
+               DAPI = c(14.7, 12.7, 11),
+               CD3 = c(3.67, 1.3, 1.38),
+               PDL1 = c(0.357, 0.114, 0.23),
+               CD4 = c(3.74, 1.9, 1.3),
+               CD8 = c(0.319, 9.982, 4.254),
+               AMACR = c(0.034, 0.514, 0.061),
+               Cluster = c("Cluster_1", "Cluster_1", "Cluster_1"))
     
     clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"),
                                        radius = 30)
     
-    expect_equal(clusters[1:4,], res, tolerance = 0.002)
+    expect_equal(clusters[1:3,], res, tolerance = 0.003)
     
 })
 

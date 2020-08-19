@@ -83,6 +83,10 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
         local_clusters <- cutree(h, h = 0.5)
 
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
+        
+        # remove cells not belonging to any cluster
+        formatted_data <- formatted_data[complete.cases(formatted_data),]
+        
       } else {
         stop("The radius specified may be too small, no clusters were found")
       }
