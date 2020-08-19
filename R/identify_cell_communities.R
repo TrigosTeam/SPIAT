@@ -21,7 +21,7 @@
 identify_cell_communities <- function(sce_object, clustering_method = "dbscan", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
 
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
-    Xpos <- Ypos <- community <- NULL
+    Cell.X.Position <- Cell.Y.Position <- Community <- Xpos <- Ypos <- community <- NULL
       
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
