@@ -87,8 +87,8 @@ print_phenotypes(formatted_image)
 These phenotypes are determined from individual markers like AMACR ro combinations of markers like CD3 and CD4. The above markers can be interpreted as follows: 
 
 AMACR = prostate cancer cells  
-CD3,CD4 = helper T cells
-CD3,CD8 = cytotoxic T cells
+CD3,CD4 = helper T cells  
+CD3,CD8 = cytotoxic T cells  
 PDL1 = immune checkpoint
 
 So AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL1 is used to help determine if the cancer may benefit from immunotherapy treatment.
@@ -116,15 +116,11 @@ We will work with all the original phenotypes present in `formatted_image` here.
 
 ## Boxplots
 
-Cells positive for a marker should have higher levels of the marker. Since HALO and InForm use machine learning to determine positive cells, and not a strict threshold, some positive cells will have low marker intensity, and vice versa. However, an unclear separation of marker intensities between positive and negative cells would suggest incorrect phenotyping or unreliable phenotyping due to background noise. SPIAT `marker_expression_boxplot` produces boxplots of marker levels for cells phenotyped as being positive o negative for a marker.
+Cells positive for a marker should have higher levels of the marker. Since HALO and InForm use machine learning to determine positive cells, and not a strict threshold, some positive cells will have low marker intensity, and vice versa. However, an unclear separation of marker intensities between positive and negative cells would suggest incorrect phenotyping or unreliable phenotyping due to background noise. We can use  `marker_expression_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
 
 ```{r}
 marker_expression_boxplot(formatted_image, "CD3")
-marker_expression_boxplot(formatted_image, "PDL1")
-marker_expression_boxplot(formatted_image, "CD4")
-marker_expression_boxplot(formatted_image, "CD8")
-marker_expression_boxplot(formatted_image, "AMACR")
 ```
 
 # Cell proportions/percentages
@@ -146,7 +142,7 @@ plot_cell_percentages(p_cells)
 
 ## Categorical dot plot
 
-We can generate a dot plot that summarizes all markers and cell types with `plot_cell_categories`. Each dot corresponds to a cell and cells are coloured by phenotype. The user can choose the colours for the phenotypes.
+We can generate a dot plot that summarizes all markers and cell types with `plot_cell_categories`. Each dot corresponds to a cell and cells are coloured by phenotype. The user can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
 phenotypes_of_interest <- c("AMACR", "CD3,CD4", "CD3,CD8")
@@ -161,10 +157,6 @@ averaged within each.
 
 ```{r}
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "PDL1")
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD4")
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD8")
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
 ```
 
 ## Scatter plots
@@ -188,9 +180,9 @@ marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 To stack the surface plots of multiple markers in a single plot we have implemented `marker_surface_plot_stack`. This shows normalized expression level of specified markers and allows the identification of co-occurring and mutually exclusive markers. 
 
 ```{r}
-marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
+marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD3", "AMACR"))
 ```
-
+Stacked surface plots of the AMACR (prostate cancer cell) and CD3 (T cell) markers in prostate tissue shows how AMACR and CD3 are mutually exclusive (valleys and mountains are opposite).
 
 # Identifying gradients of cells
 
@@ -204,28 +196,19 @@ In SPIAT we address this challenge using the concept of gradients. If there is a
 
 ```{r}
 average_marker_expression_within_radius(formatted_image,
-                                        reference_marker ="AMACR",
-                                        target_marker = "CD3",
+                                        reference_marker ="CD8",
+                                        target_marker = "CD4",
                                         radius=30)
 ```
 
-`plot_average_expression` calculates the average expression of a target marker for a number of user-supplied radii values. It plots the expression level as a line graph.
-
-```{r}
-plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
-```
-
-```{r}
-plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="PDL1", c(40, 45, 60, 75, 100))
-```
-
-```{r}
-plot_average_expression(formatted_image, reference_marker="CD4", target_marker="CD8", c(30, 35, 40, 45, 50, 75, 100))
-```
+`plot_average_expression` calculates the average expression of a target marker for a number of user-supplied radii values. It plots the expression level at each specified radius as a line graph.
 
 ```{r}
 plot_average_expression(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
 ```
+
+This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
+
 
 # Distances between phenotypes
 
@@ -240,6 +223,7 @@ This creates a distribution of minimum distances between phenotypes A and B, whi
 ```{r}
 plot_cell_distances_violin(distances)
 ```
+From this plot we can see that CD3,CD4 cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between CD3,CD8 cells or between CD3,CD4 and CD3,CD8 cells.
 
 We can also calculate summary statistics for the distances between each combination of phenotypes, the mean, median and standard deviation, with `calculate_summary_distances_between_phenotypes`.
 
@@ -253,19 +237,22 @@ These cell distances can then be visualized as a heatmap with `plot_distance_hea
 plot_distance_heatmap(summary_distances)
 ```
 
+This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL1 cells are more distant.
 
 # Detection of cell clusters and communities
 
 One of the main recurrent quest ions in the analysis of the spatial distribution of cells in the microenvironment is the presence or absence of aggregates of a particular phenotype or combination of phenotype. In SPIAT, we make the distinction of two types of cell aggregates. The first are “clusters”, which are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user (e.g. clusters of CD3,CD4 and CD3,CD8 cells). Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters.
 
 ```{r}
-clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 30)
+clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 ```
+
+This plot shows clusters of CD3+CD4+ and CD3+CD8+ cells. Each number and colour corresponds to a distinct cluster. Grey cells correspond to ‘free’, un-clustered cells. 
 
 While we recommend users to test out different thresholds and then visualise the clustering results, we also offer the `average_minimum_distance` function, which calculates the average minimum distance between all cells in an image to use as a reference or starting point.
 
 ```{r}
-average_minimum_distance(formatted_image) #between cells
+average_minimum_distance(formatted_image)
 ```
 
 The second type of cell aggregates are “communities”, as previously defined (9). Here, communities correspond to micro-niches or micro-ecosystems of cells that are geographically located close to each other. The main distinction between clusters and communities is that the algorithm for the detection of communities used by `identify_cell_communities` does not take into account cell phenotype. Therefore, communities often consist of a combination of different cell types, including tumour cells. *dbscan* is used as the clustering algorithm to detect communities. Cells without a phenotype are excluded.
@@ -273,6 +260,8 @@ The second type of cell aggregates are “communities”, as previously defined 
 ```{r}
 communities <- identify_cell_communities(formatted_image, radius=100)
 ```
+
+This plot shows communities of cells in the tissue. Each number and colour corresponds to a distinct community. 
 
 We can visualize the cell composition of clusters or communities. This allows discerning whether there are regions of heterotypic cell-cell interactions, or whether the image is highly structured with poor cell mixing.
 
@@ -288,16 +277,17 @@ The we can use `plot_composition_heatmap` to produce a heatmap showing the marke
 ```{r}
 plot_composition_heatmap(clusters_vis, column_to_consider="Cluster")
 ```
+
+This plot shows that most clusters are composed of a mixture of CD3+CD4+ and CD3+CD8+ cells and some are more dominated by CD3+CD4+ than others.  
+
 We can visualise the composition of the communities in a similiar way.
 
 ```{r}
 communities_vis <- composition_of_clusters_and_communities(communities, "Community")
 plot_composition_heatmap(communities_vis, column_to_consider="Community")
 ```
-```{r}
-communities_vis <- communities_vis[communities_vis$Phenotype != "AMACR",]
-plot_composition_heatmap(communities_vis, column_to_consider="Community")
-```
+
+This plot shows that several communities detected have a combination of tumour (AMACR+) and immune cells while some are dominated by tumour or immune cells.
 
 # Cell mixing
 
@@ -305,17 +295,17 @@ SPIAT includes calculation of cell mixing scores, which was originally defined a
 marker. The mixing score is defined by: the number of target-reference interactions/number of reference-reference interactions within a specified radius.
 
 ```{r}
-compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "PDL1")
 compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
-compute_mixing_score(formatted_image, reference_marker = "CD8", target_marker = "CD4")
 ```
 
 # Identification of bordering cells
 
-A common question that arises in the study of the tumour microenvironment is whether immune cells are close to the tumour margin, or how does the density of a particular cell type differ between the tumour and stromal areas. A first step in answering this question is the identification of cells that separate two distinct tissue areas (e.g. tumour area vs. stromal area). This tissue segmentation process often relies on machine learning or manual delineation of the borders in HALO or InForm, which are either coarse and/or time- consuming, rely on user intervention and often result in poor resolution. In SPIAT we developed an algorithm (identify_bordering_cells) to automatically detect bordering cells, with only 5 parameters: reference_marker (reference area to be identified, i.e. tumour marker), noise_radius, radius, lower_bound and upper_bound. The algorithm is as follows:
-1. We select reference_marker cells surrounded by other reference_marker cells: We first identify reference_marker cells with other reference_marker cells within noise_radius.
-2. We select non-reference cells surrounded by other non-reference cells: Only keep non-reference cells with non-reference cells within noise_radius.
-3. We identify bordering cells as those tumour cells surrounded by a certain percentage of stromal cells: We combine the cells identified in (1) and (2) and identify all neighbouring cells within radius. We then calculate the percentage of stromal cells in the neighbourhood of each tumour cell, and mark those tumour cells with a percentage of stromal cells within the lower_bound and upper_bound as bordering cells.
+A common question that arises in the study of the tumour microenvironment is whether immune cells are close to the tumour margin, or how does the density of a particular cell type differ between the tumour and stromal areas. A first step in answering this question is the identification of cells that separate two distinct tissue areas (e.g. tumour area vs. stromal area). This tissue segmentation process often relies on machine learning or manual delineation of the borders in HALO or InForm, which are either coarse and/or time- consuming, rely on user intervention and often result in poor resolution. In SPIAT we developed an algorithm `identify_bordering_cells` to automatically detect bordering cells, with only 5 parameters: reference_marker (reference area to be identified, i.e. tumour marker), noise_radius, radius, lower_bound and upper_bound. The algorithm is as follows:
+
+1. We select reference_marker cells surrounded by other reference_marker cells: We first identify reference_marker cells with other reference_marker cells within noise_radius.  
+2. We select non-reference cells surrounded by other non-reference cells: Only keep non-reference cells with non-reference cells within noise_radius.  
+3. We identify bordering cells as those tumour cells surrounded by a certain percentage of stromal cells: We combine the cells identified in (1) and (2) and identify all neighbouring cells within radius. We then calculate the percentage of stromal cells in the neighbourhood of each tumour cell, and mark those tumour cells with a percentage of stromal cells within the lower_bound and upper_bound as bordering cells.  
+
 The identified bordering cells can then be used as a reference for calculation of distances to other cell types. Note that while here we use tumour cells as an example for reference cell, the same can be applied to any cell type.
 
 ```{r}
@@ -326,13 +316,7 @@ identify_bordering_cells(formatted_image, reference_marker = "AMACR",
 
 # Neighbourhood proportions
 
-SPIAT also offers an additional alternative to characterising cell aggregation, which is the calculation of the neighbourhood proportion (percentage_of_cells_within_radius). Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. This algorithm is inspired by previous work (8), but in that case the average proportion of all cells in an image was used. Here, we perform the calculation for each cell, and thus we take into account differences in spatial distribution. With our method, spatial structures can be identified by pinpointing cells with high neighbourhood proportions of the target cell type.
-Of note, percentage_of_cells_within_radius can be used for the detection of gradients instead of average_marker_expression_within_radius, however we recommend using the latter given its implementation allows a speedier analysis, and it does not depend on cell phenotyping as it uses marker intensities.
-
-Calculate the percentage of cells surrounding another phenotype
-
-Calculates the percentage of cells of a target phenotype within a radius from the cells with a reference phenotype.
-The calculation is done per reference cell, so runtime will depend on the number of reference cells present.
+SPIAT also offers an additional alternative to characterising cell aggregation, which is the calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. This algorithm is inspired by previous work (8), but in that case the average proportion of all cells in an image was used. Here, we perform the calculation for each cell, and thus we take into account differences in spatial distribution. With our method, spatial structures can be identified by pinpointing cells with high neighbourhood proportions of the target cell type. Of note, `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_expression_within_radius`, however we recommend using the latter given its implementation allows a speedier analysis, and it does not depend on cell phenotyping as it uses marker intensities. The calculation is done per reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
 percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
@@ -360,10 +344,11 @@ predicted_image <- predict_phenotypes(formatted_image,
 We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is encouraged.
 
 ```{r}
-marker_prediction_plot(predicted_image, marker="AMACR")
-marker_prediction_plot(predicted_image, marker="CD4")
-marker_prediction_plot(predicted_image, marker="CD8")
+marker_prediction_plot(predicted_image, marker="CD3")
 ```
+
+The plot shows CD3+ cells in the tissue. On the left are the CD3+ cells defined by InForm and on the right are the CD3+ cells predicted using SPIAT.
+
 
 # Reproducibility
 
