@@ -27,6 +27,16 @@ test_that("plot_cell_percentages() creates a plot", {
     expect_is(p, "ggplot")
 })
 
+
+test_that("plot_cell_marker_levels() creates a plot", {
+    
+    p <- plot_cell_marker_levels(formatted_image, "CD3")
+    
+    expect_is(p, "ggplot")
+    
+})
+
+
 test_that("plot_marker_level_heatmap() creates a plot", {
     
     p <- plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
