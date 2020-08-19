@@ -1,12 +1,10 @@
 #' plot_cell_marker_levels
 #'
-#' @description Produces a scatter plot of the level of every marker in each cell.
+#' @description Produces a scatter plot of the level of a marker in each cell.
 #' Cells that were not phenotyped as being positive for the particular marker are excluded.
 #'
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
-#' @param print TRUE for plots to be printed, FALSE otherwise
-#' @param filename Path and name of output pdf file if to be printing to a file, if required
-#' @param return_data TRUE if the function should return the formatted data for plotting
+#' @param marker Marker to plot
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
@@ -14,7 +12,7 @@
 #' @importFrom grDevices pdf dev.off
 #' @export
 
-plot_cell_marker_levels <- function(sce_object, print = TRUE, filename=NULL, return_data=TRUE) {
+plot_cell_marker_levels <- function(sce_object, marker) {
   
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
@@ -26,6 +24,12 @@ plot_cell_marker_levels <- function(sce_object, print = TRUE, filename=NULL, ret
     expression_matrix <- assay(sce_object)
 
     markers <- rownames(expression_matrix)
+    
+    #CHECK
+    if (is.element(marker, markers) == FALSE) {
+      stop("The marker specified is not in the data")
+    }
+    
     cell_ids <- colnames(expression_matrix)
 
     rownames(expression_matrix) <- NULL
@@ -37,71 +41,43 @@ plot_cell_marker_levels <- function(sce_object, print = TRUE, filename=NULL, ret
     formatted_data <- cbind(formatted_data, expression_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
-    for (marker in markers) {
 
-        #every cell is stained by DAPI, so no need to remove intensity
-        if (marker == "DAPI"){
-            next
-        }
+    #selecting cells that do not contain the marker
+    rows <- formatted_data[formatted_data$Phenotype != marker, ] #for one entry that is not marker
+    rows <- rows[!grepl(marker, rows$Phenotype), ] #for multiple entries that does not contain marker
 
-        #selecting cells that do not contain the marker
-        rows <- formatted_data[formatted_data$Phenotype != marker, ] #for one entry that is not marker
-        rows <- rows[!grepl(marker, rows$Phenotype), ] #for multiple entries that does not contain marker
+    #for those cell without the marker, set marker intensity to 0
+    #and merge the formatted_data
+    rows[, marker] <- 0
+    formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),] <- rows
 
-        #for those cell without the marker, set marker intensity to 0
-        #and merge the formatted_data
-        rows[, marker] <- 0
-        formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),]<-rows
+    #selecting the cells that have intensity for a specific marker
+    column <- which(colnames(formatted_data) == marker)
+    rows_non_zero <- which(formatted_data[,column] != 0)
+    intensity_by_marker <- formatted_data[rows_non_zero,]
 
+    if (nrow(intensity_by_marker) == 0) {
+      print(paste("There are no true expression for: ", marker, sep=""))
     }
 
+    #log the intensity to improve contrast
+    intensity_by_marker[,marker] <- log10(intensity_by_marker[,marker])
+    #print(intensity_by_marker)
 
+    ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = eval(parse(text = marker)))) +
+      geom_point(aes(colour=eval(parse(text = marker))),size = 0.1) +
+      ggtitle(marker)+
+      guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
+      labs(colour = paste("log10","(", as.character(marker)," Intensity", ")", sep="")) +
+      theme(panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill = "white"),
+            axis.title.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
 
-    if(print){
-      if(!is.null(filename)){
-        pdf(filename)
-      }
-
-      for (marker in markers){
-
-        #selecting the cells that have intensity for a specific marker
-        column <- which(colnames(formatted_data) == marker)
-        rows_non_zero <- which(formatted_data[,column] != 0)
-        intensity_by_marker <- formatted_data[rows_non_zero,]
-
-        if (nrow(intensity_by_marker) == 0) {
-          print(paste("There are no true expression for: ", marker, sep=""))
-        }
-
-        #log the intensity to improve contrast
-        intensity_by_marker[,marker] <- log10(intensity_by_marker[,marker])
-        #print(intensity_by_marker)
-
-        p <- ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = eval(parse(text = marker)))) +
-          geom_point(aes(colour=eval(parse(text = marker))),size = 0.1) +
-          ggtitle(marker)+
-          guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
-          labs(colour = paste("log10","(", as.character(marker)," Intensity", ")", sep="")) +
-          theme(panel.grid.major = element_blank(),
-                panel.grid.minor = element_blank(),
-                panel.background = element_rect(fill = "white"),
-                axis.title.x = element_blank(),
-                axis.text.x = element_blank(),
-                axis.ticks.x = element_blank(),
-                axis.title.y = element_blank(),
-                axis.text.y = element_blank(),
-                axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
-
-        print(p)
-      }
-    }
-
-    if(!is.null(filename)){
-      dev.off(filename)
-    }
-
-    if(isTRUE(return_data)){
-      return(formatted_data)
-    }
 }
 
