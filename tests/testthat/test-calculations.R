@@ -62,17 +62,18 @@ test_that("calculate_summary_distances_between_phenotypes() works", {
 
 test_that("calculate_all_distances_between_phenotypes() works", {
     
-    cells <- c("Cell_78", "Cell_174", "Cell_264", "Cell_305")
+    cells <- c("Cell_174", "Cell_264", "Cell_305")
     res <- data.frame(Var1 = factor(cells, levels=cells),  
-                      Var2 = factor(c(rep("Cell_78", 4))),
-                      Distance = c(NA, 1392.07040, 40.26164, 993.83399), 
-                      Pair = rep("CD3,CD4_CD3,CD4", 4))
+                      Var2 = factor(c(rep("Cell_78", 3))),
+                      Distance = c(1392.07040, 40.26164, 993.83399), 
+                      Pair = rep("CD3,CD4_CD3,CD4", 3))
     
     distances <- calculate_all_distances_between_phenotypes(formatted_image,
                                                             remove_other = TRUE,
                                                             cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
-    distances <- distances[1:4, ]
+    distances <- distances[1:3, ]
     distances <- droplevels(distances)
+    rownames(distances) <- NULL
     
     expect_equal(distances, res, tolerance=1e-3)
     

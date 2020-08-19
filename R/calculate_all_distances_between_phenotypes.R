@@ -75,6 +75,10 @@ calculate_all_distances_between_phenotypes <- function(sce_object, remove_other 
           }
       }
     }
+  
+    # remove NAs e.g. for distance of cell against itself
+    cell_to_cell_dist_all <- cell_to_cell_dist_all[complete.cases(cell_to_cell_dist_all),]
+    
   return(cell_to_cell_dist_all)
 }
 
