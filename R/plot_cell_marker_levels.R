@@ -9,7 +9,6 @@
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
-#' @importFrom grDevices pdf dev.off
 #' @export
 
 plot_cell_marker_levels <- function(sce_object, marker) {
