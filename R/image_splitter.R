@@ -17,11 +17,9 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
 #' @importFrom grDevices pdf dev.off
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases setNames
 #' @export
-
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){

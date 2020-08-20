@@ -22,9 +22,6 @@
 #' @importFrom mmand threshold
 #' @export
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
-
 predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_predicted_cutoff = FALSE, thresholds = NULL, tumour_marker,
                                baseline_markers) {
   

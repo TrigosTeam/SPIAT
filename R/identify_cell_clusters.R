@@ -13,8 +13,6 @@
 #' @import ggplot2
 #' @export
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplo2 as interdependency of functions
 
 identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
