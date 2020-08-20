@@ -1,15 +1,13 @@
 #' measure_association_to_cell_properties
 #'
-#' @description plot the density or boxplot of properties of certain cell phenotypes
-#' compare density plots or boxplots of different cell phenotypes
-#' t test/wilcoxon rank sum test of a property of two cell phenotypes
+#' @description Plots the density or boxplot of a property of two cell phenotypes or compares using t test/wilcoxon rank sum test
 #' 
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param property String that is the name of the column of interest 
 #' @param phenotypes Vector of phenotypes of interest
 #' @param merge Vector of phenotypes to be merged
 #' @param merge_name String that is the name of the merged phenotype
-#' @param method the analysis to do on the selected phenotypes and property
+#' @param method the analysis to do on the selected phenotypes and property. Options are density, box, t, wilcox 
 #' @param Nucleus.Ratio when the ratio of the nucleus size is of interest
 #' @param log.scale if log the data
 #' @importFrom SummarizedExperiment colData
