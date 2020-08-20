@@ -13,11 +13,8 @@
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100){
 

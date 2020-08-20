@@ -11,12 +11,9 @@
 #' @importFrom gtools permutations
 #' @import dplyr
 #' @importFrom stats median sd
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 calculate_summary_distances_between_phenotypes <- function(sce_object, all_marker_combinations = TRUE,
                                                    combinations_of_interest = NULL) {
