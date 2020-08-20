@@ -10,9 +10,13 @@ Authors@R: c(
     person(given = "Tom",
            family = " Yang",
            role="aut",
-           email="volkanozcoban1@gmail.com"),
+           email="yangtp3344@gmail.com"),
+    person(given = "Yuzhou",
+           family = " Feng",
+           role="aut",
+           email="yuzhouf@student.unimelb.edu.au"),
     person(given = "Volkan",
-           family=" Ozkoban",
+           family=" Ozcoban",
            role="aut",
            email = "volkanozcoban1@gmail.com"))
 Description: Spatial analysis of tissues obtained 
