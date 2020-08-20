@@ -11,6 +11,7 @@
 #' @param Nucleus.Ratio when the ratio of the nucleus size is of interest
 #' @param log.scale if log the data
 #' @importFrom SummarizedExperiment colData
+#' @importFrom stats t.test wilcox.test 
 #' @import ggplot2
 #' @export
 
@@ -18,6 +19,9 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
                                            phenotypes, merge = NULL, merge_name = NULL, 
                                            method = "density", Nucleus.Ratio = FALSE,
                                            log.scale = FALSE) {
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Phenotype <- NULL
   
   formatted_data <- data.frame(colData(sce_object))
 
