@@ -6,6 +6,7 @@
 \title{Example Inform image}
 \format{
 A SingleCellExperiment object where the count assay stores the expression level of every marker (rows) for
+Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
 }
 \usage{
 data(formatted_image)
