@@ -84,9 +84,6 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
         
-        # remove cells not belonging to any cluster
-        formatted_data <- formatted_data[complete.cases(formatted_data),]
-        
       } else {
         stop("The radius specified may be too small, no clusters were found")
       }
@@ -94,14 +91,17 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
       stop("The radius specified may be too small, no clusters were found")
     }
 
+  #get cells assigned to clusters
+  cells_in_clusters <- formatted_data[complete.cases(formatted_data),]
+  
   #get number_of_clusters
-  number_of_clusters <- length(unique(formatted_data$Cluster))
+  number_of_clusters <- length(unique(cells_in_clusters$Cluster))
 
   #label the Cluster centre by averaging x and y
 
   label_location <- vector()
   for (Clusternumber in 1:number_of_clusters) {
-    cells_in_Cluster <- formatted_data[formatted_data$Cluster == Clusternumber, ]
+    cells_in_Cluster <- cells_in_clusters[cells_in_clusters$Cluster == Clusternumber, ]
     minX <- min(cells_in_Cluster$Cell.X.Position)
     maxX <- max(cells_in_Cluster$Cell.X.Position)
     minY <- min(cells_in_Cluster$Cell.Y.Position)
