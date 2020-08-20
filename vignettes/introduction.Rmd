@@ -242,6 +242,23 @@ plot_distance_heatmap(summary_distances)
 
 This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL1 cells are more distant.
 
+# Measuring association to cell properties
+
+We can use `measure_association_to_cell_properties` to compare two phenotypes for a property. Method options are density plot, boxplot, t test or wilcoxon test. 
+
+```{r}
+# boxplot
+measure_association_to_cell_properties(formatted_image, 
+                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
+                                       property = "Cell.Size",
+                                       method = "box")
+# t test
+measure_association_to_cell_properties(formatted_image, 
+                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
+                                       property = "Cell.Size",
+                                       method = "t")
+```
+
 # Detecting cell clusters and communities
 
 One of the main recurrent quest ions in the analysis of the spatial distribution of cells in the microenvironment is the presence or absence of aggregates of a particular phenotype or combination of phenotype. In SPIAT, we make the distinction of two types of cell aggregates. The first are “clusters”, which are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user (e.g. clusters of CD3,CD4 and CD3,CD8 cells). Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters.
