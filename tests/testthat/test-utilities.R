@@ -54,10 +54,15 @@ test_that("select_phenotypes works", {
 test_that("image_splitter works", {
     
     res <-    data.frame(row.names = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"),
-                         Phenotype = rep("AMACR", 4),
-                         Cell.X.Position = c(171, 184, 201, 219),
-                         Cell.Y.Position = c(22, 38, 52, 63),
-                         Cell_type = rep("AMACR", 4))
+                         Phenotype = c("AMACR", "AMACR", "AMACR", "AMACR"
+                         ), Cell.X.Position = c(171L, 184L, 201L, 219L), 
+                         Cell.Y.Position = c(22L, 38L, 52L, 63L), 
+                         Cell.Size = c(464L, 553L, 462L, 876L), 
+                         Nucleus.Size = c(177L, 212L, 239L, 451L), 
+                         Nucleus.Compactness = c(0.54, 0.51, 0.53, 0.53), 
+                         Nucleus.Axis.Ratio = c(1.84, 1.92, 1.47, 1.19), 
+                         Cell.Axis.Ratio = c(1, 1.21, 1.09, 1.34), 
+                         Cell_type = c("AMACR", "AMACR", "AMACR", "AMACR"))
     
     split_image <- image_splitter(formatted_image, number_of_splits=3)
     
