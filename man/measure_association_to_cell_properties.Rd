@@ -26,14 +26,12 @@ measure_association_to_cell_properties(
 
 \item{merge_name}{String that is the name of the merged phenotype}
 
-\item{method}{the analysis to do on the selected phenotypes and property}
+\item{method}{the analysis to do on the selected phenotypes and property. Options are density, box, t, wilcox}
 
 \item{Nucleus.Ratio}{when the ratio of the nucleus size is of interest}
 
 \item{log.scale}{if log the data}
 }
 \description{
-plot the density or boxplot of properties of certain cell phenotypes
-compare density plots or boxplots of different cell phenotypes
-t test/wilcoxon rank sum test of a property of two cell phenotypes
+Plots the density or boxplot of a property of two cell phenotypes or compares using t test/wilcoxon rank sum test
 }
