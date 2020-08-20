@@ -89,6 +89,11 @@ test_that("identify_cell_clusters() works", {
                       Phenotype = c("CD3,CD4", "CD3,CD4", "CD3,CD8", "CD3,CD8"),
                       Cell.X.Position = c(1079, 2471, 1145, 1119),
                       Cell.Y.Position = c(15, 29, 33, 40),
+                      Cell.Size = c(129, 448, 126, 223),
+                      Nucleus.Size = c(87, 144, 43, 22),
+                      Nucleus.Compactness = c(0.84, 0.42, 0.8, 1.08),
+                      Nucleus.Axis.Ratio = c(1, 2.16, 1.14, 1),
+                      Cell.Axis.Ratio = c(1.17, 1.41, 1.83, 2.03),
                       DAPI = c(14.7, 12.8, 12.7, 11),
                       CD3 = c(3.67, 2.39, 1.3, 1.38),
                       PDL1 = c(0.357, 0.2, 0.114, 0.23),
@@ -107,16 +112,21 @@ test_that("identify_cell_clusters() works", {
 
 test_that("identify_cell_communities() works", {
     
-    res <- data.frame(Cell.ID = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"),
-                      Phenotype = rep("AMACR", 4),
-                      Cell.X.Position = c(171, 184, 201, 219),
-                      Cell.Y.Position = c(22, 38, 52, 63),
-                      DAPI = c(17.6, 21.3, 19, 18.6),
-                      CD3 = c(0.229, 0.206, 0.226, 0.212),
-                      PDL1 = c(0.117, 0.103, 0.126, 0.091),
-                      CD4 = c(1.188, 0.924, 1.367, 1.266),
-                      CD8 = c(0.087, 0.053, 0.037, 0.046),
-                      AMACR = c(2.07, 1.52, 2.46, 1.97),
+    res <- data.frame(Cell.ID = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"), 
+                      Phenotype = c("AMACR", "AMACR", "AMACR", "AMACR"), 
+                      Cell.X.Position = c(171L, 184L, 201L, 219L), 
+                      Cell.Y.Position = c(22L, 38L, 52L, 63L), 
+                      Cell.Size = c(464L, 553L, 462L, 876L), 
+                      Nucleus.Size = c(177L, 212L, 239L, 451L), 
+                      Nucleus.Compactness = c(0.54, 0.51, 0.53, 0.53), 
+                      Nucleus.Axis.Ratio = c(1.84, 1.92, 1.47, 1.19), 
+                      Cell.Axis.Ratio = c(1, 1.21, 1.09, 1.34), 
+                      DAPI = c(17.588, 21.262, 18.951, 18.631), 
+                      CD3 = c(0.229, 0.206, 0.226, 0.212), 
+                      PDL1 = c(0.117, 0.103, 0.126, 0.091), 
+                      CD4 = c(1.188, 0.924, 1.367, 1.266), 
+                      CD8 = c(0.087, 0.053, 0.037, 0.046), 
+                      AMACR = c(2.074, 1.521, 2.462, 1.968), 
                       Community = c("Community_1", "Community_1", "Community_1", "Community_1"))
     
     communities <- identify_cell_communities(formatted_image, radius=100)
