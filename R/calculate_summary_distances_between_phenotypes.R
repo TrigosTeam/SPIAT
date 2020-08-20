@@ -119,8 +119,9 @@ calculate_summary_distances_between_phenotypes <- function(sce_object, all_marke
             result <- rbind(result, local_result)
         }
     #}
-    #NA problem with sd(0) == NA when there is only 1 cell in the category
-    result[is.na(result)] <- 0
+
+    # remove NAs e.g. for distance of cell against itself
+    result <- result[complete.cases(result),]
 
     return(result)
 }
