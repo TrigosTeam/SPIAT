@@ -29,6 +29,7 @@ Column names must match the order of the 'markers' parameter}
 \description{
 Formats an INFORM or HALO image into a singlecellexperiment class
 where the count assay stores the expression level of every marker (rows) for
-every cell (columns), and cell phenotype, x and y coordinates are stored
-under colData
+every cell (columns), 
+and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, 
+Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
 }
