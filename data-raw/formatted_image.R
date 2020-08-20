@@ -17,13 +17,14 @@ intensity_columns_interest <- c(
 
 #Formats an INFORM or HALO image into a singlecellexperiment class
 #where the count assay stores the expression level of every marker (rows) for
-#every cell (columns), and cell phenotype, x and y coordinates are stored
-#under colData
+#every cell (columns), and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, 
+#' Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
 formatted_image <- format_image_to_sce(format="INFORM",
                                        image=raw_inform_data,
                                        markers=markers,
                                        dye_columns_interest=NULL,
                                        intensity_columns_interest=intensity_columns_interest)
 
+formatted_image <- select_phenotypes(formatted_image, keep=TRUE, phenotypes = c("AMACR", "CD3,CD4", "CD3,CD8", "PDL1"))
 
 usethis::use_data(formatted_image, overwrite = TRUE)
