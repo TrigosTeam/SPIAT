@@ -9,14 +9,11 @@
 #' @param target_marker String specifying the target marker
 #' @param radius Integer specifying the radius. Only cells within this radius will be considered.
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom dbscan frNN
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 compute_mixing_score <- function(sce_object, reference_marker, target_marker, radius = 20) {
 

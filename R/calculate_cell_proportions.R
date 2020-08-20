@@ -2,11 +2,9 @@
 #'
 #' @description Calculate the number and proportion of each cell phenotype in image
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases
 #' @export
-
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 calculate_cell_proportions <- function(sce_object){
 
