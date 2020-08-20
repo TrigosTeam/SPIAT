@@ -123,3 +123,12 @@ test_that("marker_surface_plot_stack() creates a plot", {
     expect_is(p, "plotly")
     
 })
+
+
+test_that("measure_association_to_cell_properties() creates a plot", {
+    
+    p <- measure_association_to_cell_properties(formatted_image, phenotypes = c("CD3,CD4", "CD3,CD8"))
+    
+    expect_is(p, "ggplot")
+    
+})
