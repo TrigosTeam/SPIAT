@@ -36,7 +36,7 @@ First we load the SPIAT library.
 library(SPIAT)
 ```
 
-For this tutorial we will use data that's already formatted for SPIAT. `formatted_image` This is *SingleCellExperiment* format where the count assay stores the expression level of every marker (rows) for every cell (columns), and cell phenotype, x and y coordinates are stored under colData.
+For this tutorial we will use data that's already formatted for SPIAT. `formatted_image` This is *SingleCellExperiment* format where the count assay stores the expression level of every marker (rows) for every cell (columns), and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData.
 
 ```{r}
 data("formatted_image")
