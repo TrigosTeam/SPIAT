@@ -1,4 +1,4 @@
-#' format_image_to_sce_jojo2
+#' format_image_to_sce
 #'
 #' @description Formats an INFORM or HALO image into a singlecellexperiment class
 #' where the count assay stores the expression level of every marker (rows) for
@@ -15,10 +15,11 @@
 #' Column names must match the order of the 'markers' parameter.
 #' @param intensity_columns_interest Vector with the names of the columns with the level of each marker.
 #' Column names must match the order of the 'markers' parameter
-#' @import SingleCellExperiment
+#' @importFrom SingleCellExperiment SingleCellExperiment	
+#' @importFrom SummarizedExperiment colData
 #' @importFrom utils read.csv read.delim
 
-format_image_to_sce_jojo2 <- function(format = "INFORM", image, markers, dye_columns_interest = NULL, intensity_columns_interest) {
+format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_interest = NULL, intensity_columns_interest) {
   
   #replace the spaces and non-alphanumeric characters as a '.' for column selection
   intensity_columns_interest <- gsub("[^[:alnum:]]", ".", intensity_columns_interest)
@@ -207,16 +208,14 @@ format_image_to_sce_jojo2 <- function(format = "INFORM", image, markers, dye_col
   coldata_nucleus_compactness <- formatted_data[,"Nucleus.Compactness"]
   coldata_nucleus_axis_ratio <- formatted_data[,"Nucleus.Axis.Ratio"]
   coldata_cell_axis_ratio <- formatted_data[,"Entire.Cell.Axis.Ratio"]
-  colData(sce)$Phenotype <- coldata_phenotype
-  colData(sce)$Cell.X.Position <- coldata_Xpos
-  colData(sce)$Cell.Y.Position <- coldata_Ypos
-  colData(sce)$Cell.Size <- coldata_cell_size
-  colData(sce)$Nucleus.Size <- coldata_nucleus_size
-  colData(sce)$Nucleus.Compactness <- coldata_nucleus_compactness
-  colData(sce)$Nucleus.Axis.Ratio <- coldata_nucleus_axis_ratio
-  colData(sce)$Cell.Axis.Ratio <- coldata_cell_axis_ratio
+  SummarizedExperiment::colData(sce)$Phenotype <- coldata_phenotype
+  SummarizedExperiment::colData(sce)$Cell.X.Position <- coldata_Xpos
+  SummarizedExperiment::colData(sce)$Cell.Y.Position <- coldata_Ypos
+  SummarizedExperiment::colData(sce)$Cell.Size <- coldata_cell_size
+  SummarizedExperiment::colData(sce)$Nucleus.Size <- coldata_nucleus_size
+  SummarizedExperiment::colData(sce)$Nucleus.Compactness <- coldata_nucleus_compactness
+  SummarizedExperiment::colData(sce)$Nucleus.Axis.Ratio <- coldata_nucleus_axis_ratio
+  SummarizedExperiment::colData(sce)$Cell.Axis.Ratio <- coldata_cell_axis_ratio
   
   return(sce)
 }
-
-
