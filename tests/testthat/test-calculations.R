@@ -47,15 +47,16 @@ test_that("average_minimum_distance() works", {
 
 test_that("calculate_summary_distances_between_phenotypes() works", {
     
-    res <- data.frame(Target = c(rep("AMACR", 4)), 
-                      Nearest = c("AMACR", "CD3,CD4", "CD3,CD8", "PDL1"),
-                      Mean = c(0.0000, 155.5926, 243.5603, 732.2836), 
-                      Std.Dev = c(0.00000, 89.34635, 131.20464, 346.66617),
-                      Median = c(0.0000, 139.8624, 222.6488, 686.4146))
+    res <- data.frame(Target = c(rep("AMACR", 3)), 
+                      Nearest = c("CD3,CD4", "CD3,CD8", "PDL1"),
+                      Mean = c(155.5926, 243.5603, 732.2836), 
+                      Std.Dev = c(89.34635, 131.20464, 346.66617),
+                      Median = c(139.8624, 222.6488, 686.4146))
     
     summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image)
+    rownames(summary_distances) <- NULL
     
-    expect_equal(summary_distances[1:4, ], res, tolerance=1e-3)
+    expect_equal(summary_distances[1:3, ], res, tolerance=1e-3)
     
 })
 
