@@ -253,6 +253,7 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
         }
       }
       p <- p + scale_color_manual(name = "lines", values = c(min_pos = "red", max_neg = "blue", cutoff = "green"))
+      p <- p + theme_classic()
       
       print(p)
     }
