@@ -60,15 +60,17 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   if (method == "density"){
     p <- ggplot(formatted_data, aes(x=formatted_data[,property], color = Phenotype)) + 
       geom_density() + 
-      labs(x = property)
+      labs(x = property) +
+      theme_classic()
   }
   
   # Plot the boxplot 
   if (method == "box"){
-    p <- ggplot(formatted_data, aes(Phenotype,formatted_data[,property], fill = Phenotype)) + 
+    p <- ggplot(formatted_data, aes(Phenotype,formatted_data[,property])) + 
       geom_boxplot()  +
       stat_boxplot(coef=3) +
-      ylab(property)
+      ylab(property) +
+      theme_classic()
 
   }
   

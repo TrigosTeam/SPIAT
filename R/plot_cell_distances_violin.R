@@ -15,7 +15,8 @@ plot_cell_distances_violin <- function(cell_to_cell_dist){
   for(pair in unique(cell_to_cell_dist$Pair)){
     temp <- cell_to_cell_dist[cell_to_cell_dist$Pair == pair,]
     violin_plot <- ggplot(temp, aes(x = Pair, y = Distance)) + geom_violin() +
-      ggtitle(paste("Distance between", pair))
+      ggtitle(paste("Distance between", pair)) +
+      theme_classic()
     print(violin_plot)
   }
 }
