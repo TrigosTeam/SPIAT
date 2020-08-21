@@ -30,5 +30,6 @@ plot_average_expression <- function(sce_object, reference_marker, target_marker,
 
     title <- paste("Average expression of ", target_marker, " from ", reference_marker, " for various radii", sep="")
     p <- p + geom_line() + geom_point() + ggtitle(title) + xlab("Radius") + ylab("Average Expression")
+    p <- p + theme_classic()
     p
 }
