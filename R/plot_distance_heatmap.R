@@ -20,7 +20,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         ylab("Nearest cell to COI") +
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), text=element_text(size=14,family="serif")) +
-        scale_fill_viridis_c(limits = limit)
+        scale_fill_viridis_c(limits = limit, direction = -1)
       print(g)
 
     }else if(metric == "std.dev"){
@@ -28,7 +28,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
       g <- ggplot(phenotype_distances_result, aes(x = Target, y = Nearest, fill = Std.Dev)) + geom_tile() + xlab("Cell of interest (COI)") + ylab("Nearest cell to COI") +
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), text=element_text(size=14,family="serif")) +
-        scale_fill_viridis_c(limits = limit)
+        scale_fill_viridis_c(limits = limit, direction = -1)
       print(g)
 
     }else if(metric == "median"){
@@ -36,7 +36,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
       g <- ggplot(phenotype_distances_result, aes(x = Target, y = Nearest, fill = Median)) + geom_tile() + xlab("Cell of interest (COI)") + ylab("Nearest cell to COI") +
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), text=element_text(size=14,family="serif")) +
-        scale_fill_viridis_c(limits = limit)
+        scale_fill_viridis_c(limits = limit, direction = -1)
       print(g)
     }
 }
