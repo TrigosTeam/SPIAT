@@ -61,7 +61,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
     p <- ggplot(formatted_data, aes(x=formatted_data[,property], color = Phenotype)) + 
       geom_density() + 
       labs(x = property) +
-      theme_classic()
+      theme_bw()
   }
   
   # Plot the boxplot 
@@ -70,7 +70,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
       geom_boxplot()  +
       stat_boxplot(coef=3) +
       ylab(property) +
-      theme_classic()
+      theme_bw()
 
   }
   
