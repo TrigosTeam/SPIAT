@@ -18,6 +18,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom plotly plot_ly add_trace 
 #' @importFrom stats aggregate
+#' @importFrom grDevices col2rgb
+#' @importFrom dittoSeq dittoColors
 #' @export
 
 marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, sep = 1,
@@ -169,17 +171,15 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
         #add the value to separate plots
         my_matrix <- my_matrix + i
-
-        #change colours
-        r <- sample(0:255, 1)
-        g <- sample(0:255, 1)
-        b <- sample(0:255, 1)
-
-        rand_rgb <- paste("rgb(", r, ",", g, ",", b, ")", sep="")
-
+        
+        # use colourblind-friendly colour
+        hexcol <- dittoColors()[i + 1]
+        rgbcol_mat <- col2rgb(hexcol)
+        rgbcol <- paste0(rgbcol_mat[,1], collapse=",")
+        rgbcol <- paste0("rgb(", rgbcol, ")") 
 
         #add the surface
-        p <- add_trace(p, z = my_matrix, type = "surface", colorscale = list(c(0,1),c("rgb(255,255,255)", rand_rgb)), colorbar=list(title=marker))
+        p <- add_trace(p, z = my_matrix, type = "surface", colorscale = list(c(0,1),c("rgb(255,255,255)", rgbcol)), colorbar=list(title=marker))
         i <- i + sep
     }
 
