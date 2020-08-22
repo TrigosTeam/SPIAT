@@ -11,7 +11,8 @@
 #' @param Nucleus.Ratio when the ratio of the nucleus size is of interest
 #' @param log.scale if log the data
 #' @importFrom SummarizedExperiment colData
-#' @importFrom stats t.test wilcox.test 
+#' @importFrom stats t.test wilcox.test
+#' @importFrom dittoSeq dittoColors  
 #' @import ggplot2
 #' @export
 
@@ -58,9 +59,14 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   
   # Plot the density 
   if (method == "density"){
+    
+    # get colourblind-friendly colours
+    colours <- dittoColors()[1:2]
+    
     p <- ggplot(formatted_data, aes(x=formatted_data[,property], color = Phenotype)) + 
       geom_density() + 
       labs(x = property) +
+      scale_color_manual(values = colours) +
       theme_bw()
   }
   
