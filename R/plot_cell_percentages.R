@@ -19,7 +19,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL){
   cell_percentages_full_plot <-
     ggplot(cell_proportions,aes(x = reorder(Cell_type, Percentage), y = Percentage)) +
       geom_bar(stat = 'identity', fill = "#bababa") +
-      theme_classic() +
+      theme_bw() +
       theme(legend.position = "none") +
       xlab("Cell Type") + ylab("Proportion of total cells") +
       geom_text(aes(label = Percentage_label), position=position_dodge(width=0.9), hjust=-0.25, size = 2) +
@@ -35,7 +35,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL){
       ggplot(cell_proportions_no_tumour, aes(x = reorder(Cell_type, Percentage), y = Percentage)) +
       geom_bar(stat = 'identity', fill = "#bababa") +
       ggtitle("Excluding tumor cells")+
-      theme_classic() +
+      theme_bw() +
       theme(legend.position = "none") +
       xlab("Cell Type") + ylab("Proportion of total cells") +
       geom_text(aes(label = Percentage_label), position=position_dodge(width=0.9), hjust=-0.25, size = 2) +
