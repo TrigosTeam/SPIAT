@@ -13,7 +13,7 @@
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
-#' @import ggplot2
+#' @importFrom dittoSeq dittoColors
 #' @export
 
 # imported ggplot2 due to interdependency of functions
@@ -69,6 +69,9 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
 
     #get number_of_communities
     number_of_communities <- length(unique(formatted_data$Community))
+    
+    # use colourblind-friendly colours
+    colours <- dittoColors()[1:number_of_communities]
 
     #label the community centre by averaging x and y
     label_location <- vector()
@@ -89,6 +92,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
 
     #label x and y axis and community labels
     q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
+    q <- q + scale_color_manual(values=colours)
     q <- q + theme_bw() +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             legend.position = "none")
