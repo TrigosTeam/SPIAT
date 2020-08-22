@@ -10,6 +10,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases hclust cutree as.dist
 #' @importFrom apcluster negDistMat
+#' @importFrom dittoSeq dittoColors
 #' @import ggplot2
 #' @export
 
@@ -111,13 +112,17 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   }
   label_location <- as.data.frame(label_location)
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
+  
+  # use colourblind-friendly colours
+  colours <- dittoColors()[1:number_of_clusters]
 
-  q <- ggplot(formatted_data, aes(x=Cell.X.Position, y=Cell.Y.Position))
+  q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
   q <- q + geom_point(aes(color = Cluster), size = 0.01)
   q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
   q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
-  q <- q + theme_bw() +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+  q <- q + scale_color_manual(values=colours) +
+    theme_bw() + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position = "none")
   print(q)
 
