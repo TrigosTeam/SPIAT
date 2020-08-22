@@ -242,17 +242,18 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
       p <- p + labs(title = title, x = "Level of expression", y = "Density")
       
       if (plot_actual_cutoff == TRUE) {
-        p <- p + geom_vline(aes(xintercept=threshold_val_real_pos, color="min_pos"), alpha = 0.3)
-        p <- p + geom_vline(aes(xintercept=threshold_val_real_neg, color="max_neg"), alpha = 0.3)
+        p <- p + geom_vline(aes(xintercept=threshold_val_real_pos, color="min_pos", linetype="min_pos"))
+        p <- p + geom_vline(aes(xintercept=threshold_val_real_neg, color="max_neg", linetype="max_neg"))
       }
       if (plot_predicted_cutoff == TRUE) {
         if (!is.null(selected_valley_xcord)) {
-          p <- p + geom_vline(aes(xintercept = selected_valley_xcord, color = "cutoff"), alpha = 0.3)
+          p <- p + geom_vline(aes(xintercept = selected_valley_xcord, color = "cutoff", linetype = "cutoff"))
         } else {
-          p <- p + geom_vline(aes(xintercept = marker_threshold, color = "cutoff"), alpha = 0.3)
+          p <- p + geom_vline(aes(xintercept = marker_threshold, color = "cutoff", linetype = "cutoff"))
         }
       }
-      p <- p + scale_color_manual(name = "lines", values = c(min_pos = "red", max_neg = "blue", cutoff = "green"))
+      p <- p + scale_color_manual(name = "lines", values = c(min_pos = "red", max_neg = "blue", cutoff = "black"))
+      p <- p + scale_linetype_manual(name = "lines", values = c(min_pos = "solid", max_neg = "solid", cutoff = "dashed"))
       p <- p + theme_classic()
       
       print(p)
