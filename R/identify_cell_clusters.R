@@ -92,6 +92,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
   #get cells assigned to clusters
   cells_in_clusters <- formatted_data[complete.cases(formatted_data),]
+  cells_not_in_clusters <- formatted_data[!complete.cases(formatted_data),]
   
   #get number_of_clusters
   number_of_clusters <- length(unique(cells_in_clusters$Cluster))
@@ -114,13 +115,14 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
   
   # use colourblind-friendly colours
-  colours <- dittoColors()[1:number_of_clusters]
+  cluster_colours <- dittoColors()[1:number_of_clusters]
 
   q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
   q <- q + geom_point(aes(color = Cluster), size = 0.01)
   q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
-  q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
-  q <- q + scale_color_manual(values=colours) +
+  q <- q + scale_color_manual(values=cluster_colours)
+  q <- q + geom_point(data = cells_not_in_clusters, size = 0.01, colour = "black")
+  q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position") +
     theme_bw() + 
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position = "none")
