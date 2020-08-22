@@ -67,7 +67,7 @@ marker_expression_boxplot <- function(sce_object, marker){
     p <- p + geom_boxplot()
     p <- p + labs(title = title, x = "Marker status (Positive/Negative cell)", y = "Marker level")
     p <- p + stat_summary(fun.data = give.n, geom = "text")
-    p <- p + theme_classic()
+    p <- p + theme_bw()
 
     print(p)
 }
