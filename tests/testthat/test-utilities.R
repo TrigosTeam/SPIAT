@@ -71,27 +71,3 @@ test_that("image_splitter works", {
     expect_equal(split_image[[1]][1:4, ], res)
 })
 
-
-test_that("gg_color_hue() works", {
-  
-  res <- c("#F8766D", "#E18A00", "#BE9C00", "#8CAB00", "#24B700", 
-           "#00BE70", "#00C1AB", "#00BBDA", "#00ACFC", "#8B93FF", 
-           "#D575FE", "#F962DD", "#FF65AC")
-  
-  hex_colours <- gg_color_hue(13)
-  
-  expect_equal(hex_colours, res)
-})
-
-
-test_that("colhex2col() works", {
-  
-  res <- c("salmon", "orange3", "gold3", "yellow4", "green3", "springgreen3", 
-           "turquoise3", "turquoise3", "deepskyblue2", "lightslateblue", 
-           "mediumorchid1", "orchid2", "hotpink")
-  
-  hex_colours <- gg_color_hue(13)
-  colour_vector <- sapply(hex_colours, colhex2col, USE.NAMES = FALSE)
-  
-  expect_equal(colour_vector, res)
-})
