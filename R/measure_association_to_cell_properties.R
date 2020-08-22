@@ -82,6 +82,9 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
     else{
       p <- t.test(formatted_data[formatted_data$Phenotype == phenotypes[1],property],
                   formatted_data[formatted_data$Phenotype == phenotypes[2],property])
+      
+      # make output name nicer
+      p$data.name <- paste(phenotypes[1], "and", phenotypes[2])
     }
   }
   if (method == "wilcox"){
