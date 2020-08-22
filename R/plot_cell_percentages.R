@@ -4,6 +4,7 @@
 #' @param cell_proportions Output from calculate_cell_proportions
 #' @param tumour_marker Tumour marker to exclude if needed
 #' @import ggplot2
+#' @importFrom stats reorder
 #' @export
 
 
