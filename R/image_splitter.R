@@ -19,6 +19,7 @@
 #' @importFrom grDevices pdf dev.off
 #' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases setNames
+#' @importFrom dittoSeq dittoColors
 #' @export
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
@@ -71,19 +72,13 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
         if(!is.null(colour_vector)){
             point_colours <- colour_vector
         }else{
-            #Creates unique colours for each cell type that is used to maintain colour in all graphs generated
-            if(number_markers <= 12){
-                colours <- brewer.pal(number_markers, "Paired")
-            }else{
-                colours <- gg_color_hue(number_markers)
-            }
-            colour_vector <- sapply(colours, colhex2col, USE.NAMES = FALSE)
-            point_colours <- setNames(colour_vector, factor(unique(cell_loc$Cell_type)))
+        #Assigns colourblind-friendly colours    
+            point_colours <- dittoColors()[1:number_markers]
         }
 
         #Plots partitioned full image
         full_image <- ggplot(manual_full_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-            geom_point(aes(color = Cell_type), alpha = 0.5, size=0.95) +
+            geom_point(aes(color = Cell_type), size = 0.95) +
             scale_color_manual(values = point_colours) +
             guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
             theme(panel.grid.major = element_blank(),
@@ -162,7 +157,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                                            & min(local_coor_y) < temp_cell_loc$Cell.Y.Position & temp_cell_loc$Cell.Y.Position <= max(local_coor_y), ]
             if(isTRUE(plot)){
                 split_plot <- ggplot(divided_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-                    geom_point(aes(colour = Cell_type), alpha = 0.5, size = 0.95) +
+                    geom_point(aes(colour = Cell_type), size = 0.95) +
                     scale_colour_manual(values = point_colours) +
                     guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
                     ggtitle(paste("(", x, ", ", y, ")", sep = "")) +
