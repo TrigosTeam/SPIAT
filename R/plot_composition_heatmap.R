@@ -7,11 +7,9 @@
 #' @param log_values TRUE if the percentages should be logged (base 10)
 #' @param column_to_consider Column name to consider as community/clusters
 #' @importFrom grDevices colorRampPalette
-#' @importFrom pheatmap pheatmap
+#' @importFrom ComplexHeatmap HeatmapAnnotation Heatmap anno_barplot
 #' @importFrom reshape2 dcast
 #' @export
-
-#ColorRampPalette is from 'dichromat' package but loaded by 'pheatmap'
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, column_to_consider) {
 
@@ -58,10 +56,13 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
   }
 
   #plot the heatmap
-  map_cols <- colorRampPalette(c("white", "red"))(100)
-  anno_cols <- list(Total_cells = c("white", "blue"))
-  pheatmap(as.matrix(composition2), color = map_cols,
-           #annotation_col = cluster_size, 
-           annotation_colors = anno_cols,
-           cluster_cols=TRUE, cluster_rows=TRUE)
+  map_cols <- colorRampPalette(c("white", "red"))(1000)
+  ha = HeatmapAnnotation("size" = anno_barplot(cluster_size), show_annotation_name = FALSE)
+  Heatmap(as.matrix(composition2), name=" ",
+                          cluster_columns=TRUE, 
+                          cluster_rows=TRUE,
+                          col = map_cols,
+                          top_annotation = ha,
+                          border = TRUE)
+  
 }
