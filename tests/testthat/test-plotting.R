@@ -66,7 +66,7 @@ test_that("plot_composition_heatmap() creates a plot", {
     
     p <- plot_composition_heatmap(clusters_2, column_to_consider="Cluster")
     
-    expect_is(p, "pheatmap")
+    expect_is(p, "Heatmap")
     
 })
 
