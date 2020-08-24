@@ -162,6 +162,7 @@ Incorrect or unreliable phenotyping of cells may also be identified through comp
 ```{r}
 marker_expression_boxplot(formatted_image, "CD3")
 ```
+
 The separation of positive versus negative here suggests the phenotyping for CD3 is adequate. Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
 ## Scatter plots
