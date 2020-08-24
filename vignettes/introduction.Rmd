@@ -92,7 +92,7 @@ In the case of large images, or images where there are two independent tissue se
 split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
 ```
 
-# Quality control of images
+# Quality control
 
 We can check what phenotypes are present in the image data with `print_phenotypes`. 
 
@@ -250,6 +250,7 @@ This creates a distribution of minimum distances between phenotypes A and B, whi
 ```{r}
 plot_cell_distances_violin(distances)
 ```
+
 From this plot we can see that CD3,CD4 cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between CD3,CD8 cells or between CD3,CD4 and CD3,CD8 cells.
 
 We can also calculate summary statistics for the distances between each combination of phenotypes, the mean, median and standard deviation, with `calculate_summary_distances_between_phenotypes`.
