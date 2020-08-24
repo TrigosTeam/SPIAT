@@ -35,7 +35,6 @@ Imports:
     ggplot2 (>= 3.2.1),
     gridExtra (>= 2.3),
     gtools (>= 3.8.1),
-    pheatmap (>= 1.0.12),
     RColorBrewer (>= 1.1-2),
     reshape2 (>= 1.4.3),
     dplyr (>= 0.8.3),
@@ -45,6 +44,7 @@ Imports:
     dbscan (>= 1.1-5),
     mmand (>= 1.5.4),
     tibble (>= 2.1.3),
+    ComplexHeatmap,
     dittoSeq
 Suggests:
     BiocStyle,
