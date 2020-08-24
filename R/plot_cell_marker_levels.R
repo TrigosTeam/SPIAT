@@ -1,7 +1,7 @@
 #' plot_cell_marker_levels
 #'
 #' @description Produces a scatter plot of the level of a marker in each cell.
-#' Cells that were not phenotyped as being positive for the particular marker are excluded.
+#' The level of the marker in all cells is shown, whether phenotyped as being positive or negative for the particular marker.
 #'
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
 #' @param marker Marker to plot
@@ -40,32 +40,31 @@ plot_cell_marker_levels <- function(sce_object, marker) {
     formatted_data <- cbind(formatted_data, expression_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
-
     #selecting cells that do not contain the marker
     rows <- formatted_data[formatted_data$Phenotype != marker, ] #for one entry that is not marker
     rows <- rows[!grepl(marker, rows$Phenotype), ] #for multiple entries that does not contain marker
-
+      
     #for those cell without the marker, set marker intensity to 0
     #and merge the formatted_data
     rows[, marker] <- 0
-    formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),] <- rows
-
+    formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),]<-rows
+        
     #selecting the cells that have intensity for a specific marker
     column <- which(colnames(formatted_data) == marker)
     rows_non_zero <- which(formatted_data[,column] != 0)
     intensity_by_marker <- formatted_data[rows_non_zero,]
-
+        
     if (nrow(intensity_by_marker) == 0) {
       print(paste("There are no true expression for: ", marker, sep=""))
     }
-
+        
     #log the intensity to improve contrast
     intensity_by_marker[,marker] <- log10(intensity_by_marker[,marker])
     #print(intensity_by_marker)
-
+        
     ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = eval(parse(text = marker)))) +
       geom_point(aes(colour=eval(parse(text = marker))),size = 0.1) +
-      ggtitle(marker)+
+      ggtitle(marker) +
       guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
       labs(colour = paste("log10","(", as.character(marker)," Intensity", ")", sep="")) +
       theme(panel.grid.major = element_blank(),
@@ -76,7 +75,8 @@ plot_cell_marker_levels <- function(sce_object, marker) {
             axis.ticks.x = element_blank(),
             axis.title.y = element_blank(),
             axis.text.y = element_blank(),
-            axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
+            axis.ticks.y = element_blank())
 
+      
 }
 
