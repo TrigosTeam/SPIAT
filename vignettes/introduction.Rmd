@@ -36,11 +36,14 @@ First we load the SPIAT library.
 library(SPIAT)
 ```
 
+
 We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires 3 things:
 
-- path to the raw InForm or HALO data file
+- path to the raw InForm or HALO image data file
 - names of the markers used in the OPAL staining
 - names of the intensity columns of interest
+
+Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Predicting phenotypes section.
 
 ```{r eval=FALSE}
 # raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
@@ -65,6 +68,7 @@ We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the c
 )
 ```
 
+
 In this vignette we will use data that's already formatted for SPIAT, `formatted_image` which we can load with `data`.
 ```{r}
 data("formatted_image")
@@ -88,25 +92,56 @@ In the case of large images, or images where there are two independent tissue se
 split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
 ```
 
+# Quality control of images
+
 We can check what phenotypes are present in the image data with `print_phenotypes`. 
 
 ```{r}
 print_phenotypes(formatted_image)
 ```
 
-These phenotypes are determined from individual markers like AMACR or combinations of markers like CD3 and CD4. The above markers can be interpreted as follows: 
+These phenotypes are determined from individual markers like AMACR or combinations of markers like CD3 and CD4. The phenotypes in this example data can be interpreted as follows: 
 
 AMACR = prostate cancer cells  
 CD3,CD4 = helper T cells  
 CD3,CD8 = cytotoxic T cells  
 PDL1 = immune checkpoint cells
 
-So AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL1 is used to help determine if the cancer may benefit from immunotherapy treatment.
+AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL1 is used to help determine if the cancer may benefit from immunotherapy treatment.
 
 
-# Quality control of images
+## Cell proportions/percentages
 
-Incorrect cell phenotypes may be present in the input data, due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding. For example, cells might be assigned both a tumour cell phenotype such as AMACR and an immune cell phenotype, such as CD3. Therefore, SPIAT allows the user to manually input which phenotypes they would like to keep or exclude with `select_phenotypes`.
+We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`.
+
+```{r}
+p_cells <- calculate_cell_proportions(formatted_image)
+p_cells
+```
+To visualize the phenotype proportions as barplots we can use `plot_cell_percentages`.
+
+```{r}
+plot_cell_percentages(p_cells)
+```
+
+These tell us that in this image the vast majority of cells are tumour cells (AMACR) with some immune cells (CD3,CD4 and CD3,CD8) and very little PDL1 cells. 
+
+We may see incorrect phenotypes present in the input data. For example, cells might be incorrectly assigned a phenotype such as "AMACR,CD3", both a tumour cell (AMACR) and an immune cell phenotype (CD3), which is biologically implausible. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
+
+We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. However, it is not absolute and it is recommended to review the results.
+
+```{r}
+# permute marker labels of cells
+sig <- marker_permutation(formatted_image, num_iter = 100)
+
+# sort by Observed_cell_number
+sig.sorted <- sig[order(-sig$Observed_cell_number), ]
+
+# take a look
+head(sig.sorted)
+```
+
+If you identify incorrect phenotypes or have any you want to exclude you ca do that with `select_phenotypes`. 
 
 ```{r}
 data_subset <- select_phenotypes(formatted_image, keep=TRUE,
@@ -116,67 +151,38 @@ data_subset <- select_phenotypes(formatted_image, keep=TRUE,
 print_phenotypes(data_subset)
 ```
 
-We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. However, it is not absolute, and users are highly encouraged to review the results.
-
-```{r}
-sig <- marker_permutation(formatted_image, num_iter = 100)
-sig[1:5, ]
-```
-
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
-## Boxplots of positive vs negative cells
 
-Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. Although, as HALO and InForm use machine learning to determine positive cells, and not a strict threshold, some positive cells will have low marker intensity, and vice versa. However, an unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use  `marker_expression_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
+## Boxplots
+
+Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_expression_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
 
 ```{r}
 marker_expression_boxplot(formatted_image, "CD3")
 ```
-
-## Cell proportions/percentages
-
-We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`.
-
-```{r}
-p_cells <- calculate_cell_proportions(sce_object = formatted_image)
-p_cells
-```
-
-To visualize the phenotype proportions as barplots we can use `plot_cell_percentages`.
-
-```{r}
-plot_cell_percentages(p_cells)
-```
-
-# Visualizing tissues
-
-## Categorical dot plot
-
-We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
-
-```{r}
-phenotypes_of_interest <- c("AMACR", "CD3,CD4", "CD3,CD8")
-colour_vector <- c("darkgrey", "red", "blue")
-plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
-```
+The separation of positive versus negative here suggests the phenotyping for CD3 is adequate. Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
 ## Scatter plots
 
-Uneven marker staining or high background intensity can be identifed with `plot_cell_marker_levels`. This produces a scatter plot of the expression of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
+Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the expression of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
 ```{r}
 plot_cell_marker_levels(formatted_image, "CD3")
 ```
-
 
 ## Heatmaps
 
 For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the `num_splits` parameter.
 
 ```{r}
-plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
+plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
 ```
+
+# Visualizing tissues
+
+In addition to the marker level tissue plots for QC, SPIAT has other methods for visualising markers and phenotypes in tissues.
 
 
 ## 3D surface plot
@@ -192,12 +198,23 @@ marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized expression level of specified markers and allows the identification of co-occurring and mutually exclusive markers. 
 
 ```{r}
-marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD3", "AMACR"))
+marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
 ```
 
 The stacked surface plots of the AMACR (prostate cancer cell) and CD3 (T cell) markers in this prostate tissue shows how AMACR and CD3 are mutually exclusive as the peaks and valleys are opposite.
 
-# Identifying gradients of cells
+## Categorical dot plot
+
+We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
+
+```{r}
+phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL1")
+colour_vector <- c("darkgrey", "blue", "red")
+plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
+```
+
+
+# Gradients of cells
 
 To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_expression_within_radius` and visualize with `plot_average_expression`. 
 
@@ -219,7 +236,7 @@ plot_average_expression(formatted_image, reference_marker="CD8", target_marker="
 This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
 
 
-# Calculating distances between phenotypes
+# Distances between phenotypes
 
 We can calculate the distances between two phenotypes (phenotype A and phenotype B) by identifying the closest cell of phenotype B to each of the cells of phenotype A with `calculate_all_distances_between_phenotypes`.
 
@@ -248,7 +265,25 @@ plot_distance_heatmap(summary_distances)
 
 This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL1 cells are more distant.
 
-# Measuring association to cell properties
+# Cell mixing score
+
+With SPIAT we can quantify how much two cell types are interacting through calculating a cell mixing score. This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius.
+
+```{r}
+compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
+```
+
+# Bordering cells
+
+If we want to identify cells separating two distinct tissue areas, for example, cells at the tumour margin or at the border of tumour and stroma, we can use `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. These bordering cells can then be used as a reference cell type for calculation of distances to other cell types. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
+
+```{r}
+identify_bordering_cells(formatted_image, reference_marker = "AMACR",
+                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+                         upper_bound=0.7)
+```
+
+# Cell properties
 
 We can use `measure_association_to_cell_properties` to compare two phenotypes for a property, such as Cell.Size, Nucleus.Size, Nucleus.Compactness, Nucleus.Axis.Ratio, Cell.Axis.Ratio. Method options are density plot, boxplot, t test or wilcoxon test. 
 
@@ -265,7 +300,7 @@ measure_association_to_cell_properties(formatted_image,
                                        method = "t")
 ```
 
-# Detecting cell clusters and communities
+# Clusters and communities
 
 We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of phenotypes. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
 
@@ -275,7 +310,7 @@ Clusters are cell aggregates composed of non-tumour cells, often by immune cells
 clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 ```
 
-This plot shows clusters of CD3+CD4+ and CD3+CD8+ cells. Each number and colour corresponds to a distinct cluster. Grey cells correspond to ‘free’, un-clustered cells. 
+This plot shows clusters of CD3+CD4+ and CD3+CD8+ cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
 
 Users are recommended to test out different thresholds and then visualise the clustering results. But SPIAT also has `average_minimum_distance`, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.
 
@@ -315,27 +350,10 @@ plot_composition_heatmap(communities_vis, column_to_consider="Community")
 
 This plot shows that several communities detected have a combination of tumour (AMACR+) and immune cells while some are dominated by tumour or immune cells.
 
-# Calculating cell mixing
 
-With SPIAT we can calculate a cell mixing score for how much two cell types are interacting. This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius.
+# Neighbourhood proportions
 
-```{r}
-compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
-```
-
-# Identifying bordering cells
-
-If we want to identify cells separating two distinct tissue areas, for example cells at the tumour margin or at the border of tumour and stroma, we can use  `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. These bordering cells can then be used as a reference cell type for calculation of distances to other cell types. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
-
-```{r}
-identify_bordering_cells(formatted_image, reference_marker = "AMACR",
-                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-                         upper_bound=0.7)
-```
-
-# Calculating neighbourhood proportions
-
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Spatial structures can be identified by pinpointing cells with high neighbourhood proportions of the target cell type.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_expression_within_radius`, however we recommend using the latter as it is speedier, and it uses marker intensities so does not depend on cell phenotyping. The calculation is done per reference cell, so runtime will depend on the number of reference cells present.
+We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_expression_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
 percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
