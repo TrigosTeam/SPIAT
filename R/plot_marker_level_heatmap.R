@@ -98,17 +98,12 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
 
     #create a df with only the expression level of a single marker of interest and the coordinates
     df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
-    
-    # set the cells without marker to NA
-    #formatted_data
 
     p <- ggplot(df, aes(xcord, ycord, fill=x)) + geom_tile()
-    #p <- p + scale_fill_gradient(low="white", high="darkblue")
-    #log the intensity to improve contrast
-    p <- p + scale_fill_viridis_c(name = "Intensity", trans="log10", direction = -1, na.value="grey")
+    p <- p + scale_fill_gradient(low="white", high="red")
     p <- p + xlab("x position") + ylab("y position")
     p <- p + labs(fill = "Mean expression level") + ggtitle(heatmap_title)
-    p <- p + theme(panel.background = element_rect(fill = "white"),
+    p <- p + theme(panel.background = element_rect(fill = "grey", colour = "grey", linetype = "solid"),
                    panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank())
     print(p)
