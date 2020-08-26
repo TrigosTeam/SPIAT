@@ -25,24 +25,24 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (is.element(marker, markers) == FALSE) {
         stop("Data does not contain marker specified")
     }
     
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     formatted_data$split.X <- 0
@@ -113,7 +113,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
         }
     }
 
-    #create a df with only the expression level of a single marker of interest and the coordinates
+    #create a df with only the intensity level of a single marker of interest and the coordinates
     df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
     #initialize a matrix for surface plot, dim=num_splits^2
@@ -127,7 +127,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
             #select the row with the xcord and ycord
             row <- df[df[, "xcord"] == x & df[, "ycord"] == y, ]
 
-            #if there is expression in that coordinate, assign it to matrix
+            #if there is intensity in that coordinate, assign it to matrix
             if (nrow(row) == 1) {
                 my_matrix[x,y] <- row$x
             }

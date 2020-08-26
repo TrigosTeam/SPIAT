@@ -23,24 +23,24 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (is.element(marker, markers) == FALSE) {
         stop("The marker specified is not in the data")
     }
     
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     formatted_data$split.X <- 0
@@ -96,13 +96,13 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
 
     heatmap_title <- paste(marker, "level")
 
-    #create a df with only the expression level of a single marker of interest and the coordinates
+    #create a df with only the intensity level of a single marker of interest and the coordinates
     df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
     p <- ggplot(df, aes(xcord, ycord, fill=x)) + geom_tile()
     p <- p + scale_fill_gradient(low="white", high="red")
     p <- p + xlab("x position") + ylab("y position")
-    p <- p + labs(fill = "Mean expression level") + ggtitle(heatmap_title)
+    p <- p + labs(fill = "Mean intensity level") + ggtitle(heatmap_title)
     p <- p + theme(panel.background = element_rect(fill = "grey", colour = "grey", linetype = "solid"),
                    panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank())

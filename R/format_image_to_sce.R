@@ -1,7 +1,7 @@
 #' format_image_to_sce
 #'
 #' @description Formats an INFORM or HALO image into a singlecellexperiment class
-#' where the count assay stores the expression level of every marker (rows) for
+#' where the count assay stores the intensity level of every marker (rows) for
 #' every cell (columns), 
 #' and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, 
 #' Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
@@ -68,9 +68,9 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
       as.numeric(as.character(x))
     })
     
-    #get the expression status columns
-    expression_status_cols <- image[,dye_columns_interest]
-    colnames(expression_status_cols) <- markers
+    #get the intensity status columns
+    intensity_status_cols <- image[,dye_columns_interest]
+    colnames(intensity_status_cols) <- markers
     
     #grab relavant columns
     image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax")]
@@ -86,7 +86,7 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     image$Cell.Y.Position <- (image$YMin + image$YMax)/2
     
     #start reading in the Phenotypes of every cell
-    expression_status_cols$Phenotype <- ""
+    intensity_status_cols$Phenotype <- ""
     for (marker in markers) {
       if (marker == "DAPI") {
         phenotype <- "OTHER,"
@@ -95,22 +95,22 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
       }
       
       #get the row idx of the cells that express the specific marker, and paste the phenotype
-      rows_true_exp <- which(expression_status_cols[,marker] != 0)
+      rows_true_exp <- which(intensity_status_cols[,marker] != 0)
       if (length(rows_true_exp) != 0) {
-        expression_status_cols[rows_true_exp,]$Phenotype <- paste(expression_status_cols[rows_true_exp,]$Phenotype, phenotype, sep="")
+        intensity_status_cols[rows_true_exp,]$Phenotype <- paste(intensity_status_cols[rows_true_exp,]$Phenotype, phenotype, sep="")
       }
     }
     
     #now clean the phenotype column
-    if (nrow(expression_status_cols[expression_status_cols$Phenotype == "OTHER,", ]) != 0) {
-      expression_status_cols[expression_status_cols$Phenotype == "OTHER,", ]$Phenotype <- "OTHER"
+    if (nrow(intensity_status_cols[intensity_status_cols$Phenotype == "OTHER,", ]) != 0) {
+      intensity_status_cols[intensity_status_cols$Phenotype == "OTHER,", ]$Phenotype <- "OTHER"
     }
-    expression_status_cols$Phenotype <- gsub("OTHER,", "", expression_status_cols$Phenotype)
-    expression_status_cols$Phenotype <- gsub(",OTHER", "", expression_status_cols$Phenotype)
-    expression_status_cols$Phenotype <- gsub(",$", "", expression_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub("OTHER,", "", intensity_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub(",OTHER", "", intensity_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub(",$", "", intensity_status_cols$Phenotype)
     
     #grab the phenotype column and cbind to image
-    phenotype_column <- data.frame(expression_status_cols$Phenotype)
+    phenotype_column <- data.frame(intensity_status_cols$Phenotype)
     colnames(phenotype_column) <- "Phenotype"
     image <- cbind(image, phenotype_column)
     
@@ -183,7 +183,7 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
   formatted_data <- cbind(image, intensity_of_markers)
   
   #now create the SCE object...
-  #grab the expression level, markers and cell IDs
+  #grab the intensity level, markers and cell IDs
   assay_data <- formatted_data[,c(markers)]
   assay_rownames <- c(markers)
   assay_colnames <- formatted_data[,"Cell.ID"]

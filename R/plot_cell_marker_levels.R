@@ -20,24 +20,24 @@ plot_cell_marker_levels <- function(sce_object, marker) {
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (is.element(marker, markers) == FALSE) {
       stop("The marker specified is not in the data")
     }
     
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     #selecting cells that do not contain the marker
@@ -55,7 +55,7 @@ plot_cell_marker_levels <- function(sce_object, marker) {
     intensity_by_marker <- formatted_data[rows_non_zero,]
         
     if (nrow(intensity_by_marker) == 0) {
-      print(paste("There are no true expression for: ", marker, sep=""))
+      print(paste("There are no true intensity for: ", marker, sep=""))
     }
         
     #log the intensity to improve contrast

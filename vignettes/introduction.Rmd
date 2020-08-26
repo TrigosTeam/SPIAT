@@ -74,7 +74,7 @@ In this vignette we will use data that's already formatted for SPIAT, `formatted
 data("formatted_image")
 ```
 
-This is *SingleCellExperiment* format where here `assay` stores the expression level of every marker (rows) for every cell (columns), and `colData` stores the cell properties: phenotype, x and y coordinates, cell size, nucleus size, nucleus compactness, nucleus axis ratio, and cell axis ratio.
+This is *SingleCellExperiment* format where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the cell properties: phenotype, x and y coordinates, cell size, nucleus size, nucleus compactness, nucleus axis ratio, and cell axis ratio.
 
 ```{r}
 assay(formatted_image)[1:5, 1:5]
@@ -156,18 +156,18 @@ In this vignette we will work with all the original phenotypes present in `forma
 
 ## Boxplots
 
-Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_expression_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
+Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
 
 ```{r}
-marker_expression_boxplot(formatted_image, "CD3")
+marker_intensity_boxplot(formatted_image, "CD3")
 ```
 
 The separation of positive versus negative here suggests the phenotyping for CD3 is adequate. Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
 ## Scatter plots
 
-Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the expression of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
+Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the intensity of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
 ```{r}
 plot_cell_marker_levels(formatted_image, "CD3")
@@ -196,7 +196,7 @@ marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 
 ## 3D stacked surface plot
 
-To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized expression level of specified markers and allows the identification of co-occurring and mutually exclusive markers. 
+To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and allows the identification of co-occurring and mutually exclusive markers. 
 
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
@@ -217,21 +217,21 @@ plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 
 # Gradients of cells
 
-To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_expression_within_radius` and visualize with `plot_average_expression`. 
+To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_intensity_within_radius` and visualize with `plot_average_intensity`. 
 
-`average_marker_expression_within_radius` calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell.
+`average_marker_intensity_within_radius` calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell.
 
 ```{r}
-average_marker_expression_within_radius(formatted_image,
+average_marker_intensity_within_radius(formatted_image,
                                         reference_marker ="CD8",
                                         target_marker = "CD4",
                                         radius=30)
 ```
 
-`plot_average_expression` calculates the average expression of a target marker for a number of user-supplied radii values. It plots the expression level at each specified radius as a line graph.
+`plot_average_intensity` calculates the average intensity of a target marker for a number of user-supplied radii values. It plots the intensity level at each specified radius as a line graph.
 
 ```{r}
-plot_average_expression(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+plot_average_intensity(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
 This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
@@ -355,7 +355,7 @@ This plot shows that several communities detected have a combination of tumour (
 
 # Neighbourhood proportions
 
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_expression_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
+We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
 percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
@@ -363,7 +363,7 @@ percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1"
 
 # Predicting phenotypes
 
-Cell phenotyping is often a time-consuming manual process. SPIAT has implemented a method for the automatic phenotyping of cells based on marker intensities. `predict_phenotypes` produces a density plot that shows the actual and predicted cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN) for the prediction. It returns a table containing the predicted expression status for a particular marker.
+Cell phenotyping is often a time-consuming manual process. SPIAT has implemented a method for the automatic phenotyping of cells based on marker intensities. `predict_phenotypes` produces a density plot that shows the actual and predicted cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN) for the prediction. It returns a table containing the predicted intensity status for a particular marker.
 
 ```{r}
 predicted_image <- predict_phenotypes(formatted_image,
