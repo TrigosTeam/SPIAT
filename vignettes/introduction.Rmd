@@ -154,7 +154,7 @@ print_phenotypes(data_subset)
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
 
-## Boxplots
+## Boxplots of marker positive and negative cells
 
 Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
@@ -165,7 +165,26 @@ marker_intensity_boxplot(formatted_image, "CD3")
 
 The separation of positive versus negative here suggests the phenotyping for CD3 is adequate. Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
-## Scatter plots
+## Phenotype prediction check
+
+We can check the phenotypes predicted using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the predicted intensity status for a particular marker. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells that has at least one peak more than the main marker peak, a background peak, that can be used in the algorithm.
+
+```{r}
+predicted_image <- predict_phenotypes(formatted_image,
+                                      thresholds = NULL,
+                                      tumour_marker = "AMACR",
+                                      baseline_markers = c("CD3", "CD4", "CD8"))
+```
+
+We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
+
+```{r}
+marker_prediction_plot(predicted_image, marker="CD3")
+```
+
+The plot shows CD3+ cells in the tissue. On the left are the CD3+ cells defined by InForm and on the right are the CD3+ cells predicted using SPIAT.
+
+## Scatter plots of marker level
 
 Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the intensity of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
@@ -173,7 +192,7 @@ Uneven marker staining or high background intensity can be identified with `plot
 plot_cell_marker_levels(formatted_image, "CD3")
 ```
 
-## Heatmaps
+## Heatmaps of marker level
 
 For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the `num_splits` parameter.
 
@@ -360,28 +379,6 @@ We can characterise cell aggregation in another way, through calculation of the 
 ```{r}
 percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
 ```
-
-# Predicting phenotypes
-
-Cell phenotyping is often a time-consuming manual process. SPIAT has implemented a method for the automatic phenotyping of cells based on marker intensities. `predict_phenotypes` produces a density plot that shows the actual and predicted cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN) for the prediction. It returns a table containing the predicted intensity status for a particular marker.
-
-```{r}
-predicted_image <- predict_phenotypes(formatted_image,
-                                      plot_actual_cutoff = TRUE,
-                                      plot_predicted_cutoff = TRUE,
-                                      thresholds = NULL,
-                                      tumour_marker = "AMACR",
-                                      baseline_markers = c("CD3", "CD4", "CD8"))
-```
-
-We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
-
-```{r}
-marker_prediction_plot(predicted_image, marker="CD3")
-```
-
-The plot shows CD3+ cells in the tissue. On the left are the CD3+ cells defined by InForm and on the right are the CD3+ cells predicted using SPIAT.
-
 
 # Reproducibility
 
