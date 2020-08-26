@@ -1,7 +1,7 @@
 #' marker_surface_plot_stack
 #'
 #' @description Generates stacked 3D surface plots showing normalized
-#' expression level of specified markers.
+#' intensity level of specified markers.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param num_splits Integer specifying the number of splits on the image, higher
@@ -30,23 +30,23 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
-    markers <- rownames(expression_matrix)
+    intensity_matrix <- assay(sce_object)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (!all(markers_to_plot %in% markers)) {
         stop("One or more markers specified cannot be found")
     }
 
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
     #######################
 
@@ -127,13 +127,13 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
     for (marker in markers_to_plot) {
 
-        #skip DAPI expressions
+        #skip DAPI intensities
         if (marker == "DAPI"){
             next
         }
 
 
-        #create a df with only the expression level of a single marker of interest and the coordinates
+        #create a df with only the intensity level of a single marker of interest and the coordinates
         df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
         #initialize a matrix for surface plot, dim=num_splits^2
@@ -147,7 +147,7 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
                 #select the row with the xcord and ycord
                 row <- df[df[, "xcord"] == x & df[, "ycord"] == y, ]
 
-                #if there is expression in that coordinate, assign it to matrix
+                #if there is intensity in that coordinate, assign it to matrix
                 if (nrow(row) == 1) {
                     my_matrix[x,y] <- row$x
                 }

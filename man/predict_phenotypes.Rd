@@ -29,8 +29,8 @@ The order must match the marker order, and it should be NA for DAPI.}
 }
 \description{
 Produces a density plot showing actual and predicted cutoff of a
-positive reading for marker expression. It also prints to the console of the
+positive reading for marker intensity. It also prints to the console of the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing
-the predicted expression status for a particular marker,
+the predicted intensity status for a particular marker,
 }
