@@ -1,7 +1,7 @@
 #' predict_phenotypes
 #'
-#' @description Produces a density plot showing actual and predicted cutoff of a
-#' positive reading for marker intensity. It also prints to the console of the
+#' @description Produces a density plot showing predicted cutoff of a
+#' positive reading for marker intensity. It also prints to the console the
 #' number of true positives (TP), true negatives (TN), false positives (FP) and
 #' false negatives (FN) under the prediction. It returns a dataframe containing
 #' the predicted intensity status for a particular marker,
@@ -11,8 +11,6 @@
 #' The order must match the marker order, and it should be NA for DAPI.
 #' @param tumour_marker String containing the tumour_marker used for the image.
 #' @param baseline_markers Markers not found on tumour cells to refine the threshold
-#' @param plot_actual_cutoff logical, should the actual cutoff be used in the plot?
-#' @param plot_predicted_cutoff logical, should the predicted cutoff be used in the plot?
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
@@ -22,7 +20,7 @@
 #' @importFrom mmand threshold
 #' @export
 
-predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_predicted_cutoff = FALSE, thresholds = NULL, tumour_marker,
+predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers) {
   
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
@@ -230,30 +228,16 @@ predict_phenotypes <- function(sce_object, plot_actual_cutoff = FALSE, plot_pred
       print(paste("For ", marker, ":", sep=""))
       print(paste("TP:", TP_count, " TN:", TN_count, " FP:", FP_count, " FN:", FN_count, sep=""))
       
-      #determine the threshold
-      real_pos <- level_and_accuracy[level_and_accuracy$status %in% c("TP", "FN"), ]
-      threshold_val_real_pos <- min(real_pos$Marker_level)
-      
-      real_neg <- level_and_accuracy[level_and_accuracy$status %in% c("FP", "TN"), ]
-      threshold_val_real_neg <- max(real_neg$Marker_level)
-      
       p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
       title <- paste("Density distribution of", marker, sep=" ")
       p <- p + labs(title = title, x = "Level of intensity", y = "Density")
       
-      if (plot_actual_cutoff == TRUE) {
-        p <- p + geom_vline(aes(xintercept=threshold_val_real_pos, color="min_pos", linetype="min_pos"))
-        p <- p + geom_vline(aes(xintercept=threshold_val_real_neg, color="max_neg", linetype="max_neg"))
+      if (!is.null(selected_valley_xcord)) {
+        p <- p + geom_vline(aes(xintercept = selected_valley_xcord), linetype = "dashed")
+      } else {
+        p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
       }
-      if (plot_predicted_cutoff == TRUE) {
-        if (!is.null(selected_valley_xcord)) {
-          p <- p + geom_vline(aes(xintercept = selected_valley_xcord, color = "cutoff", linetype = "cutoff"))
-        } else {
-          p <- p + geom_vline(aes(xintercept = marker_threshold, color = "cutoff", linetype = "cutoff"))
-        }
-      }
-      p <- p + scale_color_manual(name = "lines", values = c(min_pos = "red", max_neg = "blue", cutoff = "black"))
-      p <- p + scale_linetype_manual(name = "lines", values = c(min_pos = "solid", max_neg = "solid", cutoff = "dashed"))
+      
       p <- p + theme_bw()
       
       print(p)
