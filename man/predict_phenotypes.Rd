@@ -6,8 +6,6 @@
 \usage{
 predict_phenotypes(
   sce_object,
-  plot_actual_cutoff = FALSE,
-  plot_predicted_cutoff = FALSE,
   thresholds = NULL,
   tumour_marker,
   baseline_markers
@@ -15,10 +13,6 @@ predict_phenotypes(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
-
-\item{plot_actual_cutoff}{logical, should the actual cutoff be used in the plot?}
-
-\item{plot_predicted_cutoff}{logical, should the predicted cutoff be used in the plot?}
 
 \item{thresholds}{(Optional) Vector of numbers specifying the cutoff of a positive reading.
 The order must match the marker order, and it should be NA for DAPI.}
@@ -28,8 +22,8 @@ The order must match the marker order, and it should be NA for DAPI.}
 \item{baseline_markers}{Markers not found on tumour cells to refine the threshold}
 }
 \description{
-Produces a density plot showing actual and predicted cutoff of a
-positive reading for marker intensity. It also prints to the console of the
+Produces a density plot showing predicted cutoff of a
+positive reading for marker intensity. It also prints to the console the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing
 the predicted intensity status for a particular marker,
