@@ -21,6 +21,9 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
+  ref_name <- reference_phenotypes
+  target_name <- target_phenotypes
+  
   #Select cells with the reference phenotype
   reference_phenotypes <- formatted_data[formatted_data$Phenotype == reference_phenotypes,]
   target_phenotypes <- formatted_data[formatted_data$Phenotype == target_phenotypes,]
@@ -57,6 +60,15 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
     }
     names(output_percentage) <- cell_IDs
   }
+  
+  # violin plot
+  df <- data.frame(output_percentage)
+  df$name <- paste0(target_name, "_", ref_name)
+  p <- ggplot(df, aes(x = name, y = output_percentage)) + 
+    geom_violin() +
+    labs(x = "", y = "Percentage") +
+    theme_bw()
+  print(p)
 
   return(output_percentage)
 }
