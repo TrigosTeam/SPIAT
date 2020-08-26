@@ -13,6 +13,6 @@ marker_prediction_plot(predicted_data, marker)
 }
 \description{
 Takes in the returned dataframe from marker_threshold_plot and
-generates a .pdf file containing scatter plots of actual expression and
-predicted expression for every marker.
+generates a .pdf file containing scatter plots of actual intensity and
+predicted intensity for every marker.
 }

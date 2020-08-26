@@ -16,18 +16,18 @@ marker_permutation <- function(sce_object, num_iter) {
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
-    cell_ids <- colnames(expression_matrix)
+    markers <- rownames(intensity_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     markers <- markers[markers != "DAPI"]
@@ -66,7 +66,7 @@ marker_permutation <- function(sce_object, num_iter) {
         rownames(bootstrap_df) <- formatted_data$Cell.ID
         colnames(bootstrap_df) <- markers
 
-        #randomly assign marker expressions
+        #randomly assign marker intensities
         for (marker in markers) {
             marker_count <- count_df[,marker]
             rand <- sample(total_cells, size = marker_count)

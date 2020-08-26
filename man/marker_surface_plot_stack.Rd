@@ -36,5 +36,5 @@ We recommend values in the 1-2 range.}
 }
 \description{
 Generates stacked 3D surface plots showing normalized
-expression level of specified markers.
+intensity level of specified markers.
 }
