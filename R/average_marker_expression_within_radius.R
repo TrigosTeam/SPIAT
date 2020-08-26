@@ -1,4 +1,4 @@
-#' average_marker_expression_within_radius
+#' average_marker_intensity_within_radius
 #'
 #' @description Calculates the average intensity of the target_marker within a radius
 #' from the cells positive for the reference marker.
@@ -8,7 +8,7 @@
 #'
 #' @param sce_object A SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_marker A string specifying the marker that is used for reference cells
-#' @param target_marker A string specifying the marker to calculate its average expression
+#' @param target_marker A string specifying the marker to calculate its average intensity
 #' @param radius An integer specifying the radius of search for cells around the reference cells
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
@@ -17,23 +17,23 @@
 #' @importFrom SummarizedExperiment assay colData
 #' @export
 
-average_marker_expression_within_radius <- function(sce_object, reference_marker, target_marker, radius = 20) {
+average_marker_intensity_within_radius <- function(sce_object, reference_marker, target_marker, radius = 20) {
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
-    cell_ids <- colnames(expression_matrix)
+    markers <- rownames(intensity_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data), ]
 
     #Select the cells that express the reference marker
@@ -64,10 +64,10 @@ average_marker_expression_within_radius <- function(sce_object, reference_marker
 
     #check
     if (length(rownums) == 0) {
-        stop("There are no target cells within the specified radius, cannot calculate average expression")
+        stop("There are no target cells within the specified radius, cannot calculate average intensity")
     } else {
         target_within_radius <- target_cells[rownums,]
-        average_marker_expression <- mean(target_within_radius[,target_marker], na.rm=TRUE)
+        average_marker_intensity <- mean(target_within_radius[,target_marker], na.rm=TRUE)
     }
-    return(average_marker_expression)
+    return(average_marker_intensity)
 }
