@@ -72,8 +72,9 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     intensity_status_cols <- image[,dye_columns_interest]
     colnames(intensity_status_cols) <- markers
     
-    #grab relavant columns
-    image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax")]
+    #grab relevant columns
+    cell_properties_cols <- c("Nucleus.Area", "Cytoplasm.Area", "Membrane.Perimeter", "Cell.Area")
+    image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax", cell_properties_cols)]
     
     #rename Object.ID to Cell.ID
     colnames(image)[1] <- "Cell.ID"
@@ -116,7 +117,7 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     
     image$Phenotype <- as.character(image$Phenotype)
     
-    image <- image[,c("Cell.ID", "Phenotype", "Cell.X.Position", "Cell.Y.Position")]
+    image <- image[,c("Cell.ID", "Phenotype", "Cell.X.Position", "Cell.Y.Position", cell_properties_cols)]
     
   } else if (format == "INFORM"){
     
@@ -147,12 +148,18 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
       as.numeric(as.character(x))
     })
     
-    
     #extract the columns of interest and discard the rest
+    
+    # shorten some properties column names
+    names(image)[names(image)=="Entire.Cell.Area..pixels."] <- "Cell.Area"
+    names(image)[names(image)=="Nucleus.Area..pixels."] <- "Nucleus.Area"
+    names(image)[names(image)=="Entire.Cell.Axis.Ratio"] <- "Cell.Axis.Ratio"
+
+    cell_properties_cols <- c("Cell.Area","Nucleus.Area",
+                              "Nucleus.Compactness","Nucleus.Axis.Ratio",
+                              "Cell.Axis.Ratio")
     image <- image[ ,c("Cell.ID", "Phenotype", "Cell.X.Position",
-                       "Cell.Y.Position","Entire.Cell.Area..pixels.","Nucleus.Area..pixels.",
-                       "Nucleus.Compactness","Nucleus.Axis.Ratio",
-                       "Entire.Cell.Axis.Ratio")]
+                       "Cell.Y.Position", cell_properties_cols)]
     
     #add 'cell_' to the start of the objectId
     image$Cell.ID <- paste0("Cell_", image$Cell.ID)
@@ -199,23 +206,9 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
   rownames(sce) <- assay_rownames
   colnames(sce) <- assay_colnames
   
-  #Assign the phenotype, X and Y positions as the colData
-  coldata_phenotype <- formatted_data[,"Phenotype"]
-  coldata_Xpos <- formatted_data[,"Cell.X.Position"]
-  coldata_Ypos <- formatted_data[,"Cell.Y.Position"]
-  coldata_cell_size <- formatted_data[,"Entire.Cell.Area..pixels."]
-  coldata_nucleus_size <- formatted_data[,"Nucleus.Area..pixels."]
-  coldata_nucleus_compactness <- formatted_data[,"Nucleus.Compactness"]
-  coldata_nucleus_axis_ratio <- formatted_data[,"Nucleus.Axis.Ratio"]
-  coldata_cell_axis_ratio <- formatted_data[,"Entire.Cell.Axis.Ratio"]
-  SummarizedExperiment::colData(sce)$Phenotype <- coldata_phenotype
-  SummarizedExperiment::colData(sce)$Cell.X.Position <- coldata_Xpos
-  SummarizedExperiment::colData(sce)$Cell.Y.Position <- coldata_Ypos
-  SummarizedExperiment::colData(sce)$Cell.Size <- coldata_cell_size
-  SummarizedExperiment::colData(sce)$Nucleus.Size <- coldata_nucleus_size
-  SummarizedExperiment::colData(sce)$Nucleus.Compactness <- coldata_nucleus_compactness
-  SummarizedExperiment::colData(sce)$Nucleus.Axis.Ratio <- coldata_nucleus_axis_ratio
-  SummarizedExperiment::colData(sce)$Cell.Axis.Ratio <- coldata_cell_axis_ratio
+  #Assign the phenotype, X and Y positions and cell property columns as the colData
+  metadata_columns <- formatted_data[ ,c("Phenotype", "Cell.X.Position", "Cell.Y.Position", cell_properties_cols)]
+  SummarizedExperiment::colData(sce) <- cbind(SummarizedExperiment::colData(sce), metadata_columns)
   
   return(sce)
 }
