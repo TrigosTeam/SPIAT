@@ -74,7 +74,7 @@ In this vignette we will use data that's already formatted for SPIAT, `formatted
 data("formatted_image")
 ```
 
-This is *SingleCellExperiment* format where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the cell properties: phenotype, x and y coordinates, cell size, nucleus size, nucleus compactness, nucleus axis ratio, and cell axis ratio.
+This is *SingleCellExperiment* format where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the phenotype, x and y coordinates and cell properties. If InForm format, the cell properties are Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area, Nucleus.Area, Cytoplasm.Area and Membrane.Perimeter.
 
 ```{r}
 assay(formatted_image)[1:5, 1:5]
@@ -154,7 +154,7 @@ print_phenotypes(data_subset)
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
 
-## Boxplots of marker positive and negative cells
+## Boxplots of markerpositive and negative for marker
 
 Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
@@ -306,18 +306,18 @@ identify_bordering_cells(formatted_image, reference_marker = "AMACR",
 
 # Cell properties
 
-We can use `measure_association_to_cell_properties` to compare two phenotypes for a property, such as Cell.Size, Nucleus.Size, Nucleus.Compactness, Nucleus.Axis.Ratio, Cell.Axis.Ratio. Method options are density plot, boxplot, t test or wilcoxon test. 
+We can use `measure_association_to_cell_properties` to compare two phenotypes for a property, such as Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, Cell.Axis.Ratio. Method options are density plot, boxplot, t test or wilcoxon test. 
 
 ```{r}
 # boxplot
 measure_association_to_cell_properties(formatted_image, 
                                        phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Size",
+                                       property = "Cell.Area",
                                        method = "box")
 # t test
 measure_association_to_cell_properties(formatted_image, 
                                        phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Size",
+                                       property = "Cell.Area",
                                        method = "t")
 ```
 
@@ -377,7 +377,9 @@ This plot shows that several communities detected have a combination of tumour (
 We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
-percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
+p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
+
+p_cells_within_radius
 ```
 
 # Reproducibility
