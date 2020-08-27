@@ -36,7 +36,7 @@ average_marker_intensity_within_radius <- function(sce_object, reference_marker,
     formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data), ]
 
-    #Select the cells that express the reference marker
+    #Select the cells that have the reference marker phenotype
     reference_cells <- formatted_data[grepl(reference_marker, formatted_data$Phenotype),]
     if (nrow(reference_cells) == 0) {
         stop("There are no reference cells found for the marker")
@@ -48,7 +48,7 @@ average_marker_intensity_within_radius <- function(sce_object, reference_marker,
         stop("There are no target cells found for the marker")
     }
     
-    #Remove cells coexpressing both markers
+    #Remove cells with both markers
     common_cells <- reference_cells$Cell.ID[reference_cells$Cell.ID %in% target_cells$Cell.ID]
 
     reference_cells <- reference_cells[!(reference_cells$Cell.ID %in% common_cells),]
