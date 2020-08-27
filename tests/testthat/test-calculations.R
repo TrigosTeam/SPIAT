@@ -31,7 +31,7 @@ test_that("average_marker_intensity_within_radius() works", {
                                                    target_marker = "CD3",
                                                    radius=30)
     
-    expect_equal(ave_marker_exp, 3.513, tolerance=1e-3)
+    expect_equal(ave_marker_intensity, 3.513, tolerance=1e-3)
     
 })
 

@@ -12,6 +12,10 @@
 #' @export
 
 marker_intensity_boxplot <- function(sce_object, marker){
+    
+    
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    intensity <- NULL
 
     formatted_data <- data.frame(colData(sce_object))
 
