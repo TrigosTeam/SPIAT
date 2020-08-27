@@ -16,11 +16,11 @@
 #' @import ggplot2
 #' @export
 
-measure_association_to_cell_properties <- function(sce_object, property = "Cell.Size", 
+measure_association_to_cell_properties <- function(sce_object, property = "Cell.Area", 
                                            phenotypes, merge = NULL, merge_name = NULL, 
                                            method = "density", Nucleus.Ratio = FALSE,
                                            log.scale = FALSE) {
-  
+
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Phenotype <- NULL
   
@@ -37,7 +37,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   
   # CHECK if nucleus.ratio is the property of interest
   if (Nucleus.Ratio == TRUE){
-    formatted_data["Nucleus.Ratio"] <- formatted_data$Nucleus.Size/formatted_data$Cell.Size
+    formatted_data["Nucleus.Ratio"] <- formatted_data$Nucleus.Area/formatted_data$Cell.Area
     property <- "Nucleus.Ratio"
   }
   
