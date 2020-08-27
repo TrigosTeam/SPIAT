@@ -24,9 +24,9 @@ test_that("compute_mixing_score() works", {
 })
 
 
-test_that("average_marker_expression_within_radius() works", {
+test_that("average_marker_intensity_within_radius() works", {
     
-    ave_marker_exp <- average_marker_expression_within_radius(formatted_image,
+    ave_marker_intensity <- average_marker_intensity_within_radius(formatted_image,
                                                    reference_marker ="AMACR",
                                                    target_marker = "CD3",
                                                    radius=30)

@@ -1,8 +1,8 @@
 context("plotting")
 
-test_that("plot_average_expression() creates a plot", {
+test_that("plot_average_intensity() creates a plot", {
     
-    p <- plot_average_expression(formatted_image, reference_marker="AMACR", target_marker="CD4", radii=c(30, 35, 40, 45, 50, 75, 100))
+    p <- plot_average_intensity(formatted_image, reference_marker="AMACR", target_marker="CD4", radii=c(30, 35, 40, 45, 50, 75, 100))
     
     expect_is(p, "ggplot")
 })
@@ -82,9 +82,9 @@ test_that("identify_bordering_cells() creates a plot", {
 })
 
 
-test_that("marker_expression_boxplot() creates a plot", {
+test_that("marker_intensity_boxplot() creates a plot", {
     
-    p <- marker_expression_boxplot(formatted_image, "CD3")
+    p <- marker_intensity_boxplot(formatted_image, "CD3")
     
     expect_is(p, "ggplot")
     
@@ -94,8 +94,6 @@ test_that("marker_expression_boxplot() creates a plot", {
 test_that("marker_prediction_plot() creates a plot", {
     
     predicted_image <- predict_phenotypes(formatted_image,
-                                          plot_actual_cutoff = TRUE,
-                                          plot_predicted_cutoff = TRUE,
                                           thresholds = NULL,
                                           tumour_marker = "AMACR",
                                           baseline_markers = c("CD3", "CD4", "CD8"))
