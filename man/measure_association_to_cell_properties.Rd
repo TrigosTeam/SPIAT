@@ -6,7 +6,7 @@
 \usage{
 measure_association_to_cell_properties(
   sce_object,
-  property = "Cell.Size",
+  property = "Cell.Area",
   phenotypes,
   merge = NULL,
   merge_name = NULL,
