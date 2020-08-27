@@ -18,6 +18,9 @@
 
 percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100){
 
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  phenotype_names <- output_phenotype <- NULL
+  
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
@@ -63,8 +66,8 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
   
   # violin plot
   df <- data.frame(output_percentage)
-  df$name <- paste0(target_name, "_", ref_name)
-  p <- ggplot(df, aes(x = name, y = output_percentage)) + 
+  df$phenotype_names <- paste0(target_name, "_", ref_name)
+  p <- ggplot(df, aes(x = phenotype_names, y = output_percentage)) + 
     geom_violin() +
     labs(x = "", y = "Percentage") +
     theme_bw()
