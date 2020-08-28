@@ -4,10 +4,16 @@
 \alias{calculate_cell_proportions}
 \title{calculate_cell_proportions}
 \usage{
-calculate_cell_proportions(sce_object)
+calculate_cell_proportions(
+  sce_object,
+  markers_of_interest = NULL,
+  markers_to_exclude = NULL
+)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+
+\item{markers_of_interest}{Vector specifying markers to calculate proportions for (optional)}
 }
 \description{
 Calculate the number and proportion of each cell phenotype in image
