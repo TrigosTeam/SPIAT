@@ -107,7 +107,7 @@ AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and
 We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`.
 
 ```{r}
-p_cells <- calculate_cell_proportions(formatted_image)
+p_cells <- calculate_cell_proportions(formatted_image, markers_of_interest=c("CD3", "CD4"))
 p_cells
 ```
 To visualize the phenotype proportions as barplots we can use `plot_cell_percentages`.
@@ -120,7 +120,7 @@ These tell us that in this image the vast majority of cells are tumour cells (AM
 
 We may see incorrect phenotypes present in the input data. For example, cells might be incorrectly assigned a phenotype such as "AMACR,CD3", both a tumour cell (AMACR) and an immune cell phenotype (CD3), which is biologically implausible. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
 
-We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. However, it is not absolute and it is recommended to review the results.
+We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. A low P value for Depletion.p suggests the phenotype is unreliable. However, it is not absolute and it is recommended to review the results.
 
 ```{r}
 # permute marker labels of cells
@@ -133,7 +133,7 @@ sig.sorted <- sig[order(-sig$Observed_cell_number), ]
 head(sig.sorted)
 ```
 
-If you identify incorrect phenotypes or have any you want to exclude you ca do that with `select_phenotypes`. 
+If you identify incorrect phenotypes or have any you want to exclude you can do that with `select_phenotypes`. 
 
 ```{r}
 data_subset <- select_phenotypes(formatted_image, keep=TRUE,
@@ -146,7 +146,7 @@ print_phenotypes(data_subset)
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
 
-## Boxplots of markerpositive and negative for marker
+## Boxplots of marker positive and negative cells
 
 Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
@@ -228,9 +228,9 @@ plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 
 # Gradients of cells
 
-To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_intensity_within_radius` and visualize with `plot_average_intensity`. 
+To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_intensity_within_radius` and visualize with `plot_average_intensity`.
 
-`average_marker_intensity_within_radius` calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell.
+`average_marker_intensity_within_radius` calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell. The radius unit is pixels.
 
 ```{r}
 average_marker_intensity_within_radius(formatted_image,
@@ -246,6 +246,16 @@ plot_average_intensity(formatted_image, reference_marker="CD8", target_marker="C
 ```
 
 This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
+
+# Neighbourhood proportions
+
+We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
+
+```{r}
+p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
+
+p_cells_within_radius
+```
 
 
 # Distances between phenotypes
@@ -288,7 +298,7 @@ compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = 
 
 # Bordering cells
 
-If we want to identify cells separating two distinct tissue areas, for example, cells at the tumour margin or at the border of tumour and stroma, we can use `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. These bordering cells can then be used as a reference cell type for calculation of distances to other cell types. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
+If we want to identify cells separating two distinct tissue areas, for example, cells at the tumour margin or at the border of tumour and stroma, we can use `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
 
 ```{r}
 identify_bordering_cells(formatted_image, reference_marker = "AMACR",
@@ -331,7 +341,7 @@ Users are recommended to test out different thresholds and then visualise the cl
 average_minimum_distance(formatted_image)
 ```
 
-Communities correspond to micro-niches or micro-ecosystems of cells that are geographically located close to each other [@jackson2020single]. The main distinction between clusters and communities is that the algorithm for the detection of communities used by `identify_cell_communities` does not take into account cell phenotype. Therefore, communities often consist of a combination of different cell types, including tumour cells. *dbscan* is used as the clustering algorithm to detect communities [@hahsler2019dbscan]. Cells without a phenotype are excluded.
+Communities correspond to micro-niches or micro-ecosystems of cells that are located close to each other [@jackson2020single]. The main distinction between clusters and communities is that the algorithm for the detection of communities used by `identify_cell_communities` does not take into account cell phenotype. Therefore, communities often consist of a combination of different cell types, including tumour cells. *dbscan* is used as the clustering algorithm to detect communities [@hahsler2019dbscan]. Cells without a phenotype are excluded.
 
 ```{r}
 communities <- identify_cell_communities(formatted_image, radius=100)
@@ -363,16 +373,6 @@ plot_composition_heatmap(communities_vis, column_to_consider="Community")
 
 This plot shows that several communities detected have a combination of tumour (AMACR+) and immune cells while some are dominated by tumour or immune cells.
 
-
-# Neighbourhood proportions
-
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
-
-```{r}
-p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
-
-p_cells_within_radius
-```
 
 # Reproducibility
 
