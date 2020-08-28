@@ -4,12 +4,18 @@
 \alias{plot_cell_percentages}
 \title{plot_cell_proportions}
 \usage{
-plot_cell_percentages(cell_proportions, tumour_marker = NULL)
+plot_cell_percentages(
+  cell_proportions,
+  tumour_marker = NULL,
+  cellprop_colname = "Proportion_name"
+)
 }
 \arguments{
 \item{cell_proportions}{Output from calculate_cell_proportions}
 
 \item{tumour_marker}{Tumour marker to exclude if needed}
+
+\item{celltype_column}{Name of column to use for y axis. Default is "Proportion_name"}
 }
 \description{
 Plots cells proportions as barplots
