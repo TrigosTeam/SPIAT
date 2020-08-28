@@ -72,9 +72,15 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   
   # Plot the boxplot 
   if (method == "box"){
+    
+    #code from ggplot2 to show the number in each group
+    give.n <- function(x){
+      return(c(y = max(x)+1, label = length(x)))
+    }
+    
     p <- ggplot(formatted_data, aes(Phenotype,formatted_data[,property])) + 
       geom_boxplot()  +
-      stat_boxplot(coef=3) +
+      stat_summary(fun.data = give.n, geom = "text", vjust = -0.5) +
       ylab(property) +
       theme_bw()
 
