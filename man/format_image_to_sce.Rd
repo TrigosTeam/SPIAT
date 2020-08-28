@@ -8,8 +8,9 @@ format_image_to_sce(
   format = "INFORM",
   image,
   markers,
+  locations = NULL,
   dye_columns_interest = NULL,
-  intensity_columns_interest
+  intensity_columns_interest = NULL
 )
 }
 \arguments{
@@ -17,19 +18,22 @@ format_image_to_sce(
 
 \item{image}{String of the path location of either HALO csv file or INFORM textfile}
 
-\item{markers}{Vector containing the markers used for staining}
+\item{markers}{Vector containing the markers used for staining. Must match the order of the 'markers' parameter}
 
-\item{dye_columns_interest}{(Only for HALO formats) Vector of names of the columns with the marker status 
+\item{locations}{Vector containing the locations of markers used for staining. Location can be either "Nucleus", "Cytoplasm" or "Membrane". 
+This is used to select the Intensity column and can be used instead of intensity_columns_interest.}
+
+\item{dye_columns_interest}{(Only for HALO formats) Use if locations is not specified. Vector of names of the columns with the marker status 
 (i.e. those indicating 1 or 0 for whether the cell is positive or negative for the marker). 
 Column names must match the order of the 'markers' parameter.}
 
-\item{intensity_columns_interest}{Vector with the names of the columns with the level of each marker.
+\item{intensity_columns_interest}{Use if locations is not specified. Vector with the names of the columns with the level of each marker.
 Column names must match the order of the 'markers' parameter}
 }
 \description{
 Formats an INFORM or HALO image into a singlecellexperiment class
 where the count assay stores the intensity level of every marker (rows) for
-every cell (columns), 
-and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, 
-Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
+every cell (columns). Cell phenotype, x and y coordinates and other properties are stored under colData. If InForm format, the cell properties 
+are Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area, 
+Nucleus.Area, Cytoplasm.Area and Membrane.Perimeter.
 }
