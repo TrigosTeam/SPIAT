@@ -2,28 +2,26 @@
 #'
 #' @description Formats an INFORM or HALO image into a singlecellexperiment class
 #' where the count assay stores the intensity level of every marker (rows) for
-#' every cell (columns), 
-#' and cell phenotype, x and y coordinates, other properties (Cell Size, Nucleus Size, 
-#' Nucleus Compactness, Nucleus Axis Ratio, Cell Axis Ratio ) are stored under colData
+#' every cell (columns). Cell phenotype, x and y coordinates and other properties are stored under colData. If InForm format, the cell properties 
+#' are Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area, 
+#' Nucleus.Area, Cytoplasm.Area and Membrane.Perimeter.
 #' 
 #' @export
 #' @param format String defining the software use for cell segmentation. Options: "INFORM" or "HALO"
 #' @param image String of the path location of either HALO csv file or INFORM textfile
-#' @param markers Vector containing the markers used for staining
-#' @param dye_columns_interest (Only for HALO formats) Vector of names of the columns with the marker status 
+#' @param markers Vector containing the markers used for staining. Must match the order of the 'markers' parameter
+#' @param locations Vector containing the locations of markers used for staining. Location can be either "Nucleus", "Cytoplasm" or "Membrane". 
+#' This is used to select the Intensity column and can be used instead of intensity_columns_interest. 
+#' @param dye_columns_interest (Only for HALO formats) Use if locations is not specified. Vector of names of the columns with the marker status 
 #' (i.e. those indicating 1 or 0 for whether the cell is positive or negative for the marker). 
 #' Column names must match the order of the 'markers' parameter.
-#' @param intensity_columns_interest Vector with the names of the columns with the level of each marker.
+#' @param intensity_columns_interest Use if locations is not specified. Vector with the names of the columns with the level of each marker.
 #' Column names must match the order of the 'markers' parameter
 #' @importFrom SingleCellExperiment SingleCellExperiment	
 #' @importFrom SummarizedExperiment colData
 #' @importFrom utils read.csv read.delim
 
-format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_interest = NULL, intensity_columns_interest) {
-  
-  #replace the spaces and non-alphanumeric characters as a '.' for column selection
-  intensity_columns_interest <- gsub("[^[:alnum:]]", ".", intensity_columns_interest)
-  dye_columns_interest <- gsub("[^[:alnum:]]", ".", dye_columns_interest)
+format_image_to_sce <- function(format = "INFORM", image, markers, locations = NULL, dye_columns_interest = NULL, intensity_columns_interest = NULL) {
   
   #process the data based on data format
   if (format == "HALO"){
@@ -32,20 +30,52 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     #read in the image
     image <- read.csv(image)
     
-    #CHECK - if image contains all the columns specified and vectors of same length
-    image_colnames <- colnames(image)
-    if (!all(intensity_columns_interest %in% image_colnames)) {
-      stop("One or more Intensity_columns_interest not found in image")
-    }
-    if (!all(dye_columns_interest %in% image_colnames)) {
-      stop("One or more dye_columns_interest not found in image")
-    }
-    marker_count <- length(markers)
-    intensity_col_count <- length(intensity_columns_interest)
-    dye_col_count <- length(dye_columns_interest)
-    if (marker_count != intensity_col_count || marker_count != 
-        dye_col_count || intensity_col_count != dye_col_count) {
-      stop("The number of dyes, columns and markers do not match")
+    # if locations is specified, use location plus marker name to get the intensity and dye columns
+    if (!is.null(locations)) {
+      
+      intensity_columns_interest <- character(length(markers))
+      dye_columns_interest <- character(length(markers))
+      i <- 1
+      
+      for (loc in locations) {
+        if (loc == "Nucleus") {
+          intensity_columns_interest[i] <- paste0("Dye.", i, ".Nucleus.Intensity")
+          dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Nucleus")
+        } else if (loc == "Cytoplasm") {
+          intensity_columns_interest[i] <- paste0("Dye.", i, ".Cytoplasm.Intensity")
+          dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Cytoplasm")
+        } else if (loc == "Membrane") {
+          intensity_columns_interest[i] <- paste0("Dye.", i, ".Membrane.Intensity")
+          dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Membrane")
+        } else {
+          stop('Location incorrectly specified. Must be either "Nucleus", "Cytoplasm" or "Membrane"')
+        }
+        
+        i <- i + 1
+      }
+      
+      # if locations not used, get the intensity and dye columns from their specified names
+    } else {
+      
+      #replace the spaces and non-alphanumeric characters as a '.' for column selection
+      intensity_columns_interest <- gsub("[^[:alnum:]]", ".", intensity_columns_interest)
+      dye_columns_interest <- gsub("[^[:alnum:]]", ".", dye_columns_interest)
+    
+      #CHECK - if image contains all the columns specified and vectors of same length
+      image_colnames <- colnames(image)
+      if (!all(intensity_columns_interest %in% image_colnames)) {
+        stop("One or more Intensity_columns_interest not found in image")
+      }
+      if (!all(dye_columns_interest %in% image_colnames)) {
+        stop("One or more dye_columns_interest not found in image")
+      }
+      marker_count <- length(markers)
+      intensity_col_count <- length(intensity_columns_interest)
+      dye_col_count <- length(dye_columns_interest)
+      if (marker_count != intensity_col_count || marker_count != 
+          dye_col_count || intensity_col_count != dye_col_count) {
+        stop("The number of dyes, columns and markers do not match")
+      }
     }
     
     #First remove all non-DAPI cells
@@ -123,21 +153,41 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     
     ###following codes are from format_INFORM
     
-    #open the image file
-    image <- read.delim(image)
+    #open the image file, keep column names as is for matching to markers
+    image <- read.delim(image, check.names=FALSE)
     #remove all rows with empty phenotype/no markers
     image <- image[image$Phenotype != "",]
     image <- image[!is.na(image$Phenotype), ]
     
-    #CHECK - if image contains all the columns specified and vectors of same length
-    image_colnames <- colnames(image)
-    if (!all(intensity_columns_interest %in% image_colnames)) {
-      stop("One or more Intensity_columns_interest not found in image")
-    }
-    marker_count <- length(markers)
-    intensity_col_count <- length(intensity_columns_interest)
-    if (marker_count != intensity_col_count) {
-      stop("The number of dyes and columns does not match")
+    if (!is.null(locations)) {
+    
+      # add the location of interest to each marker
+      names_to_match <- paste(locations, markers, sep=" ")
+      
+      # get all the mean intensity column names in the file
+      intensity_col_all <- colnames(image)[grepl("Mean \\(Normalized Counts, Total Weighting\\)", colnames(image))]
+      
+      # get the intensity column name for each marker
+      intensity_columns_interest <- character(length(markers))
+      i <- 1
+      
+      for (name in names_to_match) {
+        intensity_columns_interest[i] <- intensity_col_all[grepl(name, intensity_col_all)]
+        i <- i + 1
+      }
+    
+      } else {
+    
+        #CHECK - if image contains all the columns specified and vectors of same length
+        image_colnames <- colnames(image)
+        if (!all(intensity_columns_interest %in% image_colnames)) {
+          stop("One or more Intensity_columns_interest not found in image")
+        }
+        marker_count <- length(markers)
+        intensity_col_count <- length(intensity_columns_interest)
+        if (marker_count != intensity_col_count) {
+          stop("The number of dyes and columns does not match")
+        }
     }
     
     ###added: extract intensities
@@ -149,8 +199,9 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     })
     
     #extract the columns of interest and discard the rest
+    colnames(image) <- make.names(colnames(image))
     
-    # shorten some properties column names
+    # shorten column names of some properties 
     names(image)[names(image)=="Entire.Cell.Area..pixels."] <- "Cell.Area"
     names(image)[names(image)=="Nucleus.Area..pixels."] <- "Nucleus.Area"
     names(image)[names(image)=="Entire.Cell.Axis.Ratio"] <- "Cell.Axis.Ratio"
@@ -165,7 +216,7 @@ format_image_to_sce <- function(format = "INFORM", image, markers, dye_columns_i
     image$Cell.ID <- paste0("Cell_", image$Cell.ID)
     
     #standardize PDL-1 into PDL1
-    image$Phenotype <- gsub("PDL-1", "PDL1", image$Phenotype, fixed=TRUE)
+    #image$Phenotype <- gsub("PDL-1", "PDL1", image$Phenotype, fixed=TRUE)
     
     #reformat the phenotype into "marker1, marker2..."
     for (marker in markers) {

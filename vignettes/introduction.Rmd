@@ -41,31 +41,23 @@ We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the c
 
 - path to the raw InForm or HALO image data file
 - names of the markers used in the OPAL staining
-- names of the intensity columns of interest
+- locations of the markers (or names of the columns of interest)
 
 Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Predicting phenotypes section.
 
 ```{r eval=FALSE}
 # raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
 
-# markers <- c("DAPI","CD3","PDL1","CD4","CD8","AMACR")
+# markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
 
-# intensity_columns_interest <- c(
-  "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
-  "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
-  "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
-  "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)",
-  "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
-  "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"
-  )
+# locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
 
 # formatted_image <- format_image_to_sce(
 #                           format="INFORM",
 #                           image=raw_inform_data,
 #                           markers=markers,
-#                           intensity_columns_interest=intensity_columns_interest,
-#                           dye_columns_interest=NULL
-)
+#                           locations= locations)
+#)
 ```
 
 
@@ -105,9 +97,9 @@ These phenotypes are determined from individual markers like AMACR or combinatio
 AMACR = prostate cancer cells  
 CD3,CD4 = helper T cells  
 CD3,CD8 = cytotoxic T cells  
-PDL1 = immune checkpoint cells
+PDL-1 = immune checkpoint cells
 
-AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL1 is used to help determine if the cancer may benefit from immunotherapy treatment.
+AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL-1 is used to help determine if the cancer may benefit from immunotherapy treatment.
 
 
 ## Cell proportions/percentages
@@ -124,7 +116,7 @@ To visualize the phenotype proportions as barplots we can use `plot_cell_percent
 plot_cell_percentages(p_cells)
 ```
 
-These tell us that in this image the vast majority of cells are tumour cells (AMACR) with some immune cells (CD3,CD4 and CD3,CD8) and very little PDL1 cells. 
+These tell us that in this image the vast majority of cells are tumour cells (AMACR) with some immune cells (CD3,CD4 and CD3,CD8) and very little PDL-1 cells. 
 
 We may see incorrect phenotypes present in the input data. For example, cells might be incorrectly assigned a phenotype such as "AMACR,CD3", both a tumour cell (AMACR) and an immune cell phenotype (CD3), which is biologically implausible. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
 
@@ -147,7 +139,7 @@ If you identify incorrect phenotypes or have any you want to exclude you ca do t
 data_subset <- select_phenotypes(formatted_image, keep=TRUE,
                                      phenotypes = c("AMACR",
                                                     "CD3,CD8",
-                                                    "PDL1"))
+                                                    "PDL-1"))
 print_phenotypes(data_subset)
 ```
 
@@ -228,7 +220,7 @@ The stacked surface plots of the AMACR (prostate cancer cell) and CD3 (T cell) m
 We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL1")
+phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
 colour_vector <- c("darkgrey", "blue", "red")
 plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 ```
@@ -284,7 +276,7 @@ These cell distances can then be visualized as a heatmap with `plot_distance_hea
 plot_distance_heatmap(summary_distances)
 ```
 
-This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL1 cells are more distant.
+This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL-1 cells are more distant.
 
 # Cell mixing score
 
@@ -377,7 +369,7 @@ This plot shows that several communities detected have a combination of tumour (
 We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
-p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL1", target_phenotypes = "AMACR", radius=100)
+p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
 
 p_cells_within_radius
 ```

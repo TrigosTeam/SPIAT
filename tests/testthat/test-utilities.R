@@ -6,7 +6,7 @@ test_that("format_image_to_sce() works", {
   
   
   raw_inform_data <- "testdata/test_spiat.txt"
-  markers <- c("DAPI","CD3","PDL1","CD4","CD8","AMACR")
+  markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
   intensity_columns_interest <- c(
     "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
@@ -29,7 +29,7 @@ test_that("format_image_to_sce() works", {
 
 test_that("print_phenotypes works", {
     
-    res <- c("AMACR", "CD3,CD4", "CD3,CD8", "PDL1")
+    res <- c("AMACR", "CD3,CD4", "CD3,CD8", "PDL-1")
     
     phenotypes <- print_phenotypes(formatted_image)
   
@@ -44,8 +44,8 @@ test_that("select_phenotypes works", {
                                                         "CD3,CD4",
                                                         "CD3,CD8",
                                                         "CD3,CD8",
-                                                        "PDL1",
-                                                        "AMACR,PDL1"))
+                                                        "PDL-1",
+                                                        "AMACR,PDL-1"))
     
     expect_equal(phenotypes, formatted_image)
 })
