@@ -2,11 +2,14 @@ context("calculations")
 
 test_that("calculate_cell_proportions() works", {
     
-    res <- data.frame(Cell_type = c("AMACR", "CD3,CD4", "CD3,CD8", "PDL-1"), 
-                          Number_of_cells = c(4446, 513, 138, 4),
+    res <- data.frame(Cell_type = factor(c("AMACR", "CD3,CD4", "CD3,CD8", "PDL-1")), 
+                          Number_of_celltype = c(4446, 513, 138, 4),
+                          Reference = rep("Total", 4),
+                          Number_of_reference = rep(5101, 4),
                           Proportion = c(0.87159381, 0.10056852, 0.02705352, 0.00078416), 
                           Percentage = c(87.159381, 10.056852, 2.705352, 0.078416),
-                          stringsAsFactors = TRUE)
+                          Proportion_name = c("AMACR/Total", "CD3,CD4/Total", "CD3,CD8/Total", "PDL-1/Total"),
+                          stringsAsFactors = FALSE)
     
     p_cells <- calculate_cell_proportions(sce_object = formatted_image)
     

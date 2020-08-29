@@ -107,7 +107,7 @@ AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and
 We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`.
 
 ```{r}
-p_cells <- calculate_cell_proportions(formatted_image, markers_of_interest=c("CD3", "CD4"))
+p_cells <- calculate_cell_proportions(formatted_image, reference_celltypes=c("Total", "CD3"))
 p_cells
 ```
 To visualize the phenotype proportions as barplots we can use `plot_cell_percentages`.
