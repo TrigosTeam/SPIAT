@@ -76,7 +76,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
             point_colours <- colour_vector
         }else{
         #Assigns colourblind-friendly colours    
-            point_colours <- dittoColors()[1:number_markers]
+            point_colours <- dittoColors()[seq_len(number_markers)]
         }
 
         #Plots partitioned full image
@@ -115,7 +115,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
     divided_image_obj <- list()
 
-    for(y in 1:number_of_splits){
+    for(y in seq_len(number_of_splits)){
 
         local_coor_y <- y_split[c(y+1, y)]
 
@@ -135,7 +135,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
         temp_cell_loc <- cell_loc
 
-        for(x in 1:number_of_splits){
+        for(x in seq_len(number_of_splits)){
 
             local_coor_x <- x_split[c(x+1, x)]
 
