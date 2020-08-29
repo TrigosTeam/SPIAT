@@ -32,6 +32,9 @@ measure_association_to_cell_properties(
 
 \item{log.scale}{if log the data}
 }
+\value{
+With method "box" or "density a plot is returned. With method "t" or "wilcox", the text output from the test are returned.
+}
 \description{
 Plots the density or boxplot of a property of two cell phenotypes or compares using t test/wilcoxon rank sum test
 }

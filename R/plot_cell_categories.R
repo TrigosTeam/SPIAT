@@ -9,6 +9,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
+#' @return A plot is returned
 #' @examples
 #' phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
 #' colour_vector <- c("darkgrey", "blue", "red")

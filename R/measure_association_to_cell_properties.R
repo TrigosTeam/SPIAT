@@ -14,6 +14,7 @@
 #' @importFrom stats t.test wilcox.test
 #' @importFrom dittoSeq dittoColors  
 #' @import ggplot2
+#' @return With method "box" or "density a plot is returned. With method "t" or "wilcox", the text output from the test are returned. 
 #' @examples
 #' measure_association_to_cell_properties(SPIAT::formatted_image,
 #'                                       phenotypes = c("CD3,CD4", "CD3,CD8"),

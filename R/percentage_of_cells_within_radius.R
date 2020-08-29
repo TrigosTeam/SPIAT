@@ -14,6 +14,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @importFrom SummarizedExperiment colData assay
+#' @return A numeric vector ard a plot are returned 
 #' @examples
 #' p_cells_within_radius <- percentage_of_cells_within_radius(SPIAT::formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
 #' @export

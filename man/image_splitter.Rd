@@ -36,6 +36,9 @@ If NULL, colors will be generated automatically}
 
 \item{y_position_max}{Integer used to specify the maximum y boundary to be splitted}
 }
+\value{
+A list of data.frames is returned
+}
 \description{
 Takes in a singlecellexperiment object from format_image_to_sce,
 splits the image into specified sections and plots the different combinations

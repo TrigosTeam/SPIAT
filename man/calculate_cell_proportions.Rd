@@ -18,6 +18,9 @@ of each CD3-containing phenotype against all CD3. "Total" can be used to calcula
 
 \item{celltypes_to_exclude}{Vector specifying celltypes to exclude. For example "OTHER" will exclude that celltype from the Total (optional)}
 }
+\value{
+A data.frame is returned
+}
 \description{
 Calculate the number and proportion of each cell phenotype in image
 }

@@ -13,6 +13,7 @@
 #' @importFrom stats median sd
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
+#' @return A data.frame is returned
 #' @examples
 #' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 #' @export

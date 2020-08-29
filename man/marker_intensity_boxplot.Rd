@@ -11,6 +11,9 @@ marker_intensity_boxplot(sce_object, marker)
 
 \item{marker}{Marker being queried}
 }
+\value{
+A plot is returned
+}
 \description{
 Produces boxplots of marker levels for cells phenotyped as being positive
 for the marker, and those that where phenotyped as being negative.

@@ -18,6 +18,9 @@ calculate_all_distances_between_phenotypes(
 \item{cell_phenotypes_of_interest}{Vector containing phenotypes to be considered,
 if NULL, all phenotype combinations will be calculated}
 }
+\value{
+A data.frame is returned.
+}
 \description{
 Returns the distances between cells of different phenotypes
 }

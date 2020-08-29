@@ -13,6 +13,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom dbscan frNN
+#' @return A single number is returned
 #' @examples 
 #' compute_mixing_score(SPIAT::formatted_image, reference_marker = "CD4", target_marker = "CD8")
 #' @export
