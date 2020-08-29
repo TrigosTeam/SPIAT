@@ -74,11 +74,11 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     number_of_communities <- length(unique(formatted_data$Community))
     
     # use colourblind-friendly colours
-    colours <- dittoColors()[1:number_of_communities]
+    colours <- dittoColors()[seq_len(number_of_communities)]
 
     #label the community centre by averaging x and y
     label_location <- vector()
-    for (communitynumber in 1:number_of_communities) {
+    for (communitynumber in seq_len(number_of_communities)) {
         cells_in_community <- formatted_data[formatted_data$Community == communitynumber, ]
         minX <- min(cells_in_community$Cell.X.Position)
         maxX <- max(cells_in_community$Cell.X.Position)

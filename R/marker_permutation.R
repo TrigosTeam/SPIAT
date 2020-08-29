@@ -37,9 +37,9 @@ marker_permutation <- function(sce_object, num_iter) {
 
     #generate all combinations of markers into a vector
     marker_combinations <- vector()
-    for(i in 1:length(markers)) {
+    for(i in seq_len(markers)) {
         comb_matrix <- combn(markers, i)
-        for(j in 1:ncol(comb_matrix)) {
+        for(j in seq_len(ncol(comb_matrix))) {
             comb <- paste0(comb_matrix[,j], collapse = '', sep=',')
             comb <- gsub(",$", "", comb)
             marker_combinations <- c(marker_combinations, comb)
@@ -49,7 +49,7 @@ marker_permutation <- function(sce_object, num_iter) {
     #create the results df to store the output of every bootstrap iteration
     results <- data.frame(matrix(0, nrow = length(marker_combinations), ncol = num_iter))
     rownames(results) <- marker_combinations
-    colnames(results) <- 1:num_iter
+    colnames(results) <- seq_len(num_iter)
 
     #count the markers and put counts into a df
     marker_count <- vector()
@@ -63,7 +63,7 @@ marker_permutation <- function(sce_object, num_iter) {
     total_cells <- nrow(formatted_data)
 
     #ITERATION LOOP here...##############
-    for (iter_num in 1:num_iter) {
+    for (iter_num in seq_len(num_iter)) {
         #bootstrap_df is used in the randomization of markers to generate random phenotypes
         bootstrap_df <- data.frame(matrix(0, nrow = nrow(formatted_data), ncol = length(markers)))
         rownames(bootstrap_df) <- formatted_data$Cell.ID
@@ -78,7 +78,7 @@ marker_permutation <- function(sce_object, num_iter) {
 
         #start a new column for phenotype
         bootstrap_df$Phenotype <- ""
-        for (i in 1:length(markers)) {
+        for (i in seq_len(markers)) {
             marker <- paste(markers[i], ",", sep="")
             #select the marker column that was assigned to be true (1) for the marker and add the marker name as phenotype
             bootstrap_df[bootstrap_df[, i] == 1, ]$Phenotype <- paste(bootstrap_df[bootstrap_df[, i] == 1, ]$Phenotype, marker, sep="")

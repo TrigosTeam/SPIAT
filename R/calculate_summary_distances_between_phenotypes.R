@@ -91,7 +91,7 @@ calculate_summary_distances_between_phenotypes <- function(sce_object, all_marke
     #     }
     # } else {
 
-        for (i in 1:nrow(permu)) {
+        for (i in seq_len(nrow(permu))) {
             eachPermu = permu[i, ]
             name1 = unique_cells[eachPermu[1]]
             name2 = unique_cells[eachPermu[2]]
