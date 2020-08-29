@@ -63,7 +63,7 @@ Suggests:
     rmarkdown,
     pkgdown,
     testthat
-biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, SingleCell, Software, Visualization
+biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
 RoxygenNote: 7.1.1
