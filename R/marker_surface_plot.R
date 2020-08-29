@@ -146,7 +146,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     #rename the matrix
     mean_marker_level <- my_matrix
 
-    plot_ly(z = ~mean_marker_level, reversescale = T) %>% add_surface()
+    plot_ly(z = ~mean_marker_level, reversescale = TRUE) %>% add_surface()
     
 
 }
