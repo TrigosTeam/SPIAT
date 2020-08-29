@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 0.3
+Version: 0.99.0
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -18,7 +18,11 @@ Authors@R: c(
     person(given = "Volkan",
            family=" Ozcoban",
            role="aut",
-           email = "volkanozcoban1@gmail.com"))
+           email = "volkanozcoban1@gmail.com"),
+    person(given = "Maria",
+           family=" Doyle",
+           role="aut",
+           email = "maria.doyle@petermac.org"))
 Description: Spatial analysis of tissues obtained 
     using multiplex immunohistochemistry.
     Converts INFORM or HALO images into a SingleCellExperiment class
