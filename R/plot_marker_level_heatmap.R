@@ -63,7 +63,7 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     split_occurrence <- cbind(x_split, y_split)
 
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
-    for (y in 1:num_splits){
+    for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
         #print(local_coor_y)
 
@@ -80,7 +80,7 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
         }
     }
 
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
        # print(local_coor_x)
 

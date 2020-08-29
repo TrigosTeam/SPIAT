@@ -103,7 +103,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   #label the Cluster centre by averaging x and y
 
   label_location <- vector()
-  for (Clusternumber in 1:number_of_clusters) {
+  for (Clusternumber in seq_len(number_of_clusters)) {
     cells_in_Cluster <- cells_in_clusters[cells_in_clusters$Cluster == Clusternumber, ]
     minX <- min(cells_in_Cluster$Cell.X.Position)
     maxX <- max(cells_in_Cluster$Cell.X.Position)
@@ -118,7 +118,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
   
   # use colourblind-friendly colours
-  cluster_colours <- dittoColors()[1:number_of_clusters]
+  cluster_colours <- dittoColors()[seq_len(number_of_clusters)]
 
   q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
   q <- q + geom_point(aes(color = Cluster), size = 0.01)
