@@ -121,7 +121,7 @@ identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radi
 
   r <- ggplot(border_cells, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
     geom_point(size = 0.1) +
-    guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
+    guides(alpha = FALSE) + scale_colour_viridis_c(direction = -1) +
     labs(colour = paste("log10","(", as.character(reference_marker)," Intensity", ")", sep="")) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
