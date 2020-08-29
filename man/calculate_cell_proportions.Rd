@@ -6,14 +6,17 @@
 \usage{
 calculate_cell_proportions(
   sce_object,
-  markers_of_interest = NULL,
-  markers_to_exclude = NULL
+  reference_celltypes = "Total",
+  celltypes_to_exclude = NULL
 )
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{markers_of_interest}{Vector specifying markers to calculate proportions for (optional)}
+\item{reference_celltypes}{Vector specifying reference phenotypes. For example, "CD3" will calculate the proportion
+of each CD3-containing phenotype against all CD3. "Total" can be used to calculate the proportion of each phenotype against total cells and is the default.}
+
+\item{celltypes_to_exclude}{Vector specifying celltypes to exclude. For example "OTHER" will exclude that celltype from the Total (optional)}
 }
 \description{
 Calculate the number and proportion of each cell phenotype in image

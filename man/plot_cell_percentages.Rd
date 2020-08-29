@@ -15,7 +15,7 @@ plot_cell_percentages(
 
 \item{tumour_marker}{Tumour marker to exclude if needed}
 
-\item{celltype_column}{Name of column to use for y axis. Default is "Proportion_name"}
+\item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name"}
 }
 \description{
 Plots cells proportions as barplots

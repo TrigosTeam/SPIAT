@@ -3,7 +3,7 @@
 #' @description Plots cells proportions as barplots
 #' @param cell_proportions Output from calculate_cell_proportions
 #' @param tumour_marker Tumour marker to exclude if needed
-#' @param celltype_column Name of column to use for y axis. Default is "Proportion_name"
+#' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name"
 #' @import ggplot2
 #' @importFrom stats reorder
 #' @export
