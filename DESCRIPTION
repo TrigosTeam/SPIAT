@@ -31,7 +31,7 @@ Description: Spatial analysis of tissues obtained
 License: GPL-3
 Encoding: UTF-8
 Depends: 
-    R (>= 3.5.0),
+    R (>= 4.0),
     SingleCellExperiment (>= 1.4.1),
     SummarizedExperiment
 Imports: 
