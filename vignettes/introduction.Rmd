@@ -1,6 +1,6 @@
 ---
 title: "Overview of the SPIAT package"
-author: "Anna Trigos, Tom Yang, Yuzhou Feng, Volkan Ozcoban"
+author: "Anna Trigos, Tom Yang, Yuzhou Feng, Volkan Ozcoban, Maria Doyle"
 date: "`r BiocStyle::doc_date()`"
 package: SPIAT
 output:
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools [@yang2020spiat]. SPIAT is directly compatible with Opal multiplex immunohistochemistry images analysed through the HALO and InForm analysis software, but its intuitive implementation allows use with a diversity of platforms.
 
-The Opal multiplex immunohistochemistry staining protocol enables 6-8 tissue markers to be used simultaneously on a single slide. It is suitable for use with formalin fixed paraffin embedded (FFPE) tissue sections, so it is also of relevance for clinical practice. The fluorescence of each marker is measured through imaging, and each cell is assigned an X,Y coordinate of its location. In effect this provides single-cell resolution. The fluorescence intensity of individual markers are then combined to yield the location of the cells and their phenotype in the tissue.
+The Opal multiplex immunohistochemistry staining protocol enables 6-8 tissue markers to be used simultaneously on a single slide. It is suitable for use with formalin fixed paraffin embedded (FFPE) tissue sections, so it is also of relevance for clinical practice. The fluorescence of each marker is measured through imaging, and each cell is assigned an X,Y coordinate of its location. In effect this provides single-cell resolution. The fluorescence intensity of individual markers are then combined to identify the phenotype of the cells in the tissue.
 
 SPIAT includes novel algorithms for the identification of cell clusters, cell margins and cell gradients, the calculation of neighbourhood proportions, and algorithms for the prediction of cell phenotypes in tissue images. SPIAT also includes speedy implementations of the calculation of cell distances and detection of cell communities. An overview of the functions available is shown in the figure below. 
 
@@ -37,13 +37,14 @@ library(SPIAT)
 ```
 
 
-We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires 3 things:
+We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires 4 things:
 
-- path to the raw InForm or HALO image data file
-- names of the markers used in the OPAL staining
-- locations of the markers (or names of the columns of interest)
+- `format`: INFORM or HALO 
+- `image`: path to the raw InForm or HALO image data file
+- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the name used in the input file.  
+- `locations`: locations of the markers either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. (Alternatively the names of the columns of interest can be specified with `intensity_columns of interest`, with `dye_columns of interest` also required for HALO)
 
-Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Predicting phenotypes section.
+Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Phenotype prediction check section.
 
 ```{r eval=FALSE}
 # raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
@@ -94,29 +95,28 @@ print_phenotypes(formatted_image)
 
 These phenotypes are determined from individual markers like AMACR or combinations of markers like CD3 and CD4. The phenotypes in this example data can be interpreted as follows: 
 
-AMACR = prostate cancer cells  
-CD3,CD4 = helper T cells  
-CD3,CD8 = cytotoxic T cells  
-PDL-1 = immune checkpoint cells
+* AMACR = prostate cancer cells  
+* CD3,CD4 = helper T cells  
+* CD3,CD8 = cytotoxic T cells  
+* PDL-1 = immune checkpoint cells
 
 AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL-1 is used to help determine if the cancer may benefit from immunotherapy treatment.
 
 
 ## Cell proportions/percentages
 
-We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`.
+We can obtain the number and proportion of each cell phenotype with `calculate_cell_proportions`. We can use `reference_celltypes` to specify celltypes to use as the reference. For example, "Total" will calculate the proportion of each phenotype against all cells. "CD3" will calculate the proportion of each CD3-containing phenotype against all CD3 cells. We can exclude any celltypes that are not of interest e.g. "OTHER" with `celltypes_to_exclude`.
 
 ```{r}
 p_cells <- calculate_cell_proportions(formatted_image, reference_celltypes=c("Total", "CD3"))
 p_cells
 ```
+
 To visualize the phenotype proportions as barplots we can use `plot_cell_percentages`.
 
 ```{r}
 plot_cell_percentages(p_cells)
 ```
-
-These tell us that in this image the vast majority of cells are tumour cells (AMACR) with some immune cells (CD3,CD4 and CD3,CD8) and very little PDL-1 cells. 
 
 We may see incorrect phenotypes present in the input data. For example, cells might be incorrectly assigned a phenotype such as "AMACR,CD3", both a tumour cell (AMACR) and an immune cell phenotype (CD3), which is biologically implausible. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
 
@@ -155,11 +155,11 @@ Incorrect or unreliable phenotyping of cells may also be identified through comp
 marker_intensity_boxplot(formatted_image, "CD3")
 ```
 
-The separation of positive versus negative here suggests the phenotyping for CD3 is adequate. Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
+Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
 ## Phenotype prediction check
 
-We can check the phenotypes predicted using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the predicted intensity status for a particular marker. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells that has at least one peak more than the main marker peak, a background peak, that can be used in the algorithm.
+We can check the phenotypes predicted using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the predicted intensity status for a particular marker. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm.
 
 ```{r}
 predicted_image <- predict_phenotypes(formatted_image,
@@ -228,9 +228,17 @@ plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 
 # Gradients of cells
 
-To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. We calculate the marker level within a specified radius with `average_marker_intensity_within_radius` and visualize with `plot_average_intensity`.
+To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. 
 
-`average_marker_intensity_within_radius` calculates the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell. The radius unit is pixels.
+`plot_average_intensity` calculates the average intensity of a target marker for a number of user-supplied radii values. It plots the intensity level at each specified radius as a line graph. The radius unit is pixels.
+
+```{r}
+plot_average_intensity(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+```
+
+This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
+
+We can use `average_marker_intensity_within_radius` to calculate the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell. This function can also be used to help identify radii values for `plot_average_intensity`.
 
 ```{r}
 average_marker_intensity_within_radius(formatted_image,
@@ -238,14 +246,6 @@ average_marker_intensity_within_radius(formatted_image,
                                         target_marker = "CD4",
                                         radius=30)
 ```
-
-`plot_average_intensity` calculates the average intensity of a target marker for a number of user-supplied radii values. It plots the intensity level at each specified radius as a line graph.
-
-```{r}
-plot_average_intensity(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
-```
-
-This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
 
 # Neighbourhood proportions
 
@@ -290,7 +290,7 @@ This plot shows that AMACR cells are interacting most closely with CD3,CD4, foll
 
 # Cell mixing score
 
-With SPIAT we can quantify how much two cell types are interacting through calculating a cell mixing score. This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius.
+With SPIAT we can quantify how much two cell types are interacting through calculating a cell mixing score. This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
 
 ```{r}
 compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "CD8")
@@ -380,5 +380,8 @@ This plot shows that several communities detected have a combination of tumour (
 sessionInfo()
 ```
 
+
+# Author Contributions
+AT, TY, YF, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
 
 # References
