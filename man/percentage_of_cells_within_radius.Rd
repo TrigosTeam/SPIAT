@@ -21,6 +21,9 @@ percentage_of_cells_within_radius(
 \item{radius}{Integer specifying the radius of search for cells around the reference cells.
 Radii of ~100 are recommended. If too small, too few cells might be present}
 }
+\value{
+A numeric vector ard a plot are returned
+}
 \description{
 Calculates the percentage of cells of a target phenotype within a radius
 from the cells with a reference phenotype.

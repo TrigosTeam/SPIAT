@@ -9,6 +9,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @import ggplot2
+#' @return A plot is returned
 #' @examples
 #' marker_intensity_boxplot(SPIAT::formatted_image, "CD3")
 #' @export

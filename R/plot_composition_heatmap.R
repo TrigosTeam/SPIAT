@@ -9,6 +9,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom ComplexHeatmap HeatmapAnnotation Heatmap anno_barplot
 #' @importFrom reshape2 dcast
+#' @return A plot is returned
 #' @examples
 #' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 #' communities_vis <- composition_of_clusters_and_communities(communities, "Community")

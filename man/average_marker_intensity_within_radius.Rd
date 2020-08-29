@@ -20,6 +20,9 @@ average_marker_intensity_within_radius(
 
 \item{radius}{An integer specifying the radius of search for cells around the reference cells}
 }
+\value{
+A single number is returned
+}
 \description{
 Calculates the average intensity of the target_marker within a radius
 from the cells positive for the reference marker.

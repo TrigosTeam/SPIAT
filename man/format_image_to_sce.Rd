@@ -30,6 +30,9 @@ Column names must match the order of the 'markers' parameter.}
 \item{intensity_columns_interest}{Use if locations is not specified. Vector with the names of the columns with the level of each marker.
 Column names must match the order of the 'markers' parameter}
 }
+\value{
+A SingleCellExperiment object is returned
+}
 \description{
 Formats an INFORM or HALO image into a singlecellexperiment class
 where the count assay stores the intensity level of every marker (rows) for

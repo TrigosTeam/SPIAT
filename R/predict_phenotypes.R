@@ -18,6 +18,7 @@
 #' @importFrom pracma findpeaks
 #' @importFrom stats complete.cases density quantile
 #' @importFrom mmand threshold
+#' @return A data.frame and plots are returned
 #' @examples
 #' predicted_image <- predict_phenotypes(SPIAT::formatted_image,
 #'                                       thresholds = NULL,

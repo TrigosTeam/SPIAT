@@ -5,6 +5,8 @@
 #' @param keep TRUE if vector of phenotypes are the cells that are going to be kept,
 #' FALSE if they are to be removed
 #' @param phenotypes Vector of phenotypes of keep or exclude
+#' @return A SingleCellExperiment object is returned
+#' @examples
 #' data_subset <- select_phenotypes(SPIAT::formatted_image, keep=TRUE,
 #'                                  phenotypes = c("AMACR",
 #'                                  "CD3,CD8",

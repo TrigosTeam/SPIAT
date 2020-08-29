@@ -11,6 +11,9 @@ marker_prediction_plot(predicted_data, marker)
 
 \item{marker}{Marker to plot}
 }
+\value{
+A plot is returned
+}
 \description{
 Takes in the returned dataframe from marker_threshold_plot and
 generates a .pdf file containing scatter plots of actual intensity and

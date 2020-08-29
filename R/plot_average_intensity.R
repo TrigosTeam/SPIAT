@@ -9,6 +9,7 @@
 #' @param target_marker String specifying the marker to calculate its average intensity
 #' @param radii Vector of integers specifying the search radius around reference cells
 #' @import ggplot2
+#' @return A plot is returned
 #' @examples
 #' plot_average_intensity(SPIAT::formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
 #' @export

@@ -20,6 +20,7 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment	
 #' @importFrom SummarizedExperiment colData
 #' @importFrom utils read.csv read.delim
+#' @return A SingleCellExperiment object is returned
 
 format_image_to_sce <- function(format = "INFORM", image, markers, locations = NULL, dye_columns_interest = NULL, intensity_columns_interest = NULL) {
   

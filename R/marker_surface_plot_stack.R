@@ -20,6 +20,7 @@
 #' @importFrom stats aggregate
 #' @importFrom grDevices col2rgb
 #' @importFrom dittoSeq dittoColors
+#' @return A plot is returned
 #' @examples
 #' marker_surface_plot_stack(SPIAT::formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
 #' @export
