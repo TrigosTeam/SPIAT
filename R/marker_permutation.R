@@ -37,7 +37,7 @@ marker_permutation <- function(sce_object, num_iter) {
 
     #generate all combinations of markers into a vector
     marker_combinations <- vector()
-    for(i in seq_len(markers)) {
+    for(i in seq_along(markers)) {
         comb_matrix <- combn(markers, i)
         for(j in seq_len(ncol(comb_matrix))) {
             comb <- paste0(comb_matrix[,j], collapse = '', sep=',')
@@ -78,7 +78,7 @@ marker_permutation <- function(sce_object, num_iter) {
 
         #start a new column for phenotype
         bootstrap_df$Phenotype <- ""
-        for (i in seq_len(markers)) {
+        for (i in seq_along(markers)) {
             marker <- paste(markers[i], ",", sep="")
             #select the marker column that was assigned to be true (1) for the marker and add the marker name as phenotype
             bootstrap_df[bootstrap_df[, i] == 1, ]$Phenotype <- paste(bootstrap_df[bootstrap_df[, i] == 1, ]$Phenotype, marker, sep="")
