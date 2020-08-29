@@ -5,6 +5,7 @@
 #' @param phenotype_distances_result Dataframe output from calculate_distances_between_phenotypes
 #' @param metric Metric to be plotted. One of "mean", "std.dev" or "median".
 #' @import ggplot2
+#' @return A plot is returned
 #' @examples
 #' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 #' plot_distance_heatmap(summary_distances)

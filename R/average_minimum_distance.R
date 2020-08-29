@@ -7,6 +7,7 @@
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
+#' @return A single number is returned
 #' @examples
 #' average_minimum_distance(SPIAT::formatted_image)
 #' @export

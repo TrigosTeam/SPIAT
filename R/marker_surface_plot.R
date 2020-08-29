@@ -16,6 +16,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
 #' @importFrom plotly plot_ly add_surface
+#' @return A plot is returned
 #' @examples
 #' marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
 #' @export

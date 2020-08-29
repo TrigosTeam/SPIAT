@@ -14,6 +14,9 @@ composition_of_clusters_and_communities(
 
 \item{column_to_consider}{Column name to consider as community/clusters}
 }
+\value{
+A data.frame is returned
+}
 \description{
 Returns a dataframe which contains the percentages of cells with a
 specific marker within each cluster and the number of cells in the cluster.

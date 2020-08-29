@@ -20,6 +20,9 @@ plot_composition_heatmap(
 
 \item{column_to_consider}{Column name to consider as community/clusters}
 }
+\value{
+A plot is returned
+}
 \description{
 Produces a heatmap showing the marker percentages within each cluster
 and the cluster sizes

@@ -17,6 +17,9 @@ plot_cell_percentages(
 
 \item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name"}
 }
+\value{
+A plot is returned
+}
 \description{
 Plots cells proportions as barplots
 }

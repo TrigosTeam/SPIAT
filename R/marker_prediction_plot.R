@@ -9,6 +9,7 @@
 #' @import SingleCellExperiment
 #' @importFrom gridExtra grid.arrange
 #' @import ggplot2
+#' @return A plot is returned
 #' @examples
 #' predicted_image <- predict_phenotypes(SPIAT::formatted_image,
 #'                                       thresholds = NULL,

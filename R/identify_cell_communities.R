@@ -14,6 +14,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
 #' @importFrom dittoSeq dittoColors
+#' @return A data.frame and a plot is returned
 #' @examples
 #' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 #' @export

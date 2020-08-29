@@ -24,6 +24,9 @@ identify_cell_communities(
 
 \item{phenotypes_of_interest}{Vector of phenotypes to consider}
 }
+\value{
+A data.frame and a plot is returned
+}
 \description{
 Identifies communities of cells based on their location. It excludes cells without a phenotype
 }

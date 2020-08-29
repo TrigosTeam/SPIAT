@@ -6,6 +6,7 @@
 #' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name"
 #' @import ggplot2
 #' @importFrom stats reorder
+#' @return A plot is returned
 #' @examples
 #' p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
 #' plot_cell_percentages(p_cells)

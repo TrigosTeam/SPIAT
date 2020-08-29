@@ -9,6 +9,9 @@ plot_cell_distances_violin(cell_to_cell_dist)
 \arguments{
 \item{cell_to_cell_dist}{Output from calculate_all_distances_between_phenotypes}
 }
+\value{
+A plot is returned
+}
 \description{
 Plots distances between cells as a violin plot
 }

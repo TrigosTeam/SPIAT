@@ -26,6 +26,9 @@ identify_bordering_cells(
 
 \item{upper_bound}{Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population}
 }
+\value{
+A plot is returned
+}
 \description{
 Identifies the cells bordering a group of cells of a particular phenotype
 }

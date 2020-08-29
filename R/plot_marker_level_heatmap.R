@@ -12,6 +12,7 @@
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
+#' @return A plot is returned
 #' @examples
 #' plot_marker_level_heatmap(SPIAT::formatted_image, num_splits = 100, "AMACR")
 #' @export
