@@ -71,7 +71,7 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
   
   p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype)) +
     geom_point(aes(colour = Phenotype), size = 1) +
-    guides(alpha = F) +
+    guides(alpha = FALSE) +
     labs(colour = "Phenotypes") + 
     scale_color_manual(breaks = all_phenotypes, values=all_colours) +
     theme(panel.grid.major = element_blank(),

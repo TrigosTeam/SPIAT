@@ -67,7 +67,7 @@ plot_cell_marker_levels <- function(sce_object, marker) {
     ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = eval(parse(text = marker)))) +
       geom_point(aes(colour=eval(parse(text = marker))),size = 0.1) +
       ggtitle(marker) +
-      guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
+      guides(alpha = FALSE) + scale_colour_viridis_c(direction = -1) +
       labs(colour = paste("log10","(", as.character(marker)," Intensity", ")", sep="")) +
       theme(panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),

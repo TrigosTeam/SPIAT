@@ -37,7 +37,7 @@ marker_prediction_plot <- function(predicted_data, marker) {
   title_actual <- paste("Actual intensity status of ", marker, sep="")
   p_actual <- ggplot(actual, aes(x = Cell.X.Position, y = Cell.Y.Position, color = as.character(actual[,3]))) +
     geom_point(size = 0.1) + scale_color_manual(values=c('grey','red')) +
-    guides(alpha = F) + labs(colour = "Intensity status") + ggtitle(title_actual) +
+    guides(alpha = FALSE) + labs(colour = "Intensity status") + ggtitle(title_actual) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "white"),
@@ -52,7 +52,7 @@ marker_prediction_plot <- function(predicted_data, marker) {
   title_pred <- paste("Predicted intensity status of ", marker, sep="")
   p_pred <- ggplot(pred, aes(x = Cell.X.Position, y = Cell.Y.Position, color = as.character(pred[,3]))) +
     geom_point(size = 0.1) + scale_color_manual(values=c('grey','red')) +
-    guides(alpha = F) + labs(colour = "Intensity status") + ggtitle(title_pred) +
+    guides(alpha = FALSE) + labs(colour = "Intensity status") + ggtitle(title_pred) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "white"),
