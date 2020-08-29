@@ -9,6 +9,12 @@
 #' @import SingleCellExperiment
 #' @importFrom gridExtra grid.arrange
 #' @import ggplot2
+#' @examples
+#' predicted_image <- predict_phenotypes(SPIAT::formatted_image,
+#'                                       thresholds = NULL,
+#'                                       tumour_marker = "AMACR",
+#'                                       baseline_markers = c("CD3", "CD4", "CD8"))
+#' marker_prediction_plot(predicted_image, marker="CD3")
 #' @export
 
 marker_prediction_plot <- function(predicted_data, marker) {

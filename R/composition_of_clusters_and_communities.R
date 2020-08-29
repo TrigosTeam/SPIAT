@@ -5,6 +5,9 @@
 #' @param formatted_data_with_clusters - a dataframe output from generate_clusters
 #' @param column_to_consider Column name to consider as community/clusters
 #' @importFrom stats aggregate
+#' @examples
+#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
+#' communities_vis <- composition_of_clusters_and_communities(communities, "Community")
 #' @export
 
 composition_of_clusters_and_communities <- function(formatted_data_with_clusters, column_to_consider) {

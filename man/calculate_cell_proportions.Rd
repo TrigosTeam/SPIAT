@@ -21,3 +21,6 @@ of each CD3-containing phenotype against all CD3. "Total" can be used to calcula
 \description{
 Calculate the number and proportion of each cell phenotype in image
 }
+\examples{
+p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
+}

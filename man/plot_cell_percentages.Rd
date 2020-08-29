@@ -20,3 +20,7 @@ plot_cell_percentages(
 \description{
 Plots cells proportions as barplots
 }
+\examples{
+p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
+plot_cell_percentages(p_cells)
+}

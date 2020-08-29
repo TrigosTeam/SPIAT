@@ -20,6 +20,8 @@
 #' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases setNames
 #' @importFrom dittoSeq dittoColors
+#' @examples
+#' split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
 #' @export
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,

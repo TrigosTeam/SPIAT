@@ -14,6 +14,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
 #' @importFrom dittoSeq dittoColors
+#' @examples
+#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 #' @export
 
 # imported ggplot2 due to interdependency of functions

@@ -20,6 +20,8 @@
 #' @importFrom stats aggregate
 #' @importFrom grDevices col2rgb
 #' @importFrom dittoSeq dittoColors
+#' @examples
+#' marker_surface_plot_stack(SPIAT::formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
 #' @export
 
 marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, sep = 1,

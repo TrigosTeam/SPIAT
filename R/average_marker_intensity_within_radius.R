@@ -15,6 +15,11 @@
 #' @importFrom dbscan frNN
 #' @importFrom stats complete.cases
 #' @importFrom SummarizedExperiment assay colData
+#' @examples
+#' average_marker_intensity_within_radius(SPIAT::formatted_image,
+#'                                        reference_marker ="CD8",
+#'                                        target_marker = "CD4",
+#'                                        radius=30)
 #' @export
 
 average_marker_intensity_within_radius <- function(sce_object, reference_marker, target_marker, radius = 20) {

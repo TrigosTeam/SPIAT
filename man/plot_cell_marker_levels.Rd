@@ -15,3 +15,6 @@ plot_cell_marker_levels(sce_object, marker)
 Produces a scatter plot of the level of a marker in each cell.
 The level of the marker in all cells is shown, whether phenotyped as being positive or negative for the particular marker.
 }
+\examples{
+plot_cell_marker_levels(SPIAT::formatted_image, "CD3")
+}
