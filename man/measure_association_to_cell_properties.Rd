@@ -35,3 +35,13 @@ measure_association_to_cell_properties(
 \description{
 Plots the density or boxplot of a property of two cell phenotypes or compares using t test/wilcoxon rank sum test
 }
+\examples{
+measure_association_to_cell_properties(SPIAT::formatted_image,
+                                      phenotypes = c("CD3,CD4", "CD3,CD8"),
+                                      property = "Cell.Area",
+                                      method = "box")
+measure_association_to_cell_properties(SPIAT::formatted_image,
+                                      phenotypes = c("CD3,CD4", "CD3,CD8"),
+                                      property = "Cell.Area",
+                                      method = "t")                                     
+}

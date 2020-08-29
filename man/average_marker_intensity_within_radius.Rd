@@ -27,3 +27,9 @@ Note that it pools all cells with the target marker that are within the specific
 any reference cell. Results represent the average intensities within a radius,
 but do not correspond to metrics for each cell
 }
+\examples{
+average_marker_intensity_within_radius(SPIAT::formatted_image,
+                                       reference_marker ="CD8",
+                                       target_marker = "CD4",
+                                       radius=30)
+}

@@ -12,7 +12,11 @@ select_phenotypes(sce_object, keep = TRUE, phenotypes = NULL)
 \item{keep}{TRUE if vector of phenotypes are the cells that are going to be kept,
 FALSE if they are to be removed}
 
-\item{phenotypes}{Vector of phenotypes of keep or exclude}
+\item{phenotypes}{Vector of phenotypes of keep or exclude
+data_subset <- select_phenotypes(SPIAT::formatted_image, keep=TRUE,
+                                 phenotypes = c("AMACR",
+                                 "CD3,CD8",
+                                 "PDL-1"))}
 }
 \description{
 Select phenotypes to keep or exclude in the analysis

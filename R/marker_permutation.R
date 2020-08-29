@@ -9,6 +9,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom utils combn
+#' @examples 
+#' sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
 #' @export
 
 marker_permutation <- function(sce_object, num_iter) {

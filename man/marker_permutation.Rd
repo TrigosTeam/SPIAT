@@ -15,3 +15,6 @@ marker_permutation(sce_object, num_iter)
 Creates random combinations of phenotypes by shuffling markers and
 calculates the enrichment and depletion p values
 }
+\examples{
+sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
+}

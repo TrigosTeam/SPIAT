@@ -20,3 +20,6 @@ Takes in a vector or radii and calculates the average intensity
 of a target marker using average_intensity function. It plots the intensity
 level as a line graph
 }
+\examples{
+plot_average_intensity(SPIAT::formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+}

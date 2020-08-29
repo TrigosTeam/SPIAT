@@ -12,6 +12,8 @@
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
+#' @examples
+#' plot_marker_level_heatmap(SPIAT::formatted_image, num_splits = 100, "AMACR")
 #' @export
 
 plot_marker_level_heatmap <- function(sce_object, num_splits, marker){

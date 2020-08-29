@@ -18,6 +18,11 @@
 #' @importFrom pracma findpeaks
 #' @importFrom stats complete.cases density quantile
 #' @importFrom mmand threshold
+#' @examples
+#' predicted_image <- predict_phenotypes(SPIAT::formatted_image,
+#'                                       thresholds = NULL,
+#'                                       tumour_marker = "AMACR",
+#'                                       baseline_markers = c("CD3", "CD4", "CD8"))
 #' @export
 
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,

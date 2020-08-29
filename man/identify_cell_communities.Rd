@@ -27,3 +27,6 @@ identify_cell_communities(
 \description{
 Identifies communities of cells based on their location. It excludes cells without a phenotype
 }
+\examples{
+communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
+}

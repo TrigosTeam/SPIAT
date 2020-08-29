@@ -15,3 +15,6 @@ marker_intensity_boxplot(sce_object, marker)
 Produces boxplots of marker levels for cells phenotyped as being positive
 for the marker, and those that where phenotyped as being negative.
 }
+\examples{
+marker_intensity_boxplot(SPIAT::formatted_image, "CD3")
+}

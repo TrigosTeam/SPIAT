@@ -12,3 +12,6 @@ print_phenotypes(sce_object)
 \description{
 Prints phenotypes that are present in the sample
 }
+\examples{
+print_phenotypes(SPIAT::formatted_image)
+}

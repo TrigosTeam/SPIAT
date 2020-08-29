@@ -28,3 +28,9 @@ number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing
 the predicted intensity status for a particular marker,
 }
+\examples{
+predicted_image <- predict_phenotypes(SPIAT::formatted_image,
+                                      thresholds = NULL,
+                                      tumour_marker = "AMACR",
+                                      baseline_markers = c("CD3", "CD4", "CD8"))
+}

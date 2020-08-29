@@ -12,3 +12,7 @@ plot_cell_distances_violin(cell_to_cell_dist)
 \description{
 Plots distances between cells as a violin plot
 }
+\examples{
+distances <- calculate_all_distances_between_phenotypes(SPIAT::formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+plot_cell_distances_violin(distances)
+}
