@@ -9,6 +9,7 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom utils combn
+#' @return A plot is returned
 #' @examples 
 #' sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
 #' @export

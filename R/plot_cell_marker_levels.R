@@ -9,6 +9,7 @@
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
+#' @return A plot is returned
 #' @examples
 #' plot_cell_marker_levels(SPIAT::formatted_image, "CD3")
 #' @export

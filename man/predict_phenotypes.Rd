@@ -21,6 +21,9 @@ The order must match the marker order, and it should be NA for DAPI.}
 
 \item{baseline_markers}{Markers not found on tumour cells to refine the threshold}
 }
+\value{
+A data.frame and plots are returned
+}
 \description{
 Produces a density plot showing predicted cutoff of a
 positive reading for marker intensity. It also prints to the console the

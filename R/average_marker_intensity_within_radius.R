@@ -15,6 +15,7 @@
 #' @importFrom dbscan frNN
 #' @importFrom stats complete.cases
 #' @importFrom SummarizedExperiment assay colData
+#' @return A single number is returned
 #' @examples
 #' average_marker_intensity_within_radius(SPIAT::formatted_image,
 #'                                        reference_marker ="CD8",

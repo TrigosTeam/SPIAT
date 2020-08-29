@@ -11,6 +11,9 @@ marker_permutation(sce_object, num_iter)
 
 \item{num_iter}{Integer specifying the number of iterations for bootstrapping}
 }
+\value{
+A plot is returned
+}
 \description{
 Creates random combinations of phenotypes by shuffling markers and
 calculates the enrichment and depletion p values

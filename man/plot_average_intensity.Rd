@@ -15,6 +15,9 @@ plot_average_intensity(sce_object, reference_marker, target_marker, radii)
 
 \item{radii}{Vector of integers specifying the search radius around reference cells}
 }
+\value{
+A plot is returned
+}
 \description{
 Takes in a vector or radii and calculates the average intensity
 of a target marker using average_intensity function. It plots the intensity

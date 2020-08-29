@@ -11,6 +11,9 @@ plot_distance_heatmap(phenotype_distances_result, metric = "mean")
 
 \item{metric}{Metric to be plotted. One of "mean", "std.dev" or "median".}
 }
+\value{
+A plot is returned
+}
 \description{
 Takes the output of cell_distances and plot the distances as a heatmap
 }

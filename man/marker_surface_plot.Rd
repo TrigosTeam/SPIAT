@@ -30,6 +30,9 @@ splits equal to higher resolution. Recommendation: 10-100}
 
 \item{y_position_max}{Integer specifying the maximum y boundary to be splitted}
 }
+\value{
+A plot is returned
+}
 \description{
 Generates a 3D surface plot of the level of the selected
 marker. Note that the image is blurred based on the 'num_splits' parameter.

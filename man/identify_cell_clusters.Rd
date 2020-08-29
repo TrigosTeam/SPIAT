@@ -13,6 +13,9 @@ identify_cell_clusters(sce_object, phenotypes_of_interest, radius)
 
 \item{radius}{Integer specifying the radius of search.}
 }
+\value{
+A data.frame and a plot is returned
+}
 \description{
 Uses Euclidean distances to identify clusters of cells within a specified radius.
 }

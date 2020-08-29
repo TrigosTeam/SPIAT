@@ -15,6 +15,9 @@ compute_mixing_score(sce_object, reference_marker, target_marker, radius = 20)
 
 \item{radius}{Integer specifying the radius. Only cells within this radius will be considered.}
 }
+\value{
+A single number is returned
+}
 \description{
 Returns the mixing score between a reference marker and a target
 marker. The mixing score is defined by:

@@ -34,6 +34,9 @@ We recommend values in the 1-2 range.}
 
 \item{y_position_max}{Integer specifying the maximum y boundary to be splitted}
 }
+\value{
+A plot is returned
+}
 \description{
 Generates stacked 3D surface plots showing normalized
 intensity level of specified markers.

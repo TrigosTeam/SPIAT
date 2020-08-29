@@ -20,6 +20,7 @@
 #' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases setNames
 #' @importFrom dittoSeq dittoColors
+#' @return A list of data.frames is returned
 #' @examples
 #' split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
 #' @export

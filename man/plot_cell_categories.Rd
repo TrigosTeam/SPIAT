@@ -13,6 +13,9 @@ plot_cell_categories(sce_object, phenotypes_of_interest, colour_vector)
 
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 }
+\value{
+A plot is returned
+}
 \description{
 Produces a scatter plot of the cells in the tissue. Cells are coloured
 categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
