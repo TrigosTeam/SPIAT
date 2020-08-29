@@ -9,6 +9,10 @@
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
+#' @examples
+#' phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
+#' colour_vector <- c("darkgrey", "blue", "red")
+#' plot_cell_categories(SPIAT::formatted_image, phenotypes_of_interest, colour_vector)
 #' @export
 
 plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vector) {

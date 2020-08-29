@@ -12,6 +12,8 @@
 #' @importFrom stats complete.cases
 #' @importFrom apcluster negDistMat
 #' @importFrom reshape2 melt
+#' @examples
+#' distances <- calculate_all_distances_between_phenotypes(SPIAT::formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
 #' @export
 
 calculate_all_distances_between_phenotypes <- function(sce_object, remove_other = TRUE, cell_phenotypes_of_interest = NULL){

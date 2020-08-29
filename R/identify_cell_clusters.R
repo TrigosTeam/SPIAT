@@ -12,6 +12,8 @@
 #' @importFrom apcluster negDistMat
 #' @importFrom dittoSeq dittoColors
 #' @import ggplot2
+#' @examples
+#' clusters <- identify_cell_clusters(SPIAT::formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 #' @export
 
 # imported ggplo2 as interdependency of functions

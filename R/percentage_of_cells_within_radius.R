@@ -14,6 +14,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @importFrom SummarizedExperiment colData assay
+#' @examples
+#' p_cells_within_radius <- percentage_of_cells_within_radius(SPIAT::formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
 #' @export
 
 percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100){

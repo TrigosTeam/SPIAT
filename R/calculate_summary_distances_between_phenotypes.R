@@ -13,6 +13,8 @@
 #' @importFrom stats median sd
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
+#' @examples
+#' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 #' @export
 
 calculate_summary_distances_between_phenotypes <- function(sce_object, all_marker_combinations = TRUE,

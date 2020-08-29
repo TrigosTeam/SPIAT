@@ -21,3 +21,6 @@ marker. The mixing score is defined by:
 the number of target-reference interactions/number of reference-reference interactions
 within a specified radius.
 }
+\examples{
+compute_mixing_score(SPIAT::formatted_image, reference_marker = "CD4", target_marker = "CD8")
+}

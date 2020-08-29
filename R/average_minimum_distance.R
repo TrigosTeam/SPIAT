@@ -7,6 +7,8 @@
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
+#' @examples
+#' average_minimum_distance(SPIAT::formatted_image)
 #' @export
 
 average_minimum_distance <- function(sce_object) {

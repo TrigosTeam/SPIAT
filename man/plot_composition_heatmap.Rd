@@ -24,3 +24,8 @@ plot_composition_heatmap(
 Produces a heatmap showing the marker percentages within each cluster
 and the cluster sizes
 }
+\examples{
+communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
+communities_vis <- composition_of_clusters_and_communities(communities, "Community")
+plot_composition_heatmap(communities_vis, column_to_consider="Community")
+}

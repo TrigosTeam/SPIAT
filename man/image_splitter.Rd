@@ -41,3 +41,6 @@ Takes in a singlecellexperiment object from format_image_to_sce,
 splits the image into specified sections and plots the different combinations
 of markers within the image segments.
 }
+\examples{
+split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
+}

@@ -27,3 +27,6 @@ from the cells with a reference phenotype.
 The calculation is done per reference cell, so runtime will depend on the number of reference
 cells present.
 }
+\examples{
+p_cells_within_radius <- percentage_of_cells_within_radius(SPIAT::formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
+}
