@@ -82,7 +82,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     split_occurrence <- cbind(x_split, y_split)
 
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
-    for (y in 1:num_splits){
+    for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
         #print(local_coor_y)
 
@@ -99,7 +99,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
         }
     }
 
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
         # print(local_coor_x)
 
@@ -123,9 +123,9 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     my_matrix <- matrix(nrow = num_splits, ncol=num_splits)
 
     #populate matrix with values from df
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
 
-        for (y in 1:num_splits){
+        for (y in seq_len(num_splits)){
 
             #select the row with the xcord and ycord
             row <- df[df[, "xcord"] == x & df[, "ycord"] == y, ]

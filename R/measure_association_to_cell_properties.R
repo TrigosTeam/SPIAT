@@ -71,7 +71,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   if (method == "density"){
     
     # get colourblind-friendly colours
-    colours <- dittoColors()[1:2]
+    colours <- dittoColors()[seq_len(2)]
     
     p <- ggplot(formatted_data, aes(x=formatted_data[,property], color = Phenotype)) + 
       geom_density() + 
