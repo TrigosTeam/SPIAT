@@ -380,7 +380,6 @@ This plot shows that several communities detected have a combination of tumour (
 sessionInfo()
 ```
 
-
 # Author Contributions
 AT, TY, YF, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
 
