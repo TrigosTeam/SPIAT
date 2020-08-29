@@ -7,6 +7,8 @@
 #' @param celltypes_to_exclude Vector specifying celltypes to exclude. For example "OTHER" will exclude that celltype from the Total (optional)
 #' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases
+#' @examples
+#' p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
 #' @export
 
 calculate_cell_proportions <- function(sce_object, reference_celltypes = "Total", celltypes_to_exclude = NULL){

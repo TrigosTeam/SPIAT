@@ -13,6 +13,10 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @import ggplot2
+#' @examples
+#' identify_bordering_cells(SPIAT::formatted_image, reference_marker = "AMACR",
+#'                          rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+#'                          upper_bound=0.7)
 #' @export
 
 #sce_object <- sce_ovarian_panimmune1

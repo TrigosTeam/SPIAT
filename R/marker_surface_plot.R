@@ -16,6 +16,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
 #' @importFrom plotly plot_ly add_surface
+#' @examples
+#' marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
 #' @export
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,

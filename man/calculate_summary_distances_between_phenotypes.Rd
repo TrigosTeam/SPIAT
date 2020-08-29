@@ -23,3 +23,6 @@ is FALSE}
 \description{
 Returns the mean, median and stardard deviation of the distances between phenotypes
 }
+\examples{
+summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
+}

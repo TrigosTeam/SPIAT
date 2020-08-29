@@ -12,3 +12,6 @@ average_minimum_distance(sce_object)
 \description{
 Calculates the average minimum distance of all cells in the sce_object
 }
+\examples{
+average_minimum_distance(SPIAT::formatted_image)
+}

@@ -14,3 +14,7 @@ plot_distance_heatmap(phenotype_distances_result, metric = "mean")
 \description{
 Takes the output of cell_distances and plot the distances as a heatmap
 }
+\examples{
+summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
+plot_distance_heatmap(summary_distances)
+}

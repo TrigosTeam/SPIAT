@@ -13,6 +13,8 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom dbscan frNN
+#' @examples 
+#' compute_mixing_score(SPIAT::formatted_image, reference_marker = "CD4", target_marker = "CD8")
 #' @export
 
 compute_mixing_score <- function(sce_object, reference_marker, target_marker, radius = 20) {

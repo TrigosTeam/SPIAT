@@ -16,3 +16,6 @@ identify_cell_clusters(sce_object, phenotypes_of_interest, radius)
 \description{
 Uses Euclidean distances to identify clusters of cells within a specified radius.
 }
+\examples{
+clusters <- identify_cell_clusters(SPIAT::formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
+}

@@ -14,6 +14,15 @@
 #' @importFrom stats t.test wilcox.test
 #' @importFrom dittoSeq dittoColors  
 #' @import ggplot2
+#' @examples
+#' measure_association_to_cell_properties(SPIAT::formatted_image,
+#'                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
+#'                                       property = "Cell.Area",
+#'                                       method = "box")
+#' measure_association_to_cell_properties(SPIAT::formatted_image,
+#'                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
+#'                                       property = "Cell.Area",
+#'                                       method = "t")                                     
 #' @export
 
 measure_association_to_cell_properties <- function(sce_object, property = "Cell.Area", 
