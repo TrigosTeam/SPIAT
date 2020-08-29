@@ -23,11 +23,15 @@ Authors@R: c(
            family=" Doyle",
            role="aut",
            email = "maria.doyle@petermac.org"))
-Description: Spatial analysis of tissues obtained 
-    using multiplex immunohistochemistry.
-    Converts INFORM or HALO images into a SingleCellExperiment class
-    and performs spatial analysis including distance calculations, plotting
-    marker expressions and more. 
+Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data processing, 
+    quality control, visualization, data handling and data analysis tools for 
+    multiplex immunohistochemistry. Converts INFORM or HALO images into a 
+    SingleCellExperiment class. SPIAT includes novel algorithms for the 
+    identification of cell clusters, cell margins and cell gradients, the 
+    calculation of neighbourhood proportions, and algorithms for the prediction 
+    of cell phenotypes in tissue images. SPIAT also includes speedy 
+    implementations of the calculation of cell distances and detection of cell 
+    communities.
 License: GPL-3
 Encoding: UTF-8
 Depends: 
