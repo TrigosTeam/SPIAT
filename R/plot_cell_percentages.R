@@ -40,7 +40,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL, cellprop
       ggtitle("Excluding tumor cells")+
       theme_bw() +
       theme(legend.position = "none") +
-      xlab("Cell Type") + ylab("Proportion of total cells") +
+      xlab("Cell Type") + ylab("Proportion of cells") +
       geom_text(aes(label = Percentage_label), position=position_dodge(width=0.9), hjust=-0.25, size = 2) +
       coord_flip()
     print(cell_percentages_no_tumour_plot)
