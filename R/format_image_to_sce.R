@@ -19,7 +19,7 @@
 #' Column names must match the order of the 'markers' parameter
 #' @importFrom SingleCellExperiment SingleCellExperiment	
 #' @importFrom SummarizedExperiment colData
-#' @importFrom utils read.csv read.delim
+#' @importFrom vroom vroom
 #' @return A SingleCellExperiment object is returned
 
 format_image_to_sce <- function(format = "INFORM", image, markers, locations = NULL, dye_columns_interest = NULL, intensity_columns_interest = NULL) {
@@ -28,8 +28,11 @@ format_image_to_sce <- function(format = "INFORM", image, markers, locations = N
   if (format == "HALO"){
     #following is from format_HALO_new
     
-    #read in the image
-    image <- read.csv(image)
+    #read in the image using vroom for super fast import
+    image <- vroom(image)
+    
+    #remove spaces from column names
+    colnames(image) <- make.names(colnames(image))
     
     # if locations is specified, use location plus marker name to get the intensity and dye columns
     if (!is.null(locations)) {
@@ -154,8 +157,8 @@ format_image_to_sce <- function(format = "INFORM", image, markers, locations = N
     
     ###following codes are from format_INFORM
     
-    #open the image file, keep column names as is for matching to markers
-    image <- read.delim(image, check.names=FALSE)
+    #read in the image file
+    image <- vroom(image)
     #remove all rows with empty phenotype/no markers
     image <- image[image$Phenotype != "",]
     image <- image[!is.na(image$Phenotype), ]

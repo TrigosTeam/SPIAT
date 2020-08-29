@@ -55,6 +55,7 @@ Imports:
     grDevices,
     stats,
     utils,
+    vroom,
     ComplexHeatmap,
     dittoSeq
 Suggests:
