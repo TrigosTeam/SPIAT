@@ -6,6 +6,7 @@ package: SPIAT
 output:
   BiocStyle::html_document:
     toc_float: true
+    toc_depth: 4
 bibliography: "`r file.path(system.file(package='SPIAT', 'vignettes'), 'introduction.bib')`"    
 vignette: >
   %\VignetteIndexEntry{Overview of the SPIAT package}
@@ -37,14 +38,12 @@ library(SPIAT)
 ```
 
 
-We can use `format_image_to_sce` to read in and format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires at least 4 arguments:
+We can use `format_image_to_sce` to read in and format raw data for SPIAT.`format_image_to_sce` creates a SingleCellExperiment object. It requires at least 4 arguments:
 
 - `format`: INFORM or HALO 
 - `image`: path to the raw InForm or HALO image data file
-- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the name used in the input file. One of the markers must be DAPI.
-- `locations`: locations of the markers either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. Alternatively, the column names can be specified, see below for more information.
-
-Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Phenotype prediction check section.
+- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the marker name used in the input file. One of the markers must be DAPI.
+- `locations`: locations of the markers, either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. Alternatively, the column names can be specified, see below for more information.
 
 ## Simple import
 
@@ -52,11 +51,8 @@ The simplest way to read in both InForm and HALO files, is to specify the locati
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
-
 markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
-
 locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
-
 formatted_image <- format_image_to_sce(
                           format="INFORM",
                           image=raw_inform_data,
@@ -72,9 +68,7 @@ If for some reason you don't want to specify the `locations`, you can specify th
 
 ```{r message=FALSE, eval=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
-
 markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
-
 intensity_columns_interest <- c(
   "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
   "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
@@ -83,7 +77,6 @@ intensity_columns_interest <- c(
   "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
   "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"
   )
-
 formatted_image <- format_image_to_sce(
                           format="INFORM",
                           image=raw_inform_data,
@@ -97,7 +90,7 @@ formatted_image <- format_image_to_sce(
 
 #### Phenotype column
 
-`format_image_to_sce` uses the Phenotype column in the InForm raw data.
+`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker.
 
 #### Cell properties columns
 
@@ -112,7 +105,7 @@ For HALO you can also just specify the `locations` to auto-detect the columns as
 
 #### Dye columns
 
-`format_image_to_sce` requires the HALO dye columns to assign the phenotype. If not using `locations` to auto-detect, these can be specified with `dye_columns_interest`. These columns have the marker status (1 or 0 for whether the cell is positive or negative for the marker) and these are used to create the phenotype column. For example, if a cell has a marker status of 1 for CD3 and 1 for CD4, it will be assigned the Phenotype "CD3,CD4". Cells that have a marker status of 1 for DAPI and no other marker, are assigned the phenotype "OTHER".
+`format_image_to_sce` requires the HALO dye columns to assign the phenotype. If not using `locations` to auto-detect, these can be specified with `dye_columns_interest`. These columns have the marker status (1 or 0 for whether the cell is positive or negative for the marker) and these are used to create the phenotype column. For example, if HALO has assigned a cell a marker status of 1 for CD3 and 1 for CD4, SPIAT will give it the Phenotype "CD3,CD4". Cells that have a marker status of 1 for DAPI and no other marker, are given the phenotype "OTHER".
 
 ```{r message=FALSE, eval=FALSE}
 raw_halo_data <- "path/to/halo/file"
@@ -137,7 +130,6 @@ formatted_image <- format_image_to_sce(
                           dye_columns_interest=dye_columns_interest
                           )
 ```
-
 
 #### X and Y location columns
 
@@ -167,26 +159,39 @@ In this vignette we will use an InForm data file that's already been formatted f
 data("formatted_image")
 ```
 
-This is *SingleCellExperiment* format, where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the phenotype, x and y coordinates and the cell properties. 
+This is *SingleCellExperiment* format.
 
 ```{r}
-assay(formatted_image)[1:5, 1:5]
+class(formatted_image)
 ```
+
+This example data has 6 markers and 5101 cells.
 
 ```{r}
-colData(formatted_image)[1:5,]
+dim(formatted_image)
 ```
 
+`assay` stores the intensity level of every marker (rows) for every cell (columns). 
 
-# Quality control
+```{r}
+# take a look at first 5 columns
+assay(formatted_image)[, 1:5]
+```
 
-We can check what phenotypes are present in the image data with `print_phenotypes`. 
+`colData` stores the phenotype, x and y coordinates, and the cell properties.
+
+```{r}
+# take a look at first 5 rows
+colData(formatted_image)[1:5, ]
+```
+
+We can check what phenotypes are present with `print_phenotypes`. 
 
 ```{r}
 print_phenotypes(formatted_image)
 ```
 
-These phenotypes are determined from individual markers like AMACR or combinations of markers like CD3 and CD4. The phenotypes in this example data can be interpreted as follows: 
+The phenotypes in this example data can be interpreted as follows: 
 
 * AMACR = prostate cancer cells  
 * CD3,CD4 = helper T cells  
@@ -195,6 +200,7 @@ These phenotypes are determined from individual markers like AMACR or combinatio
 
 AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL-1 is used to help determine if the cancer may benefit from immunotherapy treatment.
 
+# Quality control
 
 ## Cell proportions/percentages
 
@@ -252,7 +258,7 @@ Note that some negative cells will have high marker intensity, and vice versa. T
 
 ## Phenotype prediction check
 
-We can check the phenotypes predicted using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the predicted intensity status for a particular marker. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm.
+We can check the phenotypes that have been assigned by InForm and HALO using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the phenotypes predicted by SPIAT and the actual phenotypes from InForm/HALO. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
 
 ```{r}
 predicted_image <- predict_phenotypes(formatted_image,
@@ -261,7 +267,7 @@ predicted_image <- predict_phenotypes(formatted_image,
                                       baseline_markers = c("CD3", "CD4", "CD8"))
 ```
 
-We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
+We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. 
 
 ```{r}
 marker_prediction_plot(predicted_image, marker="CD3")
@@ -300,13 +306,13 @@ marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 
 ## 3D stacked surface plot
 
-To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and allows the identification of co-occurring and mutually exclusive markers. 
+To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
 
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
 ```
 
-The stacked surface plots of the AMACR (prostate cancer cell) and CD3 (T cell) markers in this prostate tissue shows how AMACR and CD3 are mutually exclusive as the peaks and valleys are opposite.
+The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in this prostate tissue shows how AMACR and CD3 are mutually exclusive as the peaks and valleys are opposite.
 
 ## Categorical dot plot
 
@@ -317,7 +323,6 @@ phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
 colour_vector <- c("darkgrey", "blue", "red")
 plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 ```
-
 
 # Gradients of cells
 
@@ -401,7 +406,7 @@ identify_bordering_cells(formatted_image, reference_marker = "AMACR",
 
 # Cell properties
 
-We can use `measure_association_to_cell_properties` to compare two phenotypes for a property, such as Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, Cell.Axis.Ratio. Method options are density plot, boxplot, t test or wilcoxon test. 
+We can use `measure_association_to_cell_properties` to compare two phenotypes for one of the cell properties, such as Cell.Area (see the HALO and InForm format section above for the cell properties available). Method options are density plot, boxplot, t test or wilcoxon test. 
 
 ```{r}
 # boxplot
