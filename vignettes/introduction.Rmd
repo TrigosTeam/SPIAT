@@ -37,37 +37,137 @@ library(SPIAT)
 ```
 
 
-We can use `format_image_to_sce` to format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires 4 things:
+We can use `format_image_to_sce` to read in and format raw data for SPIAT, as shown in the commented out code below. `format_image_to_sce` creates a SingleCellExperiment object. It requires at least 4 arguments:
 
 - `format`: INFORM or HALO 
 - `image`: path to the raw InForm or HALO image data file
-- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the name used in the input file.  
-- `locations`: locations of the markers either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. (Alternatively the names of the columns of interest can be specified with `intensity_columns of interest`, with `dye_columns of interest` also required for HALO)
+- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the name used in the input file. One of the markers must be DAPI.
+- `locations`: locations of the markers either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. Alternatively, the column names can be specified, see below for more information.
 
 Images must have been cell segmented and cells phenotyped using HALO or InForm software, although SPIAT offers the option of calling phenotypes based on marker levels and marker combinations. See Phenotype prediction check section.
 
-```{r eval=FALSE}
-# raw_inform_data <- "S6_[49209,17530]_cell_seg_data.txt"
+## Simple import
 
-# markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
+The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. For information on the InForm and HALO formats see below.
 
-# locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
+```{r message=FALSE}
+raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
 
-# formatted_image <- format_image_to_sce(
-#                           format="INFORM",
-#                           image=raw_inform_data,
-#                           markers=markers,
-#                           locations= locations)
-#)
+markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
+
+locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
+
+formatted_image <- format_image_to_sce(
+                          format="INFORM",
+                          image=raw_inform_data,
+                          markers=markers,
+                          locations=locations)
+```
+
+## InForm input
+
+#### Intensity columns
+
+If for some reason you don't want to specify the `locations`, you can specify the intensity columns with `intensity_columns_interest` as shown below. This will give the same result as specifying the locations above. 
+
+```{r message=FALSE, eval=FALSE}
+raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
+
+markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
+
+intensity_columns_interest <- c(
+  "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
+  "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)",
+  "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
+  "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"
+  )
+
+formatted_image <- format_image_to_sce(
+                          format="INFORM",
+                          image=raw_inform_data,
+                          markers=markers,
+                    intensity_columns_interest=intensity_columns_interest)
+```
+
+#### X and Y location columns
+
+`format_image_to_sce` uses the Cell X Position and Cell Y Position columns in the InForm raw data.
+
+#### Phenotype column
+
+`format_image_to_sce` uses the Phenotype column in the InForm raw data.
+
+#### Cell properties columns
+
+The following cell properties columns are required to be present in the InForm input file: Entire Cell Area (pixels), Nucleus Area (pixels), Nucleus Compactness, Nucleus Axis Ratio, and Entire Cell Axis Ratio. 
+
+
+## HALO input
+
+#### Intensity columns
+
+For HALO you can also just specify the `locations` to auto-detect the columns as shown above. But if you want to specify the columns instead, you can do so with `intensity_columns_interest`, as shown in the example below. Note that then you also must specify the `dye_columns_interest`.
+
+#### Dye columns
+
+`format_image_to_sce` requires the HALO dye columns to assign the phenotype. If not using `locations` to auto-detect, these can be specified with `dye_columns_interest`. These columns have the marker status (1 or 0 for whether the cell is positive or negative for the marker) and these are used to create the phenotype column. For example, if a cell has a marker status of 1 for CD3 and 1 for CD4, it will be assigned the Phenotype "CD3,CD4". Cells that have a marker status of 1 for DAPI and no other marker, are assigned the phenotype "OTHER".
+
+```{r message=FALSE, eval=FALSE}
+raw_halo_data <- "path/to/halo/file"
+markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
+intensity_columns_interest <- c("Dye 1 Nucleus Intensity",
+                                "Dye 2 Cytoplasm Intensity",
+                                "Dye 3 Membrane Intensity",
+                                "Dye 4 Cytoplasm Intensity",
+                                "Dye 5 Cytoplasm Intensity",
+                                "Dye 6 Cytoplasm Intensity")
+dye_columns_interest <- c("Dye 1 Positive Nucleus",
+                          "Dye 2 Positive Cytoplasm",
+                          "Dye 3 Positive Membrane",
+                          "Dye 4 Positive Cytoplasm",
+                          "Dye 5 Positive Cytoplasm",
+                          "Dye 6 Positive Cytoplasm")
+formatted_image <- format_image_to_sce(
+                          format="HALO",
+                          image=raw_halo_data,
+                          markers=markers,
+                          intensity_columns_interest=intensity_columns_interest,
+                          dye_columns_interest=dye_columns_interest
+                          )
 ```
 
 
-In this vignette we will use data that's already formatted for SPIAT, `formatted_image` which we can load with `data`.
+#### X and Y location columns
+
+`format_image_to_sce` takes the average of the HALO X min and X max columns for each cell to create the Cell.X.Position column. It takes the average of the Y min and Y max to create the Cell.Y.Position column.
+
+#### Phenotype column
+
+`format_image_to_sce` creates the Phenotype column from the dye columns as described under the Dye columns section above.
+
+#### Cell properties columns
+
+The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area and Membrane Perimeter. 
+
+
+## Splitting images
+
+In the case of large images, or images where there are two independent tissue sections, it is recommended to split images into sections defined by the user. This can be performed with `image_splitter` after `format_image_to_sce`. It can also plot the different combinations of markers within the image segments.
+
+```{r}
+split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
+```
+
+## Example data
+
+In this vignette we will use an InForm data file that's already been formatted for SPIAT with `format_image_to_sce`, which we can load with `data`.
 ```{r}
 data("formatted_image")
 ```
 
-This is *SingleCellExperiment* format where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the phenotype, x and y coordinates and cell properties. If InForm format, the cell properties are Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area, Nucleus.Area, Cytoplasm.Area and Membrane.Perimeter.
+This is *SingleCellExperiment* format, where here `assay` stores the intensity level of every marker (rows) for every cell (columns), and `colData` stores the phenotype, x and y coordinates and the cell properties. 
 
 ```{r}
 assay(formatted_image)[1:5, 1:5]
@@ -77,13 +177,6 @@ assay(formatted_image)[1:5, 1:5]
 colData(formatted_image)[1:5,]
 ```
 
-## Splitting images
-
-In the case of large images, or images where there are two independent tissue sections, it is recommended to split images into sections defined by the user. This can be performed with `image_splitter`. It can also plot the different combinations of markers within the image segments.
-
-```{r}
-split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
-```
 
 # Quality control
 

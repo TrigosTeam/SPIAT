@@ -219,9 +219,6 @@ format_image_to_sce <- function(format = "INFORM", image, markers, locations = N
     #add 'cell_' to the start of the objectId
     image$Cell.ID <- paste0("Cell_", image$Cell.ID)
     
-    #standardize PDL-1 into PDL1
-    #image$Phenotype <- gsub("PDL-1", "PDL1", image$Phenotype, fixed=TRUE)
-    
     #reformat the phenotype into "marker1, marker2..."
     for (marker in markers) {
       marker_positive <- paste0(marker, "+", sep="")
