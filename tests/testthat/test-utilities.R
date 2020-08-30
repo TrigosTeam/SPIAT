@@ -5,7 +5,7 @@ test_that("format_image_to_sce() works", {
   load("testdata/test_sce.rda")
   
   
-  raw_inform_data <- "testdata/test_spiat.txt"
+  raw_inform_data <- raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
   markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
   intensity_columns_interest <- c(
     "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
