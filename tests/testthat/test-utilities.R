@@ -29,7 +29,7 @@ test_that("format_image_to_sce() works", {
 
 test_that("print_phenotypes works", {
     
-    res <- c("AMACR", "CD3,CD4", "CD3,CD8", "PDL-1")
+    res <- c("OTHER", "AMACR", "CD3,CD4", "CD3,CD8", "CD3", "PDL-1")
     
     phenotypes <- print_phenotypes(formatted_image)
   
@@ -40,12 +40,11 @@ test_that("print_phenotypes works", {
 test_that("select_phenotypes works", {
     
     phenotypes <- select_phenotypes(formatted_image, keep=TRUE,
-                                         phenotypes = c("AMACR",
+                                         phenotypes = c("OTHER", "AMACR",
                                                         "CD3,CD4",
                                                         "CD3,CD8",
-                                                        "CD3,CD8",
-                                                        "PDL-1",
-                                                        "AMACR,PDL-1"))
+                                                        "CD3",
+                                                        "PDL-1"))
     
     expect_equal(phenotypes, formatted_image)
 })
@@ -53,16 +52,16 @@ test_that("select_phenotypes works", {
 
 test_that("image_splitter works", {
     
-    res <-    data.frame(row.names = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"),
-                         Phenotype = c("AMACR", "AMACR", "AMACR", "AMACR"
-                         ), Cell.X.Position = c(171L, 184L, 201L, 219L), 
-                         Cell.Y.Position = c(22L, 38L, 52L, 63L), 
-                         Cell.Area = c(464L, 553L, 462L, 876L), 
-                         Nucleus.Area = c(177L, 212L, 239L, 451L), 
-                         Nucleus.Compactness = c(0.54, 0.51, 0.53, 0.53), 
-                         Nucleus.Axis.Ratio = c(1.84, 1.92, 1.47, 1.19), 
-                         Cell.Axis.Ratio = c(1, 1.21, 1.09, 1.34), 
-                         Cell_type = c("AMACR", "AMACR", "AMACR", "AMACR"))
+    res <-    data.frame(
+      row.names = c("Cell_1", "Cell_2", "Cell_3", "Cell_4"),
+      Phenotype = c("OTHER", "AMACR", "AMACR", "AMACR"), Cell.X.Position = c(82, 171, 184, 201), 
+      Cell.Y.Position = c(30, 22, 38, 52), 
+      Cell.Area = c(477, 464, 553, 462), 
+      Nucleus.Area = c(160,177, 212, 239), 
+      Nucleus.Compactness = c(0.52, 0.54, 0.51, 0.53), 
+      Nucleus.Axis.Ratio = c(2.05, 1.84, 1.92, 1.47), 
+      Cell.Axis.Ratio = c(1.48, 1, 1.21, 1.09), 
+      Cell_type = c("OTHER", "AMACR", "AMACR", "AMACR"))
     
     split_image <- image_splitter(formatted_image, number_of_splits=3)
     
