@@ -33,7 +33,6 @@ SPIAT includes novel algorithms for the identification of cell clusters, cell ma
 First we load the SPIAT library.
 
 ```{r message=FALSE}
-# load library
 library(SPIAT)
 ```
 
@@ -165,7 +164,7 @@ This is *SingleCellExperiment* format.
 class(formatted_image)
 ```
 
-This example data has 6 markers and 5101 cells.
+This example data has 6 markers and 8419 cells.
 
 ```{r}
 dim(formatted_image)
@@ -195,10 +194,12 @@ The phenotypes in this example data can be interpreted as follows:
 
 * AMACR = prostate cancer cells  
 * CD3,CD4 = helper T cells  
-* CD3,CD8 = cytotoxic T cells  
+* CD3,CD8 = cytotoxic T cells
+* CD3 = T cells that are not helper or cytotoxic
 * PDL-1 = immune checkpoint cells
+* OTHER = other cell types
 
-AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4 and CD3,CD8 which types of T cells (immune cells) are present, and PDL-1 is used to help determine if the cancer may benefit from immunotherapy treatment.
+AMACR identifies which cells in the image are prostate cancer cells. CD3,CD4, CD3,CD8, CD3 which types of T cells (immune cells) are present, and PDL-1 is used to help determine if the cancer may benefit from immunotherapy treatment.
 
 # Quality control
 
@@ -256,9 +257,9 @@ marker_intensity_boxplot(formatted_image, "CD3")
 
 Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
 
-## Phenotype prediction check
+## Predict cell phenotypes
 
-We can check the phenotypes that have been assigned by InForm and HALO using `predict_phenotypes`. This produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the phenotypes predicted by SPIAT and the actual phenotypes from InForm/HALO. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
+SPIAT can predict cell phenotypes using the marker intensity levels with `predict_phenotypes`. This can be used to check the phenotypes that have been assigned by InForm and HALO. It can also potentially be used to automate the manual phenotypying performed with InForm/HALO. `predict_phenotypes` produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the phenotypes predicted by SPIAT and the actual phenotypes from InForm/HALO. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
 
 ```{r}
 predicted_image <- predict_phenotypes(formatted_image,
@@ -293,7 +294,7 @@ plot_marker_level_heatmap(formatted_image, num_splits = 100, "AMACR")
 
 # Visualizing tissues
 
-In addition to the marker level tissue plots for QC, SPIAT has other methods for visualising markers and phenotypes in tissues.
+In addition to the marker level tissue plots for QC, SPIAT has other methods for  visualizing markers and phenotypes in tissues.
 
 
 ## 3D surface plot
@@ -306,7 +307,7 @@ marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
 
 ## 3D stacked surface plot
 
-To visualise multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
+To  visualize multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
 
 ```{r}
 marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
@@ -319,8 +320,8 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
-colour_vector <- c("darkgrey", "blue", "red")
+phenotypes_of_interest <- c("AMACR", "CD3,CD8", "CD3,CD4", "PDL-1")
+colour_vector <- c("darkgrey", "darkcyan", "skyBlue", "orange")
 plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
 ```
 
@@ -334,7 +335,7 @@ To determine whether two cell types are interacting with another, or if there is
 plot_average_intensity(formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
-This plot shows that high levels of CD8 were observed in cells near CD4+ cells and these levels decreased at larger radii. This suggests CD4+ and CD8+ cells may be closely interacting in this tissue.
+This plot shows that high levels of CD8 were observed in cells near CD4 cells and these levels decreased at larger radii. This suggests CD4 and CD8 cells may be closely interacting in this tissue.
 
 We can use `average_marker_intensity_within_radius` to calculate the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell. This function can also be used to help identify radii values for `plot_average_intensity`.
 
@@ -431,9 +432,9 @@ Clusters are cell aggregates composed of non-tumour cells, often by immune cells
 clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 ```
 
-This plot shows clusters of CD3+CD4+ and CD3+CD8+ cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
+This plot shows clusters of CD3,CD4 and CD3,CD8 cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
 
-Users are recommended to test out different thresholds and then visualise the clustering results. But SPIAT also has `average_minimum_distance`, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.
+Users are recommended to test out different thresholds and then  visualize the clustering results. But SPIAT also has `average_minimum_distance`, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.
 
 ```{r}
 average_minimum_distance(formatted_image)
@@ -460,16 +461,16 @@ Then we can use `plot_composition_heatmap` to produce a heatmap showing the mark
 plot_composition_heatmap(clusters_vis, column_to_consider="Cluster")
 ```
 
-This plot shows that most clusters are composed of a mixture of CD3+CD4+ and CD3+CD8+ cells and some are more dominated by CD3+CD4+ than others.  
+This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,CD8 cells and some are more dominated by CD3,CD4 than others.  
 
-We can visualise the composition of the communities in a similiar way.
+We can visualize the composition of the communities in a similiar way.
 
 ```{r}
 communities_vis <- composition_of_clusters_and_communities(communities, "Community")
 plot_composition_heatmap(communities_vis, column_to_consider="Community")
 ```
 
-This plot shows that several communities detected have a combination of tumour (AMACR+) and immune cells while some are dominated by tumour or immune cells.
+This plot shows that several communities detected have a combination of tumour (AMACR) and immune cells while some are dominated by tumour or immune cells.
 
 
 # Reproducibility
