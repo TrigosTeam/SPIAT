@@ -9,35 +9,38 @@
 #' @param min_community_size Minimum number of cells in a community
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
-#' @import igraph
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
-#' @import ggplot2
+#' @importFrom dittoSeq dittoColors
+#' @return A data.frame and a plot is returned
+#' @examples
+#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 #' @export
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplot2 due to interdependency of functions
 
 identify_cell_communities <- function(sce_object, clustering_method = "dbscan", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
 
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Cell.X.Position <- Cell.Y.Position <- Community <- Xpos <- Ypos <- community <- NULL
+      
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
-    cell_ids <- colnames(expression_matrix)
+    markers <- rownames(intensity_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     ######remove cells without a phenotype
@@ -64,15 +67,18 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     }
 
     #start a plot for visualizing communities
-    q <- ggplot(formatted_data, aes(x=formatted_data$Cell.X.Position, y=formatted_data$Cell.Y.Position))
-    q <- q + geom_point(aes(color = formatted_data$Community), size = 0.01)
+    q <- ggplot(formatted_data, aes(x=Cell.X.Position, y=Cell.Y.Position))
+    q <- q + geom_point(aes(color = Community), size = 0.01)
 
     #get number_of_communities
     number_of_communities <- length(unique(formatted_data$Community))
+    
+    # use colourblind-friendly colours
+    colours <- dittoColors()[seq_len(number_of_communities)]
 
     #label the community centre by averaging x and y
     label_location <- vector()
-    for (communitynumber in 1:number_of_communities) {
+    for (communitynumber in seq_len(number_of_communities)) {
         cells_in_community <- formatted_data[formatted_data$Community == communitynumber, ]
         minX <- min(cells_in_community$Cell.X.Position)
         maxX <- max(cells_in_community$Cell.X.Position)
@@ -89,6 +95,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
 
     #label x and y axis and community labels
     q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
+    q <- q + scale_color_manual(values=colours)
     q <- q + theme_bw() +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             legend.position = "none")

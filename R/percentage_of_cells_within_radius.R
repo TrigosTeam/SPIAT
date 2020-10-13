@@ -13,18 +13,23 @@
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
-#' @import stats
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
+#' @return A numeric vector ard a plot are returned 
+#' @examples
+#' p_cells_within_radius <- percentage_of_cells_within_radius(SPIAT::formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100){
 
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  phenotype_names <- output_phenotype <- NULL
+  
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
+  ref_name <- reference_phenotypes
+  target_name <- target_phenotypes
+  
   #Select cells with the reference phenotype
   reference_phenotypes <- formatted_data[formatted_data$Phenotype == reference_phenotypes,]
   target_phenotypes <- formatted_data[formatted_data$Phenotype == target_phenotypes,]
@@ -61,6 +66,15 @@ percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, 
     }
     names(output_percentage) <- cell_IDs
   }
+  
+  # violin plot
+  df <- data.frame(output_percentage)
+  df$phenotype_names <- paste0(target_name, "_", ref_name)
+  p <- ggplot(df, aes(x = phenotype_names, y = output_percentage)) + 
+    geom_violin() +
+    labs(x = "", y = "Percentage") +
+    theme_bw()
+  print(p)
 
   return(output_percentage)
 }

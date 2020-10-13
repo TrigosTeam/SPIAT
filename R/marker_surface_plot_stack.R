@@ -1,7 +1,7 @@
 #' marker_surface_plot_stack
 #'
 #' @description Generates stacked 3D surface plots showing normalized
-#' expression level of specified markers.
+#' intensity level of specified markers.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param num_splits Integer specifying the number of splits on the image, higher
@@ -14,14 +14,16 @@
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom plotly plot_ly add_trace 
 #' @importFrom stats aggregate
+#' @importFrom grDevices col2rgb
+#' @importFrom dittoSeq dittoColors
+#' @return A plot is returned
+#' @examples
+#' marker_surface_plot_stack(SPIAT::formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, sep = 1,
                                 x_position_min = NULL, x_position_max = NULL,
@@ -31,23 +33,23 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
-    markers <- rownames(expression_matrix)
+    intensity_matrix <- assay(sce_object)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (!all(markers_to_plot %in% markers)) {
         stop("One or more markers specified cannot be found")
     }
 
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
     #######################
 
@@ -86,7 +88,7 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
     split_occurrence <- cbind(x_split, y_split)
 
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
-    for (y in 1:num_splits){
+    for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
         #print(local_coor_y)
 
@@ -103,7 +105,7 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
         }
     }
 
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
         # print(local_coor_x)
 
@@ -128,27 +130,27 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
     for (marker in markers_to_plot) {
 
-        #skip DAPI expressions
+        #skip DAPI intensities
         if (marker == "DAPI"){
             next
         }
 
 
-        #create a df with only the expression level of a single marker of interest and the coordinates
+        #create a df with only the intensity level of a single marker of interest and the coordinates
         df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
         #initialize a matrix for surface plot, dim=num_splits^2
         my_matrix <- matrix(nrow = num_splits, ncol=num_splits)
 
         #populate matrix with values from df
-        for (x in 1:num_splits){
+        for (x in seq_len(num_splits)){
 
-            for (y in 1:num_splits){
+            for (y in seq_len(num_splits)){
 
                 #select the row with the xcord and ycord
                 row <- df[df[, "xcord"] == x & df[, "ycord"] == y, ]
 
-                #if there is expression in that coordinate, assign it to matrix
+                #if there is intensity in that coordinate, assign it to matrix
                 if (nrow(row) == 1) {
                     my_matrix[x,y] <- row$x
                 }
@@ -172,17 +174,15 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
 
         #add the value to separate plots
         my_matrix <- my_matrix + i
-
-        #change colours
-        r <- sample(0:255, 1)
-        g <- sample(0:255, 1)
-        b <- sample(0:255, 1)
-
-        rand_rgb <- paste("rgb(", r, ",", g, ",", b, ")", sep="")
-
+        
+        # use colourblind-friendly colour
+        hexcol <- dittoColors()[i + 1]
+        rgbcol_mat <- col2rgb(hexcol)
+        rgbcol <- paste0(rgbcol_mat[,1], collapse=",")
+        rgbcol <- paste0("rgb(", rgbcol, ")") 
 
         #add the surface
-        p <- add_trace(p, z = my_matrix, type = "surface", colorscale = list(c(0,1),c("rgb(255,255,255)", rand_rgb)), colorbar=list(title=marker))
+        p <- add_trace(p, z = my_matrix, type = "surface", colorscale = list(c(0,1),c("rgb(255,255,255)", rgbcol)), colorbar=list(title=marker))
         i <- i + sep
     }
 

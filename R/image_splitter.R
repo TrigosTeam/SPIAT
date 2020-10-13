@@ -16,16 +16,20 @@
 #' @param y_position_max Integer used to specify the maximum y boundary to be splitted
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
-#' @import qpdf
 #' @importFrom grDevices pdf dev.off
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases setNames
+#' @importFrom dittoSeq dittoColors
+#' @return A list of data.frames is returned
+#' @examples
+#' split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
 #' @export
-
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){
+    
+    # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+    Cell.X.Position <- Cell.Y.Position <- Cell_type <- NULL
 
     #turn the sce object name into string as a filename
     image_filename <- deparse(substitute(sce_object))
@@ -71,19 +75,13 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
         if(!is.null(colour_vector)){
             point_colours <- colour_vector
         }else{
-            #Creates unique colours for each cell type that is used to maintain colour in all graphs generated
-            if(number_markers <= 12){
-                colours <- brewer.pal(number_markers, "Paired")
-            }else{
-                colours <- gg_color_hue(number_markers)
-            }
-            colour_vector <- sapply(colours, colhex2col, USE.NAMES = FALSE)
-            point_colours <- setNames(colour_vector, factor(unique(cell_loc$Cell_type)))
+        #Assigns colourblind-friendly colours    
+            point_colours <- dittoColors()[seq_len(number_markers)]
         }
 
         #Plots partitioned full image
         full_image <- ggplot(manual_full_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-            geom_point(aes(color = Cell_type), alpha = 0.5, size=0.95) +
+            geom_point(aes(color = Cell_type), size = 0.95) +
             scale_color_manual(values = point_colours) +
             guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
             theme(panel.grid.major = element_blank(),
@@ -117,7 +115,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
     divided_image_obj <- list()
 
-    for(y in 1:number_of_splits){
+    for(y in seq_len(number_of_splits)){
 
         local_coor_y <- y_split[c(y+1, y)]
 
@@ -137,7 +135,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
         temp_cell_loc <- cell_loc
 
-        for(x in 1:number_of_splits){
+        for(x in seq_len(number_of_splits)){
 
             local_coor_x <- x_split[c(x+1, x)]
 
@@ -162,7 +160,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                                            & min(local_coor_y) < temp_cell_loc$Cell.Y.Position & temp_cell_loc$Cell.Y.Position <= max(local_coor_y), ]
             if(isTRUE(plot)){
                 split_plot <- ggplot(divided_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-                    geom_point(aes(colour = Cell_type), alpha = 0.5, size = 0.95) +
+                    geom_point(aes(colour = Cell_type), size = 0.95) +
                     scale_colour_manual(values = point_colours) +
                     guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
                     ggtitle(paste("(", x, ", ", y, ")", sep = "")) +

@@ -6,8 +6,6 @@
 \usage{
 predict_phenotypes(
   sce_object,
-  plot_actual_cutoff = FALSE,
-  plot_predicted_cutoff = FALSE,
   thresholds = NULL,
   tumour_marker,
   baseline_markers
@@ -23,10 +21,19 @@ The order must match the marker order, and it should be NA for DAPI.}
 
 \item{baseline_markers}{Markers not found on tumour cells to refine the threshold}
 }
+\value{
+A data.frame and plots are returned
+}
 \description{
-Produces a density plot showing actual and predicted cutoff of a
-positive reading for marker expression. It also prints to the console of the
+Produces a density plot showing predicted cutoff of a
+positive reading for marker intensity. It also prints to the console the
 number of true positives (TP), true negatives (TN), false positives (FP) and
 false negatives (FN) under the prediction. It returns a dataframe containing
-the predicted expression status for a particular marker,
+the predicted intensity status for a particular marker,
+}
+\examples{
+predicted_image <- predict_phenotypes(SPIAT::formatted_image,
+                                      thresholds = NULL,
+                                      tumour_marker = "AMACR",
+                                      baseline_markers = c("CD3", "CD4", "CD8"))
 }

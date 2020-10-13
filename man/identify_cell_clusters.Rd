@@ -9,8 +9,16 @@ identify_cell_clusters(sce_object, phenotypes_of_interest, radius)
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
+\item{phenotypes_of_interest}{Vector of phenotypes to consider}
+
 \item{radius}{Integer specifying the radius of search.}
+}
+\value{
+A data.frame and a plot is returned
 }
 \description{
 Uses Euclidean distances to identify clusters of cells within a specified radius.
+}
+\examples{
+clusters <- identify_cell_clusters(SPIAT::formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 }
