@@ -26,6 +26,14 @@ identify_bordering_cells(
 
 \item{upper_bound}{Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population}
 }
+\value{
+A plot is returned
+}
 \description{
 Identifies the cells bordering a group of cells of a particular phenotype
+}
+\examples{
+identify_bordering_cells(SPIAT::formatted_image, reference_marker = "AMACR",
+                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+                         upper_bound=0.7)
 }

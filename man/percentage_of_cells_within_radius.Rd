@@ -21,9 +21,15 @@ percentage_of_cells_within_radius(
 \item{radius}{Integer specifying the radius of search for cells around the reference cells.
 Radii of ~100 are recommended. If too small, too few cells might be present}
 }
+\value{
+A numeric vector ard a plot are returned
+}
 \description{
 Calculates the percentage of cells of a target phenotype within a radius
 from the cells with a reference phenotype.
 The calculation is done per reference cell, so runtime will depend on the number of reference
 cells present.
+}
+\examples{
+p_cells_within_radius <- percentage_of_cells_within_radius(SPIAT::formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
 }

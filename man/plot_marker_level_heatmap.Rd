@@ -14,8 +14,14 @@ Higher numbers result in higher resolution.}
 
 \item{marker}{Marker to plot}
 }
+\value{
+A plot is returned
+}
 \description{
 Blurres the image by splitting the images into small squares.
 The marker levels are then averaged within each square. All cells are considered,
 regardless of phenotype status
+}
+\examples{
+plot_marker_level_heatmap(SPIAT::formatted_image, num_splits = 100, "AMACR")
 }

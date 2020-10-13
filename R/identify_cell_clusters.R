@@ -3,36 +3,42 @@
 #' @description Uses Euclidean distances to identify clusters of cells within a specified radius.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @param radius Integer specifying the radius of search.
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
-#' @importFrom stats complete.cases hclust cutree
+#' @importFrom stats complete.cases hclust cutree as.dist
 #' @importFrom apcluster negDistMat
+#' @importFrom dittoSeq dittoColors
 #' @import ggplot2
+#' @return A data.frame and a plot is returned
+#' @examples
+#' clusters <- identify_cell_clusters(SPIAT::formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 #' @export
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported ggplo2 as interdependency of functions
 
 identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
-
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
+  
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-  expression_matrix <- assay(sce_object)
+  intensity_matrix <- assay(sce_object)
 
-  markers <- rownames(expression_matrix)
-  cell_ids <- colnames(expression_matrix)
+  markers <- rownames(intensity_matrix)
+  cell_ids <- colnames(intensity_matrix)
 
-  rownames(expression_matrix) <- NULL
-  colnames(expression_matrix) <- NULL
-  expression_matrix_t <- t(expression_matrix)
-  expression_df <- data.frame(expression_matrix_t)
-  colnames(expression_df) <- markers
+  rownames(intensity_matrix) <- NULL
+  colnames(intensity_matrix) <- NULL
+  intensity_matrix_t <- t(intensity_matrix)
+  intensity_df <- data.frame(intensity_matrix_t)
+  colnames(intensity_df) <- markers
 
-  formatted_data <- cbind(formatted_data, expression_df)
+  formatted_data <- cbind(formatted_data, intensity_df)
   formatted_data <- formatted_data[complete.cases(formatted_data),]
 
   ######remove cells without a phenotype
@@ -79,6 +85,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
         local_clusters <- cutree(h, h = 0.5)
 
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
+        
       } else {
         stop("The radius specified may be too small, no clusters were found")
       }
@@ -86,14 +93,18 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
       stop("The radius specified may be too small, no clusters were found")
     }
 
+  #get cells assigned to clusters
+  cells_in_clusters <- formatted_data[complete.cases(formatted_data),]
+  cells_not_in_clusters <- formatted_data[!complete.cases(formatted_data),]
+  
   #get number_of_clusters
-  number_of_clusters <- length(unique(formatted_data$Cluster))
+  number_of_clusters <- length(unique(cells_in_clusters$Cluster))
 
   #label the Cluster centre by averaging x and y
 
   label_location <- vector()
-  for (Clusternumber in 1:number_of_clusters) {
-    cells_in_Cluster <- formatted_data[formatted_data$Cluster == Clusternumber, ]
+  for (Clusternumber in seq_len(number_of_clusters)) {
+    cells_in_Cluster <- cells_in_clusters[cells_in_clusters$Cluster == Clusternumber, ]
     minX <- min(cells_in_Cluster$Cell.X.Position)
     maxX <- max(cells_in_Cluster$Cell.X.Position)
     minY <- min(cells_in_Cluster$Cell.Y.Position)
@@ -105,13 +116,18 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   }
   label_location <- as.data.frame(label_location)
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
+  
+  # use colourblind-friendly colours
+  cluster_colours <- dittoColors()[seq_len(number_of_clusters)]
 
-  q <- ggplot(formatted_data, aes(x=Cell.X.Position, y=Cell.Y.Position))
+  q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
   q <- q + geom_point(aes(color = Cluster), size = 0.01)
   q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
-  q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position")
-  q <- q + theme_bw() +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+  q <- q + scale_color_manual(values=cluster_colours)
+  q <- q + geom_point(data = cells_not_in_clusters, size = 0.01, colour = "black")
+  q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position") +
+    theme_bw() + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position = "none")
   print(q)
 

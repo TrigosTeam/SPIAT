@@ -4,15 +4,21 @@
 #'
 #' @param cell_to_cell_dist Output from calculate_all_distances_between_phenotypes
 #' @import ggplot2
+#' @examples
+#' distances <- calculate_all_distances_between_phenotypes(SPIAT::formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+#' plot_cell_distances_violin(distances)
+#' @return A plot is returned
 #' @export
 
 
 plot_cell_distances_violin <- function(cell_to_cell_dist){
-  for(pair in unique(cell_to_cell_dist$Pair)){
-    temp <- cell_to_cell_dist[cell_to_cell_dist$Pair == pair,]
-    violin_plot <- ggplot(temp, aes(x = Pair, y = Distance)) + geom_violin() +
-      ggtitle(paste("Distance between", pair))
-    print(violin_plot)
-  }
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Pair <- Distance <- NULL
+  
+  ggplot(cell_to_cell_dist, aes(x = Pair, y = Distance)) + geom_violin() +
+    facet_wrap(~Pair, scales="free_x") +
+    theme_bw()
+  
 }
 

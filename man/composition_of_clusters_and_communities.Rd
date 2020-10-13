@@ -14,7 +14,14 @@ composition_of_clusters_and_communities(
 
 \item{column_to_consider}{Column name to consider as community/clusters}
 }
+\value{
+A data.frame is returned
+}
 \description{
 Returns a dataframe which contains the percentages of cells with a
 specific marker within each cluster and the number of cells in the cluster.
+}
+\examples{
+communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
+communities_vis <- composition_of_clusters_and_communities(communities, "Community")
 }

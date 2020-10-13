@@ -18,6 +18,12 @@ calculate_all_distances_between_phenotypes(
 \item{cell_phenotypes_of_interest}{Vector containing phenotypes to be considered,
 if NULL, all phenotype combinations will be calculated}
 }
+\value{
+A data.frame is returned.
+}
 \description{
 Returns the distances between cells of different phenotypes
+}
+\examples{
+distances <- calculate_all_distances_between_phenotypes(SPIAT::formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
 }
