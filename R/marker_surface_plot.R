@@ -12,14 +12,14 @@
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats aggregate
 #' @importFrom plotly plot_ly add_surface
+#' @return A plot is returned
+#' @examples
+#' marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
@@ -28,24 +28,24 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
 
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    expression_matrix <- assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
-    markers <- rownames(expression_matrix)
+    markers <- rownames(intensity_matrix)
     
     #CHECK
     if (is.element(marker, markers) == FALSE) {
         stop("Data does not contain marker specified")
     }
     
-    cell_ids <- colnames(expression_matrix)
+    cell_ids <- colnames(intensity_matrix)
 
-    rownames(expression_matrix) <- NULL
-    colnames(expression_matrix) <- NULL
-    expression_matrix_t <- t(expression_matrix)
-    expression_df <- data.frame(expression_matrix_t)
-    colnames(expression_df) <- markers
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
 
-    formatted_data <- cbind(formatted_data, expression_df)
+    formatted_data <- cbind(formatted_data, intensity_df)
     formatted_data <- formatted_data[complete.cases(formatted_data),]
 
     formatted_data$split.X <- 0
@@ -82,7 +82,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     split_occurrence <- cbind(x_split, y_split)
 
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
-    for (y in 1:num_splits){
+    for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
         #print(local_coor_y)
 
@@ -99,7 +99,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
         }
     }
 
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
         # print(local_coor_x)
 
@@ -116,21 +116,21 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
         }
     }
 
-    #create a df with only the expression level of a single marker of interest and the coordinates
+    #create a df with only the intensity level of a single marker of interest and the coordinates
     df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
     #initialize a matrix for surface plot, dim=num_splits^2
     my_matrix <- matrix(nrow = num_splits, ncol=num_splits)
 
     #populate matrix with values from df
-    for (x in 1:num_splits){
+    for (x in seq_len(num_splits)){
 
-        for (y in 1:num_splits){
+        for (y in seq_len(num_splits)){
 
             #select the row with the xcord and ycord
             row <- df[df[, "xcord"] == x & df[, "ycord"] == y, ]
 
-            #if there is expression in that coordinate, assign it to matrix
+            #if there is intensity in that coordinate, assign it to matrix
             if (nrow(row) == 1) {
                 my_matrix[x,y] <- row$x
             }
@@ -147,7 +147,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     #rename the matrix
     mean_marker_level <- my_matrix
 
-    p <- plot_ly(z = ~mean_marker_level) %>% add_surface()
-    print(p)
+    plot_ly(z = ~mean_marker_level, reversescale = TRUE) %>% add_surface()
+    
 
 }

@@ -10,10 +10,14 @@ marker_permutation(sce_object, num_iter)
 \item{sce_object}{SingleCellExperiment object in the form of output from format_image_to_sce}
 
 \item{num_iter}{Integer specifying the number of iterations for bootstrapping}
-
-\item{tumour_marker}{String with the name of the marker used for tumour cells}
+}
+\value{
+A plot is returned
 }
 \description{
 Creates random combinations of phenotypes by shuffling markers and
 calculates the enrichment and depletion p values
+}
+\examples{
+sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
 }

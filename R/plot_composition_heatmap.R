@@ -6,12 +6,15 @@
 #' @param pheno_to_exclude Vector of phenotype to exclude
 #' @param log_values TRUE if the percentages should be logged (base 10)
 #' @param column_to_consider Column name to consider as community/clusters
-#' @import RColorBrewer
-#' @import pheatmap
+#' @importFrom grDevices colorRampPalette
+#' @importFrom ComplexHeatmap HeatmapAnnotation Heatmap anno_barplot
 #' @importFrom reshape2 dcast
+#' @return A plot is returned
+#' @examples
+#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
+#' communities_vis <- composition_of_clusters_and_communities(communities, "Community")
+#' plot_composition_heatmap(communities_vis, column_to_consider="Community")
 #' @export
-
-#ColorRampPalette is from 'dichromat' package but loaded by 'pheatmap'
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, column_to_consider) {
 
@@ -53,15 +56,18 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
 
   if(log_values){
     composition2 <- apply(composition2, 2, log10)
-    composition2[is.nan(composition2_log10)] <- 1000
-    composition2[composition2_log10 == 1000] <- min(composition2_log10)-1
+    composition2[is.nan(composition2)] <- 1000
+    composition2[composition2 == 1000] <- min(composition2)-1
   }
 
   #plot the heatmap
-  map_cols <- colorRampPalette(c("white", "red"))(100)
-  anno_cols <- list(Total_cells = c("white", "blue"))
-  pheatmap(as.matrix(composition2), color = map_cols,
-           #annotation_col = cluster_size, 
-           annotation_colors = anno_cols,
-           cluster_cols=TRUE, cluster_rows=TRUE)
+  map_cols <- colorRampPalette(c("white", "red"))(1000)
+  ha = HeatmapAnnotation("size" = anno_barplot(cluster_size), show_annotation_name = FALSE)
+  Heatmap(as.matrix(composition2), name=" ",
+                          cluster_columns=TRUE, 
+                          cluster_rows=TRUE,
+                          col = map_cols,
+                          top_annotation = ha,
+                          border = TRUE)
+  
 }

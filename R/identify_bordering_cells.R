@@ -8,11 +8,16 @@
 #' @param radius Number specifying the search radius. Larger numbers, more cells to be considered
 #' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population
 #' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment assay colData
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @import ggplot2
+#' @return A plot is returned
+#' @examples
+#' identify_bordering_cells(SPIAT::formatted_image, reference_marker = "AMACR",
+#'                          rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+#'                          upper_bound=0.7)
 #' @export
 
 #sce_object <- sce_ovarian_panimmune1
@@ -22,28 +27,29 @@
 #lower_bound <- 0.4
 #upper_bound <- 0.6
 
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 # imported all functions from ggplot2 since many functions are interdependent
 
 identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
+  
+  # setting these column names to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- NULL
 
   formatted_data <- data.frame(colData(sce_object))
 
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-  expression_matrix <- assay(sce_object)
+  intensity_matrix <- assay(sce_object)
 
-  markers <- rownames(expression_matrix)
-  cell_ids <- colnames(expression_matrix)
+  markers <- rownames(intensity_matrix)
+  cell_ids <- colnames(intensity_matrix)
 
-  rownames(expression_matrix) <- NULL
-  colnames(expression_matrix) <- NULL
-  expression_matrix_t <- t(expression_matrix)
-  expression_df <- data.frame(expression_matrix_t)
-  colnames(expression_df) <- markers
+  rownames(intensity_matrix) <- NULL
+  colnames(intensity_matrix) <- NULL
+  intensity_matrix_t <- t(intensity_matrix)
+  intensity_df <- data.frame(intensity_matrix_t)
+  colnames(intensity_df) <- markers
 
-  formatted_data <- cbind(formatted_data, expression_df)
+  formatted_data <- cbind(formatted_data, intensity_df)
   formatted_data <- formatted_data[complete.cases(formatted_data),]
 
   #####################
@@ -116,7 +122,7 @@ identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radi
 
   r <- ggplot(border_cells, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
     geom_point(size = 0.1) +
-    guides(alpha = F) + scale_colour_viridis_c(direction = -1) +
+    guides(alpha = FALSE) + scale_colour_viridis_c(direction = -1) +
     labs(colour = paste("log10","(", as.character(reference_marker)," Intensity", ")", sep="")) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),

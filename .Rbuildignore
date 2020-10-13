@@ -1,2 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^\.github
+^_pkgdown\.yml$
+^doc$
+^docs$
+^Meta$
