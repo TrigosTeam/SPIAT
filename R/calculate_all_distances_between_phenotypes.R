@@ -7,15 +7,15 @@
 #' @param cell_phenotypes_of_interest Vector containing phenotypes to be considered,
 #' if NULL, all phenotype combinations will be calculated
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom apcluster negDistMat
 #' @importFrom reshape2 melt
+#' @return A data.frame is returned.
+#' @examples
+#' distances <- calculate_all_distances_between_phenotypes(SPIAT::formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 calculate_all_distances_between_phenotypes <- function(sce_object, remove_other = TRUE, cell_phenotypes_of_interest = NULL){
 
@@ -75,6 +75,10 @@ calculate_all_distances_between_phenotypes <- function(sce_object, remove_other 
           }
       }
     }
+  
+    # remove NAs e.g. for distance of cell against itself
+    cell_to_cell_dist_all <- cell_to_cell_dist_all[complete.cases(cell_to_cell_dist_all),]
+    
   return(cell_to_cell_dist_all)
 }
 

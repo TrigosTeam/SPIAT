@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 0.3
+Version: 0.99.0
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -10,38 +10,62 @@ Authors@R: c(
     person(given = "Tom",
            family = " Yang",
            role="aut",
-           email="volkanozcoban1@gmail.com"),
-    person(given = "Volkan",
-           family=" Ozkoban",
+           email="yangtp3344@gmail.com"),
+    person(given = "Yuzhou",
+           family = " Feng",
            role="aut",
-           email = "volkanozcoban1@gmail.com"))
-Maintainer: Anna Trigos <anna.trigos@petermac.org>
-Description: Spatial analysis of tissues obtained 
-    using multiplex immunohistochemistry.
-    Converts INFORM or HALO images into a SingleCellExperiment class
-    and carry out spatial analysis including distance calculations, plotting
-    marker expressions and more. 
+           email="yuzhou0610@gmail.com"),
+    person(given = "Volkan",
+           family=" Ozcoban",
+           role="aut",
+           email = "volkanozcoban1@gmail.com"),
+    person(given = "Maria",
+           family=" Doyle",
+           role="aut",
+           email = "maria.doyle@petermac.org"))
+Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data processing, 
+    quality control, visualization, data handling and data analysis tools for 
+    multiplex immunohistochemistry. Converts INFORM or HALO images into a 
+    SingleCellExperiment class. SPIAT includes novel algorithms for the 
+    identification of cell clusters, cell margins and cell gradients, the 
+    calculation of neighbourhood proportions, and algorithms for the prediction 
+    of cell phenotypes in tissue images. SPIAT also includes speedy 
+    implementations of the calculation of cell distances and detection of cell 
+    communities.
 License: GPL-3
 Encoding: UTF-8
+Depends: 
+    R (>= 4.0),
+    SingleCellExperiment (>= 1.4.1),
+    SummarizedExperiment
+Imports: 
+    apcluster (>= 1.4.7),
+    ggplot2 (>= 3.2.1),
+    gridExtra (>= 2.3),
+    gtools (>= 3.8.1),
+    RColorBrewer (>= 1.1-2),
+    reshape2 (>= 1.4.3),
+    dplyr (>= 0.8.3),
+    plotly (>= 4.9.0),
+    RANN (>= 2.6.1),
+    pracma (>= 2.2.5),
+    dbscan (>= 1.1-5),
+    mmand (>= 1.5.4),
+    tibble (>= 2.1.3),
+    grDevices,
+    stats,
+    utils,
+    vroom,
+    ComplexHeatmap,
+    dittoSeq
+Suggests:
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    pkgdown,
+    testthat
+biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
+BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
-Depends: R (>= 3.5.0), apcluster (>= 1.4.7), ggplot2 (>= 3.2.1),
-        gridExtra (>= 2.3), gtools (>= 3.8.1), magrittr (>= 1.5),
-        pheatmap (>= 1.0.12), RColorBrewer (>= 1.1-2), reshape2 (>=
-        1.4.3), tidyr (>= 1.0.0), dplyr (>= 0.8.3), plotly (>= 4.9.0),
-        RANN (>= 2.6.1), pracma (>= 2.2.5), dbscan (>= 1.1-5), mmand
-        (>= 1.5.4), tibble (>= 2.1.3), SingleCellExperiment (>= 1.4.1),
-        graph (>= 1.2.4.1), gridExtra (>=
-        2.3)
-Imports: qpdf(>= 1.1)
-Suggests: knitr, rmarkdown,
-SystemRequirements:
-biocViews:
-BugReports: None to date
-Collates:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-NeedsCompilation: no
-Packaged: 2020-05-24 05:26:06 UTC; atrigos
-Author: Anna Trigos [aut, cre],
-  Tom Yang [aut],
-  Volkan Ozkoban [aut]

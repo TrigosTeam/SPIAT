@@ -4,11 +4,26 @@
 \alias{calculate_cell_proportions}
 \title{calculate_cell_proportions}
 \usage{
-calculate_cell_proportions(sce_object)
+calculate_cell_proportions(
+  sce_object,
+  reference_celltypes = "Total",
+  celltypes_to_exclude = NULL
+)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+
+\item{reference_celltypes}{Vector specifying reference phenotypes. For example, "CD3" will calculate the proportion
+of each CD3-containing phenotype against all CD3. "Total" can be used to calculate the proportion of each phenotype against total cells and is the default.}
+
+\item{celltypes_to_exclude}{Vector specifying celltypes to exclude. For example "OTHER" will exclude that celltype from the Total (optional)}
+}
+\value{
+A data.frame is returned
 }
 \description{
 Calculate the number and proportion of each cell phenotype in image
+}
+\examples{
+p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
 }

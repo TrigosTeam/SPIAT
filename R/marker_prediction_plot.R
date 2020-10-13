@@ -1,34 +1,44 @@
 #' marker_prediction_plot
 #'
 #' @description Takes in the returned dataframe from marker_threshold_plot and
-#' generates a .pdf file containing scatter plots of actual expression and
-#' predicted expression for every marker.
+#' generates a .pdf file containing scatter plots of actual intensity and
+#' predicted intensity for every marker.
 #'
 #' @param predicted_data Output from predict_phenotypes
 #' @param marker Marker to plot
-#' @import plotly
 #' @import SingleCellExperiment
-#' @import gridExtra
+#' @importFrom gridExtra grid.arrange
 #' @import ggplot2
+#' @return A plot is returned
+#' @examples
+#' predicted_image <- predict_phenotypes(SPIAT::formatted_image,
+#'                                       thresholds = NULL,
+#'                                       tumour_marker = "AMACR",
+#'                                       baseline_markers = c("CD3", "CD4", "CD8"))
+#' marker_prediction_plot(predicted_image, marker="CD3")
 #' @export
 
 marker_prediction_plot <- function(predicted_data, marker) {
+  
+  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
+  Cell.X.Position <- Cell.Y.Position <- NULL
+  
   #get the markers
   actual_phenotype_colnames <- predicted_data[grepl("_actual_phenotype", colnames(predicted_data))]
   markers <- gsub("_actual_phenotype", "", actual_phenotype_colnames)
 
-  #extract the actual and predicted expression status along with X and Y cord
+  #extract the actual and predicted intensity status along with X and Y cord
   actual_colname <- paste(marker, "_actual_phenotype", sep="")
   predicted_colname <- paste(marker, "_predicted_phenotype", sep="")
 
   actual <- predicted_data[,c("Cell.X.Position", "Cell.Y.Position", actual_colname)]
   pred <- predicted_data[,c("Cell.X.Position", "Cell.Y.Position", predicted_colname)]
 
-  #plot actual expression status
-  title_actual <- paste("Actual expression status of ", marker, sep="")
+  #plot actual intensity status
+  title_actual <- paste("Actual intensity status of ", marker, sep="")
   p_actual <- ggplot(actual, aes(x = Cell.X.Position, y = Cell.Y.Position, color = as.character(actual[,3]))) +
     geom_point(size = 0.1) + scale_color_manual(values=c('grey','red')) +
-    guides(alpha = F) + labs(colour = "Expression status") + ggtitle(title_actual) +
+    guides(alpha = FALSE) + labs(colour = "Intensity status") + ggtitle(title_actual) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "white"),
@@ -39,11 +49,11 @@ marker_prediction_plot <- function(predicted_data, marker) {
           axis.text.y = element_blank(),
           axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
 
-  #plot predicted expression status
-  title_pred <- paste("Predicted expression status of ", marker, sep="")
+  #plot predicted intensity status
+  title_pred <- paste("Predicted intensity status of ", marker, sep="")
   p_pred <- ggplot(pred, aes(x = Cell.X.Position, y = Cell.Y.Position, color = as.character(pred[,3]))) +
     geom_point(size = 0.1) + scale_color_manual(values=c('grey','red')) +
-    guides(alpha = F) + labs(colour = "Expression status") + ggtitle(title_pred) +
+    guides(alpha = FALSE) + labs(colour = "Intensity status") + ggtitle(title_pred) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "white"),

@@ -20,6 +20,12 @@ will be calculated}
 \item{combinations_of_interest}{Vector of marker combinations to consider if all_marker_combinations
 is FALSE}
 }
+\value{
+A data.frame is returned
+}
 \description{
 Returns the mean, median and stardard deviation of the distances between phenotypes
+}
+\examples{
+summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 }

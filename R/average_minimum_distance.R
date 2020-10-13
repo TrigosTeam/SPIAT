@@ -5,17 +5,17 @@
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
 #' @importFrom RANN nn2
 #' @import dplyr
-#' @import SingleCellExperiment
+#' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
+#' @return A single number is returned
+#' @examples
+#' average_minimum_distance(SPIAT::formatted_image)
 #' @export
-
-# %>% operator is in package 'magrittr' but imported by dplyr
-# colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 average_minimum_distance <- function(sce_object) {
 
     formatted_data <- data.frame(colData(sce_object))
-    #formatted_data <- formatted_data[complete.cases(formatted_data),]
+
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
     #extract the cell coordinates
