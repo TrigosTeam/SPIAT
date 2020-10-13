@@ -2,10 +2,7 @@ context("utilities")
 
 test_that("format_image_to_sce() works", {
   
-  load("testdata/test_sce.rda")
-  
-  
-  raw_inform_data <- raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
+  raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
   markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
   intensity_columns_interest <- c(
     "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
@@ -23,7 +20,8 @@ test_that("format_image_to_sce() works", {
     dye_columns_interest=NULL
   )
   
-  expect_equal(sce, test_sce)
+  expect_is(sce, "SingleCellExperiment")
+  expect_equal(dim(sce), c(6L, 9L))
 })
 
 
@@ -39,14 +37,13 @@ test_that("print_phenotypes works", {
 
 test_that("select_phenotypes works", {
     
-    phenotypes <- select_phenotypes(formatted_image, keep=TRUE,
-                                         phenotypes = c("OTHER", "AMACR",
-                                                        "CD3,CD4",
-                                                        "CD3,CD8",
-                                                        "CD3",
-                                                        "PDL-1"))
+    phenotypes_keep <- c("AMACR", "CD3")
     
-    expect_equal(phenotypes, formatted_image)
+    image_subset <- select_phenotypes(formatted_image, keep=TRUE,
+                                         phenotypes = phenotypes_keep)
+    phenotypes <- unique(colData(image_subset)$Phenotype)
+    
+    expect_equal(phenotypes, phenotypes_keep)
 })
 
 
