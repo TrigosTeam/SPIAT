@@ -21,7 +21,8 @@
 #' @param intensity_columns_interest For HALO formats. Use if locations is not specified. Vector with the names of the columns with the level of each marker.
 #' Column names must match the order of the 'markers' parameter
 #' @param intensity_matrix: For the "general" format. A matrix of marker intensities or gene expression where the column names are the Cell IDs, and the rownames the marker or genes.
-#' @param phenotypes: A vector of cells phenotypes in the same order in which their appear in intensity_matrix. If no phenotypes available, then a vector of NA can be used as input.
+#' @param phenotypes: A vector of cell phenotypes in the same order in which they appear in intensity_matrix. If no phenotypes available, then a vector of NA can be used as input. Note
+#' that the combination of markers (e.g. CD3,CD4) needs to be used instead of the cell type name (e.g. helper T cells)
 #' @param coord_x: A vector with the X coordinates of the cells. The cells must be in the same order as in the intensity_matrix.
 #' @param coord_y: A vector with the Y coordinates of the cells. The cells must be in the same order as in the intensity_matrix.
 #' @importFrom SingleCellExperiment SingleCellExperiment	
