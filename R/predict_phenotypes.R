@@ -85,7 +85,15 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     colnames(intensity_df) <- markers
 
     formatted_data <- cbind(formatted_data, intensity_df)
-    formatted_data <- formatted_data[complete.cases(formatted_data[,colnames(formatted_data) != "Phenotype"]),]
+    
+    
+    # Maria: Commenting out the complete.cases line below as it is causing an error with the line
+    # colData(sce_object)$Phenotype <- phenotype_predictions_vector
+    # as its removing rows with NAs so there are less than the no. of cells
+    # Error in `[[<-`(`*tmp*`, name, value = c("None", "AMACR", "AMACR", "AMACR",  : 
+    # 8413 elements in value to replace 8419 elements
+    
+    #formatted_data <- formatted_data[complete.cases(formatted_data[,colnames(formatted_data) != "Phenotype"]),]
 
     #add actual intensity boolean value to formatted_data
 
@@ -137,7 +145,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
         } else {
             #calculate the valleys
-            intensity_density <- density(marker_specific_level)
+            intensity_density <- density(marker_specific_level, na.rm=TRUE)
             valleys <- findpeaks(-(intensity_density)$y)
             valley_ycords <- valleys[,1] * -1
             index <- match(valley_ycords, intensity_density$y)
@@ -196,7 +204,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     } else {
       #calculate the valleys
-      intensity_density <- density(tumour_specific_level)
+      intensity_density <- density(tumour_specific_level, na.rm=TRUE)
       valleys <- findpeaks(-(intensity_density)$y)
       valley_ycords <- valleys[,1] * -1
       index <- match(valley_ycords, intensity_density$y)
