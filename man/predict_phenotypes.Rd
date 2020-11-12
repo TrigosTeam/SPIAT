@@ -8,7 +8,10 @@ predict_phenotypes(
   sce_object,
   thresholds = NULL,
   tumour_marker,
-  baseline_markers
+  baseline_markers,
+  nuclear_marker = NULL,
+  reference_phenotypes = TRUE,
+  markers_to_phenotype = NULL
 )
 }
 \arguments{
@@ -19,21 +22,23 @@ The order must match the marker order, and it should be NA for DAPI.}
 
 \item{tumour_marker}{String containing the tumour_marker used for the image.}
 
-\item{baseline_markers}{Markers not found on tumour cells to refine the threshold}
+\item{baseline_markers}{Markers not found on tumour cells to refine the threshold used for tumour cell phenotying.}
+
+\item{nuclear_marker}{Nuclear marker used.}
+
+\item{reference_phenotypes}{TRUE or FALSE value whether there are reference phenotypes for the sample obtained by the user through other means (e.g. HALO or InForm).
+If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
+If no reference phenotype available, the result of the function will be added to the sce object used in the input.}
+
+\item{markers_to_phenotype}{Markers to be included in the phenotyping. If NULL, then all markers will be used}
 }
 \value{
-A data.frame and plots are returned
+An updated sce object with cell phenotypes or a data.frame of predicted phenotypes
 }
 \description{
-Produces a density plot showing predicted cutoff of a
-positive reading for marker intensity. It also prints to the console the
-number of true positives (TP), true negatives (TN), false positives (FP) and
-false negatives (FN) under the prediction. It returns a dataframe containing
-the predicted intensity status for a particular marker,
-}
-\examples{
-predicted_image <- predict_phenotypes(SPIAT::formatted_image,
-                                      thresholds = NULL,
-                                      tumour_marker = "AMACR",
-                                      baseline_markers = c("CD3", "CD4", "CD8"))
+Predicts cell phenotypes based on marker intensity levels. If no prior cell phenotypes are available,
+it adds the phenotypes to the SingleCellExperiment object used as input. If reference cell phenotypes are available,
+it produces a density plot showing predicted cutoff of a
+positive reading for marker intensity and it returns a dataframe containing
+the predicted intensity status for a particular marker.
 }
