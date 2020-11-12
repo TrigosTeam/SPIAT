@@ -105,7 +105,7 @@ test_that("marker_prediction_plot() creates a plot", {
 })
 
 
-test_that("marker_prediction_plot() creates a plot", {
+test_that("marker_surface_plot() creates a plot", {
     
     p <- marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
     
