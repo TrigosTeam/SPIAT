@@ -15,7 +15,7 @@
 #' @param reference_phenotypes TRUE or FALSE value whether there are reference phenotypes for the sample obtained by the user through other means (e.g. HALO or InForm).
 #' If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
 #' If no reference phenotype available, the result of the function will be added to the sce object used in the input.
-#' @param markers_to_phenotype Markers to be included in the phenotyping. If NULL, then all markers will be used
+#' @param markers_to_phenotype Markers to be included in the phenotyping. If NULL, then all markers will be used. DAPI needs to be excluded
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
@@ -26,30 +26,30 @@
 #' @return An updated sce object with cell phenotypes or a data.frame of predicted phenotypes
 #' @examples
 #' @export
-
-predicted_image_cellPro <- predict_phenotypes(formatted_image_cellPro,
-                                              thresholds = NULL,
-                                              tumour_marker = "Ki67",
-                                              baseline_markers = c("CD11b","CD163","CD20","CD3","CD45","CD66b","CD68","CD8","DCLAMP"),
-                                              #baseline_markers = c("CD11b","CD163","CD20"),
-                                              nuclear_marker = "DNA", reference_phenotypes=FALSE,
-                                              markers_to_phenotype = NULL)
-
-predicted_image_Visium <- predict_phenotypes(formatted_image_Visium,
-                                             thresholds = NULL,
-                                             tumour_marker = "EGFR",
-                                             baseline_markers = c("CTLA4","TP53","KRAS", "CD8A"),
-                                             #baseline_markers = c("CD11b","CD163","CD20"),
-                                             reference_phenotypes=FALSE,
-                                             markers_to_phenotype = c("EGFR", "CTLA4","TP53","KRAS", "CD8A"))
-
-
-predicted_image_CODEX <- predict_phenotypes(formatted_image_CODEX,
-                                            thresholds = NULL,
-                                            tumour_marker = "F480",
-                                            baseline_markers = c("CD45", "CD19", "CD11c", "CD11b"),
-                                            nuclear_marker = NULL, reference_phenotypes=TRUE,
-                                            markers_to_phenotype = NULL)
+# 
+# predicted_image_cellPro <- predict_phenotypes(formatted_image_cellPro,
+#                                               thresholds = NULL,
+#                                               tumour_marker = "Ki67",
+#                                               baseline_markers = c("CD11b","CD163","CD20","CD3","CD45","CD66b","CD68","CD8","DCLAMP"),
+#                                               #baseline_markers = c("CD11b","CD163","CD20"),
+#                                               nuclear_marker = "DNA", reference_phenotypes=FALSE,
+#                                               markers_to_phenotype = NULL)
+# 
+# predicted_image_Visium <- predict_phenotypes(formatted_image_Visium,
+#                                              thresholds = NULL,
+#                                              tumour_marker = "EGFR",
+#                                              baseline_markers = c("CTLA4","TP53","KRAS", "CD8A"),
+#                                              #baseline_markers = c("CD11b","CD163","CD20"),
+#                                              reference_phenotypes=FALSE,
+#                                              markers_to_phenotype = c("EGFR", "CTLA4","TP53","KRAS", "CD8A"))
+# 
+# 
+# predicted_image_CODEX <- predict_phenotypes(formatted_image_CODEX,
+#                                             thresholds = NULL,
+#                                             tumour_marker = "F480",
+#                                             baseline_markers = c("CD45", "CD19", "CD11c", "CD11b"),
+#                                             nuclear_marker = NULL, reference_phenotypes=TRUE,
+#                                             markers_to_phenotype = NULL)
 
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
@@ -339,7 +339,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       colData(sce_object)$Phenotype <- phenotype_predictions_vector
       return_results <- sce_object
     }else{
-      return_results <- phenotype_predictions
+      return_results <- predicted_data
     }
     
     return(return_results)
