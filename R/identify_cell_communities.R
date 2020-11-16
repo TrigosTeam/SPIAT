@@ -4,7 +4,7 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param clustering_method String specifying which clustering algorithm to use. Current options:
-#' "dbscan"
+#' "dbscan" and "rphenograph"
 #' @param radius Integer specifying the radius of search. Required for "dbscan"
 #' @param min_community_size Minimum number of cells in a community
 #' @param phenotypes_of_interest Vector of phenotypes to consider
