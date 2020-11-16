@@ -26,7 +26,7 @@
 #' @return An updated sce object with cell phenotypes or a data.frame of predicted phenotypes
 #' @examples
 #' @export
-# 
+
 # predicted_image_cellPro <- predict_phenotypes(formatted_image_cellPro,
 #                                               thresholds = NULL,
 #                                               tumour_marker = "Ki67",
@@ -85,10 +85,9 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     colnames(intensity_df) <- markers
 
     formatted_data <- cbind(formatted_data, intensity_df)
-    formatted_data <- formatted_data[complete.cases(formatted_data[,colnames(formatted_data) != "Phenotype"]),]
-
-    #add actual intensity boolean value to formatted_data
-
+    
+    
+   #add actual intensity boolean value to formatted_data
     markers_no_tumour <- markers[markers != tumour_marker]
     if(!is.null(nuclear_marker)){
       markers_no_tumour <- markers_no_tumour[markers_no_tumour != nuclear_marker]
@@ -137,7 +136,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
         } else {
             #calculate the valleys
-            intensity_density <- density(marker_specific_level)
+            intensity_density <- density(marker_specific_level, na.rm=TRUE)
             valleys <- findpeaks(-(intensity_density)$y)
             valley_ycords <- valleys[,1] * -1
             index <- match(valley_ycords, intensity_density$y)
@@ -196,7 +195,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     } else {
       #calculate the valleys
-      intensity_density <- density(tumour_specific_level)
+      intensity_density <- density(tumour_specific_level, na.rm=TRUE)
       valleys <- findpeaks(-(intensity_density)$y)
       valley_ycords <- valleys[,1] * -1
       index <- match(valley_ycords, intensity_density$y)
@@ -344,3 +343,5 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     
     return(return_results)
 }
+
+

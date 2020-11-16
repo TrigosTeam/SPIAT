@@ -54,7 +54,7 @@ markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
 locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
 formatted_image <- format_image_to_sce(
                           format="INFORM",
-                          image=raw_inform_data,
+                          path=raw_inform_data,
                           markers=markers,
                           locations=locations)
 ```
@@ -78,7 +78,7 @@ intensity_columns_interest <- c(
   )
 formatted_image <- format_image_to_sce(
                           format="INFORM",
-                          image=raw_inform_data,
+                          path=raw_inform_data,
                           markers=markers,
                     intensity_columns_interest=intensity_columns_interest)
 ```
@@ -123,7 +123,7 @@ dye_columns_interest <- c("Dye 1 Positive Nucleus",
                           "Dye 6 Positive Cytoplasm")
 formatted_image <- format_image_to_sce(
                           format="HALO",
-                          image=raw_halo_data,
+                          path=raw_halo_data,
                           markers=markers,
                           intensity_columns_interest=intensity_columns_interest,
                           dye_columns_interest=dye_columns_interest
