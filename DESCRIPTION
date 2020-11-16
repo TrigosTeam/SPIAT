@@ -57,7 +57,8 @@ Imports:
     utils,
     vroom,
     ComplexHeatmap,
-    dittoSeq
+    dittoSeq,
+    Seurat
 Suggests:
     BiocStyle,
     knitr,

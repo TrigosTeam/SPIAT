@@ -14,7 +14,7 @@ test_that("format_image_to_sce() works", {
   )
   sce <- format_image_to_sce(
     format="INFORM",
-    image=raw_inform_data,
+    path=raw_inform_data,
     markers=markers,
     intensity_columns_interest=intensity_columns_interest,
     dye_columns_interest=NULL
