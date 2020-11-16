@@ -43,7 +43,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
   ######remove cells without a phenotype
   formatted_data <- formatted_data[formatted_data$Phenotype != "OTHER", ]
-  #cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+
 
   #select cells to include if phenotypes of interest are specified
   if (!is.null(phenotypes_of_interest)) {
@@ -87,11 +87,13 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
         
       } else {
-        stop("The radius specified may be too small, no clusters were found")
+        formatted_data$Cluster <- NA
+        #stop("The radius specified may be too small, no clusters were found")
       }
   } else {
-      stop("The radius specified may be too small, no clusters were found")
-    }
+    formatted_data$Cluster <- NA  
+    #stop("The radius specified may be too small, no clusters were found")
+  }
 
   #get cells assigned to clusters
   cells_in_clusters <- formatted_data[complete.cases(formatted_data),]
@@ -133,6 +135,7 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
 
   formatted_data_with_clusters <- formatted_data
   formatted_data_with_clusters$Cluster <- paste0("Cluster_", formatted_data_with_clusters$Cluster)
+  formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
 
   return(formatted_data_with_clusters)
 }
