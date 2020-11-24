@@ -70,20 +70,27 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
     all_colours <- colour_vector
   }
   
-  p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype)) +
-    geom_point(aes(colour = Phenotype), size = 1) +
-    guides(alpha = FALSE) +
-    labs(colour = "Phenotypes") + 
-    scale_color_manual(breaks = all_phenotypes, values=all_colours) +
-    theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(fill = "white"),
-          axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.y = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks.y = element_blank())
+  p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype))
+  if (any(formatted_data$Phenotype == "OTHER")) {
+    p <- p + geom_point(data=subset(formatted_data, Phenotype=='OTHER'), aes(colour = Phenotype), size = 1) + 
+      geom_point(data=subset(formatted_data, Phenotype!='OTHER'), aes(colour = Phenotype), size = 1) 
+  }
+  else {
+    p <- p + geom_point(aes(colour = Phenotype), size = 1)
+  }
+  
+    p <- p + guides(alpha = FALSE) +
+      labs(colour = "Phenotypes") + 
+      scale_color_manual(breaks = all_phenotypes, values=all_colours) +
+      theme(panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill = "white"),
+            axis.title.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y = element_blank())
   
   print(p)
 }
