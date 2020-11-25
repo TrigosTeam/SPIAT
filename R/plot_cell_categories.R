@@ -18,6 +18,8 @@
 
 plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vector) {
   
+  set.seed(2020)
+  
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Phenotype <- NULL
   
@@ -70,8 +72,15 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
     all_colours <- colour_vector
   }
   
-  p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype)) +
-    geom_point(aes(colour = Phenotype), size = 1) +
+  p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype))
+  if (any(formatted_data$Phenotype == "OTHER")) {
+    p <- p + geom_point(data=subset(formatted_data, Phenotype=='OTHER'), aes(colour = Phenotype), size = 1) + 
+      geom_point(data=subset(formatted_data, Phenotype!='OTHER'), aes(colour = Phenotype), size = 1) 
+  }
+  else {
+    p <- p + geom_point(aes(colour = Phenotype), size = 1)
+  }
+  p <- p +
     guides(alpha = FALSE) +
     labs(colour = "Phenotypes") + 
     scale_color_manual(breaks = all_phenotypes, values=all_colours) +
