@@ -281,7 +281,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
           print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
         } else {
           p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-          print(paste(marker " threshold intensity: ", marker_threshold))
+          print(paste(marker, " threshold intensity: ", marker_threshold))
         }
 
         p <- p + theme_bw()
@@ -316,10 +316,10 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
         if (!is.null(selected_valley_xcord[[marker]])) {
           p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
-          print(paste(marker " threshold intensity: ", selected_valley_xcord[[marker]]))
+          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
         } else {
           p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-          print(paste(marker " threshold intensity: ", marker_threshold))
+          print(paste(marker, " threshold intensity: ", marker_threshold))
         }
 
         p <- p + theme_bw()
