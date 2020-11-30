@@ -221,41 +221,57 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       markers <- markers[markers != nuclear_marker]
     }
 
-    if(reference_phenotypes){
-      for(marker in markers){
-        #exclude markers that are not reference markers
-        if (marker == "DAPI" | marker == tumour_marker) {
+    
+    
+if (reference_phenotypes) {
+    for (marker in markers) {
+      #exclude markers that are not reference markers
+      if (marker == nuclear_marker | marker == tumour_marker) {
         next
-        }
+      }
 
-        #names of columns
-        marker_status_name <- paste(marker, "_status", sep="")
-        marker_actual_exp_colname <- paste(marker,"_actual_phenotype", sep="")
-        marker_pred_exp_colname <- paste(marker,"_predicted_phenotype", sep="")
+      #names of columns
+      marker_status_name <- paste(marker, "_status", 
+                                  sep = "")
+      marker_actual_exp_colname <- paste(marker, "_actual_phenotype", 
+                                         sep = "")
+      marker_pred_exp_colname <- paste(marker, "_predicted_phenotype", 
+                                       sep = "")
 
-        #create an accuracy_df with the same number of rows and 1 column
-        accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
-        colnames(accuracy_df) <- "status"
+      #create an accuracy_df with the same number of rows and 1 column
+      accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
+      colnames(accuracy_df) <- "status"
 
+      if (marker_actual_exp_colname %in% colnames(predicted_data)) {
         #grab both the actual and predicted intensity for the specific marker, change colnames and bind to accuracy_df
-        marker_exp_actual_pred <- predicted_data[,c(marker_actual_exp_colname, marker_pred_exp_colname)]
-        colnames(marker_exp_actual_pred) <- c("actual", "pred")
+        marker_exp_actual_pred <- predicted_data[, c(marker_actual_exp_colname, 
+                                                     marker_pred_exp_colname)]
+        colnames(marker_exp_actual_pred) <- c("actual", 
+                                              "pred")
         accuracy_df <- cbind(accuracy_df, marker_exp_actual_pred)
-
+        
         #set the TP, TF, FP, FN if they exist
-        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 1 , ])) {
-          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 1 , ]$status <- "TP"
+        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                             1, ])) {
+          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                        1, ]$status <- "TP"
         }
-        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 0 , ])) {
-          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 0 , ]$status <- "TN"
+        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                             0, ])) {
+          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                        0, ]$status <- "TN"
         }
-        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 1 , ])) {
-          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 1 , ]$status <- "FP"
+        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                             1, ])) {
+          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                        1, ]$status <- "FP"
         }
-        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 0 , ])) {
-          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 0 , ]$status <- "FN"
+        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                             0, ])) {
+          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                        0, ]$status <- "FN"
         }
-
+        
         #bind the specific marker_status to intensity level
         accuracy_df <- data.frame(accuracy_df[,"status"])
         colnames(accuracy_df) <- "status"
@@ -288,6 +304,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
         print(p)
       }
+    }
     }else{
       for(marker in markers){
         #names of columns
