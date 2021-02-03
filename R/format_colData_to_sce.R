@@ -11,6 +11,14 @@
 
 
 format_colData_to_sce <- function(colData) {
+  
+  #CHECK
+  if (dim(colData)[1]==0){
+    print(1)
+    stop("No data in the dataframe")
+  } 
+  
+  
   colData[,"pseudo"] <- 0
   assay_data <- colData[,"pseudo"]
   assay_rownames <- "pseudo"
