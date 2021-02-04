@@ -73,4 +73,5 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
   }
   df[,3:8] <- sapply(df[,3:8],as.numeric)
   df <- df[-1,]
+  return(df)
 }
