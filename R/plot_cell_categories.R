@@ -8,6 +8,7 @@
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @import dplyr
 #' @import ggplot2
+#' @import tibble
 #' @importFrom SummarizedExperiment colData assay
 #' @return A plot is returned
 #' @examples
