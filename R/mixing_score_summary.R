@@ -59,7 +59,7 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
                                                        length))
         if (reference_reference_interactions != 0) {
           mixing_score <- reference_target_interactions/reference_reference_interactions
-          normalised_mixing_score <- mixing_score * nrow(reference_cells) * 2 / nrow(target_cells)
+          normalised_mixing_score <- mixing_score * nrow(reference_cells) / nrow(target_cells)
         }
         else {
           normalised_mixing_score <- mixing_score <- NA
