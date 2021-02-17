@@ -8,7 +8,6 @@
 #' @param merge Vector of phenotypes to be merged
 #' @param merge_name String that is the name of the merged phenotype
 #' @import SingleCellExperiment
-#' @import spatstat
 #' @export 
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
