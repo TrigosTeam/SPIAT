@@ -7,7 +7,7 @@
 #' point_pattern: marked ppp object representing intial image
 #' phenotype_group1: String containing the names of the phenotypes to be considered, can be singular or multiple.
 #' phenotype_group2: See phenotype_group_1
-#' plot: Indicates whether to plot Cross-K function by checking for numeric value. By default set to plot graph, if no plot required set to NULL
+#' plot: Indicates whether to plot Cross-K function by checking for numeric value. By default set to plot graph (plot = 1), if no plot required set to NULL
 #' names: String vector containing desired names for the two groups of phenotypes, largely for plotting purposes. If not specified groups are named Group1 and Group2.
 #' 
 #' Outputs - 
@@ -54,7 +54,12 @@ calculate_cross_k_function <- function(point_pattern, phenotype_group1, phenotyp
   
   # Plot if required
   if(!is.null(plot)){
-    plot(cross_k_function, main = "Cross-K function", xlab = "Radius")
+    if(plot == 2){
+      plot(cross_k_function, main = NULL, xlab = "Radius")
+    }
+    else {
+      plot(cross_k_function, main = "Cross-K function", xlab = "Radius")
+    }
   }
   
   # Return Cross-K function data
