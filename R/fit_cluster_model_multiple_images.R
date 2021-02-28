@@ -31,7 +31,6 @@ fit_cluster_model_multiple_images <- function(image_point_patterns = NULL, pheno
     for(val in seq_along(i))
     {
       temp_point_patterns[[val]] <- find_subset(point_pattern = image_point_patterns[[val]], cell_phenotypes_of_interest = phenotypes_of_interest)
-      plot(temp_point_patterns[[val]])
     }
     image_point_patterns <- temp_point_patterns
   }
