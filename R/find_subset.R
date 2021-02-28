@@ -10,7 +10,7 @@
 #' Outputs - 
 #' subset_of_interest: unmarked ppp object which is subset of points representing the phenotype specified, 
 #' 
-#' @param point_pattern ppp object representing intial image
+#' @param point_pattern ppp object representing initial image
 #' @param cell_phenotypes_of_interest Phenotype/Phenotypes of interest
 #' 
 find_subset <- function(point_pattern, cell_phenotypes_of_interest){
@@ -45,3 +45,4 @@ find_subset <- function(point_pattern, cell_phenotypes_of_interest){
   }
   return(subset_of_interest)
 }
+
