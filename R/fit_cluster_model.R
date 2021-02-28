@@ -15,10 +15,10 @@
 #' 
 #' 
 
-fit_cluster_model <- function(point_pattern, phenotype_of_interest = NULL){
+fit_cluster_model <- function(point_pattern, phenotypes_of_interest = NULL){
   # Check for specified cell phenotype and subset if necessary 
-  if(!is.null(phenotype_of_interest)) {
-    temp <- find_subset(point_pattern, cell_phenotypes_of_interest = phenotype_of_interest)
+  if(!is.null(phenotypes_of_interest)) {
+    temp <- find_subset(point_pattern, cell_phenotypes_of_interest = phenotypes_of_interest)
     point_pattern <- temp
   } 
   # Unmark point_pattern 
