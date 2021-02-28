@@ -18,10 +18,10 @@
 #' 
 calculate_cross_k_multiple_images <- function(image_point_patterns, phenotype_group1, phenotype_group2, names = NULL, plot = 2){
   i <- 1: length(image_point_patterns)
-  k_cross_functions <- vector(mode = "list", length(image_point_patterns))
+  cross_k_functions <- vector(mode = "list", length(image_point_patterns))
   # Iterate through images and calculate cross k function to be stored in k_cross_function
   for(val in i){
-    cross_k_function[[val]] <- calculate_cross_k_function(image_point_patterns[[val]], phenotype_group1, phenotype_group2, plot = plot)
+    cross_k_functions[[val]] <- calculate_cross_k_function(image_point_patterns[[val]], phenotype_group1, phenotype_group2, plot = plot)
     title(main = paste("Cross K-Function - Point Pattern", val))
   }
   return(cross_k_functions)
