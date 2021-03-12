@@ -107,7 +107,6 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     if (is.element(tumour_marker, markers) == FALSE) {
       stop("Tumour marker not found")
     }
-    
     cell_ids <- colnames(intensity_matrix)
 
     rownames(intensity_matrix) <- NULL
@@ -143,7 +142,6 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
             rows <- formatted_data[grepl(marker, formatted_data$Phenotype), ]
             if(nrow(rows) > 0){
               actual_phenotype[actual_phenotype$Cell.ID %in% rows$Cell.ID,]$Phenotype_status <- 1
-              
               actual_phenotype <- data.frame(actual_phenotype[,1])
               colnames(actual_phenotype) <- paste(marker, "_actual_phenotype", sep="")
               formatted_data <- cbind(formatted_data, actual_phenotype)  
@@ -248,6 +246,10 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       formatted_data <- cbind(formatted_data, predictions_by_threshold)
     }
     predicted_data <- formatted_data
+
+      markers <- markers[markers != nuclear_marker]
+    }
+
     
     if(!is.null(nuclear_marker)){
       markers <- markers[markers != nuclear_marker]
@@ -320,11 +322,96 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         }
         
       }
+    
+if (reference_phenotypes) {
+    for (marker in markers) {
+      #exclude markers that are not reference markers
+      if (marker == nuclear_marker | marker == tumour_marker) {
+        next
+      }
+
+      #names of columns
+      marker_status_name <- paste(marker, "_status", 
+                                  sep = "")
+      marker_actual_exp_colname <- paste(marker, "_actual_phenotype", 
+                                         sep = "")
+      marker_pred_exp_colname <- paste(marker, "_predicted_phenotype", 
+                                       sep = "")
+
+      #create an accuracy_df with the same number of rows and 1 column
+      accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
+      colnames(accuracy_df) <- "status"
+
+      if (marker_actual_exp_colname %in% colnames(predicted_data)) {
+        #grab both the actual and predicted intensity for the specific marker, change colnames and bind to accuracy_df
+        marker_exp_actual_pred <- predicted_data[, c(marker_actual_exp_colname, 
+                                                     marker_pred_exp_colname)]
+        colnames(marker_exp_actual_pred) <- c("actual", 
+                                              "pred")
+        accuracy_df <- cbind(accuracy_df, marker_exp_actual_pred)
+        
+        #set the TP, TF, FP, FN if they exist
+        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                             1, ])) {
+          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                        1, ]$status <- "TP"
+        }
+        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                             0, ])) {
+          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                        0, ]$status <- "TN"
+        }
+        if (nrow(accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                             1, ])) {
+          accuracy_df[accuracy_df$actual == 0 & accuracy_df$pred == 
+                        1, ]$status <- "FP"
+        }
+        if (nrow(accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                             0, ])) {
+          accuracy_df[accuracy_df$actual == 1 & accuracy_df$pred == 
+                        0, ]$status <- "FN"
+        }
+        
+        #bind the specific marker_status to intensity level
+        accuracy_df <- data.frame(accuracy_df[,"status"])
+        colnames(accuracy_df) <- "status"
+        marker_specific_level <- predicted_data[,marker]
+        marker_specific_level <- data.frame(marker_specific_level)
+        colnames(marker_specific_level) <- "Marker_level"
+        level_and_accuracy <- cbind(marker_specific_level, accuracy_df)
+
+        #print the number of TP, TN, FP, FN
+        TP_count <- nrow(level_and_accuracy[level_and_accuracy$status == "TP", ])
+        TN_count <- nrow(level_and_accuracy[level_and_accuracy$status == "TN", ])
+        FP_count <- nrow(level_and_accuracy[level_and_accuracy$status == "FP", ])
+        FN_count <- nrow(level_and_accuracy[level_and_accuracy$status == "FN", ])
+        print(paste("For ", marker, ":", sep=""))
+        print(paste("TP:", TP_count, " TN:", TN_count, " FP:", FP_count, " FN:", FN_count, sep=""))
+
+        p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
+        title <- paste("Density distribution of", marker, sep=" ")
+        p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+
+        if (!is.null(selected_valley_xcord[[marker]])) {
+          p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+        } else {
+          p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", marker_threshold))
+        }
+
+        p <- p + theme_bw()
+
+        print(p)
+      }
+    }
+>>>>>>> origin/john
     }else{
       for(marker in markers){
         #names of columns
         marker_status_name <- paste(marker, "_status", sep="")
         marker_pred_exp_colname <- paste(marker,"_predicted_phenotype", sep="")
+<<<<<<< HEAD
         
         #create an accuracy_df with the same number of rows and 1 column
         accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
@@ -334,6 +421,15 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         marker_exp_pred <- predicted_data[,c( marker_pred_exp_colname)]
         accuracy_df <- cbind(accuracy_df, marker_exp_pred)
         
+
+        #create an accuracy_df with the same number of rows and 1 column
+        accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
+        colnames(accuracy_df) <- "status"
+
+        #grab both the actual and predicted intensity for the specific marker, change colnames and bind to accuracy_df
+        marker_exp_pred <- predicted_data[,c( marker_pred_exp_colname)]
+        accuracy_df <- cbind(accuracy_df, marker_exp_pred)
+
         #bind the specific marker_status to intensity level
         accuracy_df <- data.frame(accuracy_df[,"status"])
         colnames(accuracy_df) <- "status"
@@ -341,6 +437,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         marker_specific_level <- data.frame(marker_specific_level)
         colnames(marker_specific_level) <- "Marker_level"
         level_and_accuracy <- cbind(marker_specific_level, accuracy_df)
+<<<<<<< HEAD
         
         p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
         title <- paste("Density distribution of", marker, sep=" ")
@@ -361,6 +458,27 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     phenotype_predictions <- predicted_data[,grep("_predicted_phenotype", colnames(predicted_data))]
     colnames(phenotype_predictions) <- gsub("_predicted_phenotype", "", colnames(phenotype_predictions))
     
+        p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
+        title <- paste("Density distribution of", marker, sep=" ")
+        p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+
+        if (!is.null(selected_valley_xcord[[marker]])) {
+          p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+        } else {
+          p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", marker_threshold))
+        }
+
+        p <- p + theme_bw()
+
+        print(p)
+      }
+    }
+
+    phenotype_predictions <- predicted_data[,grep("_predicted_phenotype", colnames(predicted_data))]
+    colnames(phenotype_predictions) <- gsub("_predicted_phenotype", "", colnames(phenotype_predictions))
+
     phenotype_predictions_collapsed <- vector()
     for(marker in markers){
       temp <- phenotype_predictions[,marker]
@@ -384,3 +502,4 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 }
 
 
+}
