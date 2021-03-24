@@ -29,7 +29,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
-    Cell.X.Position <- Cell.Y.Position <- Cell_type <- NULL
+    Cell.X.Position <- Cell.Y.Position <- NULL
 
     #turn the sce object name into string as a filename
     image_filename <- deparse(substitute(sce_object))
@@ -37,7 +37,6 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- data.frame(colData(sce_object))
     cell_loc <- cell_loc[complete.cases(cell_loc),]
-    cell_loc$Cell_type <- as.character(cell_loc$Phenotype)
     
     #CHECK
     if (nrow(cell_loc) == 0) {
