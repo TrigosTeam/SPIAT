@@ -64,6 +64,7 @@ Imports:
     raster,
     sp,
     xROI
+    Seurat
 Suggests:
     BiocStyle,
     knitr,
