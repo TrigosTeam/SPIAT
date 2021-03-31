@@ -65,7 +65,10 @@ Imports:
     sp,
     xROI,
     Seurat,
-    Rphenograph
+    Rphenograph,
+    divo, 
+    ggpubr,
+    tidyr
 Suggests:
     BiocStyle,
     knitr,
