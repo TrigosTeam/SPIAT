@@ -63,7 +63,7 @@ Imports:
     hull2spatial,
     raster,
     sp,
-    xROI
+    xROI,
     Seurat
 Suggests:
     BiocStyle,
