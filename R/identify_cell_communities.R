@@ -4,22 +4,20 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param clustering_method String specifying which clustering algorithm to use. Current options:
-#' "dbscan"
+#' "dbscan" and "rphenograph"
 #' @param radius Integer specifying the radius of search. Required for "dbscan"
 #' @param min_community_size Minimum number of cells in a community
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
 #' @import dplyr
+#' @import Rphenograph
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
 #' @importFrom dittoSeq dittoColors
 #' @return A data.frame and a plot is returned
 #' @examples
-#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 #' @export
-
-# imported ggplot2 due to interdependency of functions
 
 identify_cell_communities <- function(sce_object, clustering_method = "dbscan", radius = NULL, min_community_size = 50, phenotypes_of_interest = NULL){
 
@@ -57,7 +55,10 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
       stop("There are no cells in data/no cells for the phenotypes of interest")
     }
 
-    if (clustering_method == "dbscan") {
+    if (clustering_method == "rphenograph") {
+      Rphenograph_out <- Rphenograph(cell_cords, k = min_community_size)
+      formatted_data$Community <- factor(membership(Rphenograph_out[[2]]))
+    } else if (clustering_method == "dbscan") {
         #Use dbscan to generate clusters
         db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_community_size)
         #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
