@@ -57,13 +57,21 @@ Imports:
     utils,
     vroom,
     ComplexHeatmap,
-    dittoSeq
+    dittoSeq,
+    spatstat,
+    alphahull,
+    hull2spatial,
+    raster,
+    sp,
+    xROI
 Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
     pkgdown,
     testthat
+Remotes:
+    babichmorrowc/hull2spatial
 biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
