@@ -2,15 +2,23 @@
 % Please edit documentation in R/format_sce_to_ppp.R
 \name{format_sce_to_ppp}
 \alias{format_sce_to_ppp}
-\title{format_sce_to_ppp}
+\title{Create point pattern object from single cell experiment object}
 \usage{
+format_sce_to_ppp(sce_object)
+
 format_sce_to_ppp(sce_object)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 }
 \description{
+Input - Single cell experiment object to be transformed into ppp object,
+ marker phenotypes will be allocated as marks to ppp object
+
 Formats an sce object into a ppp object
 which has the x,y coordinates, phenotypes as markers 
 window specifies the range of x and y coordinates
+}
+\details{
+Output - ppp object, marked to reflect initial image
 }

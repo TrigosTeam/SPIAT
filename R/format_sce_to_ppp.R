@@ -15,7 +15,7 @@ format_sce_to_ppp <- function(sce_object){
   #return ppp object
   return(point_pattern)
 }
-=======
+
 #' format_sce_to_ppp
 #'
 #' @description Formats an sce object into a ppp object
