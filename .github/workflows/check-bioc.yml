@@ -116,7 +116,8 @@ jobs:
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         run: |
-          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
+          ### Adding apt-get install -y default-libmysqlclient-dev to try fix error
+          sysreqs=$(Rscript -e 'cat("apt-get update -y && "apt-get install -y default-libmysqlclient-dev" && apt-get install -y", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
@@ -137,8 +138,8 @@ jobs:
           ## For installing usethis's dependency gert
           brew install libgit2
           
-          ## To fix x11/cairo error 
-          ## Suggested here https://stackoverflow.com/questions/63648591/how-to-install-x11-before-testing-with-github-actions-for-macos
+          ### To fix x11/cairo error 
+          ### Suggested here https://stackoverflow.com/questions/63648591/how-to-install-x11-before-testing-with-github-actions-for-macos
           brew install --cask xquartz 
 
       - name: Install Windows system dependencies
