@@ -136,6 +136,10 @@ jobs:
 
           ## For installing usethis's dependency gert
           brew install libgit2
+          
+          ## To fix x11/cairo error 
+          ## Suggested here https://stackoverflow.com/questions/63648591/how-to-install-x11-before-testing-with-github-actions-for-macos
+          brew install --cask xquartz 
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
