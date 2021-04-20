@@ -96,7 +96,8 @@ test_that("marker_prediction_plot() creates a plot", {
     predicted_image <- predict_phenotypes(formatted_image,
                                           thresholds = NULL,
                                           tumour_marker = "AMACR",
-                                          baseline_markers = c("CD3", "CD4", "CD8"))
+                                          baseline_markers = c("CD3", "CD4", "CD8"),
+                                          reference_phenotypes = FALSE)
     
     p <- marker_prediction_plot(predicted_image, marker="AMACR")
     
