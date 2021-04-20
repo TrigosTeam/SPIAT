@@ -16,7 +16,7 @@ identify_cell_communities(
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{clustering_method}{String specifying which clustering algorithm to use. Current options:
-"dbscan"}
+"dbscan" and "rphenograph"}
 
 \item{radius}{Integer specifying the radius of search. Required for "dbscan"}
 
@@ -29,7 +29,4 @@ A data.frame and a plot is returned
 }
 \description{
 Identifies communities of cells based on their location. It excludes cells without a phenotype
-}
-\examples{
-communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
 }
