@@ -30,7 +30,7 @@ The order must match the marker order, and it should be NA for DAPI.}
 If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
 If no reference phenotype available, the result of the function will be added to the sce object used in the input.}
 
-\item{markers_to_phenotype}{Markers to be included in the phenotyping. If NULL, then all markers will be used}
+\item{markers_to_phenotype}{Markers to be included in the phenotyping. If NULL, then all markers will be used. DAPI needs to be excluded}
 }
 \value{
 An updated sce object with cell phenotypes or a data.frame of predicted phenotypes

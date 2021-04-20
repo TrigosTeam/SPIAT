@@ -107,7 +107,7 @@ test_that("identify_cell_clusters() works", {
                       CD4 = c(3.74, 1.22, 1.9, 1.3),
                       CD8 = c(0.319, 0.05, 9.982, 4.254),
                       AMACR = c(0.034, 0.069, 0.514, 0.061),
-                      Cluster = c("Cluster_1", "Cluster_NA", "Cluster_1", "Cluster_1"), check.names = FALSE)
+                      Cluster = c("Cluster_1", "Free_cell", "Cluster_1", "Cluster_1"), check.names = FALSE)
     
     clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"),
                                        radius = 30)
