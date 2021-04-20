@@ -27,6 +27,30 @@
 #' @examples
 #' @export
 
+# predicted_image_cellPro <- predict_phenotypes(formatted_image_cellPro,
+#                                               thresholds = NULL,
+#                                               tumour_marker = "Ki67",
+#                                               baseline_markers = c("CD11b","CD163","CD20","CD3","CD45","CD66b","CD68","CD8","DCLAMP"),
+#                                               #baseline_markers = c("CD11b","CD163","CD20"),
+#                                               nuclear_marker = "DNA", reference_phenotypes=FALSE,
+#                                               markers_to_phenotype = NULL)
+# 
+# predicted_image_Visium <- predict_phenotypes(formatted_image_Visium,
+#                                              thresholds = NULL,
+#                                              tumour_marker = "EGFR",
+#                                              baseline_markers = c("CTLA4","TP53","KRAS", "CD8A"),
+#                                              #baseline_markers = c("CD11b","CD163","CD20"),
+#                                              reference_phenotypes=FALSE,
+#                                              markers_to_phenotype = c("EGFR", "CTLA4","TP53","KRAS", "CD8A"))
+# 
+# 
+# predicted_image_CODEX <- predict_phenotypes(formatted_image_CODEX,
+#                                             thresholds = NULL,
+#                                             tumour_marker = "F480",
+#                                             baseline_markers = c("CD45", "CD19", "CD11c", "CD11b"),
+#                                             nuclear_marker = NULL, reference_phenotypes=TRUE,
+#                                             markers_to_phenotype = NULL)
+
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
                                reference_phenotypes = TRUE, markers_to_phenotype = NULL){
@@ -34,9 +58,6 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    formatted_data$Phenotype <- gsub("-", "", formatted_data$Phenotype)
-    formatted_data$Phenotype <- gsub("+", "", formatted_data$Phenotype)
-    
     intensity_matrix <- assay(sce_object)
 
     if(is.null(markers_to_phenotype)){
@@ -49,11 +70,12 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       }
       intensity_matrix <- intensity_matrix[markers,]
     }
-    
+
     #CHECK
     if (is.element(tumour_marker, markers) == FALSE) {
       stop("Tumour marker not found")
     }
+
     cell_ids <- colnames(intensity_matrix)
 
     rownames(intensity_matrix) <- NULL
@@ -63,16 +85,16 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     colnames(intensity_df) <- markers
 
     formatted_data <- cbind(formatted_data, intensity_df)
-    
-    
+
+
    #add actual intensity boolean value to formatted_data
     markers_no_tumour <- markers[markers != tumour_marker]
     if(!is.null(nuclear_marker)){
       markers_no_tumour <- markers_no_tumour[markers_no_tumour != nuclear_marker]
     }
-    
+
     selected_valley_xcord <- list()
-    
+
     ##Add actual marker levels
     for (marker in markers){
         if ((!is.null(nuclear_marker)) && (marker == nuclear_marker)){
@@ -89,6 +111,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
             rows <- formatted_data[grepl(marker, formatted_data$Phenotype), ]
             if(nrow(rows) > 0){
               actual_phenotype[actual_phenotype$Cell.ID %in% rows$Cell.ID,]$Phenotype_status <- 1
+
               actual_phenotype <- data.frame(actual_phenotype[,1])
               colnames(actual_phenotype) <- paste(marker, "_actual_phenotype", sep="")
               formatted_data <- cbind(formatted_data, actual_phenotype)  
@@ -97,7 +120,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     }
 
     for (marker in markers_no_tumour) {
-        
+
         #extract the marker intensity column
         marker_specific_level <- formatted_data[,marker]
 
@@ -155,7 +178,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     #Tumor marker levels in these cells
 
     formatted_data_baseline <- formatted_data[formatted_data$Cell.ID %in% baseline_cells,tumour_marker]
-    cutoff_for_tumour <- quantile(formatted_data_baseline, 0.95, na.rm=TRUE)
+    cutoff_for_tumour <- quantile(formatted_data_baseline, 0.95)
 
     #extract the marker intensity column
     tumour_specific_level <- formatted_data[,tumour_marker]
@@ -200,7 +223,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     
     
-  if (reference_phenotypes) {
+if (reference_phenotypes) {
     for (marker in markers) {
       #exclude markers that are not reference markers
       if (marker == nuclear_marker | marker == tumour_marker) {
@@ -282,20 +305,11 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         print(p)
       }
     }
-  } else {
+    }else{
       for(marker in markers){
         #names of columns
         marker_status_name <- paste(marker, "_status", sep="")
         marker_pred_exp_colname <- paste(marker,"_predicted_phenotype", sep="")
-        
-        #create an accuracy_df with the same number of rows and 1 column
-        accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
-        colnames(accuracy_df) <- "status"
-        
-        #grab both the actual and predicted intensity for the specific marker, change colnames and bind to accuracy_df
-        marker_exp_pred <- predicted_data[,c( marker_pred_exp_colname)]
-        accuracy_df <- cbind(accuracy_df, marker_exp_pred)
-        
 
         #create an accuracy_df with the same number of rows and 1 column
         accuracy_df <- data.frame(rep(NA, nrow(predicted_data)))
@@ -312,23 +326,24 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         marker_specific_level <- data.frame(marker_specific_level)
         colnames(marker_specific_level) <- "Marker_level"
         level_and_accuracy <- cbind(marker_specific_level, accuracy_df)
-        
+
         p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
         title <- paste("Density distribution of", marker, sep=" ")
         p <- p + labs(title = title, x = "Level of intensity", y = "Density")
-        
+
         if (!is.null(selected_valley_xcord[[marker]])) {
           p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
         } else {
           p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
+          print(paste(marker, " threshold intensity: ", marker_threshold))
         }
-        
+
         p <- p + theme_bw()
-        
+
         print(p)
       }
     }
-    
 
     phenotype_predictions <- predicted_data[,grep("_predicted_phenotype", colnames(predicted_data))]
     colnames(phenotype_predictions) <- gsub("_predicted_phenotype", "", colnames(phenotype_predictions))
@@ -339,19 +354,18 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       temp[temp == 1] <- marker
       phenotype_predictions_collapsed <- cbind(phenotype_predictions_collapsed, temp) 
     }
-    
+
     phenotype_predictions_vector <- apply(phenotype_predictions_collapsed, 1, paste, collapse=",")
     phenotype_predictions_vector <- gsub("0,", "", phenotype_predictions_vector)
     phenotype_predictions_vector <- gsub(",0", "", phenotype_predictions_vector)
     phenotype_predictions_vector[phenotype_predictions_vector == 0] <- "None"
-    
+
     if(!reference_phenotypes){
       colData(sce_object)$Phenotype <- phenotype_predictions_vector
       return_results <- sce_object
     }else{
       return_results <- predicted_data
     }
-    
+
     return(return_results)
 }
-
