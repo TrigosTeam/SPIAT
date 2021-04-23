@@ -265,13 +265,14 @@ SPIAT can predict cell phenotypes using the marker intensity levels with `predic
 predicted_image <- predict_phenotypes(formatted_image,
                                       thresholds = NULL,
                                       tumour_marker = "AMACR",
-                                      baseline_markers = c("CD3", "CD4", "CD8"))
+                                      baseline_markers = c("CD3", "CD4", "CD8"),
+                                      reference_phenotypes = FALSE)
 ```
 
 We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. 
 
 ```{r}
-marker_prediction_plot(predicted_image, marker="CD3")
+#marker_prediction_plot(predicted_image, marker="CD3")
 ```
 
 The plot shows CD3+ cells in the tissue. On the left are the CD3+ cells defined by InForm and on the right are the CD3+ cells predicted using SPIAT.
