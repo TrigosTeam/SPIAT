@@ -72,7 +72,7 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
   }
   
   p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype)) +
-    geom_point(aes(colour = Phenotype), size = 1) +
+    geom_point(aes(colour = Phenotype), size = 1)
   p <- ggplot(formatted_data, aes(x = Cell.X.Position, y = Cell.Y.Position, colour = Phenotype))
   if (any(formatted_data$Phenotype == "OTHER")) {
     p <- p + geom_point(data=subset(formatted_data, Phenotype=='OTHER'), aes(colour = Phenotype), size = 1) + 
