@@ -51,7 +51,8 @@ test_that("image_splitter works", {
     
     res <-    data.frame(
       row.names = c("Cell_1", "Cell_2", "Cell_3", "Cell_4"),
-      Phenotype = c("OTHER", "AMACR", "AMACR", "AMACR"), Cell.X.Position = c(82, 171, 184, 201), 
+      Phenotype = c("OTHER", "AMACR", "AMACR", "AMACR"), 
+      Cell.X.Position = c(82, 171, 184, 201), 
       Cell.Y.Position = c(30, 22, 38, 52), 
       Cell.Area = c(477, 464, 553, 462), 
       Nucleus.Area = c(160,177, 212, 239), 
