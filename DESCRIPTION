@@ -64,9 +64,17 @@ Imports:
     raster,
     sp,
     xROI,
+<<<<<<< HEAD
     pracma,
     tibble,
     Seurat
+=======
+    Seurat,
+    Rphenograph,
+    divo, 
+    ggpubr,
+    tidyr
+>>>>>>> anna
 Suggests:
     BiocStyle,
     knitr,
@@ -74,7 +82,8 @@ Suggests:
     pkgdown,
     testthat
 Remotes:
-    babichmorrowc/hull2spatial
+    babichmorrowc/hull2spatial,
+    JinmiaoChenLab/Rphenograph
 biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
