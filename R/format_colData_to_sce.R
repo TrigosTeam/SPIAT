@@ -1,7 +1,7 @@
 #' format_colData_to_sce
 #'
-#' @description Formats a dataframe of colData into a singlecellexperiment class 
-#' where the count assay is empty for
+#' @description Format a dataframe of colData into a singlecellexperiment class 
+#' where the count assay is empty
 #' every cell (columns), and cell phenotype, x and y coordinates are stored under colData
 #' for the purpose of passing dataframe into a function requiring sce_object
 #'
@@ -35,12 +35,9 @@ format_colData_to_sce <- function(colData) {
   rownames(sce) <- assay_rownames
   colnames(sce) <- assay_colnames
   
-  #Assign the phenotype, X and Y positions as the colData
-  coldata_phenotype <- colData[,"Phenotype"]
-  coldata_Xpos <- colData[,"Cell.X.Position"]
-  coldata_Ypos <- colData[,"Cell.Y.Position"]
-  colData(sce)$Phenotype <- coldata_phenotype
-  colData(sce)$Cell.X.Position <- coldata_Xpos
-  colData(sce)$Cell.Y.Position <- coldata_Ypos
+  #Assign the columns
+  for (name in colnames(colData)){
+    colData(sce)[[name]] <- colData[,name]
+  }
   return(sce)
 }

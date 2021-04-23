@@ -17,8 +17,19 @@ calculate_summary_distances_to_borders <- function(sce_object, types_of_interest
     stop("Find the bordering cells first! Use the function identifying_bordering_cells_interactive()")
   }
   if (is.null(sce_object$Distance.To.Border)){
-    stop("Find the min distances to the bordering cells first! Use the functioin calculate_min_distances_to_borders()")
+    stop("Find the min distances to the bordering cells first! Use the function calculate_min_distances_to_borders()")
   }
+  
+  ###################
+  
+  # should return two rows of df, one for inside, the other outside
+  
+  
+  ################3####
+  #what about the proportions of different structures
+  # have got three types of structures
+  
+  
   
   # CHECK input
   if (is.null(types_of_interest)){
@@ -29,20 +40,35 @@ calculate_summary_distances_to_borders <- function(sce_object, types_of_interest
   }
   
   data <- data.frame(colData(sce_object))
-  data_of_interest <- data[data[,column] %in% types_of_interest,]
+  ##### data in #####
+  data_of_interest_in <- dplyr::intersect(data[data[,column] %in% types_of_interest,],
+                                   data[which(data$Region == "In"),])
   
   df.cols <- c("Min", "Max", "Mean",
                "Median", "St.dev")
   df <- data.frame(matrix(ncol=5,nrow=1, dimnames=list(NULL, df.cols)), stringsAsFactors = FALSE)
   
-  min_d <- min(data_of_interest$Distance.To.Border)
-  max_d <- max(data_of_interest$Distance.To.Border)
-  mean_d <- mean(data_of_interest$Distance.To.Border)
-  median_d <- median(data_of_interest$Distance.To.Border)
-  st.dev_d <- sd(data_of_interest$Distance.To.Border)
+  min_d <- min(data_of_interest_in$Distance.To.Border)
+  max_d <- max(data_of_interest_in$Distance.To.Border)
+  mean_d <- mean(data_of_interest_in$Distance.To.Border)
+  median_d <- median(data_of_interest_in$Distance.To.Border)
+  st.dev_d <- sd(data_of_interest_in$Distance.To.Border)
   
   df <-  rbind(df[ ,df.cols], c(min_d, max_d, mean_d, median_d, st.dev_d))
-  df <- df[-1,]             
+  ##### data out #####
+  data_of_interest_out <- dplyr::intersect(data[data[,column] %in% types_of_interest,],
+                                   data[which(data$Region == "Out"),])
+  
+  min_d <- min(data_of_interest_out$Distance.To.Border)
+  max_d <- max(data_of_interest_out$Distance.To.Border)
+  mean_d <- mean(data_of_interest_out$Distance.To.Border)
+  median_d <- median(data_of_interest_out$Distance.To.Border)
+  st.dev_d <- sd(data_of_interest_out$Distance.To.Border)
+  
+  
+  df <-  rbind(df[ ,df.cols], c(min_d, max_d, mean_d, median_d, st.dev_d))
+  df <- df[-1,]   
+  
   
   return(df)
 }

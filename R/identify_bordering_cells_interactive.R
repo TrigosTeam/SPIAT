@@ -25,7 +25,7 @@
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
-identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_of_polygons = 1, buffer_width = 20, ahull_alpha = NULL, large = FALSE){
+identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_of_polygons = 1, buffer_width = 1, ahull_alpha = NULL, large = FALSE){
   # CHECK
   if (is.null(sce_object$Cell.Type)){
     stop("Please define the cell types!")
@@ -38,26 +38,41 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   phenotypes_of_interest <- c(reference_cell)
   colour_vector <- c("green")
   par(xpd=TRUE)
-  plot_cell_basic_2(sce_object, phenotypes_of_interest, colour_vector, column = "Cell.Type")
+  p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, column = "Cell.Type")
   par(xpd=FALSE)
   
   ##### interactively draw boundaries ####
-  list = list()
-  for (i in 1:n_of_polygons){
-    draw = drawPolygon()
-    poly = Polygon(draw, hole = FALSE)
-    list[[i]] <- poly
+  if (n_of_polygons == 1){
+    list <- list()
+    draw <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
+                               min(sce_object$Cell.X.Position), min(sce_object$Cell.X.Position)),
+                       "y" = c(min(sce_object$Cell.Y.Position), max(sce_object$Cell.Y.Position),
+                               max(sce_object$Cell.Y.Position), min(sce_object$Cell.Y.Position)))
+    poly <- Polygon(draw, hole = FALSE)
+    list[[1]] <- poly
   }
-  polys = Polygons(list,ID = c("a"))
-  sp = SpatialPolygons(list(polys))
+  
+  else{
+    list = list()
+    for (i in 1:n_of_polygons){
+      draw <- drawPolygon()
+      poly <- Polygon(draw, hole = FALSE)
+      list[[i]] <- poly
+    }
+  }
+  polys <- Polygons(list,ID = c("a"))
+  sp <- SpatialPolygons(list(polys))
   
   ##### for loop, get the boundary cells and inside cells for each polygon #####
   data = data.frame(colData(sce_object))
   data[,"Region"] <- "Out"
   buffer = buffer(sp, width = buffer_width)
+
   
   for (i in 1:n_of_polygons){
     # get the coords
+    #print(buffer@polygons[[1]])
+    #print(buffer@polygons[[1]]@Polygons[[i]])
     buffered_polygon = slot(buffer@polygons[[1]]@Polygons[[i]],"coords")
     # identify the tumour cells in the drawn polygon
     inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
@@ -72,16 +87,22 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
     if (is.null(ahull_alpha)){
       n_cells = dim(tumour_in_polygon)[1]
       if (n_cells<200){
-        ahull_alpha = 60
+        alpha = 60
       } else if (n_cells > 5000){
-        ahull_alpha = 90
+        alpha = 90
       } else {
-        ahull_alpha = (n_cells - 300)/160 + 60
+        alpha = (n_cells - 300)/160 + 60
       }
+      print(paste("The alpha of Polygon is:", alpha))
+      ahull= ahull(tumour_in_polygon$Cell.X.Position, 
+                   tumour_in_polygon$Cell.Y.Position, alpha = alpha)
     }
-    print(paste("The alpha of Polygon is:", ahull_alpha))
-    ahull= ahull(tumour_in_polygon$Cell.X.Position, 
-                 tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
+    else {
+      ahull= ahull(tumour_in_polygon$Cell.X.Position, 
+                   tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
+    }
+    
+    
     # identify the cells that compose the ahull
     cells_on_boundary = cbind(data.frame(ahull$ashape.obj$edges)$x1,data.frame(ahull$ashape.obj$edges)$y1)
     cells_on_boundary = data.frame(cells_on_boundary)
