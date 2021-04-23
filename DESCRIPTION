@@ -64,17 +64,11 @@ Imports:
     raster,
     sp,
     xROI,
-<<<<<<< HEAD
-    pracma,
-    tibble,
-    Seurat
-=======
     Seurat,
     Rphenograph,
     divo, 
     ggpubr,
     tidyr
->>>>>>> anna
 Suggests:
     BiocStyle,
     knitr,
