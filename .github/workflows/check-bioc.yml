@@ -117,7 +117,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           ### Adding apt-get install -y default-libmysqlclient-dev to try fix error
-          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y default-libmysqlclient-dev", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
+          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y libmysqlclient-dev default-libmysqlclient-dev", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
