@@ -10,8 +10,8 @@ format_colData_to_sce(colData)
 \item{colData}{Dataframe that will be the colData of the sce object}
 }
 \description{
-Formats a dataframe of colData into a singlecellexperiment class 
-where the count assay is empty for
+Format a dataframe of colData into a singlecellexperiment class 
+where the count assay is empty
 every cell (columns), and cell phenotype, x and y coordinates are stored under colData
 for the purpose of passing dataframe into a function requiring sce_object
 }
