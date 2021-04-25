@@ -4,12 +4,12 @@
 \alias{plot_cell_basic}
 \title{plot_cell_basic}
 \usage{
-plot_cell_basic(sce_object, celltypes_of_interest, colour_vector, column)
+plot_cell_basic(sce_object, types_of_interest, colour_vector, column)
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
 
-\item{celltypes_of_interest}{Vector of cell cell types to be coloured}
+\item{types_of_interest}{Vector of cell cell types to be coloured}
 
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 
@@ -20,10 +20,10 @@ A plot is returned
 }
 \description{
 Produces a scatter plot of the cells in the tissue. Cells are coloured
-categorically by Ceell.Type. Cells not part of the celltypes of interest will be coloured "lightgrey"
+categorically by specified column. Cells not part of the celltypes of interest will be coloured "lightgrey"
 }
 \examples{
-celltypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
+types_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
 colour_vector <- c("darkgrey", "blue", "red")
-plot_cell_basic(SPIAT::formatted_image, celltypes_of_interest, colour_vector, column)
+plot_cell_basic(SPIAT::formatted_image, types_of_interest, colour_vector, column)
 }

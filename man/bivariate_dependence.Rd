@@ -4,13 +4,7 @@
 \alias{bivariate_dependence}
 \title{bivariate_dependence}
 \usage{
-bivariate_dependence(
-  sce_object,
-  method = "Kcross",
-  phenotypes,
-  merge = NULL,
-  merge_name = NULL
-)
+bivariate_dependence(sce_object, method = "Kcross", phenotypes, column)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
@@ -19,9 +13,7 @@ bivariate_dependence(
 
 \item{phenotypes}{Vector of phenotypes of interest}
 
-\item{merge}{Vector of phenotypes to be merged}
-
-\item{merge_name}{String that is the name of the merged phenotype}
+\item{column}{String that is the name of the column of the types}
 }
 \description{
 find the dependence between two types of cells
