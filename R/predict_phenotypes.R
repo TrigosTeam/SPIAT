@@ -53,7 +53,7 @@
 
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
-                               reference_phenotypes = TRUE, markers_to_phenotype = NULL){
+                               reference_phenotypes = FALSE, markers_to_phenotype = NULL){
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
