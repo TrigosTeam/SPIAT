@@ -68,7 +68,8 @@ Imports:
     Rphenograph,
     divo, 
     ggpubr,
-    tidyr
+    tidyr,
+    magrittr
 Suggests:
     BiocStyle,
     knitr,
