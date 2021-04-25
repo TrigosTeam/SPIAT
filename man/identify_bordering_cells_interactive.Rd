@@ -8,7 +8,7 @@ identify_bordering_cells_interactive(
   sce_object,
   reference_cell,
   n_of_polygons = 1,
-  buffer_width = 20,
+  buffer_width = 1,
   ahull_alpha = NULL,
   large = FALSE
 )
