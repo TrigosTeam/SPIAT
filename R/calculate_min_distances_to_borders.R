@@ -9,7 +9,7 @@
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
-#' @importFrom spatstat crossdist.default
+#' @importFrom spatstat.geom crossdist.default
 #' @return An sce_object is returned
 #' @examples
 #' formatted_distances <- calculate_min_distance_to_borders(SPIAT::formatted_image,  split = NULL)
