@@ -10,7 +10,7 @@ predict_phenotypes(
   tumour_marker,
   baseline_markers,
   nuclear_marker = NULL,
-  reference_phenotypes = TRUE,
+  reference_phenotypes = FALSE,
   markers_to_phenotype = NULL
 )
 }
