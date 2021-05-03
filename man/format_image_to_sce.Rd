@@ -41,14 +41,14 @@ Column names must match the order of the 'markers' parameter}
 
 \item{path_to_codex_cell_phenotypes}{For CODEX data. String of the path to the Cluster ID/Cell type file.}
 
-\item{intensity_matrix:}{For the "general" format. A matrix of marker intensities or gene expression where the column names are the Cell IDs, and the rownames the marker or genes.}
+\item{intensity_matrix}{For the "general" format. A matrix of marker intensities or gene expression where the column names are the Cell IDs, and the rownames the marker or genes.}
 
-\item{phenotypes:}{A vector of cell phenotypes in the same order in which they appear in intensity_matrix. If no phenotypes available, then a vector of NA can be used as input. Note
+\item{phenotypes}{A vector of cell phenotypes in the same order in which they appear in intensity_matrix. If no phenotypes available, then a vector of NA can be used as input. Note
 that the combination of markers (e.g. CD3,CD4) needs to be used instead of the cell type name (e.g. helper T cells)}
 
-\item{coord_x:}{A vector with the X coordinates of the cells. The cells must be in the same order as in the intensity_matrix.}
+\item{coord_x}{A vector with the X coordinates of the cells. The cells must be in the same order as in the intensity_matrix.}
 
-\item{coord_y:}{A vector with the Y coordinates of the cells. The cells must be in the same order as in the intensity_matrix.}
+\item{coord_y}{A vector with the Y coordinates of the cells. The cells must be in the same order as in the intensity_matrix.}
 }
 \value{
 A SingleCellExperiment object is returned
