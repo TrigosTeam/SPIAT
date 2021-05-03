@@ -17,6 +17,3 @@ An sce_object is returned
 \description{
 Returns the sce_object with the minimum distance from immune cells to the identified bordering cells
 }
-\examples{
-formatted_distances <- calculate_min_distance_to_borders(SPIAT::formatted_image,  split = NULL)
-}
