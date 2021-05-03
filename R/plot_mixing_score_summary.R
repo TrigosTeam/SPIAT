@@ -10,8 +10,6 @@
 #' @import ggpubr
 #' @import gridExtra
 #' @return Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.
-#' @examples
-#' plot_mixing_score <- plot_mixing_score_summary(mixing_score_summary) 
 #' @export
 
 plot_mixing_score_summary <- function(mixing_score_summary_df, individual.plots=FALSE) 

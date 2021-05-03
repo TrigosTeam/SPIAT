@@ -17,6 +17,3 @@ A character vector is returned
 \description{
 Print the unique values of a specified column
 }
-\examples{
-print_phenotypes(SPIAT::formatted_image, "Phenotype")
-}
