@@ -14,10 +14,6 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
 #' @return A data.frame of cell numbers, mixing scores, and normalised mixing scores.
-#' @examples
-#' mixing_score_HALO <- mixing_score_summary(formatted_image_HALO, 
-#'                                           reference_marker = c("HMWCK", "CD3", "CD20", "CD68", "CD11c", "PDL1", "PDL1,CD68"),
-#'                                           target_marker = c("HMWCK", "CD3", "CD20", "CD68", "CD11c", "PDL1", "PDL1,CD68"))
 #' @export
 
 mixing_score_summary <- function(sce_object, reference_marker, target_marker, radius=20)
