@@ -31,7 +31,7 @@ average_nearest_neighbor_index <- function(sce_object, reference_cell, column){
   ann.e <- 0.5/sqrt(n/area)
   se <- 0.26136/sqrt(n*n/area)
   z <- (ann.p - ann.e)/se
-  p <- pnorm(abs(z))
+  p <- pnorm(-abs(z))
   
   if (p <= 5e-6){
     if (ann.p <= ann.e){
