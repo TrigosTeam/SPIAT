@@ -59,6 +59,7 @@ Imports:
     ComplexHeatmap,
     dittoSeq,
     spatstat,
+    spatstat.geom,
     alphahull,
     hull2spatial,
     raster,
