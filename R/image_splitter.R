@@ -14,6 +14,7 @@
 #' @param x_position_max Integer used to specify the maximum x boundary to be splitted
 #' @param y_position_min Integer used to specify the minimum y boundary to be splitted
 #' @param y_position_max Integer used to specify the maximum y boundary to be splitted
+#' @param column String specifying which column the colouring should be based on
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
 #' @importFrom grDevices pdf dev.off
@@ -26,7 +27,8 @@
 #' @export
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
-                           x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL){
+                           x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL, 
+                           column = "Cell.Type"){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
@@ -69,7 +71,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     manual_full_image <- cell_loc[minX < cell_loc$Cell.X.Position & cell_loc$Cell.X.Position <= maxX
                                   & minY < cell_loc$Cell.Y.Position & cell_loc$Cell.Y.Position <= maxY, ]
     if(isTRUE(plot)){
-        number_markers <- length(unique(cell_loc$Cell_type))
+        number_markers <- length(unique(cell_loc[,column]))
         #Assigns colours to cell types based on user preference
         if(!is.null(colour_vector)){
             point_colours <- colour_vector
@@ -80,7 +82,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
         #Plots partitioned full image
         full_image <- ggplot(manual_full_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-            geom_point(aes(color = Cell_type), size = 0.95) +
+            geom_point(aes(color = manual_full_image[,column]), size = 0.95) +
             scale_color_manual(values = point_colours) +
             guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
             theme(panel.grid.major = element_blank(),
@@ -113,7 +115,6 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     y_split <- seq(minY, maxY, length.out = number_of_splits + 1)
 
     divided_image_obj <- list()
-
     for(y in seq_len(number_of_splits)){
 
         local_coor_y <- y_split[c(y+1, y)]
@@ -153,13 +154,12 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                     full_image <- full_image + geom_text(aes_string(x = min(local_coor_x), y = 50, label = min(rounded_coor_x)), size = 3)
                 }
             }
-
             #Locates all points in the data file fitting the given min/max parameters to be plotted i.e. splitting up the image.
             divided_image <- temp_cell_loc[min(local_coor_x) < temp_cell_loc$Cell.X.Position & temp_cell_loc$Cell.X.Position <= max(local_coor_x)
                                            & min(local_coor_y) < temp_cell_loc$Cell.Y.Position & temp_cell_loc$Cell.Y.Position <= max(local_coor_y), ]
             if(isTRUE(plot)){
                 split_plot <- ggplot(divided_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-                    geom_point(aes(colour = Cell_type), size = 0.95) +
+                    geom_point(aes(colour = divided_image[,column]), size = 0.95) +
                     scale_colour_manual(values = point_colours) +
                     guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
                     ggtitle(paste("(", x, ", ", y, ")", sep = "")) +
@@ -176,7 +176,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                 print(split_plot)
             }
 
-            divided_image_obj[[paste(image_filename, x, y, sep = "")]] <- divided_image
+            divided_image_obj[[paste(image_filename,"r", x,"c", y, sep = "")]] <- divided_image
         }
     }
     if(isTRUE(plot)){
