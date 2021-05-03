@@ -10,9 +10,6 @@
 #' plot: Indicates whether to plot Cross-K function by checking for numeric value. By default set to plot graph (plot = 1), if no plot required set to NULL
 #' names: String vector containing desired names for the two groups of phenotypes, largely for plotting purposes. If not specified groups are named Group1 and Group2.
 #' 
-#' Outputs - 
-#' cross_k_function: Stores data required to plot cross k function
-#' 
 #' @description Calculate Cross-K function for 2 groups of cell phenotypes of interest
 #' 
 #' @param point_pattern ppp object representing image
