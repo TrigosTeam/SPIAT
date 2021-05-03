@@ -27,30 +27,6 @@
 #' @examples
 #' @export
 
-# predicted_image_cellPro <- predict_phenotypes(formatted_image_cellPro,
-#                                               thresholds = NULL,
-#                                               tumour_marker = "Ki67",
-#                                               baseline_markers = c("CD11b","CD163","CD20","CD3","CD45","CD66b","CD68","CD8","DCLAMP"),
-#                                               #baseline_markers = c("CD11b","CD163","CD20"),
-#                                               nuclear_marker = "DNA", reference_phenotypes=FALSE,
-#                                               markers_to_phenotype = NULL)
-# 
-# predicted_image_Visium <- predict_phenotypes(formatted_image_Visium,
-#                                              thresholds = NULL,
-#                                              tumour_marker = "EGFR",
-#                                              baseline_markers = c("CTLA4","TP53","KRAS", "CD8A"),
-#                                              #baseline_markers = c("CD11b","CD163","CD20"),
-#                                              reference_phenotypes=FALSE,
-#                                              markers_to_phenotype = c("EGFR", "CTLA4","TP53","KRAS", "CD8A"))
-# 
-# 
-# predicted_image_CODEX <- predict_phenotypes(formatted_image_CODEX,
-#                                             thresholds = NULL,
-#                                             tumour_marker = "F480",
-#                                             baseline_markers = c("CD45", "CD19", "CD11c", "CD11b"),
-#                                             nuclear_marker = NULL, reference_phenotypes=TRUE,
-#                                             markers_to_phenotype = NULL)
-
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
                                reference_phenotypes = FALSE, markers_to_phenotype = NULL){
