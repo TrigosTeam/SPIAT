@@ -10,10 +10,6 @@
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
 #' @return A plot is returned
-#' @examples
-#' types_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
-#' colour_vector <- c("darkgrey", "blue", "red")
-#' plot_cell_basic(SPIAT::formatted_image, types_of_interest, colour_vector, column)
 #' @export
 
 plot_cell_basic <- function (sce_object, types_of_interest, colour_vector, column) {

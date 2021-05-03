@@ -20,6 +20,3 @@ It produces multiple scatterplots for each reference cell observed, with line of
 It gives a Rho statistic with p-value based off Spearman's correlation.
 It produces different sets of plots based off mixing scores and normalised mixing scores.
 }
-\examples{
-plot_mixing_score <- plot_mixing_score_summary(mixing_score_summary) 
-}

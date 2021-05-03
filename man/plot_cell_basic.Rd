@@ -22,8 +22,3 @@ A plot is returned
 Produces a scatter plot of the cells in the tissue. Cells are coloured
 categorically by specified column. Cells not part of the celltypes of interest will be coloured "lightgrey"
 }
-\examples{
-types_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
-colour_vector <- c("darkgrey", "blue", "red")
-plot_cell_basic(SPIAT::formatted_image, types_of_interest, colour_vector, column)
-}
