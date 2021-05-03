@@ -4,12 +4,12 @@
 \alias{plot_mixing_score_summary}
 \title{plot_mixing_score_summary}
 \usage{
-plot_mixing_score_summary(mixing_score_summary_df, individual.plots = FALSE)
+plot_mixing_score_summary(mixing_score_summary, individual.plots = FALSE)
 }
 \arguments{
-\item{individual.plots}{(OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.}
-
 \item{mixing_score_summary}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+
+\item{individual.plots}{(OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.}
 }
 \value{
 Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.

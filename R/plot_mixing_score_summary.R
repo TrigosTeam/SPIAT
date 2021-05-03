@@ -12,9 +12,9 @@
 #' @return Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.
 #' @export
 
-plot_mixing_score_summary <- function(mixing_score_summary_df, individual.plots=FALSE) 
+plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FALSE) 
 {
-  mixing.df <- data.frame(mixing_score_dataframe)
+  mixing.df <- data.frame(mixing_score_summary)
   mixing.df$log_ref_no <- log2(mixing.df$Number_of_reference_cells)
   mixing.df$log_tar_no <- log2(mixing.df$Number_of_target_cells)
   mixing.df$log_mix_score <- log2(mixing.df$Mixing_score)
