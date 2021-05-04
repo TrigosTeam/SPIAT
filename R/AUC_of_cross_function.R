@@ -3,7 +3,7 @@
 #' @description Calculate the difference of area under curve between two curves 
 #'
 #' @param df.cross Dataframe containing the positions of the two curves 
-#' @import pracma
+#' @importFrom pracma trapz
 #' @export
 
 #sce_object = formatted_defined

@@ -8,7 +8,7 @@
 #' @param mixing_score_summary SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param individual.plots (OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.
 #' @import ggpubr
-#' @import gridExtra
+#' @importFrom gridExtra grid.arrange
 #' @return Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.
 #' @export
 
