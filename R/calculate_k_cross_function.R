@@ -7,7 +7,7 @@
 #' @param k_cross_function Cross K function 
 #' 
 #' @importFrom spatstat.core Kcross.inhom
-#' @importFrom spatstat superimpose
+#' @importFrom spatstat.geom superimpose
 
 calculate_k_cross_function <- function(point_pattern, cell_phenotypes_of_interest = NULL)
 {

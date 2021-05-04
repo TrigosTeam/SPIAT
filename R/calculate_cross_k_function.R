@@ -18,7 +18,7 @@
 #' @param plot Dictate whether to plot Cross-K function 
 #' @param names String vector containing the names of the phenotype groups
 #' @importFrom spatstat.core ppm Kcross.inhom 
-#' @importFrom spatstat superimpose
+#' @importFrom spatstat.geom superimpose
 
 calculate_cross_k_function <- function(point_pattern, phenotype_group1, phenotype_group2, names = NULL, plot = 1) {
   # Create subsets for Cross-K function comparison
