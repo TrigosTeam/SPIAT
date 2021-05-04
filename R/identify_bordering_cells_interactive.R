@@ -13,7 +13,7 @@
 #' @importFrom graphics par
 #' @importFrom xROI drawPolygon
 #' @importFrom methods slot
-#' @import raster
+#' @importFrom raster buffer 
 #' @import sp
 #' @import dplyr
 #' @import hull2spatial
