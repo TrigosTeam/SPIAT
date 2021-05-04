@@ -4,7 +4,6 @@
 #' 
 #' @param point_pattern ppp object representing image
 #' @param cell_phenotypes_of_interest cell phenotypes to be compared
-#' @param k_cross_function Cross K function 
 #' 
 #' @importFrom spatstat.core Kcross.inhom
 #' @importFrom spatstat.geom superimpose
