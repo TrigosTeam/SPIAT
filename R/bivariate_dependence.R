@@ -8,7 +8,7 @@
 #' @param column String that is the name of the column of the types
 #' @import SingleCellExperiment
 #' @importFrom spatstat.core Gcross Kcross Lcross Jcross
-#' @import spatstat.geom ppp 
+#' @importFrom spatstat.geom ppp 
 #' @export 
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
