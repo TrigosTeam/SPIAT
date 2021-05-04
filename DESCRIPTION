@@ -61,7 +61,11 @@ Imports:
     spatstat (>= 1.64-2),
     spatstat.geom,
     alphahull,
+    stringr
     hull2spatial,
+    igraph,
+    methods,
+    spatstat.core,
     raster,
     sp,
     xROI,
