@@ -6,6 +6,7 @@
 #' @param cell_phenotypes_of_interest cell phenotypes to be compared
 #' @param k_cross_function Cross K function 
 #' 
+#' @importFrom spatstat.core Kcross.inhom
 
 calculate_k_cross_function <- function(point_pattern, cell_phenotypes_of_interest = NULL)
 {

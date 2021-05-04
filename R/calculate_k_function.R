@@ -19,6 +19,7 @@
 #' @param phenotypes_of_interest String supplying the phenotype of interest, if unspecified the entire point pattern will be considered
 #' @param plot_envelope Indicates whether the significance envelope of simulated data should be plotted (based on inhomogenous Poisson distribution)
 #' @param plot Indicates whether to plot K-function
+#' @importFrom spatstat.core lohboot Kinhom
 
 calculate_k_function <- function(point_pattern, phenotypes_of_interest = NULL, determine_confidence = NULL, plot_envelope = NULL, plot = 1){
   #check for phenotype of interest and replace point pattern object as required
