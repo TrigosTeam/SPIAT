@@ -14,6 +14,7 @@
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
+#' @importFrom igraph membership
 #' @importFrom dittoSeq dittoColors
 #' @return A data.frame and a plot is returned
 #' @examples
