@@ -7,7 +7,7 @@
 #' @param phenotypes Vector of phenotypes of interest
 #' @param column String that is the name of the column of the types
 #' @import SingleCellExperiment
-#' @importFrom spatstat ppp Gcross Kcross Lcross Jcross
+#' @importFrom spatstat.core ppp Gcross Kcross Lcross Jcross
 #' @export 
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
