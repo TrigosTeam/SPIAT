@@ -13,7 +13,8 @@
 #' @param point_pattern ppp object representing data, can be marked point pattern of whole sample or of a single phenotype
 #' @param phenotypes_of_interest specifies which phenotype to base cluster model
 #' 
-#' @importFrom spatstat.core unmark kppm 
+#' @importFrom spatstat.core kppm 
+#' @importFrom spatstat unmark
 
 fit_cluster_model <- function(point_pattern, phenotypes_of_interest = NULL){
   # Check for specified cell phenotype and subset if necessary 
