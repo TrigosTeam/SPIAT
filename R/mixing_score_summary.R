@@ -8,7 +8,6 @@
 #' @param reference_marker Markers to be used as the reference cells. 
 #' @param target_marker Markers to be used as the target markers. The function will ignore instances where reference marker is the same as target marker. 
 #' @param radius (OPTIONAL) The maximum radius around a reference marker for another cell to be considered an interaction.
-#' @import tidyr
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData 
 #' @importFrom tibble rownames_to_column
