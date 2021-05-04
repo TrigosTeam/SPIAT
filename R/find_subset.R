@@ -12,7 +12,8 @@
 #' 
 #' @param point_pattern ppp object representing initial image
 #' @param cell_phenotypes_of_interest Phenotype/Phenotypes of interest
-#' 
+#' @importFrom stringr str_detect 
+#' @importFrom spatstat superimpose
 find_subset <- function(point_pattern, cell_phenotypes_of_interest){
   # Split initial ppp object into subsets based on marks
   subset <- split(point_pattern)

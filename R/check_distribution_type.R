@@ -16,6 +16,7 @@
 #' @param point_pattern sample point pattern to be analysed
 #' @param quadrat_dim vector containing number of quadrants in x,y direction respectively
 #' @param phenotypes_of_interest String describing the phenotypes to be examined 
+#' @importFrom spatstat quadrat.test clarkevans.test
 
 check_distribution_type <- function(point_pattern, quadrat_dim = c(3,3), phenotypes_of_interest = NULL){
   # Find point pattern subset if required

@@ -9,7 +9,7 @@
 #' @importFrom SummarizedExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
-#' @importFrom spatstat.geom crossdist
+#' @importFrom spatstat.geom crossdist.default
 #' @return An sce_object is returned
 #' @export
 

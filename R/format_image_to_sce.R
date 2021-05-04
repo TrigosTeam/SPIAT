@@ -28,6 +28,7 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment	
 #' @importFrom SummarizedExperiment colData
 #' @importFrom vroom vroom
+#' @importFrom utils read.delim read.csv
 #' @importFrom Seurat Read10X
 #' @return A SingleCellExperiment object is returned
 

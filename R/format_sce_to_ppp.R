@@ -6,6 +6,7 @@
 #'
 #' @export
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @importFrom spatstat ppp chull
 
 format_sce_to_ppp <- function(sce_object) {
   
