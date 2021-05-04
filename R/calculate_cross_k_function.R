@@ -17,7 +17,8 @@
 #' @param phenotype_group2 Cell phenotypes to be compared to, can be a single phenotype or multiple
 #' @param plot Dictate whether to plot Cross-K function 
 #' @param names String vector containing the names of the phenotype groups
-#' @importFrom spatstat.core ppm superimpose Kcross.inhom 
+#' @importFrom spatstat.core ppm Kcross.inhom 
+#' @importFrom spatstat superimpose
 
 calculate_cross_k_function <- function(point_pattern, phenotype_group1, phenotype_group2, names = NULL, plot = 1) {
   # Create subsets for Cross-K function comparison
