@@ -7,7 +7,7 @@
 #' @param reference_cell Cells positive for this marker will be used as reference
 #' @param column String specify the selected column for reference_cell
 #' @import SingleCellExperiment
-#' @importFrom spatstat nndist
+#' @importFrom spatstat.core nndist
 #' @importFrom stats pnorm
 #' @import ggplot2
 #' @export
