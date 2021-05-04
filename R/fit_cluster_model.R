@@ -14,7 +14,7 @@
 #' @param phenotypes_of_interest specifies which phenotype to base cluster model
 #' 
 #' @importFrom spatstat.core kppm 
-#' @importFrom spatstat unmark
+#' @importFrom spatstat.geom unmark
 
 fit_cluster_model <- function(point_pattern, phenotypes_of_interest = NULL){
   # Check for specified cell phenotype and subset if necessary 
