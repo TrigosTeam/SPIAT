@@ -16,7 +16,7 @@
 #' @param plot Dictate whether plotting of function is required 
 #' @param names String vector containing the names of the phenotype groups
 #' 
-#' @importFrom Graphics title 
+#' @importFrom graphics title 
 calculate_cross_k_multiple_images <- function(image_point_patterns, phenotype_group1, phenotype_group2, names = NULL, plot = 2){
   i <- 1: length(image_point_patterns)
   cross_k_functions <- vector(mode = "list", length(image_point_patterns))
