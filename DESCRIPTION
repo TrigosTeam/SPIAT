@@ -58,7 +58,7 @@ Imports:
     vroom,
     ComplexHeatmap,
     dittoSeq,
-    spatstat (>= 1.64-2),
+    spatstat,
     spatstat.geom,
     alphahull,
     stringr,
