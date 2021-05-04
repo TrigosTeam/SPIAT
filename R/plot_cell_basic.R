@@ -9,6 +9,7 @@
 #' @param column String specifying the column to be coloured
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
+#' @importFrom graphics legend par 
 #' @return A plot is returned
 #' @export
 
