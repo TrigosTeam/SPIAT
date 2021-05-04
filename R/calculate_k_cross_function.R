@@ -7,23 +7,23 @@
 #' 
 #' @importFrom spatstat.core Kcross.inhom
 #' @importFrom spatstat.geom superimpose
+#' @importFrom stringr str_detect
 
 calculate_k_cross_function <- function(point_pattern, cell_phenotypes_of_interest = NULL)
 {
-  library(stringr)
   
   subset <- split(point_pattern)
   marker1 <- cell_phenotypes_of_interest[1]
   marker2 <- cell_phenotypes_of_interest[2]
   
-  if(str_detect(marker1, ",")){
+  if(stringr::str_detect(marker1, ",")){
     subset_name1 <- paste("subset$`", marker1, "`", sep = "")
   }
   else{
     subset_name1 <- paste("subset$", marker1, sep = "")
   }
   
-  if(str_detect(marker2, ",")){
+  if(stringr::str_detect(marker2, ",")){
     subset_name2 <- paste("subset$`", marker2, "`", sep = "")
   }
   else{
