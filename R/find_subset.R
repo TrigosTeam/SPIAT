@@ -22,7 +22,7 @@ find_subset <- function(point_pattern, cell_phenotypes_of_interest){
   if(length(cell_phenotypes_of_interest) == 1)
   {
     # Check whether the phenotype has a comma to indicate multiple markers and act accordingly
-    if(str_detect(cell_phenotypes_of_interest, ",")){
+    if(stringr::str_detect(cell_phenotypes_of_interest, ",")){
       subset_name <- paste("subset$`", cell_phenotypes_of_interest, "`", sep = "")
     }
     else{
@@ -35,7 +35,7 @@ find_subset <- function(point_pattern, cell_phenotypes_of_interest){
   {
     for (j in 1:length(cell_phenotypes_of_interest))
     {
-      if(str_detect(cell_phenotypes_of_interest[j], ",")){
+      if(stringr::str_detect(cell_phenotypes_of_interest[j], ",")){
         subset_name <- paste("subset$`", cell_phenotypes_of_interest[j], "`", sep = "")
       }
       else{
