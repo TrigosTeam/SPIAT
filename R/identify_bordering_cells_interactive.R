@@ -9,8 +9,10 @@
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
 #' @param large Boolean specifying if the image requires splitting
 #' @import SingleCellExperiment
-#' @import alphahull
-#' @import xROI
+#' @importFrom alphahull ahull
+#' @importFrom graphics par
+#' @importFrom xROI drawPolygon
+#' @importFrom methods slot
 #' @import raster
 #' @import sp
 #' @import dplyr
