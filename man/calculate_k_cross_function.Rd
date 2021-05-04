@@ -10,8 +10,6 @@ calculate_k_cross_function(point_pattern, cell_phenotypes_of_interest = NULL)
 \item{point_pattern}{ppp object representing image}
 
 \item{cell_phenotypes_of_interest}{cell phenotypes to be compared}
-
-\item{k_cross_function}{Cross K function}
 }
 \description{
 calculate cross-K function for 2 chosen phenotypes of interest
