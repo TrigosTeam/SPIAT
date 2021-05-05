@@ -57,6 +57,7 @@ Imports:
     utils,
     vroom,
     ComplexHeatmap,
+    cytofkit,
     dittoSeq,
     spatstat,
     spatstat.geom,
