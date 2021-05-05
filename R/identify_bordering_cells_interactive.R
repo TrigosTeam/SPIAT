@@ -9,21 +9,13 @@
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
 #' @param large Boolean specifying if the image requires splitting
 #' @import SingleCellExperiment
-#' @importFrom alphahull ahull
-#' @importFrom graphics par
+#' @import alphahull
 #' @importFrom xROI drawPolygon
-#' @importFrom methods slot
-#' @importFrom raster buffer 
+#' @importFrom raster buffer
 #' @import sp
 #' @import dplyr
-#' @import hull2spatial
 #' @export
 
-#sce_object = formatted_defined
-#reference_cell = "MEL"
-#n_of_polygons = 2
-#buffer_width = 30
-#ahull_alpha = 60
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
@@ -73,8 +65,6 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   
   for (i in 1:n_of_polygons){
     # get the coords
-    #print(buffer@polygons[[1]])
-    #print(buffer@polygons[[1]]@Polygons[[i]])
     buffered_polygon = slot(buffer@polygons[[1]]@Polygons[[i]],"coords")
     # identify the tumour cells in the drawn polygon
     inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
@@ -96,30 +86,30 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
         alpha = (n_cells - 300)/160 + 60
       }
       print(paste("The alpha of Polygon is:", alpha))
-      ahull= ahull(tumour_in_polygon$Cell.X.Position, 
+      ashape = ashape(tumour_in_polygon$Cell.X.Position, 
                    tumour_in_polygon$Cell.Y.Position, alpha = alpha)
     }
     else {
-      ahull= ahull(tumour_in_polygon$Cell.X.Position, 
+      ashape = ashape(tumour_in_polygon$Cell.X.Position, 
                    tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
     }
     
     
-    # identify the cells that compose the ahull
-    cells_on_boundary = cbind(data.frame(ahull$ashape.obj$edges)$x1,data.frame(ahull$ashape.obj$edges)$y1)
+    # # identify the cells that compose the ahull
+    cells_on_boundary = cbind(data.frame(ashape$edges)$x1,data.frame(ashape$edges)$y1)
     cells_on_boundary = data.frame(cells_on_boundary)
     colnames(cells_on_boundary) <- c("Cell.X.Position","Cell.Y.Position")
+    # find the bordering cells in the original dataset to find the IDs
     common_cells <- dplyr::intersect(data[,c("Cell.X.Position","Cell.Y.Position")], 
                                      cells_on_boundary[,c("Cell.X.Position","Cell.Y.Position")])
 
     border_ids <- rownames(common_cells)
 
-    # change ahull into spatial lines
-    ahull_line <- ahull2lines(ahull)
-    ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
-    
+    # # convert ashape into polygon
+    ahull_polygon <- Polygon(cells_on_boundary, hole = T)
+
     # identify the cells that are in the ahull
-    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,"x"], ahull_polygon[,"y"])
+    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon@coords[,1], ahull_polygon@coords[,2])
     points_in_polygon = allcells_in_polygon[which(intumour!= 0),c("Phenotype","Cell.X.Position","Cell.Y.Position","Cell.Type")]
     tumour_in_polygon_df = as.data.frame(tumour_in_polygon)
     points_in_polygon_df = as.data.frame(points_in_polygon)
@@ -137,4 +127,5 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   
   return(sce_object)
 }
+
 
