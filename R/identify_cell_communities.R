@@ -10,7 +10,7 @@
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
 #' @import dplyr
-#' @import Rphenograph
+#' @importFrom cytofkit Rphenograph
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan dbscan
