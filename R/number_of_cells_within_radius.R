@@ -9,6 +9,7 @@
 #' @param column String specifying the interested column
 #' @importFrom dbscan frNN
 #' @return List of dataframes with the number of target cells of each of the reference cells
+#' @export
 
 number_of_cells_within_radius <- function (sce_object, reference_marker, target_marker, radius = 20,column) 
 {
