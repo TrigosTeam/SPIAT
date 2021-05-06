@@ -8,7 +8,8 @@ number_of_cells_within_radius(
   sce_object,
   reference_marker,
   target_marker,
-  radius = 20
+  radius = 20,
+  column
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ number_of_cells_within_radius(
 \item{target_marker}{Marker to be used for target cells}
 
 \item{radius}{Radius around the reference cells}
+
+\item{column}{String specifying the interested column}
 }
 \value{
-The median number of target cells within the specified radius
+List of dataframes with the number of target cells of each of the reference cells
 }
 \description{
 Calculates the number of cells positive for a target marker within a pre-defined radius around cells positive for a reference marker
