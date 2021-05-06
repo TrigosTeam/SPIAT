@@ -62,7 +62,6 @@ Imports:
     spatstat.geom,
     alphahull,
     stringr,
-    hull2spatial,
     igraph,
     methods,
     spatstat.core,
