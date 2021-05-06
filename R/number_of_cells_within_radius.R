@@ -6,46 +6,33 @@
 #' @param reference_marker Marker to be used for reference cells
 #' @param target_marker Marker to be used for target cells
 #' @param radius Radius around the reference cells
+#' @param column String specifying the interested column
 #' @importFrom dbscan frNN
-#' @return The median number of target cells within the specified radius
+#' @return List of dataframes with the number of target cells of each of the reference cells
 
-number_of_cells_within_radius <- function (sce_object, reference_marker, target_marker, radius = 20) 
+number_of_cells_within_radius <- function (sce_object, reference_marker, target_marker, radius = 20,column) 
 {
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID")
-  expression_matrix <- assay(sce_object)
-  markers <- rownames(expression_matrix)
-  cell_ids <- colnames(expression_matrix)
-  rownames(expression_matrix) <- NULL
-  colnames(expression_matrix) <- NULL
-  expression_matrix_t <- t(expression_matrix)
-  expression_df <- data.frame(expression_matrix_t)
-  colnames(expression_df) <- markers
-  formatted_data <- cbind(formatted_data, expression_df)
   formatted_data <- formatted_data[complete.cases(formatted_data),]
-  reference_cells <- formatted_data[grepl(reference_marker, 
-                                          formatted_data$Phenotype), ]
-  if (nrow(reference_cells) == 0) {
-    return(NA)
+  all.df <- list()
+  for (i in reference_marker) {
+    reference_cells <- formatted_data[which(formatted_data[,column] == i), ]
+    reference_cell_cords <- reference_cells[, c("Cell.ID", "Cell.X.Position","Cell.Y.Position")]
+    dataframe <- remove_rownames(reference_cell_cords)
+    dataframe <- dataframe %>% column_to_rownames("Cell.ID")
+    reference_cell_cords <- reference_cells[, c( "Cell.X.Position","Cell.Y.Position")]
+      for (j in target_marker) {
+	target_cells <- formatted_data[which( formatted_data[,column] == j),     ]
+	target_cell_cords <- target_cells[, c("Cell.ID", "Cell.X.Position","Cell.Y.Position")]
+	target_cell_cords <- remove_rownames(target_cell_cords)
+	target_cell_cords <- target_cell_cords %>% column_to_rownames("Cell.ID")
+	reference_target_result <- frNN(target_cell_cords, eps = radius,
+                                         query = reference_cell_cords, sort =FALSE)
+	n_targets <- rapply(reference_target_result$id, length)
+        dataframe[,j] <- n_targets
+      }
+    all.df[[i]] <- dataframe
   }
-  target_cells <- formatted_data[grepl(target_marker, formatted_data$Phenotype),]
-  if (nrow(target_cells) == 0) {
-    return(NA)
-  }
-
-  common_cells <- reference_cells$Cell.ID[reference_cells$Cell.ID %in% 
-                                            target_cells$Cell.ID]
-  reference_cells <- reference_cells[!(reference_cells$Cell.ID %in% 
-                                         common_cells), ]
-  target_cells <- target_cells[!(target_cells$Cell.ID %in% 
-                                   common_cells), ]
-  reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
-                                              "Cell.Y.Position")]
-  target_cell_cords <- target_cells[, c("Cell.X.Position", 
-                                        "Cell.Y.Position")]
-  search_result <- frNN(target_cell_cords, eps = radius, query = reference_cell_cords, 
-                        sort = FALSE)
-  number_of_target_by_reference <- sapply(search_result$id, length)
-
-  return(median(number_of_target_by_reference[number_of_target_by_reference != 0]))
+  return(all.df)
 }
