@@ -11,9 +11,9 @@ grid_metrics(sce_object, FUN, n_split, ...)
 
 \item{FUN}{Variable name specifying the metric to be calculated}
 
-\item{...}{arguments of FUN}
+\item{n_split}{Integer specifying the number of splits for the calculation of metrics}
 
-\item{n_spliti}{Integer specifying the number of splits for the calculation of metrics}
+\item{...}{arguments of FUN}
 }
 \value{
 a list of the metrics of all grids
