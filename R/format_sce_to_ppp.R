@@ -6,10 +6,11 @@
 #'
 #' @export
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param window_pol Optional Boolean Specifying if the window is polygon
 #' @importFrom spatstat.geom ppp 
 #' @importFrom grDevices chull
 
-format_sce_to_ppp <- function(sce_object) {
+format_sce_to_ppp <- function(sce_object, window_pol = F) {
   
   # get x, y coordinates and phenotypes from sce object
   sce_data <- colData(sce_object)
@@ -25,15 +26,22 @@ format_sce_to_ppp <- function(sce_object) {
   y_min <- as.numeric(y_summary[1])
   y_max <- as.numeric(y_summary[6])
   
-  # get ploy window
-  X <- data.frame(x,y)
-  hpts <- chull(X)
-  poly_window <- list(x=rev(X[hpts, 1]), y=rev(X[hpts, 2]))
-  
-  # format sce to ppp
-  ppp_object <- ppp(x, y, poly = poly_window, 
+  if (window_pol == T){
+
+    # get ploy window
+    X <- data.frame(x,y)
+    hpts <- chull(X)
+    poly_window <- list(x=rev(X[hpts, 1]), y=rev(X[hpts, 2]))
+    
+    # format sce to ppp
+    ppp_object <- ppp(x, y, poly = poly_window, 
+                      marks = marks)
+  }
+
+  else{  
+    ppp_object <- ppp(x, y, window = owin(c(x_min, x_max), c(y_min, y_max)), 
                     marks = marks)
-  
+  }
   return(ppp_object)
 }
 
