@@ -8,9 +8,7 @@ identify_bordering_cells_interactive(
   sce_object,
   reference_cell,
   n_of_polygons = 1,
-  buffer_width = 1,
-  ahull_alpha = NULL,
-  large = FALSE
+  ahull_alpha = NULL
 )
 }
 \arguments{
@@ -20,11 +18,7 @@ identify_bordering_cells_interactive(
 
 \item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
 
-\item{buffer_width}{Number specifying the allowed margin of error}
-
 \item{ahull_alpha}{Number specifying the ahull parameter. Larger number, more points included in the ahull.}
-
-\item{large}{Boolean specifying if the image requires splitting}
 }
 \description{
 Identify the cells bordering a group of cells of a particular phenotype
