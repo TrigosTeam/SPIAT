@@ -5,21 +5,18 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_cell Cells positive for this marker will be used as reference
 #' @param n_of_polygons Number specifying the number of tumour regions defined by user
-#' @param buffer_width Number specifying the allowed margin of error
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
-#' @param large Boolean specifying if the image requires splitting
 #' @import SingleCellExperiment
 #' @import alphahull
 #' @importFrom xROI drawPolygon
-#' @importFrom raster buffer
 #' @import sp
-#' @import dplyr
+#' @importFrom dplyr intersect
 #' @export
 
 
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
-identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_of_polygons = 1, buffer_width = 1, ahull_alpha = NULL, large = FALSE){
+identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_of_polygons = 1, ahull_alpha = NULL ){
   # CHECK
   if (is.null(sce_object$Cell.Type)){
     stop("Please define the cell types!")
@@ -60,12 +57,10 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   ##### for loop, get the boundary cells and inside cells for each polygon #####
   data = data.frame(colData(sce_object))
   data[,"Region"] <- "Out"
-  buffer = buffer(sp, width = buffer_width)
-
   
   for (i in 1:n_of_polygons){
     # get the coords
-    buffered_polygon = slot(buffer@polygons[[1]]@Polygons[[i]],"coords")
+    buffered_polygon = slot(sp@polygons[[1]]@Polygons[[i]],"coords")
     # identify the tumour cells in the drawn polygon
     inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
                                  buffered_polygon[,"x"], buffered_polygon[,"y"])
@@ -74,7 +69,7 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
     tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon$Cell.Type == reference_cell),]
     tumour_in_polygon = unique(tumour_in_polygon)
     
-    # ahull of the tumour cells
+    # ashape of the tumour cells
     # define the value of alpha
     if (is.null(ahull_alpha)){
       n_cells = dim(tumour_in_polygon)[1]
@@ -95,10 +90,11 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
     }
     
     
-    # # identify the cells that compose the ahull
+    # identify the cells that compose the ashape
     cells_on_boundary = cbind(data.frame(ashape$edges)$x1,data.frame(ashape$edges)$y1)
     cells_on_boundary = data.frame(cells_on_boundary)
     colnames(cells_on_boundary) <- c("Cell.X.Position","Cell.Y.Position")
+
     # find the bordering cells in the original dataset to find the IDs
     common_cells <- dplyr::intersect(data[,c("Cell.X.Position","Cell.Y.Position")], 
                                      cells_on_boundary[,c("Cell.X.Position","Cell.Y.Position")])
