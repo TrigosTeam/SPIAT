@@ -34,26 +34,25 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   
   ##### interactively draw boundaries ####
   if (n_of_polygons == 1){
-    list <- list()
+    l <- list()
     draw <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
                                min(sce_object$Cell.X.Position), min(sce_object$Cell.X.Position)),
                        "y" = c(min(sce_object$Cell.Y.Position), max(sce_object$Cell.Y.Position),
                                max(sce_object$Cell.Y.Position), min(sce_object$Cell.Y.Position)))
     poly <- Polygon(draw, hole = FALSE)
-    list[[1]] <- poly
+    l[[1]] <- poly
   }
-  
   else{
-    list = list()
+    l <- list()
     for (i in 1:n_of_polygons){
       draw <- drawPolygon()
       poly <- Polygon(draw, hole = FALSE)
-      list[[i]] <- poly
+      l[[i]] <- poly
     }
   }
-  polys <- Polygons(list,ID = c("a"))
+  polys <- Polygons(l,ID = c("a"))
   sp <- SpatialPolygons(list(polys))
-  
+
   ##### for loop, get the boundary cells and inside cells for each polygon #####
   data = data.frame(colData(sce_object))
   data[,"Region"] <- "Out"
@@ -61,9 +60,10 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
   for (i in 1:n_of_polygons){
     # get the coords
     buffered_polygon = slot(sp@polygons[[1]]@Polygons[[i]],"coords")
+
     # identify the tumour cells in the drawn polygon
     inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
-                                 buffered_polygon[,"x"], buffered_polygon[,"y"])
+                                 buffered_polygon[, 1], buffered_polygon[, 2])
     allcells_in_polygon = data[which(inpolygon!= 0),c("Phenotype","Cell.X.Position",
                                                       "Cell.Y.Position","Cell.Type")]
     tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon$Cell.Type == reference_cell),]
@@ -101,7 +101,7 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
 
     border_ids <- rownames(common_cells)
 
-    # # convert ashape into polygon
+    # convert ashape into polygon
     ahull_polygon <- Polygon(cells_on_boundary, hole = T)
 
     # identify the cells that are in the ahull
