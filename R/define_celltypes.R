@@ -8,9 +8,10 @@
 #' predefined phenotypes and names
 #' @param names Vector of new names assigned to the selected phenotypes; if NULL, 
 #' the function will use predefined phenotypes and names
+#' @param column.name (Optional) String specifying the name of the column to be added, by default "Cell.Type"
 #' @export
 
-define_celltypes <- function(sce_object,phenotypes = NULL, names = NULL){
+define_celltypes <- function(sce_object,phenotypes = NULL, names = NULL, column.name = "Cell.Type"){
   
   # default setting
   if (is.null(phenotypes) & is.null(names)){
@@ -29,11 +30,11 @@ define_celltypes <- function(sce_object,phenotypes = NULL, names = NULL){
   print(phenotypes)
   print(names)
   
-  sce_object$Cell.Type <- ""
+  sce_object[[column.name]] <- ""
   names<- c(names,rep("Undefined",length(all_phenotypes[!(all_phenotypes %in% phenotypes)])))
   phenotypes <- c(phenotypes,all_phenotypes[!(all_phenotypes %in% phenotypes)])
   for (i in 1:length(phenotypes)){
-    sce_object[,sce_object$Phenotype == phenotypes[i]]$Cell.Type <- names[i]
+    sce_object[,sce_object$Phenotype == phenotypes[i]][[column.name]] <- names[i]
   }
   
   
