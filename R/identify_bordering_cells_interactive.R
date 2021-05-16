@@ -69,7 +69,7 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
     tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon$Cell.Type == reference_cell),]
     tumour_in_polygon = unique(tumour_in_polygon)
     
-    # ashape of the tumour cells
+    # ahull of the tumour cells
     # define the value of alpha
     if (is.null(ahull_alpha)){
       n_cells = dim(tumour_in_polygon)[1]
@@ -81,17 +81,16 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
         alpha = (n_cells - 300)/160 + 60
       }
       print(paste("The alpha of Polygon is:", alpha))
-      ashape = ashape(tumour_in_polygon$Cell.X.Position, 
+      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
                    tumour_in_polygon$Cell.Y.Position, alpha = alpha)
     }
     else {
-      ashape = ashape(tumour_in_polygon$Cell.X.Position, 
+      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
                    tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
     }
     
-    
-    # identify the cells that compose the ashape
-    cells_on_boundary = cbind(data.frame(ashape$edges)$x1,data.frame(ashape$edges)$y1)
+    # identify the cells that compose the ahull
+    cells_on_boundary = cbind(data.frame(ahull[["ashape.obj"]][["edges"]])$x1,data.frame(ahull[["ashape.obj"]][["edges"]])$y1)
     cells_on_boundary = data.frame(cells_on_boundary)
     colnames(cells_on_boundary) <- c("Cell.X.Position","Cell.Y.Position")
 
@@ -101,12 +100,13 @@ identify_bordering_cells_interactive <- function(sce_object, reference_cell, n_o
 
     border_ids <- rownames(common_cells)
 
-    # convert ashape into polygon
-    ahull_polygon <- Polygon(cells_on_boundary, hole = T)
-
+    # change ahull into spatial lines and create polygon from that
+    ahull_line <- ahull2lines(ahull)
+    ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
+    plot(ahull_polygon)
     # identify the cells that are in the ahull
-    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon@coords[,1], ahull_polygon@coords[,2])
-    points_in_polygon = allcells_in_polygon[which(intumour!= 0),c("Phenotype","Cell.X.Position","Cell.Y.Position","Cell.Type")]
+    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
+    points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position","Cell.Type")]
     tumour_in_polygon_df = as.data.frame(tumour_in_polygon)
     points_in_polygon_df = as.data.frame(points_in_polygon)
     cells_in_boundary = rbind(tumour_in_polygon_df, points_in_polygon_df)
