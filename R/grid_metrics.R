@@ -16,18 +16,21 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
   for (i in 1:length(split)){
     try <- try(sce <- format_colData_to_sce(split[[i]]))
     if (class(try) == "SingleCellExperiment"){
-      metric <- FUN(sce, ...)
+      metric <-  FUN(sce, ...)
+      if (length(metric)==0){
+        metric <- 0.0
+      }
       list.metric[[i]] <- metric
     }
     else{
       list.metric[[i]] <- 0.0
     }
-    
   }
   x <- raster(ncol=n_split, nrow=n_split, xmn=0, xmx=max(sce_object$Cell.X.Position), ymn=0, 
               ymx=max(sce_object$Cell.Y.Position))
   values(x) <- unlist(list.metric)
-  plot(x)
+  plot(x, main = paste("Plot ",as.character(substitute(FUN)), " of ", attr(sce_object, "name"), sep = ""))
+  
   return(list.metric)
 }
 
