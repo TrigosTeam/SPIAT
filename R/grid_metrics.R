@@ -31,6 +31,6 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
   values(x) <- unlist(list.metric)
   plot(x, main = paste("Plot ",as.character(substitute(FUN)), " of ", attr(sce_object, "name"), sep = ""))
   
-  return(list.metric)
+  return(x)
 }
 
