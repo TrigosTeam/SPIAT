@@ -6,34 +6,20 @@
 \usage{
 identify_bordering_cells(
   sce_object,
-  reference_marker,
-  rm_noise_radius,
-  radius,
-  lower_bound,
-  upper_bound
+  reference_cell,
+  n_of_polygons = 1,
+  ahull_alpha = NULL
 )
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{reference_marker}{Cells positive for this marker will be used as reference}
+\item{reference_cell}{Cells positive for this marker will be used as reference}
 
-\item{rm_noise_radius}{Number specifying the radius used for noise. Larger numbers, more leniency}
+\item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
 
-\item{radius}{Number specifying the search radius. Larger numbers, more cells to be considered}
-
-\item{lower_bound}{Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population}
-
-\item{upper_bound}{Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population}
-}
-\value{
-A plot is returned
+\item{ahull_alpha}{Number specifying the ahull parameter. Larger number, more points included in the ahull.}
 }
 \description{
-Identifies the cells bordering a group of cells of a particular phenotype
-}
-\examples{
-identify_bordering_cells(SPIAT::formatted_image, reference_marker = "AMACR",
-                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-                         upper_bound=0.7)
+Identify the cells bordering a group of cells of a particular phenotype
 }
