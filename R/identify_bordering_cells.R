@@ -1,137 +1,125 @@
 #' identify_bordering_cells
 #'
-#' @description Identifies the cells bordering a group of cells of a particular phenotype
+#' @description Identify the cells bordering a group of cells of a particular phenotype
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_marker Cells positive for this marker will be used as reference
-#' @param rm_noise_radius Number specifying the radius used for noise. Larger numbers, more leniency
-#' @param radius Number specifying the search radius. Larger numbers, more cells to be considered
-#' @param lower_bound Number specifying the minumum proportion of non-marker cells in the radius of the reference marker population
-#' @param upper_bound Number specifying the maximum proportion of non-marker cells in the radius of the reference marker population
-#' @importFrom SummarizedExperiment assay colData
-#' @import dplyr
-#' @importFrom tibble rownames_to_column
-#' @importFrom dbscan frNN
-#' @import ggplot2
-#' @return A plot is returned
-#' @examples
-#' identify_bordering_cells(SPIAT::formatted_image, reference_marker = "AMACR",
-#'                          rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-#'                          upper_bound=0.7)
+#' @param reference_cell Cells positive for this marker will be used as reference
+#' @param n_of_polygons Number specifying the number of tumour regions defined by user
+#' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
+#' @import SingleCellExperiment
+#' @import alphahull
+#' @importFrom xROI drawPolygon
+#' @import sp
+#' @importFrom dplyr intersect
+#' @import hull2spatial
 #' @export
 
-#sce_object <- sce_ovarian_panimmune1
-#reference_marker <- "WT1"
-#rm_noise_radius <- 50 #larger the more lenient it is
-#radius <- 200 #larger the more cells are considered
-#lower_bound <- 0.4
-#upper_bound <- 0.6
-
-# imported all functions from ggplot2 since many functions are interdependent
-
-identify_bordering_cells <- function(sce_object, reference_marker, rm_noise_radius, radius, lower_bound, upper_bound) {
-  
-  # setting these column names to NULL as otherwise get "no visible binding for global variable" in R check
-  Cell.X.Position <- Cell.Y.Position <- NULL
-
-  formatted_data <- data.frame(colData(sce_object))
-
-  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
-
-  intensity_matrix <- assay(sce_object)
-
-  markers <- rownames(intensity_matrix)
-  cell_ids <- colnames(intensity_matrix)
-
-  rownames(intensity_matrix) <- NULL
-  colnames(intensity_matrix) <- NULL
-  intensity_matrix_t <- t(intensity_matrix)
-  intensity_df <- data.frame(intensity_matrix_t)
-  colnames(intensity_df) <- markers
-
-  formatted_data <- cbind(formatted_data, intensity_df)
-  formatted_data <- formatted_data[complete.cases(formatted_data),]
-
-  #####################
-
-  #get the reference cells and other cells
-  reference_cells <- formatted_data[formatted_data$Phenotype == reference_marker, ]
-  other_cells <- formatted_data[!grepl(reference_marker, formatted_data$Phenotype), ]
-  
-  #CHECK
-  if (nrow(reference_cells) == 0){
-    stop("There are no reference_cells in the dataset for the specified marker")
+identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons = 1, ahull_alpha = NULL ){
+  # CHECK
+  if (is.null(sce_object$Cell.Type)){
+    stop("Please define the cell types!")
   }
-  if (nrow(other_cells) == 0){
-    stop("There are no stroma cells in the dataset")
+  if (!(reference_cell %in% sce_object$Cell.Type)){
+    stop("Reference cell not found!")
   }
   
-  #remove reference cells with no reference cells within the radius
-  reference_cell_cords <- reference_cells[,c("Cell.X.Position", "Cell.Y.Position")]
-  reference_nn <- frNN(reference_cell_cords, eps=rm_noise_radius, sort=FALSE)  #row index matching the row num
-  #get the row index of those cells with neighbours
-  idx <- unique(unlist(reference_nn$id))
-  reference_cells_w_neighbours <- reference_cells[idx, ]
-  #CHECK
-  if (nrow(reference_cells_w_neighbours) == 0) {
-    stop("No reference cells left after noise removal, please try a more lenient radius")
+  ##### plot #####
+  phenotypes_of_interest <- c(reference_cell)
+  colour_vector <- c("green")
+  par(xpd=TRUE)
+  p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, column = "Cell.Type")
+  par(xpd=FALSE)
+  
+  ##### interactively draw boundaries ####
+  if (n_of_polygons == 1){
+    l <- list()
+    draw <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
+                               min(sce_object$Cell.X.Position), min(sce_object$Cell.X.Position)),
+                       "y" = c(min(sce_object$Cell.Y.Position), max(sce_object$Cell.Y.Position),
+                               max(sce_object$Cell.Y.Position), min(sce_object$Cell.Y.Position)))
+    poly <- Polygon(draw, hole = FALSE)
+    l[[1]] <- poly
   }
-
-  #remove stroma cells with no stroma cells within a specific radius
-  other_cell_cords <- other_cells[,c("Cell.X.Position", "Cell.Y.Position")]
-  other_nn <- frNN(other_cell_cords, eps=rm_noise_radius, sort=FALSE)
-  idx <- unique(unlist(other_nn$id))
-  other_cells_w_neighbours <- other_cells[idx, ]
-  #CHECK
-  if (nrow(other_cells_w_neighbours) == 0) {
-    stop("No stroma cells left after noise removal, please try a more lenient radius")
-  }
-
-  #create df of all cells
-  all_cells <- rbind(reference_cells_w_neighbours, other_cells_w_neighbours)
-  all_cell_cords <- all_cells[,c("Cell.X.Position", "Cell.Y.Position")]
-
-  #use reference_cells, search for neighbours and get reference cells with 40~60% stroma cells around
-  all_nn <- frNN(x=all_cell_cords, eps=radius, query=reference_cell_cords, sort=FALSE)
-  reference_row_nums <- rownames(reference_cells)
-  border_cells <- data.frame(matrix(ncol = ncol(reference_cells), nrow = 0))
-  colnames(border_cells) <- colnames(reference_cells)
-  for (row_num in reference_row_nums) {
-    nn_index <- all_nn$id[row_num]
-    unlisted_index <- unique(unlist(nn_index))
-    nn_num = length(unlisted_index)
-    if (nn_num <= 1){
-      next
-    }
-
-    nn <- all_cells[unlisted_index, ]
-
-    non_reference_count <- nrow(nn[!grepl(reference_marker, nn$Phenotype), ])
-
-    prop_non_reference <- non_reference_count/nn_num
-
-    if (prop_non_reference >= lower_bound && prop_non_reference <= upper_bound) {
-      border_cells <- rbind(border_cells, reference_cells[row_num, ])
+  else{
+    l <- list()
+    for (i in 1:n_of_polygons){
+      draw <- drawPolygon()
+      poly <- Polygon(draw, hole = FALSE)
+      l[[i]] <- poly
     }
   }
-  
-  #CHECK
-  if (nrow(border_cells) == 0){
-    stop("There are no border cells found for the specified radius")
-  }
+  polys <- Polygons(l,ID = c("a"))
+  sp <- SpatialPolygons(list(polys))
 
-  r <- ggplot(border_cells, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-    geom_point(size = 0.1) +
-    guides(alpha = FALSE) + scale_colour_viridis_c(direction = -1) +
-    labs(colour = paste("log10","(", as.character(reference_marker)," Intensity", ")", sep="")) +
-    theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(fill = "white"),
-          axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.y = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
-  print(r)
+  ##### for loop, get the boundary cells and inside cells for each polygon #####
+  data = data.frame(colData(sce_object))
+  data[,"Region"] <- "Outside"
+  
+  for (i in 1:n_of_polygons){
+    # get the coords
+    buffered_polygon = slot(sp@polygons[[1]]@Polygons[[i]],"coords")
+
+    # identify the tumour cells in the drawn polygon
+    inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
+                                 buffered_polygon[, 1], buffered_polygon[, 2])
+    allcells_in_polygon = data[which(inpolygon!= 0),c("Phenotype","Cell.X.Position",
+                                                      "Cell.Y.Position","Cell.Type")]
+    tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon$Cell.Type == reference_cell),]
+    tumour_in_polygon = unique(tumour_in_polygon)
+    
+    # ahull of the tumour cells
+    # define the value of alpha
+    if (is.null(ahull_alpha)){
+      n_cells = dim(tumour_in_polygon)[1]
+      if (n_cells<200){
+        alpha = 60
+      } else if (n_cells > 5000){
+        alpha = 90
+      } else {
+        alpha = (n_cells - 300)/160 + 60
+      }
+      print(paste("The alpha of Polygon is:", alpha))
+      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
+                   tumour_in_polygon$Cell.Y.Position, alpha = alpha)
+    }
+    else {
+      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
+                   tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
+    }
+    
+    # identify the cells that compose the ahull
+    cells_on_boundary = cbind(data.frame(ahull[["ashape.obj"]][["edges"]])$x1,data.frame(ahull[["ashape.obj"]][["edges"]])$y1)
+    cells_on_boundary = data.frame(cells_on_boundary)
+    colnames(cells_on_boundary) <- c("Cell.X.Position","Cell.Y.Position")
+
+    # find the bordering cells in the original dataset to find the IDs
+    common_cells <- dplyr::intersect(data[,c("Cell.X.Position","Cell.Y.Position")], 
+                                     cells_on_boundary[,c("Cell.X.Position","Cell.Y.Position")])
+
+    border_ids <- rownames(common_cells)
+
+    # change ahull into spatial lines and create polygon from that
+    ahull_line <- ahull2lines(ahull)
+    ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
+    plot(ahull_polygon)
+    # identify the cells that are in the ahull
+    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
+    points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position","Cell.Type")]
+    tumour_in_polygon_df = as.data.frame(tumour_in_polygon)
+    points_in_polygon_df = as.data.frame(points_in_polygon)
+    cells_in_boundary = rbind(tumour_in_polygon_df, points_in_polygon_df)
+    cells_in_boundary = unique(cells_in_boundary)
+    in_border_ids <- rownames(cells_in_boundary)
+    data[in_border_ids,"Region"] <- "Inside"
+    data[border_ids,"Region"] <- "Border"
+  }
+  
+  
+  ##### plot and return #####
+  colData(sce_object)$Region <- data[,"Region"]
+  plot(data[which(data$Region=="Border"), c("Cell.X.Position","Cell.Y.Position")], pch = 19, cex = 0.3)
+  
+  return(sce_object)
 }
+
+
