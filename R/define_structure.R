@@ -24,12 +24,12 @@ define_structure <- function(sce_object, names_of_immune_cells, n_invasive = 5){
   
   data <- data.frame(colData(sce_object))
   data[,"Structure"] <- data$Region
-  data[intersect(which(data$Region == "In"),which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "Infiltration"
-  data[intersect(which(data$Region == "Out"),which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "Exclusion"
-  data[intersect(which(data$Distance.To.Border < invasive_dist), which(data$Region == "In")), "Structure"] <- "Invasive.front.in"
-  data[intersect(which(data$Structure == "Invasive.front.in"), which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "I.f.immune.in"
-  data[intersect(which(data$Distance.To.Border < invasive_dist), which(data$Region == "Out")), "Structure"] <- "Invasive.front.out"
-  data[intersect(which(data$Structure == "Invasive.front.out"), which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "I.f.immune.out"
+  data[intersect(which(data$Region == "Inside"),which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "Infiltrated.immune"
+  data[intersect(which(data$Region == "Outside"),which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "Stromal.immune"
+  data[intersect(which(data$Distance.To.Border < invasive_dist), which(data$Region == "Inside")), "Structure"] <- "Internal.margin"
+  data[intersect(which(data$Structure == "Internal.margin"), which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "Internal.margin.immune"
+  data[intersect(which(data$Distance.To.Border < invasive_dist), which(data$Region == "Outside")), "Structure"] <- "External.margin"
+  data[intersect(which(data$Structure == "External.margin"), which(data$Cell.Type %in% names_of_immune_cells)), "Structure"] <- "External.margin.immune"
   
   colData(sce_object)$Structure <- data[,"Structure"]
   
