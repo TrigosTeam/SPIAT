@@ -401,9 +401,10 @@ compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = 
 If we want to identify cells separating two distinct tissue areas, for example, cells at the tumour margin or at the border of tumour and stroma, we can use `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
 
 ```{r}
-identify_bordering_cells(formatted_image, reference_marker = "AMACR",
-                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-                         upper_bound=0.7)
+# update with jojo's new functions
+#identify_bordering_cells(formatted_image, reference_marker = "AMACR",
+#                         rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+#                         upper_bound=0.7)
 ```
 
 # Cell properties
