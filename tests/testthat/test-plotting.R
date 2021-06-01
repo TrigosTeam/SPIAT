@@ -70,16 +70,16 @@ test_that("plot_composition_heatmap() creates a plot", {
     
 })
 
-
-test_that("identify_bordering_cells() creates a plot", {
-    
-    p <- identify_bordering_cells(formatted_image, reference_marker = "AMACR",
-                                  rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-                                  upper_bound=0.7)
-    
-    expect_is(p, "ggplot")
-    
-})
+# Comment out until update with Jojo's new function
+# test_that("identify_bordering_cells() creates a plot", {
+#     
+#     p <- identify_bordering_cells(formatted_image, reference_marker = "AMACR",
+#                                   rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
+#                                   upper_bound=0.7)
+#     
+#     expect_is(p, "ggplot")
+#     
+# })
 
 
 test_that("marker_intensity_boxplot() creates a plot", {
