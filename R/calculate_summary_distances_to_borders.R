@@ -29,7 +29,7 @@ calculate_summary_distances_to_borders <- function(sce_object, types_of_interest
   data <- data.frame(colData(sce_object))
   ##### data in #####
   data_of_interest_in <- dplyr::intersect(data[data[,column] %in% types_of_interest,],
-                                   data[which(data$Region == "In"),])
+                                   data[which(data$Region == "Inside"),])
   
   df.cols <- c("Min", "Max", "Mean",
                "Median", "St.dev")
@@ -44,7 +44,7 @@ calculate_summary_distances_to_borders <- function(sce_object, types_of_interest
   df <-  rbind(df[ ,df.cols], c(min_d, max_d, mean_d, median_d, st.dev_d))
   ##### data out #####
   data_of_interest_out <- dplyr::intersect(data[data[,column] %in% types_of_interest,],
-                                   data[which(data$Region == "Out"),])
+                                   data[which(data$Region == "Outside"),])
   
   min_d <- min(data_of_interest_out$Distance.To.Border)
   max_d <- max(data_of_interest_out$Distance.To.Border)
