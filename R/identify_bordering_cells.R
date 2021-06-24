@@ -50,7 +50,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
   }
   polys <- Polygons(l,ID = c("a"))
   sp <- SpatialPolygons(list(polys))
-
+  
   ##### for loop, get the boundary cells and inside cells for each polygon #####
   data = data.frame(colData(sce_object))
   data[,"Region"] <- "Outside"
@@ -58,9 +58,9 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
   for (i in 1:n_of_polygons){
     # get the coords
     buffered_polygon = slot(sp@polygons[[1]]@Polygons[[i]],"coords")
-
+    
     # identify the tumour cells in the drawn polygon
-    inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position, 
+    inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position,
                                  buffered_polygon[, 1], buffered_polygon[, 2])
     allcells_in_polygon = data[which(inpolygon!= 0),c("Phenotype","Cell.X.Position",
                                                       "Cell.Y.Position","Cell.Type")]
@@ -79,28 +79,39 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
         alpha = (n_cells - 300)/160 + 60
       }
       print(paste("The alpha of Polygon is:", alpha))
-      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
-                   tumour_in_polygon$Cell.Y.Position, alpha = alpha)
+      ahull = ahull(tumour_in_polygon$Cell.X.Position,
+                    tumour_in_polygon$Cell.Y.Position, alpha = alpha)
     }
     else {
-      ahull = ahull(tumour_in_polygon$Cell.X.Position, 
-                   tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
+      ahull = ahull(tumour_in_polygon$Cell.X.Position,
+                    tumour_in_polygon$Cell.Y.Position, alpha = ahull_alpha)
     }
     
     # identify the cells that compose the ahull
     cells_on_boundary = cbind(data.frame(ahull[["ashape.obj"]][["edges"]])$x1,data.frame(ahull[["ashape.obj"]][["edges"]])$y1)
     cells_on_boundary = data.frame(cells_on_boundary)
     colnames(cells_on_boundary) <- c("Cell.X.Position","Cell.Y.Position")
-
+    
     # find the bordering cells in the original dataset to find the IDs
-    common_cells <- dplyr::intersect(data[,c("Cell.X.Position","Cell.Y.Position")], 
+    common_cells <- dplyr::intersect(data[,c("Cell.X.Position","Cell.Y.Position")],
                                      cells_on_boundary[,c("Cell.X.Position","Cell.Y.Position")])
-
+    
     border_ids <- rownames(common_cells)
-
+    
+    # fix ahull
+    ahull <- fix_ahull(ahull)
+    
     # change ahull into spatial lines and create polygon from that
-    ahull_line <- ahull2lines(ahull)
-    ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
+    #ahull_line <- ahull2lines(ahull)
+    #ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
+    #str(ahull_polygon)
+    
+    # my polygon function
+    xahull <- ahull$xahull
+    arc <- ahull$arcs
+    ahull_polygon <- get_polygon(xahull,arc)
+    
+    # for debugging
     plot(ahull_polygon)
     # identify the cells that are in the ahull
     intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
@@ -119,7 +130,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
   colData(sce_object)$Region <- data[,"Region"]
   plot(data[which(data$Region=="Border"), c("Cell.X.Position","Cell.Y.Position")], pch = 19, cex = 0.3)
   
+  # for debugging
+  out <- list(arc,xahull)
   return(sce_object)
 }
-
-
