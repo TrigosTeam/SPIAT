@@ -10,8 +10,6 @@ fix_ahull <- function(ahull){ # the order of cells returned by ahull is messy
     end2 <- ends[i,8]
     next_end1 <- ends[i+1,7]
     next_end2 <- ends[i+1,8]
-    print(end2)
-    print(next_end1)
     while (end2 != next_end1){ # the connection breaks here
       if (next_end2 == next_end1) {
         # if the next cell is a loner cell, or the current cell is the last cell,
