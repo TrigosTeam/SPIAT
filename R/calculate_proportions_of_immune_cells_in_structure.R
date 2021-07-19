@@ -7,11 +7,6 @@
 #' @param column Column to extract cell types from
 #' @export
 
-#immune_cells <- unique(data_local$Cell.Type2)
-#immune_cells <- immune_cells[immune_cells != "None"]
-#immune_cells <- immune_cells[immune_cells != "Tumor"]
-
-#column <- "Cell.Type2"
 
 calculate_proportions_of_immune_cells_in_structure <- function(sce_object, immune_cells, column){
   
