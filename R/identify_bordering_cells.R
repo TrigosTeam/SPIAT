@@ -6,6 +6,7 @@
 #' @param reference_cell Cells positive for this marker will be used as reference
 #' @param n_of_polygons Number specifying the number of tumour regions defined by user
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
+#' @param column Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc
 #' @import SingleCellExperiment
 #' @import alphahull
 #' @importFrom xROI drawPolygon
@@ -14,12 +15,12 @@
 #' @import hull2spatial
 #' @export
 
-identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons = 1, ahull_alpha = NULL ){
+identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons = 1, ahull_alpha = NULL, column = "Cell.Type"){
   # CHECK
-  if (is.null(sce_object$Cell.Type)){
+  if (is.null(colData(sce_object)[,column])){
     stop("Please define the cell types!")
   }
-  if (!(reference_cell %in% sce_object$Cell.Type)){
+  if (!(reference_cell %in% colData(sce_object)[,column])){
     stop("Reference cell not found!")
   }
   
@@ -27,7 +28,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
   phenotypes_of_interest <- c(reference_cell)
   colour_vector <- c("green")
   par(xpd=TRUE)
-  p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, column = "Cell.Type")
+  p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, column = column)
   par(xpd=FALSE)
   
   ##### interactively draw boundaries ####
@@ -63,8 +64,8 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
     inpolygon = point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position,
                                  buffered_polygon[, 1], buffered_polygon[, 2])
     allcells_in_polygon = data[which(inpolygon!= 0),c("Phenotype","Cell.X.Position",
-                                                      "Cell.Y.Position","Cell.Type")]
-    tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon$Cell.Type == reference_cell),]
+                                                      "Cell.Y.Position",column)]
+    tumour_in_polygon = allcells_in_polygon[which(allcells_in_polygon[,column] == reference_cell),]
     tumour_in_polygon = unique(tumour_in_polygon)
     
     # ahull of the tumour cells
@@ -115,7 +116,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
     plot(ahull_polygon)
     # identify the cells that are in the ahull
     intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
-    points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position","Cell.Type")]
+    points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position",column)]
     tumour_in_polygon_df = as.data.frame(tumour_in_polygon)
     points_in_polygon_df = as.data.frame(points_in_polygon)
     cells_in_boundary = rbind(tumour_in_polygon_df, points_in_polygon_df)
