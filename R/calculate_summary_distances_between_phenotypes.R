@@ -6,6 +6,7 @@
 #' will be calculated
 #' @param combinations_of_interest Vector of marker combinations to consider if all_marker_combinations
 #' is FALSE
+#' @column Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)
 #' @importFrom apcluster negDistMat
 #' @importFrom RANN nn2
 #' @importFrom gtools permutations
@@ -18,17 +19,17 @@
 #' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 #' @export
 
-calculate_summary_distances_between_phenotypes <- function(sce_object, all_marker_combinations = TRUE,
+calculate_summary_distances_between_phenotypes <- function(sce_object, column="Phenotype", all_marker_combinations = TRUE,
                                                    combinations_of_interest = NULL) {
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    formatted_data <- formatted_data[,c("Cell.ID","Phenotype", "Cell.X.Position", "Cell.Y.Position")]
-    formatted_data <- formatted_data[formatted_data$Phenotype != "",]
+    formatted_data <- formatted_data[,c("Cell.ID","Phenotype", "Cell.X.Position", "Cell.Y.Position", column)]
+    formatted_data <- formatted_data[formatted_data[,column] != "",]
 
     #Add a new column Cell_type which duplicates the phenotype
-    formatted_data$Cell_type <- as.character(formatted_data$Phenotype)
+    formatted_data$Cell_type <- as.character(formatted_data[,column])
 
     #Get the list of cells under each cell type
     cell_types = list()
@@ -74,8 +75,8 @@ calculate_summary_distances_between_phenotypes <- function(sce_object, all_marke
             #vector to store all mins
             local_dist_min <- vector()
             #grab coordinates of all other cells in cell_type2 to calculate distances with
-            all_celltype2_cord <- formatted_data[formatted_data$Phenotype == name2, c("Cell.X.Position", "Cell.Y.Position")]
-            all_celltype1_cord <- formatted_data[formatted_data$Phenotype == name1, c("Cell.X.Position", "Cell.Y.Position")]
+            all_celltype2_cord <- formatted_data[formatted_data[,column] == name2, c("Cell.X.Position", "Cell.Y.Position")]
+            all_celltype1_cord <- formatted_data[formatted_data[,column] == name1, c("Cell.X.Position", "Cell.Y.Position")]
 
             #find all of closest points
             all_closest <- nn2(data = all_celltype2_cord, query = all_celltype1_cord, k = 1)
