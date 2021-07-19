@@ -5,6 +5,7 @@
 #' @param reference_celltypes Vector specifying reference phenotypes. For example, "CD3" will calculate the proportion
 #' of each CD3-containing phenotype against all CD3. "Total" can be used to calculate the proportion of each phenotype against total cells and is the default.
 #' @param celltypes_to_exclude Vector specifying celltypes to exclude. For example "OTHER" will exclude that celltype from the Total (optional)
+#' @param column Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)
 #' @importFrom SummarizedExperiment colData
 #' @importFrom stats complete.cases
 #' @return A data.frame is returned
@@ -12,7 +13,7 @@
 #' p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
 #' @export
 
-calculate_cell_proportions <- function(sce_object, reference_celltypes = "Total", celltypes_to_exclude = NULL){
+calculate_cell_proportions <- function(sce_object, column="Phenotype", reference_celltypes = "Total", celltypes_to_exclude = NULL){
 
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- data.frame(colData(sce_object))
@@ -24,7 +25,7 @@ calculate_cell_proportions <- function(sce_object, reference_celltypes = "Total"
     }
 
     #Creates frequency/bar plot of all cell types in the entire image
-    cell_proportions <- as.data.frame(table(cell_loc$Phenotype))
+    cell_proportions <- as.data.frame(table(cell_loc[,column]))
     names(cell_proportions)[1] <- 'Cell_type'
     names(cell_proportions)[2] <- 'Number_of_celltype'
     
