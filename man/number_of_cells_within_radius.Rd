@@ -21,7 +21,7 @@ number_of_cells_within_radius(
 
 \item{radius}{Radius around the reference cells}
 
-\item{column}{String specifying the interested column}
+\item{column}{String specifying the column with the desired cell type annotations}
 }
 \value{
 List of dataframes with the number of target cells of each of the reference cells

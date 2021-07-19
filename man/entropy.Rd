@@ -19,5 +19,5 @@ entropy(sce_object, types_of_interest, column, radius = NULL)
 A dataframe or a number depending on the argument radius
 }
 \description{
-Produces a dataframe of entropies for all reference cells or an entropy number for the whole image.
+Produces a dataframe of entropies for all reference cells or an entropy number for the whole image if a radius is not supplied.
 }
