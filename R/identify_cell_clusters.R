@@ -3,8 +3,10 @@
 #' @description Uses Euclidean distances to identify clusters of cells within a specified radius.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param phenotypes_of_interest Vector of phenotypes to consider
+#' @param cell_types_of_interest Vector of phenotypes to consider
 #' @param radius Integer specifying the radius of search.
+#' @param column Column from which the cell types are selected
+#' @param no_pheno Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom tibble rownames_to_column
@@ -14,12 +16,11 @@
 #' @import ggplot2
 #' @return A data.frame and a plot is returned
 #' @examples
-#' clusters <- identify_cell_clusters(SPIAT::formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 #' @export
 
 # imported ggplo2 as interdependency of functions
 
-identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
+identify_cell_clusters <- function(sce_object, cell_types_of_interest, radius, column, no_pheno = NULL) {
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
@@ -42,12 +43,13 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   formatted_data <- formatted_data[complete.cases(formatted_data),]
 
   ######remove cells without a phenotype
-  formatted_data <- formatted_data[formatted_data$Phenotype != "OTHER", ]
-
+  if(!is.null(no_pheno)){
+    formatted_data <- formatted_data[formatted_data[,column] != no_pheno, ]
+  }
 
   #select cells to include if phenotypes of interest are specified
-  if (!is.null(phenotypes_of_interest)) {
-    formatted_data <- formatted_data[formatted_data$Phenotype %in% phenotypes_of_interest,]
+  if (!is.null(cell_types_of_interest)) {
+    formatted_data <- formatted_data[formatted_data[,column] %in% cell_types_of_interest,]
   }
   
   #CHECK
@@ -123,10 +125,10 @@ identify_cell_clusters <- function(sce_object, phenotypes_of_interest, radius) {
   cluster_colours <- dittoColors()[seq_len(number_of_clusters)]
 
   q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
-  q <- q + geom_point(aes(color = Cluster), size = 0.01)
+  q <- q + geom_point(aes(color = Cluster))#, size = 0.01)
   q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
   q <- q + scale_color_manual(values=cluster_colours)
-  q <- q + geom_point(data = cells_not_in_clusters, size = 0.01, colour = "black")
+  q <- q + geom_point(data = cells_not_in_clusters,  colour = "black")#,size = 0.01)
   q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position") +
     theme_bw() + 
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
