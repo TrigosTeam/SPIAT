@@ -6,13 +6,16 @@
 \usage{
 composition_of_clusters_and_communities(
   formatted_data_with_clusters,
-  column_to_consider
+  type_of_aggregate,
+  column
 )
 }
 \arguments{
 \item{formatted_data_with_clusters}{- a dataframe output from generate_clusters}
 
-\item{column_to_consider}{Column name to consider as community/clusters}
+\item{type_of_aggregate}{Cluster or Community}
+
+\item{column}{Column with cell types}
 }
 \value{
 A data.frame is returned

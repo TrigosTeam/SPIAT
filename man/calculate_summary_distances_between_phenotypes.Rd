@@ -7,6 +7,7 @@
 \usage{
 calculate_summary_distances_between_phenotypes(
   sce_object,
+  column = "Phenotype",
   all_marker_combinations = TRUE,
   combinations_of_interest = NULL
 )

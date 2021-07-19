@@ -8,7 +8,8 @@ identify_bordering_cells(
   sce_object,
   reference_cell,
   n_of_polygons = 1,
-  ahull_alpha = NULL
+  ahull_alpha = NULL,
+  column = "Cell.Type"
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ identify_bordering_cells(
 \item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
 
 \item{ahull_alpha}{Number specifying the ahull parameter. Larger number, more points included in the ahull.}
+
+\item{column}{Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc}
 }
 \description{
 Identify the cells bordering a group of cells of a particular phenotype
