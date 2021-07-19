@@ -6,7 +6,7 @@
 #' @param reference_marker Marker to be used for reference cells
 #' @param target_marker Marker to be used for target cells
 #' @param radius Radius around the reference cells
-#' @param column String specifying the interested column
+#' @param column String specifying the column with the desired cell type annotations
 #' @importFrom dbscan frNN
 #' @return List of dataframes with the number of target cells of each of the reference cells
 #' @export
@@ -23,17 +23,17 @@ number_of_cells_within_radius <- function (sce_object, reference_marker, target_
     dataframe <- remove_rownames(reference_cell_cords)
     dataframe <- dataframe %>% column_to_rownames("Cell.ID")
     reference_cell_cords <- reference_cells[, c( "Cell.X.Position","Cell.Y.Position")]
-      for (j in target_marker) {
-	target_cells <- formatted_data[which( formatted_data[,column] == j),     ]
-	target_cell_cords <- target_cells[, c("Cell.ID", "Cell.X.Position","Cell.Y.Position")]
-	target_cell_cords <- remove_rownames(target_cell_cords)
-	target_cell_cords <- target_cell_cords %>% column_to_rownames("Cell.ID")
-	reference_target_result <- frNN(target_cell_cords, eps = radius,
+    for (j in target_marker) {
+	    target_cells <- formatted_data[which(formatted_data[,column] == j),     ]
+	    target_cell_cords <- target_cells[, c("Cell.ID", "Cell.X.Position","Cell.Y.Position")]
+	    target_cell_cords <- remove_rownames(target_cell_cords)
+	    target_cell_cords <- target_cell_cords %>% column_to_rownames("Cell.ID")
+	    reference_target_result <- frNN(target_cell_cords, eps = radius,
                                          query = reference_cell_cords, sort =FALSE)
-	n_targets <- rapply(reference_target_result$id, length)
+	    n_targets <- rapply(reference_target_result$id, length)
         dataframe[,j] <- n_targets
-      }
-    all.df[[i]] <- dataframe
+    }
+  all.df[[i]] <- dataframe
   }
   return(all.df)
 }
