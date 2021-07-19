@@ -9,13 +9,16 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param thresholds (Optional) Vector of numbers specifying the cutoff of a positive reading.
 #' The order must match the marker order, and it should be NA for DAPI.
-#' @param tumour_marker String containing the tumour_marker used for the image.
+#' @param tumour_marker String containing the tumour_marker used for the image. If tumor cells are known,
+#' #annotate tumor cells as 1 and non-tumor cells as 0, and include the rowname
 #' @param baseline_markers Markers not found on tumour cells to refine the threshold used for tumour cell phenotying.
 #' @param nuclear_marker Nuclear marker used.
 #' @param reference_phenotypes TRUE or FALSE value whether there are reference phenotypes for the sample obtained by the user through other means (e.g. HALO or InForm).
 #' If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
-#' If no reference phenotype available, the result of the function will be added to the sce object used in the input.
+#' If no reference phenotype available, the result of the function will be added to the sce object used in the input. Note that if a reference phenotype is to be used,
+#' the phenotypes must be an explicit combination of positive markers (e.g. AMACR,PDL1), as opposed to descriptive (PDL1+ tumour cells)
 #' @param markers_to_phenotype Markers to be included in the phenotyping. If NULL, then all markers will be used. DAPI needs to be excluded
+#' @param plot_distribution If TRUE, plots of the marker intensities distributions and cutoffs are plotted
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
@@ -29,7 +32,8 @@
 
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
-                               reference_phenotypes = FALSE, markers_to_phenotype = NULL){
+                               reference_phenotypes = FALSE, markers_to_phenotype = NULL,
+                               plot_distribution=TRUE){
 
     formatted_data <- data.frame(colData(sce_object))
     formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
@@ -61,7 +65,6 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     colnames(intensity_df) <- markers
 
     formatted_data <- cbind(formatted_data, intensity_df)
-
 
    #add actual intensity boolean value to formatted_data
     markers_no_tumour <- markers[markers != tumour_marker]
@@ -154,7 +157,11 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     #Tumor marker levels in these cells
 
     formatted_data_baseline <- formatted_data[formatted_data$Cell.ID %in% baseline_cells,tumour_marker]
-    cutoff_for_tumour <- quantile(formatted_data_baseline, 0.95)
+    if(length(unique(formatted_data_baseline)) != 2){
+      cutoff_for_tumour <- quantile(formatted_data_baseline, 0.95)
+    }else{
+      cutoff_for_tumour <- max(formatted_data_baseline)-min(formatted_data_baseline)/2
+    }
 
     #extract the marker intensity column
     tumour_specific_level <- formatted_data[,tumour_marker]
@@ -199,10 +206,11 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     
     
-if (reference_phenotypes) {
+  if (reference_phenotypes) {
     for (marker in markers) {
+      print(marker)
       #exclude markers that are not reference markers
-      if (marker == nuclear_marker | marker == tumour_marker) {
+      if (marker == tumour_marker) {
         next
       }
 
@@ -264,21 +272,24 @@ if (reference_phenotypes) {
         print(paste("For ", marker, ":", sep=""))
         print(paste("TP:", TP_count, " TN:", TN_count, " FP:", FP_count, " FN:", FN_count, sep=""))
 
-        p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
-        title <- paste("Density distribution of", marker, sep=" ")
-        p <- p + labs(title = title, x = "Level of intensity", y = "Density")
-
-        if (!is.null(selected_valley_xcord[[marker]])) {
-          p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
-          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
-        } else {
-          p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-          print(paste(marker, " threshold intensity: ", marker_threshold))
+        if(plot_distribution){
+          p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
+          title <- paste("Density distribution of", marker, sep=" ")
+          p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+          
+          if (!is.null(selected_valley_xcord[[marker]])) {
+            p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
+            print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+          } else {
+            p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
+            print(paste(marker, " threshold intensity: ", marker_threshold))
+          }
+          
+          p <- p + theme_bw()
+          
+          print(p)
+          
         }
-
-        p <- p + theme_bw()
-
-        print(p)
       }
     }
     }else{
@@ -303,21 +314,23 @@ if (reference_phenotypes) {
         colnames(marker_specific_level) <- "Marker_level"
         level_and_accuracy <- cbind(marker_specific_level, accuracy_df)
 
-        p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
-        title <- paste("Density distribution of", marker, sep=" ")
-        p <- p + labs(title = title, x = "Level of intensity", y = "Density")
-
-        if (!is.null(selected_valley_xcord[[marker]])) {
-          p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
-          print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
-        } else {
-          p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-          print(paste(marker, " threshold intensity: ", marker_threshold))
+        if(plot_distribution){
+          p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
+          title <- paste("Density distribution of", marker, sep=" ")
+          p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+          
+          if (!is.null(selected_valley_xcord[[marker]])) {
+            p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
+            print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+          } else {
+            p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
+            print(paste(marker, " threshold intensity: ", marker_threshold))
+          }
+          
+          p <- p + theme_bw()
+          
+          print(p)  
         }
-
-        p <- p + theme_bw()
-
-        print(p)
       }
     }
 
@@ -332,9 +345,12 @@ if (reference_phenotypes) {
     }
 
     phenotype_predictions_vector <- apply(phenotype_predictions_collapsed, 1, paste, collapse=",")
-    phenotype_predictions_vector <- gsub("0,", "", phenotype_predictions_vector)
+    phenotype_predictions_vector <- gsub("^0", "", phenotype_predictions_vector)
     phenotype_predictions_vector <- gsub(",0", "", phenotype_predictions_vector)
-    phenotype_predictions_vector[phenotype_predictions_vector == 0] <- "None"
+    phenotype_predictions_vector <- gsub("NA,", "", phenotype_predictions_vector)
+    phenotype_predictions_vector <- gsub(",NA", "", phenotype_predictions_vector)
+    phenotype_predictions_vector <- gsub("^,", "", phenotype_predictions_vector)
+    phenotype_predictions_vector[phenotype_predictions_vector == ""] <- "None"
 
     if(!reference_phenotypes){
       colData(sce_object)$Phenotype <- phenotype_predictions_vector
