@@ -6,12 +6,15 @@
 \usage{
 calculate_cell_proportions(
   sce_object,
+  column = "Phenotype",
   reference_celltypes = "Total",
   celltypes_to_exclude = NULL
 )
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+
+\item{column}{Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)}
 
 \item{reference_celltypes}{Vector specifying reference phenotypes. For example, "CD3" will calculate the proportion
 of each CD3-containing phenotype against all CD3. "Total" can be used to calculate the proportion of each phenotype against total cells and is the default.}

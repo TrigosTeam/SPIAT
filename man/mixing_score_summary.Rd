@@ -4,16 +4,24 @@
 \alias{mixing_score_summary}
 \title{mixing_score_summary}
 \usage{
-mixing_score_summary(sce_object, reference_marker, target_marker, radius = 20)
+mixing_score_summary(
+  sce_object,
+  reference_marker,
+  target_marker,
+  radius = 20,
+  column
+)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{reference_marker}{Markers to be used as the reference cells.}
+\item{reference_marker}{Cell types of the reference cells}
 
-\item{target_marker}{Markers to be used as the target markers. The function will ignore instances where reference marker is the same as target marker.}
+\item{target_marker}{Cell types of the target cells}
 
-\item{radius}{(OPTIONAL) The maximum radius around a reference marker for another cell to be considered an interaction.}
+\item{radius}{The maximum radius around a reference marker for another cell to be considered an interaction.}
+
+\item{column}{String specifying the column with the desired cell type annotations}
 }
 \value{
 A data.frame of cell numbers, mixing scores, and normalised mixing scores.
@@ -22,4 +30,5 @@ A data.frame of cell numbers, mixing scores, and normalised mixing scores.
 Produces a data.frame with mixing scores of inputed reference and target cells from a SingleCellExperiment object. 
 It calculates reference-target interactions and reference-reference interactions based on default radius of 20.
 It derives the mixing score and normalises the score by (mixing score) * (number of reference cells) * 2 / (number of target cells).
+Function returns NA if the mixing score is being calculated between cells of the same type
 }
