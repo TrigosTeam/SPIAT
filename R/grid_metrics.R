@@ -46,6 +46,6 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
   # plot
   plot(x, main = paste("Plot", deparse(substitute(FUN)), "of", attr(sce_object, "name")))
   
-  return(list.metric)
+  return(x)
 }
 
