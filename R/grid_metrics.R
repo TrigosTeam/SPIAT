@@ -27,8 +27,11 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
         metric <- 0.0
       } 
       # mixing score (special case because mixing_score_multiple returns a list)
-      else if (str_detect(deparse(substitute(FUN)), paste0("^", "mixing_score"))) {
+      else if (str_detect(deparse(substitute(FUN)), paste0("^", "mixing_score_multiple"))) {
         metric <- metric$Summary$Normalised_mixing_score
+      }
+      else if (str_detect(deparse(substitute(FUN)), paste0("^", "mixing_score_summary"))) {
+        metric <- metric$Normalised_mixing_score
       }
     }
     # if there is no data in the splitted image, return 0.0
