@@ -82,7 +82,7 @@ plot_cell_categories <- function(sce_object, phenotypes_of_interest, colour_vect
     p <- p + geom_point(aes(colour = Phenotype), size = 1)
   }
   p <- p +
-    guides(alpha = FALSE) +
+    guides(alpha = "none") +
     labs(colour = "Phenotypes") + 
     scale_color_manual(breaks = all_phenotypes, values=all_colours) +
     theme(panel.grid.major = element_blank(),
