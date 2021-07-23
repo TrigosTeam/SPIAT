@@ -321,9 +321,9 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-phenotypes_of_interest <- c("AMACR", "CD3,CD8", "CD3,CD4", "PDL-1")
+cell_types_of_interest <- c("AMACR", "CD3,CD8", "CD3,CD4", "PDL-1")
 colour_vector <- c("darkgrey", "darkcyan", "skyBlue", "orange")
-plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
+plot_cell_categories(formatted_image, cell_types_of_interest, colour_vector)
 ```
 
 # Gradients of cells
@@ -431,7 +431,7 @@ We can determine if there are aggregates (or a lack of aggregates) of a particul
 Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
 
 ```{r}
-clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
+#clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100)
 ```
 
 This plot shows clusters of CD3,CD4 and CD3,CD8 cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
@@ -453,14 +453,14 @@ This plot shows communities of cells in the tissue. Each number and colour corre
 We can visualize the cell composition of clusters or communities. This allows us to determine whether there are regions where cells of different types are interacting, or whether there is little mixing between celltypes. To do this, we can use `composition_of_clusters_and_communities` to obtain the percentages of cells with a specific marker within each cluster and the number of cells in the cluster.
 
 ```{r}
-clusters_vis <- composition_of_clusters_and_communities(clusters, "Cluster")
-clusters_vis <- clusters_vis[clusters_vis$Total_number_of_cells >=5,]
+#clusters_vis <- composition_of_clusters_and_communities(clusters, "Cluster")
+#clusters_vis <- clusters_vis[clusters_vis$Total_number_of_cells >=5,]
 ```
 
 Then we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster.
 
 ```{r}
-plot_composition_heatmap(clusters_vis, column_to_consider="Cluster")
+#plot_composition_heatmap(clusters_vis, column_to_consider="Cluster")
 ```
 
 This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,CD8 cells and some are more dominated by CD3,CD4 than others.  
@@ -468,8 +468,8 @@ This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,
 We can visualize the composition of the communities in a similiar way.
 
 ```{r}
-communities_vis <- composition_of_clusters_and_communities(communities, "Community")
-plot_composition_heatmap(communities_vis, column_to_consider="Community")
+#communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate="Community", column = "Phenotype")
+#plot_composition_heatmap(composition=communities_vis, column_to_consider="Community")
 ```
 
 This plot shows that several communities detected have a combination of tumour (AMACR) and immune cells while some are dominated by tumour or immune cells.
