@@ -493,7 +493,7 @@ This plot shows communities of cells in the tissue. Each number and colour corre
 We can visualize the cell composition of clusters or communities. This allows us to determine whether there are regions where cells of different types are interacting, or whether there is little mixing between celltypes. To do this, we can use `composition_of_clusters_and_communities` to obtain the percentages of cells with a specific marker within each cluster and the number of cells in the cluster.
 
 ```{r}
-clusters_vis <- composition_of_clusters_and_communities(clusters, "Cluster")
+clusters_vis <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Cell.Type")
 clusters_vis <- clusters_vis[clusters_vis$Total_number_of_cells >=5,]
 ```
 
