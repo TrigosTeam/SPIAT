@@ -406,7 +406,7 @@ compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = 
 
 ```{r}
 df_cross <- bivariate_dependence(formatted_image, method = "Kcross",
-                     phenotypes = c("CD4","CD8"), column ="Cell.Type",                      plot=FALSE)
+                     phenotypes = c("CD3,CD4","CD3,CD8"), column ="Phenotype",                      plot=FALSE)
 ```
 
 
@@ -419,21 +419,21 @@ AUC_of_cross_function(df_cross)
 Calculate entropy.
 
 ```{r}
-entropy(formatted_image, types_of_interest = c("CD4","CD8"), 
-                                              column = "Cell.Type")
+entropy(formatted_image, types_of_interest = c("CD3,CD4","CD3,CD8"), 
+                                              column = "Phenotype")
 ```
 
 
 ```{r}
 mixing_score_summary(formatted_image,
                                      reference_marker = "CD4", 
-                                     target_marker = "CD8", radius=100, column="Cell.Type")
+                                     target_marker = "CD8", radius=100, column="Phenotype")
 ```
 Calculate average percentage cells within radius
 
 ```{r}
 average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "CD4", target_phenotypes = "CD8", radius=100, 
-column="Cell.Type")
+column="Phenotype")
 ```
 
 Calculate tumour 
@@ -443,7 +443,6 @@ Calculate tumour
 If we want to identify cells separating two distinct tissue areas, for example, cells at the tumour margin or at the border of tumour and stroma, we can use `identify_bordering_cells`. The algorithm is explained in the SPIAT paper [@yang2020spiat]. Here we use tumour cells (AMACR) as the reference to identify the bordering cells but any cell type can be used.
 
 ```{r}
-# update with jojo's new functions
 identify_bordering_cells(formatted_image, reference_cell = "Tumour", column="Cell.Type")
 ```
 
@@ -471,7 +470,7 @@ We can determine if there are aggregates (or a lack of aggregates) of a particul
 Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
 
 ```{r}
-clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3", "CD4"), radius = 100, column = "Cell.Type")
+clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD4", "CD3,CD8"), radius = 100, column = "Phenotype")
 ```
 
 This plot shows clusters of CD3,CD4 and CD3,CD8 cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
@@ -493,14 +492,14 @@ This plot shows communities of cells in the tissue. Each number and colour corre
 We can visualize the cell composition of clusters or communities. This allows us to determine whether there are regions where cells of different types are interacting, or whether there is little mixing between celltypes. To do this, we can use `composition_of_clusters_and_communities` to obtain the percentages of cells with a specific marker within each cluster and the number of cells in the cluster.
 
 ```{r}
-clusters_vis <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Cell.Type")
+clusters_vis <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Phenotype")
 clusters_vis <- clusters_vis[clusters_vis$Total_number_of_cells >=5,]
 ```
 
 Then we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster.
 
 ```{r}
-plot_composition_heatmap(clusters_vis, type_of_aggregate = "Cluster", column="Cell.Type")
+plot_composition_heatmap(clusters_vis, type_of_aggregate = "Cluster", column="Phenotype")
 ```
 
 This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,CD8 cells and some are more dominated by CD3,CD4 than others.  
@@ -508,8 +507,8 @@ This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,
 We can visualize the composition of the communities in a similiar way.
 
 ```{r}
-communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate="Community", column = "Cell.Type")
-plot_composition_heatmap(communities_vis, type_of_aggregate = "Community", column="Cell.Type")
+communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate="Community", column = "Phenotype")
+plot_composition_heatmap(communities_vis, type_of_aggregate = "Community", column="Phenotype")
 ```
 
 This plot shows that several communities detected have a combination of tumour (AMACR) and immune cells while some are dominated by tumour or immune cells.
