@@ -13,8 +13,8 @@
 #' @return A plot is returned
 #' @examples
 #' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
-#' communities_vis <- composition_of_clusters_and_communities(communities, "Community")
-#' plot_composition_heatmap(communities_vis, type_of_aggregate="Community")
+#' communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate = "Community", column="Phenotype)
+#' plot_composition_heatmap(communities_vis, type_of_aggregate = "Community", column="Phenotype")
 #' @export
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, type_of_aggregate, column) {
