@@ -97,8 +97,8 @@ test_that("identify_cell_clusters() works", {
                 Cell.X.Position = c(1145, 1119, 550, 856), 
                 Cell.Y.Position = c(33, 40, 73, 93))
     
-    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3", "CD8"),
-                                       radius = 30, column = "Cell.Type")
+    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD8"),
+                                       radius = 30, column = "Phenotype")
     
     expect_equal(clusters[1:4, 1:4], res)
     
