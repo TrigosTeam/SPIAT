@@ -500,7 +500,7 @@ clusters_vis <- clusters_vis[clusters_vis$Total_number_of_cells >=5,]
 Then we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster.
 
 ```{r}
-plot_composition_heatmap(clusters_vis, column_to_consider="Cluster")
+plot_composition_heatmap(clusters_vis, type_of_aggregate = "Cluster", column="Cell.Type")
 ```
 
 This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,CD8 cells and some are more dominated by CD3,CD4 than others.  
@@ -509,7 +509,7 @@ We can visualize the composition of the communities in a similiar way.
 
 ```{r}
 communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate="Community", column = "Cell.Type")
-#plot_composition_heatmap(communities_vis, column_to_consider="Community")
+plot_composition_heatmap(communities_vis, type_of_aggregate = "Community", column="Cell.Type")
 ```
 
 This plot shows that several communities detected have a combination of tumour (AMACR) and immune cells while some are dominated by tumour or immune cells.
