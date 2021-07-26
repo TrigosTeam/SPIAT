@@ -33,5 +33,6 @@ composition_of_clusters_and_communities <- function(formatted_data_with_clusters
     }
 
     composition$Percentage <- (composition$Number_of_cells/composition$Total_number_of_cells)*100
+    colnames(composition)[colnames(composition) == "Temp_pheno"] <- column
     return(composition)
 }
