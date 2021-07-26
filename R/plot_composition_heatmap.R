@@ -26,7 +26,7 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
     cluster_size$Community <- NULL
 
     composition2 <- composition[,c(column, "Community", "Percentage")]
-    composition2 <- dcast(composition2,  Phenotype ~ Community, value.var="Percentage")
+    composition2 <- dcast(composition2, paste(column, "~", type_of_aggregate), value.var="Percentage")
 
   }else if(type_of_aggregate == "Cluster"){
     cluster_size <- unique(data.frame(Cluster = composition$Cluster,
@@ -35,7 +35,7 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
     cluster_size$Cluster <- NULL
 
     composition2 <- composition[,c(column, "Cluster", "Percentage")]
-    composition2 <- dcast(composition2,  Phenotype ~ Cluster, value.var="Percentage")
+    composition2 <- dcast(composition2, paste(column, "~", type_of_aggregate), value.var="Percentage")
   }else{
     stop("Only Community and Cluster are accepted as valid column names")
   }
