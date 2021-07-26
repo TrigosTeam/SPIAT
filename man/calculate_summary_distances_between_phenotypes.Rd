@@ -15,6 +15,8 @@ calculate_summary_distances_between_phenotypes(
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
+\item{column}{Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)}
+
 \item{all_marker_combinations}{If TRUE, the distances between all possible combinations of markers
 will be calculated}
 
