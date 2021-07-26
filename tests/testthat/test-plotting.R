@@ -59,12 +59,12 @@ test_that("plot_distance_heatmap() creates a plot", {
 
 test_that("plot_composition_heatmap() creates a plot", {
     
-    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3", "CD4"),
-                                       radius = 30, column = "Cell.Type")
-    clusters_2 <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Cell.Type")
+    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD4", "CD3,CD8"),
+                                       radius = 30, column = "Phenotype")
+    clusters_2 <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Phenotype")
     clusters_2 <- clusters_2[clusters_2$Total_number_of_cells >=5,]
     
-    p <- plot_composition_heatmap(clusters_2, type_of_aggregate = "Cluster", column="Cell.Type")
+    p <- plot_composition_heatmap(clusters_2, type_of_aggregate = "Cluster", column="Phenotype")
     
     expect_is(p, "Heatmap")
     
