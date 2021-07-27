@@ -18,6 +18,8 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# MATERIAL UNDER DEVELOPMENT
+
 # Introduction
 
 SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools [@yang2020spiat]. SPIAT is directly compatible with Opal multiplex immunohistochemistry images analysed through the HALO and InForm analysis software, but its intuitive implementation allows use with a diversity of platforms.
