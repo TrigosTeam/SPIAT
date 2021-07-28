@@ -494,7 +494,7 @@ column="Cell.Type")
 When there is a clear tumour region in the image, we define four tumour structures: "Inside", "Outside", "Infiltration front" and "Invasive front", as shown in the figure below. Why are we interested in defining such structure? For some types of cancer, there can be small clusters of tumour cells, like globes. We may be interested in not only whether immune cells infiltrate into the whole tumour region but also whether the immune cells infiltrate into the small globes. The identification of the tumour structure can be achieved by calculating the distance from each cell to the tumour boundary, after the identification of bordering cells. 
 
 
-```{r, echo=FALSE, out.width = "100px"}
+```{r, echo=FALSE}
 knitr::include_graphics("../inst/vignettes/tumour_structure.png")
 ```
 
