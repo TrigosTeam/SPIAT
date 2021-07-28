@@ -429,7 +429,7 @@ mixing_score_summary(formatted_image, reference_marker = "T_helper", target_mark
 
 cross K-function is similar to mixing score, but calculates the score across all possible distances. It also compares the behaviour of the image with an image that has randomly distributed points of the same number. There are 4 patterns that can be distinguished from cross K-function, as illustrated in the plots below (generated [ here](https://blog.jlevente.com/understanding-the-cross-k-function/)). 
 
-```{r, echo=FALSE, out.width = "100px"}
+```{r, echo=FALSE}
 knitr::include_graphics("../inst/vignettes/cross-k-function.png")
 ```
 
