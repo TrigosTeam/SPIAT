@@ -412,7 +412,7 @@ These cell distances can then be visualized as a heatmap with `plot_distance_hea
 plot_distance_heatmap(summary_distances)
 ```
 
-This plot shows that AMACR cells are interacting most closely with CD3,CD4, followed by CD3,CD8, while PDL-1 cells are more distant.
+This plot shows that Tumour cells are interacting most closely with T_helper, followed by T_cyto, while PDL1 cells are more distant.
 
 # Cell mixing 
 
@@ -614,7 +614,7 @@ Then we can use `plot_composition_heatmap` to produce a heatmap showing the mark
 plot_composition_heatmap(clusters_vis, type_of_aggregate = "Cluster", column="Cell.Type")
 ```
 
-This plot shows that most clusters are composed of a mixture of CD3,CD4 and CD3,CD8 cells and some are more dominated by CD3,CD4 than others.  
+This plot shows that most clusters are composed of a mixture of T_helper and T_cyto cells and some are more dominated by T_helper than others.  
 
 We can visualize the composition of the communities in a similiar way.
 
