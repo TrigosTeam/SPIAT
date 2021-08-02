@@ -48,7 +48,7 @@ We can use `format_image_to_sce` to read in and format raw data for SPIAT.`forma
 
 ## Simple import
 
-The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. For information on the InForm and HALO formats see below.
+The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. 
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
@@ -153,7 +153,7 @@ In the case of large images, or images where there are two independent tissue se
 split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
 ```
 
-## Example data
+## Example data {#example-data}
 
 In this vignette we will use an InForm data file that's already been formatted for SPIAT with `format_image_to_sce`, which we can load with `data`.
 ```{r}
