@@ -416,9 +416,20 @@ This plot shows that Tumour cells are interacting most closely with T_helper, fo
 
 # Cell mixing 
 
+With SPIAT we can quantify how much two cell types are interacting through a variety of ways.
+
+### Cells within radius
+
+We can calculate the average percentage of cells of one cell type (target) within a radius of another cell type (reference).
+
+```{r}
+average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "T_helper", target_phenotypes = "T_cyto", radius=100, 
+column="Cell.Type")
+```
+
 ### Mixing score
 
-With SPIAT we can quantify how much two cell types are interacting through calculating a cell mixing score. This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
+This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
 
 
 ```{r}
@@ -450,15 +461,15 @@ The plot tells us that the T_cyto and T_helper form one mixed cluster, as it loo
 
 We can calculate the area under the curve (AUC) of the cross K-function. This tells us the two types of cells are:  
 
-* separate clusters - the more positive it is
+* separate clusters - the more negative it is
 * independent - the closer it is to zero
-* mixed - the more negative it is
+* mixed - the more positive it is
 
 ```{r}
 AUC_of_cross_function(df_cross)
 ```
 
-The AUC score tells us that the two types of cells form separate clusters as it is very positive - check this as this seems to be the opposite of what the plot is saying?
+The AUC score is very positive so this tells us that the two types of cells form mixed clusters, similar to the plot. 
 
 
 ### Entropy
@@ -474,16 +485,6 @@ Or use gradient to calculate it for a range of radii.
 ```{r}
 gradient_positions <- c(30, 50, 100)
 gradient_entropy <- gradient(formatted_image, radii=gradient_positions, entropy, types_of_interest = c("T_helper","T_cyto"), column = "Cell.Type")
-```
-
-
-### Where does this fit?
-
-Calculate average percentage cells within radius.
-
-```{r}
-average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "T_helper", target_phenotypes = "T_cyto", radius=100, 
-column="Cell.Type")
 ```
 
 
@@ -552,7 +553,7 @@ If there is no clear tumour structure we can use `average_nearest_neighbor_index
 
 Getting error
 ```{r}
-#average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
+average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
 
 #Error in `[.data.frame`(sce_data, , c("Cell.X.Position", "Cell.Y.Position",  : 
  # undefined columns selected
