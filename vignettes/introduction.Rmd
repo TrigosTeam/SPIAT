@@ -91,7 +91,7 @@ formatted_image <- format_image_to_sce(
 
 #### Phenotype column
 
-`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker.
+`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3+CD4+), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
 
 #### Cell properties columns
 
