@@ -556,7 +556,7 @@ If there is no clear tumour structure we can use `average_nearest_neighbor_index
 
 Getting error
 ```{r}
-average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
+#average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
 
 #Error in `[.data.frame`(sce_data, , c("Cell.X.Position", "Cell.Y.Position",  : 
  # undefined columns selected
