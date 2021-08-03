@@ -190,11 +190,10 @@ colData(formatted_image)[1:5, ]
 
 ## Checking phenotypes
 
-We can ch
-eck what phenotypes are present with `print_phenotypes`. 
+We can check what phenotypes are present with `print_column`, which will print any specified column in the data.
 
 ```{r}
-print_phenotypes(formatted_image)
+print_column(formatted_image, column = "Phenotype")
 ```
 
 The phenotypes in this example data can be interpreted as follows: 
@@ -232,7 +231,7 @@ data_subset <- select_phenotypes(formatted_image, keep=TRUE,
                                      phenotypes = c("AMACR",
                                                     "CD3,CD8",
                                                     "PDL-1"))
-print_phenotypes(data_subset)
+print_column(data_subset, column = "Phenotype")
 ```
 
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
