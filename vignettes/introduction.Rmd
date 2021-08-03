@@ -266,16 +266,6 @@ formatted_image <- define_celltypes(formatted_image, phenotypes = c("AMACR", "CD
 ```
 
 
-## Plot of cell types
-
-We can visualise the spatial distribution of the cell types in the image with `plot_cell_basic`.
-
-```{r}
-mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
-  
-plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
-```
-
 # Quality control
 
 ## Cell proportions/percentages
@@ -347,12 +337,13 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 
 ## Categorical dot plot
 
-We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
+We can see the location of all cell types in the tissue (or any column in the data) with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-cell_types_of_interest <- c("AMACR", "CD3,CD8", "CD3,CD4", "PDL-1")
-colour_vector <- c("darkgrey", "darkcyan", "skyBlue", "orange")
-plot_cell_categories(formatted_image, cell_types_of_interest, colour_vector)
+mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
+  
+plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
+```
 ```
 
 # Gradients of cells
