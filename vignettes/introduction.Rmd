@@ -378,7 +378,7 @@ average_marker_intensity_within_radius(formatted_image,
 
 # Neighbourhood proportions
 
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
+We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial structures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
 p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
@@ -426,7 +426,7 @@ With SPIAT we can quantify how much two cell types are interacting through a var
 We can calculate the average percentage of cells of one cell type (target) within a radius of another cell type (reference).
 
 ```{r}
-average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "T", target_phenotypes = c("T_cyto", "T_helper"), radius=100, 
+average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "T_helper", target_phenotypes = "T_cyto", radius=100, 
 column="Cell.Type")
 ```
 
@@ -493,7 +493,11 @@ gradient_entropy <- gradient(formatted_image, radii=gradient_positions, entropy,
 
 # Tumour structure
 
-## Clear tumour region
+If the image contains tumour, it may be a clear tumour structure or unclear (dispersed). The function `average_nearest_neighbor_index` can inform us whether there is a clear tumour structure (clustered) or unclear (dispersed), along with a P value for the estimate.
+
+```{r}
+average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
+```
 
 When there is a clear tumour region in the image, we define four tumour structures: "Inside", "Outside", "Infiltration front" and "Invasive front", as shown in the figure below. Why are we interested in defining such structure? For some types of cancer, there can be small clusters of tumour cells, like globes. We may be interested in not only whether immune cells infiltrate into the whole tumour region but also whether the immune cells infiltrate into the small globes. The identification of the tumour structure can be achieved by calculating the distance from each cell to the tumour boundary, after the identification of bordering cells. 
 
@@ -548,18 +552,6 @@ We can calculate summaries of the distances for immune cells in the tumour struc
 immune_distances <- calculate_summary_distances_of_immune_cells_to_borders(formatted_structure, names_of_immune_cells, "Cell.Type")
 
 immune_distances
-```
-
-## No clear tumour structure
-
-If there is no clear tumour structure we can use `average_nearest_neighbor_index`.
-
-Getting error
-```{r}
-#average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
-
-#Error in `[.data.frame`(sce_data, , c("Cell.X.Position", "Cell.Y.Position",  : 
- # undefined columns selected
 ```
 
 # Cell properties
