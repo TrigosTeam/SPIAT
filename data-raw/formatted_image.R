@@ -8,7 +8,7 @@ locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cy
 
 formatted_image <- format_image_to_sce(
                           format="INFORM",
-                          image=raw_inform_data,
+                          path=raw_inform_data,
                           markers=markers,
                           locations= locations)
 
