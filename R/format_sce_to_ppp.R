@@ -14,7 +14,7 @@ format_sce_to_ppp <- function(sce_object, window_pol = F) {
   
   # get x, y coordinates and phenotypes from sce object
   sce_data <- data.frame(colData(sce_object))
-  sce_data <- sce_data[!duplicated(sce_data[,c("Cell.X.Position", "Cell.Y.Position", "Phenotype")]),]
+  sce_data <- sce_data[!duplicated(sce_data[,c("Cell.X.Position", "Cell.Y.Position")]),]
   x <- sce_data$Cell.X.Position
   y <- sce_data$Cell.Y.Position
   marks <- sce_data$Phenotype
