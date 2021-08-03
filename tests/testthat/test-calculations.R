@@ -91,55 +91,30 @@ test_that("calculate_all_distances_between_phenotypes() works", {
 test_that("identify_cell_clusters() works", {
     
     cells <- c("Cell_78", "Cell_174", "Cell_195", "Cell_237")
-    res <- data.frame(row.names = cells,
-                      Cell.ID = cells,
-                      Phenotype = c("CD3,CD4", "CD3,CD4", "CD3,CD8", "CD3,CD8"),
-                      Cell.X.Position = c(1079, 2471, 1145, 1119),
-                      Cell.Y.Position = c(15, 29, 33, 40),
-                      Cell.Area = c(129, 448, 126, 223),
-                      Nucleus.Area = c(87, 144, 43, 22),
-                      Nucleus.Compactness = c(0.84, 0.42, 0.8, 1.08),
-                      Nucleus.Axis.Ratio = c(1, 2.16, 1.14, 1),
-                      Cell.Axis.Ratio = c(1.17, 1.41, 1.83, 2.03),
-                      DAPI = c(14.7, 12.8, 12.7, 11),
-                      CD3 = c(3.67, 2.39, 1.3, 1.38),
-                      `PDL-1` = c(0.357, 0.2, 0.114, 0.23),
-                      CD4 = c(3.74, 1.22, 1.9, 1.3),
-                      CD8 = c(0.319, 0.05, 9.982, 4.254),
-                      AMACR = c(0.034, 0.069, 0.514, 0.061),
-                      Cluster = c("Cluster_1", "Free_cell", "Cluster_1", "Cluster_1"), check.names = FALSE)
+    res <- data.frame(row.names = c("Cell_195", "Cell_237", "Cell_320", "Cell_441"),
+                Cell.ID = c("Cell_195", "Cell_237", "Cell_320", "Cell_441"), 
+                Phenotype = c("CD3,CD8", "CD3,CD8", "CD3,CD8", "CD3,CD8"), 
+                Cell.X.Position = c(1145, 1119, 550, 856), 
+                Cell.Y.Position = c(33, 40, 73, 93))
     
-    clusters <- identify_cell_clusters(formatted_image, phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"),
-                                       radius = 30)
+    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD8"),
+                                       radius = 30, column = "Phenotype")
     
-    expect_equal(clusters[1:4,], res, tolerance = 0.002)
+    expect_equal(clusters[1:4, 1:4], res)
     
 })
-
 
 test_that("identify_cell_communities() works", {
     
     res <- data.frame(row.names = 2:5,
                       Cell.ID = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"), 
                       Phenotype = c("AMACR", "AMACR", "AMACR", "AMACR"), 
-                      Cell.X.Position = c(171L, 184L, 201L, 219L), 
-                      Cell.Y.Position = c(22L, 38L, 52L, 63L), 
-                      Cell.Area = c(464L, 553L, 462L, 876L), 
-                      Nucleus.Area = c(177L, 212L, 239L, 451L), 
-                      Nucleus.Compactness = c(0.54, 0.51, 0.53, 0.53), 
-                      Nucleus.Axis.Ratio = c(1.84, 1.92, 1.47, 1.19), 
-                      Cell.Axis.Ratio = c(1, 1.21, 1.09, 1.34), 
-                      DAPI = c(17.588, 21.262, 18.951, 18.631), 
-                      CD3 = c(0.229, 0.206, 0.226, 0.212), 
-                      `PDL-1` = c(0.117, 0.103, 0.126, 0.091), 
-                      CD4 = c(1.188, 0.924, 1.367, 1.266), 
-                      CD8 = c(0.087, 0.053, 0.037, 0.046), 
-                      AMACR = c(2.074, 1.521, 2.462, 1.968), 
-                      Community = c("Community_1", "Community_1", "Community_1", "Community_1"), check.names = FALSE)
+                      Cell.X.Position = c(171, 184, 201, 219), 
+                      Cell.Y.Position = c(22, 38, 52, 63))
     
     communities <- identify_cell_communities(formatted_image, radius=100)
     
-    expect_equal(communities[1:4,], res, tolerance=0.002)
+    expect_equal(communities[1:4, 1:4], res)
     
 })
 
