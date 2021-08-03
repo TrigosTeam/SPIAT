@@ -91,7 +91,7 @@ formatted_image <- format_image_to_sce(
 
 #### Phenotype column
 
-`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3+CD4+), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
+`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3,CD4), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
 
 #### Cell properties columns
 
@@ -336,7 +336,7 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 
 ## Categorical dot plot
 
-We can see the location of all cell types in the tissue (or any column in the data) with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
+We can see the location of all cell types (or any column in the data) in the tissue with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the cell types of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
 mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
@@ -422,7 +422,7 @@ column="Cell.Type")
 
 ### Mixing score
 
-This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `mixing_score_summary` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
+This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
 
 
 ```{r}
@@ -563,9 +563,9 @@ measure_association_to_cell_properties(formatted_image,
 
 # Clusters and communities
 
-We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of phenotypes. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
+We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of cell types. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
 
-Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
+Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell types of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
 
 ```{r}
 clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("T_helper", "T_cyto"), radius = 100, column = "Cell.Type")
