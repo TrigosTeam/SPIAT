@@ -8,7 +8,8 @@ plot_composition_heatmap(
   composition,
   pheno_to_exclude = NULL,
   log_values = FALSE,
-  column_to_consider
+  type_of_aggregate,
+  column
 )
 }
 \arguments{
@@ -18,7 +19,9 @@ plot_composition_heatmap(
 
 \item{log_values}{TRUE if the percentages should be logged (base 10)}
 
-\item{column_to_consider}{Column name to consider as community/clusters}
+\item{type_of_aggregate}{Cluster or Community}
+
+\item{column}{Column with cell types}
 }
 \value{
 A plot is returned
@@ -26,9 +29,4 @@ A plot is returned
 \description{
 Produces a heatmap showing the marker percentages within each cluster
 and the cluster sizes
-}
-\examples{
-communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
-communities_vis <- composition_of_clusters_and_communities(communities, "Community")
-plot_composition_heatmap(communities_vis, column_to_consider="Community")
 }
