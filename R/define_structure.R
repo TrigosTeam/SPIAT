@@ -10,7 +10,7 @@
 #' @export
 
 
-define_structure <- function(sce_object, names_of_immune_cells, n_invasive = 5){
+define_structure <- function(sce_object, names_of_immune_cells, n_margin_layers = 5){
   
   # find the distance of invasive front
   min_dist <- average_minimum_distance(sce_object)
