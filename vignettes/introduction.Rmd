@@ -41,14 +41,14 @@ library(SPIAT)
 
 We can use `format_image_to_sce` to read in and format raw data for SPIAT.`format_image_to_sce` creates a SingleCellExperiment object. It requires at least 4 arguments:
 
-- `format`: INFORM or HALO 
+- `format`: "INFORM", "HALO", "Visium", "CODEX" "cellprolifer, or "general"
 - `image`: path to the raw InForm or HALO image data file
 - `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the marker name used in the input file. One of the markers must be DAPI.
 - `locations`: locations of the markers, either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. Alternatively, the column names can be specified, see below for more information.
 
 ## Simple import
 
-The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. 
+The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (intensity_matrix), and a vector of 'phenotypes' vector, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form CD3+CD8+, as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. 
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
@@ -91,7 +91,7 @@ formatted_image <- format_image_to_sce(
 
 #### Phenotype column
 
-`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3+CD4+), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
+`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3,CD4), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
 
 #### Cell properties columns
 
@@ -190,11 +190,10 @@ colData(formatted_image)[1:5, ]
 
 ## Checking phenotypes
 
-We can ch
-eck what phenotypes are present with `print_phenotypes`. 
+We can check what phenotypes are present with `print_column`, which will print any specified column in the data.
 
 ```{r}
-print_phenotypes(formatted_image)
+print_column(formatted_image, column = "Phenotype")
 ```
 
 The phenotypes in this example data can be interpreted as follows: 
@@ -232,7 +231,7 @@ data_subset <- select_phenotypes(formatted_image, keep=TRUE,
                                      phenotypes = c("AMACR",
                                                     "CD3,CD8",
                                                     "PDL-1"))
-print_phenotypes(data_subset)
+print_column(data_subset, column = "Phenotype")
 ```
 
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
@@ -265,16 +264,6 @@ Specifying each Phenotype can be tedious if the Phenotype consists of multiple m
 formatted_image <- define_celltypes(formatted_image, phenotypes = c("AMACR", "CD3,CD4", "CD3,CD8", "CD3", "PDL-1"), names = c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"))
 ```
 
-
-## Plot of cell types
-
-We can visualise the spatial distribution of the cell types in the image with `plot_cell_basic`.
-
-```{r}
-mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
-  
-plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
-```
 
 # Quality control
 
@@ -347,12 +336,13 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 
 ## Categorical dot plot
 
-We can see the location of all phenotypes in the tissue with `plot_cell_categories`. Each dot in the plot corresponds to a cell and cells are coloured by phenotype. We can choose the colours for the phenotypes. Any phenotypes present in the data but not in the phenotypes of interest will be put in the category "OTHER" and coloured lightgrey.
+We can see the location of all cell types (or any column in the data) in the tissue with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the cell types of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-cell_types_of_interest <- c("AMACR", "CD3,CD8", "CD3,CD4", "PDL-1")
-colour_vector <- c("darkgrey", "darkcyan", "skyBlue", "orange")
-plot_cell_categories(formatted_image, cell_types_of_interest, colour_vector)
+mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
+  
+plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
+```
 ```
 
 # Gradients of cells
@@ -378,7 +368,7 @@ average_marker_intensity_within_radius(formatted_image,
 
 # Neighbourhood proportions
 
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial sturctures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
+We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial structures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
 
 ```{r}
 p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
@@ -432,7 +422,7 @@ column="Cell.Type")
 
 ### Mixing score
 
-This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell phenotypes. `compute_mixing_score` returns the mixing score between a reference marker and a target marker. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
+This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
 
 
 ```{r}
@@ -493,7 +483,11 @@ gradient_entropy <- gradient(formatted_image, radii=gradient_positions, entropy,
 
 # Tumour structure
 
-## Clear tumour region
+If the image contains tumour, it may be a clear tumour structure or unclear (dispersed). The function `average_nearest_neighbor_index` can inform us whether there is a clear tumour structure (clustered) or unclear (dispersed), along with a P value for the estimate.
+
+```{r}
+average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
+```
 
 When there is a clear tumour region in the image, we define four tumour structures: "Inside", "Outside", "Infiltration front" and "Invasive front", as shown in the figure below. Why are we interested in defining such structure? For some types of cancer, there can be small clusters of tumour cells, like globes. We may be interested in not only whether immune cells infiltrate into the whole tumour region but also whether the immune cells infiltrate into the small globes. The identification of the tumour structure can be achieved by calculating the distance from each cell to the tumour boundary, after the identification of bordering cells. 
 
@@ -550,18 +544,6 @@ immune_distances <- calculate_summary_distances_of_immune_cells_to_borders(forma
 immune_distances
 ```
 
-## No clear tumour structure
-
-If there is no clear tumour structure we can use `average_nearest_neighbor_index`.
-
-Getting error
-```{r}
-#average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", column="Cell.Type")
-
-#Error in `[.data.frame`(sce_data, , c("Cell.X.Position", "Cell.Y.Position",  : 
- # undefined columns selected
-```
-
 # Cell properties
 
 We can use `measure_association_to_cell_properties` to compare two phenotypes for one of the cell properties, such as Cell.Area (see the HALO and InForm format section above for the cell properties available). Method options are density plot, boxplot, t test or wilcoxon test. 
@@ -581,9 +563,9 @@ measure_association_to_cell_properties(formatted_image,
 
 # Clusters and communities
 
-We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of phenotypes. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
+We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of cell types. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
 
-Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell phenotypes of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
+Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell types of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table.
 
 ```{r}
 clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("T_helper", "T_cyto"), radius = 100, column = "Cell.Type")
