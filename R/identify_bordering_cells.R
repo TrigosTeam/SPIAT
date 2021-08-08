@@ -112,8 +112,6 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
     arc <- ahull$arcs
     ahull_polygon <- get_polygon(xahull,arc)
     
-    # for debugging
-    plot(ahull_polygon)
     # identify the cells that are in the ahull
     intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
     points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position",column)]
