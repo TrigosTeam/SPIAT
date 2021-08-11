@@ -48,7 +48,7 @@ test_that("plot_marker_level_heatmap() creates a plot", {
 
 test_that("plot_distance_heatmap() creates a plot", {
     
-    summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image)
+    summary_distances <- calculate_summary_distances_between_cell_types(formatted_image)
     
     p <- plot_distance_heatmap(summary_distances)
     
