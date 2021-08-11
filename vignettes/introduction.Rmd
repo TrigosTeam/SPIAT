@@ -543,23 +543,6 @@ immune_distances <- calculate_summary_distances_of_immune_cells_to_borders(forma
 immune_distances
 ```
 
-# Cell properties
-
-We can use `measure_association_to_cell_properties` to compare two phenotypes for one of the cell properties, such as Cell.Area (see the HALO and InForm format section above for the cell properties available). Method options are density plot, boxplot, t test or wilcoxon test. 
-
-```{r}
-# boxplot
-measure_association_to_cell_properties(formatted_image, 
-                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Area",
-                                       method = "box")
-# t test
-measure_association_to_cell_properties(formatted_image, 
-                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Area",
-                                       method = "t")
-```
-
 # Clusters and communities
 
 We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of cell types. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
