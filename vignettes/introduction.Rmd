@@ -48,7 +48,7 @@ We can use `format_image_to_sce` to read in and format raw data for SPIAT.`forma
 
 ## Simple import
 
-The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (intensity_matrix), and a vector of 'phenotypes' vector, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form CD3+CD8+, as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. 
+The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form "CD3,CD8", as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. For general format, you also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix.
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
@@ -343,7 +343,6 @@ mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
   
 plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
 ```
-```
 
 # Gradients of cells
 
@@ -366,23 +365,13 @@ average_marker_intensity_within_radius(formatted_image,
                                         radius=30)
 ```
 
-# Neighbourhood proportions
-
-We can characterise cell aggregation in another way, through calculation of the neighbourhood proportion with `percentage_of_cells_within_radius`. Here, we define the proportion of a target cell type within the neighbourhood of a reference cell type within a defined radius. Cells with high neighbourhood proportions of the target cell type can indicate spatial structures.  `percentage_of_cells_within_radius` can be used for the detection of gradients instead of `average_marker_intensity_within_radius`, however we recommend using the latter as it is faster, and it uses marker intensities so does not depend on cell phenotyping. The calculation is performed for each reference cell, so runtime will depend on the number of reference cells present.
-
-```{r}
-p_cells_within_radius <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
-
-p_cells_within_radius
-```
-
 
 # Distances between phenotypes
 
-We can calculate the distances between two phenotypes (phenotype A and phenotype B) by identifying the closest cell of phenotype B to each of the cells of phenotype A with `calculate_all_distances_between_phenotypes`.
+We can calculate the distances between two cell types (cell type A and cell type B) by identifying the closest cell of cell type B to each of the cells of cell type A with `calculate_all_distances_between_cell_types`.
 
 ```{r}
-distances <- calculate_all_distances_between_phenotypes(formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+distances <- calculate_all_distances_between_cell_types(formatted_image, cell_types_of_interest = c("T_helper", "T_cyto"), column="Cell.Type")
 ```
 
 This creates a distribution of minimum distances between phenotypes A and B, which can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of phenotypes. 
@@ -391,12 +380,12 @@ This creates a distribution of minimum distances between phenotypes A and B, whi
 plot_cell_distances_violin(distances)
 ```
 
-From this plot we can see that CD3,CD4 cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between CD3,CD8 cells or between CD3,CD4 and CD3,CD8 cells.
+From this plot we can see that T_helper cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between T_cyto cells or between T_helper and T_cyto cells.
 
-We can also calculate summary statistics for the distances between each combination of phenotypes, the mean, median and standard deviation, with `calculate_summary_distances_between_phenotypes`.
+We can also calculate summary statistics for the distances between each combination of cell types, the mean, median and standard deviation, with `calculate_summary_distances_between_cell_types`.
 
 ```{r}
-summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image, column = "Cell.Type")
+summary_distances <- calculate_summary_distances_between_cell_types(formatted_image, column = "Cell.Type")
 ```
 
 These cell distances can then be visualized as a heatmap with `plot_distance_heatmap`.
@@ -513,7 +502,8 @@ We define the area within a 5-cell distance to the boundary as "infiltration fro
 ```{r}
 names_of_immune_cells <- c("T_helper", "T_cyto", "T_cell")
 
-formatted_structure <- define_structure(formatted_distance, names_of_immune_cells = names_of_immune_cells)
+formatted_structure <- define_structure(formatted_distance, names_of_immune_cells = names_of_immune_cells, 
+n_margin_layers = 5)
 
 categories <- print_column(formatted_structure, "Structure")
 ```
@@ -542,23 +532,6 @@ We can calculate summaries of the distances for immune cells in the tumour struc
 immune_distances <- calculate_summary_distances_of_immune_cells_to_borders(formatted_structure, names_of_immune_cells, "Cell.Type")
 
 immune_distances
-```
-
-# Cell properties
-
-We can use `measure_association_to_cell_properties` to compare two phenotypes for one of the cell properties, such as Cell.Area (see the HALO and InForm format section above for the cell properties available). Method options are density plot, boxplot, t test or wilcoxon test. 
-
-```{r}
-# boxplot
-measure_association_to_cell_properties(formatted_image, 
-                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Area",
-                                       method = "box")
-# t test
-measure_association_to_cell_properties(formatted_image, 
-                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-                                       property = "Cell.Area",
-                                       method = "t")
 ```
 
 # Clusters and communities
