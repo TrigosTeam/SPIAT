@@ -382,10 +382,10 @@ plot_cell_distances_violin(distances)
 
 From this plot we can see that T_helper cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between T_cyto cells or between T_helper and T_cyto cells.
 
-We can also calculate summary statistics for the distances between each combination of cell types, the mean, median and standard deviation, with `calculate_summary_distances_between_phenotypes`.
+We can also calculate summary statistics for the distances between each combination of cell types, the mean, median and standard deviation, with `calculate_summary_distances_between_cell_types`.
 
 ```{r}
-summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image, column = "Cell.Type")
+summary_distances <- calculate_summary_distances_between_cell_types(formatted_image, column = "Cell.Type")
 ```
 
 These cell distances can then be visualized as a heatmap with `plot_distance_heatmap`.
