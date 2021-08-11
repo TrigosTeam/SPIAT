@@ -368,10 +368,10 @@ average_marker_intensity_within_radius(formatted_image,
 
 # Distances between phenotypes
 
-We can calculate the distances between two phenotypes (phenotype A and phenotype B) by identifying the closest cell of phenotype B to each of the cells of phenotype A with `calculate_all_distances_between_phenotypes`.
+We can calculate the distances between two cell types (cell type A and cell type B) by identifying the closest cell of cell type B to each of the cells of cell type A with `calculate_all_distances_between_cell_types`.
 
 ```{r}
-distances <- calculate_all_distances_between_phenotypes(formatted_image, remove_other = TRUE, cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+distances <- calculate_all_distances_between_cell_types(formatted_image, cell_types_of_interest = c("T_helper", "T_cyto"), column="Cell.Type")
 ```
 
 This creates a distribution of minimum distances between phenotypes A and B, which can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of phenotypes. 
@@ -380,7 +380,7 @@ This creates a distribution of minimum distances between phenotypes A and B, whi
 plot_cell_distances_violin(distances)
 ```
 
-From this plot we can see that CD3,CD4 cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between CD3,CD8 cells or between CD3,CD4 and CD3,CD8 cells.
+From this plot we can see that T_helper cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between T_cyto cells or between T_helper and T_cyto cells.
 
 We can also calculate summary statistics for the distances between each combination of phenotypes, the mean, median and standard deviation, with `calculate_summary_distances_between_phenotypes`.
 
