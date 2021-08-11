@@ -4,14 +4,14 @@
 \alias{define_structure}
 \title{define_structure}
 \usage{
-define_structure(sce_object, names_of_immune_cells, n_invasive = 5)
+define_structure(sce_object, names_of_immune_cells, n_margin_layers = 5)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{names_of_immune_cells}{vector indicating the names of potential immune cells}
+\item{names_of_immune_cells}{Vector indicating the names of potential immune cells}
 
-\item{n_invasive}{Number specifying the number of cells that are included in the invasive front}
+\item{n_margin_layers}{Integer Specifying the number of layers of cells that compose the internal/external margins}
 }
 \description{
 Identify the cells that compose the invasive front, the infiltration and the exclusion
