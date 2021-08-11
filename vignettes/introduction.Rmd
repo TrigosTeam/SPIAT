@@ -343,7 +343,6 @@ mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
   
 plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
 ```
-```
 
 # Gradients of cells
 
@@ -513,7 +512,7 @@ We define the area within a 5-cell distance to the boundary as "infiltration fro
 ```{r}
 names_of_immune_cells <- c("T_helper", "T_cyto", "T_cell")
 
-formatted_structure <- define_structure(formatted_distance, names_of_immune_cells = names_of_immune_cells)
+formatted_structure <- define_structure(formatted_distance, names_of_immune_cells = names_of_immune_cells, n_invasive = 5)
 
 categories <- print_column(formatted_structure, "Structure")
 ```
