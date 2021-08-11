@@ -1,4 +1,4 @@
-#' calculate_summary_distances_between_phenotypes
+#' calculate_summary_distances_between_cell_types
 #'
 #' @description Returns the mean, median and stardard deviation of the distances between phenotypes
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
@@ -19,7 +19,7 @@
 #' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
 #' @export
 
-calculate_summary_distances_between_phenotypes <- function(sce_object, column="Phenotype", all_marker_combinations = TRUE,
+calculate_summary_distances_between_cell_types <- function(sce_object, column="Phenotype", all_marker_combinations = TRUE,
                                                    combinations_of_interest = NULL) {
 
     formatted_data <- data.frame(colData(sce_object))
