@@ -30,7 +30,7 @@ SPIAT includes novel algorithms for the identification of cell clusters, cell ma
 
 
 ```{r echo=FALSE, fig.align="center"}
-knitr::include_graphics("../inst/vignettes/Package diagram 2021.png")
+knitr::include_graphics("../inst/vignettes/package_diagram_2021.png")
 ```
 
 # Setting up the data
