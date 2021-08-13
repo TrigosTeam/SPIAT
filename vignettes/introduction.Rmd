@@ -1,6 +1,6 @@
 ---
 title: "Overview of the SPIAT package"
-author: "Anna Trigos, Tom Yang, Yuzhou Feng, Volkan Ozcoban, Maria Doyle"
+author: "Anna Trigos, Yuzhou Feng, Tom Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle"
 date: "`r BiocStyle::doc_date()`"
 package: SPIAT
 output:
@@ -592,6 +592,6 @@ sessionInfo()
 ```
 
 # Author Contributions
-AT, TY, YF, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
+AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
 
 # References
