@@ -28,7 +28,10 @@ The Opal multiplex immunohistochemistry staining protocol enables 6-8 tissue mar
 
 SPIAT includes novel algorithms for the identification of cell clusters, cell margins and cell gradients, the calculation of neighbourhood proportions, and algorithms for the prediction of cell phenotypes in tissue images. SPIAT also includes speedy implementations of the calculation of cell distances and detection of cell communities. An overview of the functions available is shown in the figure below. 
 
-<img width="600" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F1.large.jpg"/>
+
+```{r echo=FALSE, fig.align="center"}
+knitr::include_graphics("../inst/vignettes/Package diagram 2021.png")
+```
 
 # Setting up the data
 
