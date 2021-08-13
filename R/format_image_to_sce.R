@@ -128,7 +128,7 @@ format_image_to_sce <- function(format = "INFORM",
     colnames(intensity_status_cols) <- markers
     
     #grab relevant columns
-    cell_properties_cols <- c("Nucleus.Area", "Cytoplasm.Area", "Cell.Area")
+    cell_properties_cols <- colnames(image)[grep("Nucleus.Area|Cytoplasm.Area|Cell.Area", colnames(image))]
     image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax", cell_properties_cols)]
     
     #rename Object.ID to Cell.ID

@@ -142,7 +142,7 @@ formatted_image <- format_image_to_sce(
 
 #### Cell properties columns
 
-The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area and Membrane Perimeter. 
+The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area. 
 
 
 ## Splitting images
