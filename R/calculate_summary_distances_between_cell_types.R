@@ -16,7 +16,7 @@
 #' @importFrom tibble rownames_to_column
 #' @return A data.frame is returned
 #' @examples
-#' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
+#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
 #' @export
 
 calculate_summary_distances_between_cell_types <- function(sce_object, column="Phenotype", all_marker_combinations = TRUE,
