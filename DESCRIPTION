@@ -76,7 +76,6 @@ Imports:
     xROI,
     Seurat,
     Rphenograph,
-    hull2spatial,
     divo, 
     ggpubr,
     magrittr
