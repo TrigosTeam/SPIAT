@@ -12,7 +12,6 @@
 #' @importFrom xROI drawPolygon
 #' @import sp
 #' @importFrom dplyr intersect
-#' @import hull2spatial
 #' @export
 
 identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons = 1, ahull_alpha = NULL, column = "Cell.Type"){
@@ -101,11 +100,6 @@ identify_bordering_cells <- function(sce_object, reference_cell, n_of_polygons =
     
     # fix ahull
     ahull <- fix_ahull(ahull)
-    
-    # change ahull into spatial lines and create polygon from that
-    #ahull_line <- ahull2lines(ahull)
-    #ahull_polygon <- ahull_line@lines[[1]]@Lines[[1]]@coords
-    #str(ahull_polygon)
     
     # my polygon function
     xahull <- ahull$xahull
