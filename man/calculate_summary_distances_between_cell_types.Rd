@@ -30,5 +30,5 @@ A data.frame is returned
 Returns the mean, median and stardard deviation of the distances between phenotypes
 }
 \examples{
-summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
+summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
 }

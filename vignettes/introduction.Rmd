@@ -1,6 +1,6 @@
 ---
 title: "Overview of the SPIAT package"
-author: "Anna Trigos, Tom Yang, Yuzhou Feng, Volkan Ozcoban, Maria Doyle"
+author: "Anna Trigos, Yuzhou Feng, Tom Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle"
 date: "`r BiocStyle::doc_date()`"
 package: SPIAT
 output:
@@ -28,7 +28,10 @@ The Opal multiplex immunohistochemistry staining protocol enables 6-8 tissue mar
 
 SPIAT includes novel algorithms for the identification of cell clusters, cell margins and cell gradients, the calculation of neighbourhood proportions, and algorithms for the prediction of cell phenotypes in tissue images. SPIAT also includes speedy implementations of the calculation of cell distances and detection of cell communities. An overview of the functions available is shown in the figure below. 
 
-<img width="600" alt="overview" src="https://www.biorxiv.org/content/biorxiv/early/2020/05/30/2020.05.28.122614/F1.large.jpg"/>
+
+```{r echo=FALSE, fig.align="center"}
+knitr::include_graphics("../inst/vignettes/package_diagram_2021.png")
+```
 
 # Setting up the data
 
@@ -48,7 +51,7 @@ We can use `format_image_to_sce` to read in and format raw data for SPIAT.`forma
 
 ## Simple import
 
-The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form "CD3,CD8", as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. For general format, you also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix.
+The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form "CD3,CD8", as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. For general format, you also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix. If you have Xmin and Xmax columns (and Ymin, Ymax) you can calculate the average and input that. 
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
@@ -142,7 +145,7 @@ formatted_image <- format_image_to_sce(
 
 #### Cell properties columns
 
-The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area and Membrane Perimeter. 
+The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area. 
 
 
 ## Splitting images
@@ -339,9 +342,9 @@ The stacked surface plots of the AMACR (tumour cell) and CD3 (T cell) markers in
 We can see the location of all cell types (or any column in the data) in the tissue with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the cell types of interest will be put in the category "OTHER" and coloured lightgrey.
 
 ```{r}
-mycolors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
+my_colors <- c("darkgrey", "skyBlue", "darkcyan", "white", "orange")
   
-plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), mycolors, "Cell.Type")
+plot_cell_basic(formatted_image, c("Tumour", "T_helper", "T_cyto", "T_other", "PDL1"), my_colors, "Cell.Type")
 ```
 
 # Gradients of cells
@@ -500,7 +503,7 @@ formatted_distance <- calculate_min_distance_to_borders(formatted_border)
 We define the area within a 5-cell distance to the boundary as "infiltration front" (inside) and "invasive front" (outside). The areas located more than a 5 cell-distance away from the boundary are defined as "in" (inside) and "out" (outside).
 
 ```{r}
-names_of_immune_cells <- c("T_helper", "T_cyto", "T_cell")
+names_of_immune_cells <- c("T_helper", "T_cyto")
 
 formatted_structure <- define_structure(formatted_distance, names_of_immune_cells = names_of_immune_cells, 
 n_margin_layers = 5)
@@ -511,7 +514,7 @@ categories <- print_column(formatted_structure, "Structure")
 We can plot and colour these structure categories.
 
 ```{r}
-my_colors <- c("yellow", "darkblue", "darkgreen", "black", "purple", "orange", "darkgreen","pink", "green")
+my_colors <- c("lightgrey", "black", "darkgrey", "yellow", "purple")
 
 plot_cell_basic(formatted_structure, categories, 
                   my_colors,
@@ -592,6 +595,6 @@ sessionInfo()
 ```
 
 # Author Contributions
-AT, TY, YF, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
+AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD wrote the vignette. AT designed the package.
 
 # References
