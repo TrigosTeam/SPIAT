@@ -52,7 +52,7 @@ test_that("average_minimum_distance() works", {
 })
 
 
-test_that("calculate_summary_distances_between_phenotypes() works", {
+test_that("calculate_summary_distances_between_cell_types() works", {
     
     res <- data.frame(Target = c("OTHER", "OTHER", "OTHER"),
                       Nearest = c("AMACR", "CD3,CD4", "CD3,CD8"),
@@ -60,7 +60,7 @@ test_that("calculate_summary_distances_between_phenotypes() works", {
                       Std.Dev = c(123.531481047835, 61.6136499595389, 124.074239935635),
                       Median = c(85.8661749468322, 52.3545604508337, 97.0463806640928))
     
-    summary_distances <- calculate_summary_distances_between_phenotypes(formatted_image)
+    summary_distances <- calculate_summary_distances_between_cell_types(formatted_image)
     rownames(summary_distances) <- NULL
     
     expect_equal(summary_distances[1:3, ], res, tolerance=1e-3)
@@ -68,17 +68,17 @@ test_that("calculate_summary_distances_between_phenotypes() works", {
 })
 
 
-test_that("calculate_all_distances_between_phenotypes() works", {
+test_that("calculate_all_distances_between_cell_types() works", {
     
     cells <- c("Cell_174", "Cell_264", "Cell_305")
-    res <- data.frame(Var1 = factor(cells, levels=cells),  
-                      Var2 = factor(c(rep("Cell_78", 3))),
+    res <- data.frame(Cell1 = factor(cells, levels=cells),  
+                      Cell2 = factor(c(rep("Cell_78", 3))),
                       Distance = c(1392.07040, 40.26164, 993.83399), 
                       Pair = rep("CD3,CD4_CD3,CD4", 3))
     
-    distances <- calculate_all_distances_between_phenotypes(formatted_image,
-                                                            remove_other = TRUE,
-                                                            cell_phenotypes_of_interest = c("CD3,CD4", "CD3,CD8"))
+    distances <- calculate_all_distances_between_cell_types(formatted_image,
+                                                            cell_types_of_interest = c("CD3,CD4", "CD3,CD8"),
+                                                            column="Phenotype")
     distances <- distances[1:3, ]
     distances <- droplevels(distances)
     rownames(distances) <- NULL
@@ -136,12 +136,10 @@ test_that("marker_permutation() works", {
 })
 
 
-test_that("percentage_of_cells_within_radius() works", {
+test_that("average_percentage_of_cells_within_radius() works", {
     
-    res <- setNames(c(5.357143, 36.734694, 0.00000, 0.00000 ), c("Cell_664","Cell_2760", "Cell_2992", "Cell_3147"))
+    percent_cells <- average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100, column="Phenotype")
     
-    percent_cells <- percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100)
-    
-    expect_equal(percent_cells, res, tolerance=1e-7)
+    expect_equal(percent_cells, 10.52296, tolerance=1e-7)
     
 })
