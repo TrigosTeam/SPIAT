@@ -54,6 +54,7 @@ calculate_summary_distances_to_borders <- function(sce_object, types_of_interest
   
   
   df <-  rbind(df[ ,df.cols], c(min_d, max_d, mean_d, median_d, st.dev_d))
+  rownames(df) <- c("empty","Inside","Outside")
   df <- df[-1,]   
   
   
