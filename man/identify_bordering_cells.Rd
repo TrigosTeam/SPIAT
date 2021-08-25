@@ -7,6 +7,7 @@
 identify_bordering_cells(
   sce_object,
   reference_cell,
+  draw = F,
   n_of_polygons = 1,
   ahull_alpha = NULL,
   column = "Cell.Type"
@@ -16,6 +17,8 @@ identify_bordering_cells(
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{reference_cell}{Cells positive for this marker will be used as reference}
+
+\item{draw}{Boolean if user chooses to draw the tumour area or not. Default is False.}
 
 \item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
 
