@@ -7,13 +7,14 @@
 #' @param types_of_interest Vector of cell cell types to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @param column String specifying the column to be coloured
+#' @cex Number the size of the points on the plot
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom graphics legend par 
 #' @return A plot is returned
 #' @export
 
-plot_cell_basic <- function (sce_object, types_of_interest, colour_vector, column) {
+plot_cell_basic <- function (sce_object, types_of_interest, colour_vector, column, cex = 0.4) {
   
   
   Cell.X.Position <- Cell.Y.Position <- NULL
@@ -63,7 +64,7 @@ plot_cell_basic <- function (sce_object, types_of_interest, colour_vector, colum
   name_of_object <- attr(sce_object, "name")
   
   plot(formatted_data$Cell.X.Position,formatted_data$Cell.Y.Position,
-       pch = 19,cex = 0.4, col = formatted_data$color, 
+       pch = 19,cex = cex, col = formatted_data$color, 
        xlab = "X Position", ylab = "Y Position",
        main = paste("Plot", name_of_object, "by" ,column))
   
