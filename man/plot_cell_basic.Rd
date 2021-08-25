@@ -4,7 +4,13 @@
 \alias{plot_cell_basic}
 \title{plot_cell_basic}
 \usage{
-plot_cell_basic(sce_object, types_of_interest, colour_vector, column)
+plot_cell_basic(
+  sce_object,
+  types_of_interest,
+  colour_vector,
+  column,
+  cex = 0.4
+)
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
