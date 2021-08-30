@@ -122,10 +122,10 @@ test_that("identify_cell_communities() works", {
 test_that("marker_permutation() works", {
     
     res <- data.frame(row.names = c("CD3", "PDL-1", "CD4", "CD8"),
-                      Percentage_of_occurrence = c(100, 90, 100, 100),
                       Observed_cell_number = c(19, 4, 0, 0),
-                      Average_bootstrap_cell_number = c(291.78, 1.75, 216.96, 54.72),
-                      Enrichment.p = c(1, 0.06, 1, 1), 
+                      Percentage_of_iterations_where_present = c(100, 88, 100, 100),
+                      Average_bootstrap_cell_number = c(292.52, 1.71, 216.97, 55.81),
+                      Enrichment.p = c(1, 0.05, 1, 1), 
                       Depletion.p = c(0.01, 1, 0.01, 0.01))
     
     sig <- marker_permutation(formatted_image, num_iter = 100)
