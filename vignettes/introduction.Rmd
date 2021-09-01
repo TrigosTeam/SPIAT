@@ -411,7 +411,7 @@ column="Cell.Type")
 
 ## Mixing score
 
-This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types.
+This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types. The normalised score is normalised for the number of target and reference cells in the image.
 
 
 ```{r}
