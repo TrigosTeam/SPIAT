@@ -45,6 +45,16 @@ format_image_to_sce <- function(format = "INFORM",
                                 coord_x = NULL,
                                 coord_y = NULL){
   
+  # function to remove rows where intensity is NA
+  remove_intensity_na <- function(intensity_columns) {
+      n_before <- nrow(intensity_columns)
+      intensity_columns <- na.omit(intensity_columns)
+      n_after <- length(attributes(na.omit(intensity_columns))$row.names)
+      n <- n_before - n_after
+      message(sprintf("Note: %i rows removed due to NA intensity values.",n))
+      return(intensity_columns)
+  }
+  
   #process the data based on data format
   if (format == "HALO"){
     #following is from format_HALO_new
@@ -116,12 +126,18 @@ format_image_to_sce <- function(format = "INFORM",
     image <- image[DAPI_non_zero_rows,]
     
     #extract intensities
-    intensity_of_markers <- image[,intensity_columns_interest]
-    colnames(intensity_of_markers) <- markers
+    intensity_of_markers <- image[, c("Object.Id", intensity_columns_interest)]
+    colnames(intensity_of_markers) <- c("Object.Id", markers)
     intensity_of_markers[intensity_of_markers == "#N/A"] <- NA
+    intensity_of_markers <- remove_intensity_na(intensity_of_markers)
     intensity_of_markers <- apply(intensity_of_markers, 2, function(x){
       as.numeric(as.character(x))
     })
+    
+    # remove intensity NA rows from image
+    image <- subset(image, Object.Id %in% intensity_of_markers[, "Object.Id"])
+    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Object.Id")]
+  
     
     #get the intensity status columns
     intensity_status_cols <- image[,dye_columns_interest]
@@ -239,12 +255,17 @@ format_image_to_sce <- function(format = "INFORM",
     }
     
     ###added: extract intensities
-    intensity_of_markers <- image[,intensity_columns_interest]
-    colnames(intensity_of_markers) <- markers
+    intensity_of_markers <- image[,c("Cell ID", intensity_columns_interest)]
+    colnames(intensity_of_markers) <- c("Cell ID", markers)
     intensity_of_markers[intensity_of_markers == "#N/A"] <- NA
+    intensity_of_markers <- remove_intensity_na(intensity_of_markers)
     intensity_of_markers <- apply(intensity_of_markers, 2, function(x){
       as.numeric(as.character(x))
     })
+    
+    # remove intensity NA rows from image
+    image <- subset(image, `Cell ID` %in% intensity_of_markers[, "Cell ID"])
+    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Cell ID")]
     
     #extract the columns of interest and discard the rest
     colnames(image) <- make.names(colnames(image))
@@ -379,13 +400,17 @@ format_image_to_sce <- function(format = "INFORM",
       }
       
       #extract intensities
-      intensity_of_markers <- image[,intensity_columns_interest]
-      colnames(intensity_of_markers) <- markers
+      intensity_of_markers <- image[,c("ObjectNumber", intensity_columns_interest)]
+      colnames(intensity_of_markers) <- c("ObjectNumber", markers)
       intensity_of_markers[intensity_of_markers == "#N/A"] <- NA
+      intensity_of_markers <- remove_intensity_na(intensity_of_markers)
       intensity_of_markers <- apply(intensity_of_markers, 2, function(x){
         as.numeric(as.character(x))
       })
     
+      # remove intensity NA rows from image
+      image <- subset(image, ObjectNumber %in% intensity_of_markers[, "ObjectNumber"])
+      intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "ObjectNumber")]
       
       #grab relevant columns
       image <- image[,c("ObjectNumber", "Location_Center_X", "Location_Center_Y")]
@@ -429,6 +454,7 @@ format_image_to_sce <- function(format = "INFORM",
       
       
   } else if(format == "general"){
+    intensity_matrix <- remove_intensity_na(intensity_matrix)
     sce <- SingleCellExperiment(assays = list(counts = intensity_matrix))
     
     rownames(sce) <- rownames(intensity_matrix)
