@@ -78,7 +78,8 @@ Imports:
     Rphenograph,
     divo, 
     ggpubr,
-    magrittr
+    magrittr,
+    hull2spatial
 Suggests:
     BiocStyle,
     knitr,
