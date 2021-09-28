@@ -210,9 +210,9 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     for (marker in markers) {
       print(marker)
       #exclude markers that are not reference markers
-      # if (marker == tumour_marker) {
-      #   next
-      # }
+      #if (marker == tumour_marker) {
+      #  next
+      #}
 
       #names of columns
       marker_status_name <- paste(marker, "_status", 
