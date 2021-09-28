@@ -5,8 +5,6 @@ test_that("calculate_cell_proportions() works", {
     res <- data.frame(row.names = c(1L, 5L, 3L, 4L, 2L, 6L),
                           Cell_type = factor(c("AMACR", "OTHER", "CD3,CD4", "CD3,CD8", "CD3", "PDL-1")), 
                           Number_of_celltype = c(4446, 3299, 513, 138, 19, 4),
-                          Reference = rep("Total", 6),
-                          Number_of_reference = rep(8419, 6),
                           Proportion = c(0.52809122223542, 
                                      0.391851763867443, 0.0609336025656254, 0.0163914954270103, 0.00225680009502316, 
                                      0.00047511580947856), 
@@ -54,7 +52,7 @@ test_that("average_minimum_distance() works", {
 
 test_that("calculate_summary_distances_between_cell_types() works", {
     
-    res <- data.frame(Target = c("OTHER", "OTHER", "OTHER"),
+    res <- data.frame(Reference = c("OTHER", "OTHER", "OTHER"),
                       Nearest = c("AMACR", "CD3,CD4", "CD3,CD8"),
                       Mean = c(130.418076521445, 70.5496420825272, 134.633340256936), 
                       Std.Dev = c(123.531481047835, 61.6136499595389, 124.074239935635),
