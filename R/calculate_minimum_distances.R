@@ -2,9 +2,7 @@
 #'
 #' @description Returns the distance of the closest cell of a specific type from each reference cell
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param all_marker_combinations If TRUE, the distances between all possible combinations of markers
-#' will be calculated
-#' @param cell_types_of_interest Vector of marker combinations to consider if all_marker_combinations
+#' @param cell_types_of_interest Vector of marker combinations to consider
 #' is FALSE
 #' @param column Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)
 #' @importFrom apcluster negDistMat

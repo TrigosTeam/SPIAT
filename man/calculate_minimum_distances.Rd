@@ -15,11 +15,8 @@ calculate_minimum_distances(
 
 \item{column}{Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)}
 
-\item{cell_types_of_interest}{Vector of marker combinations to consider if all_marker_combinations
+\item{cell_types_of_interest}{Vector of marker combinations to consider
 is FALSE}
-
-\item{all_marker_combinations}{If TRUE, the distances between all possible combinations of markers
-will be calculated}
 }
 \value{
 A data.frame is returned
