@@ -7,7 +7,7 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' summary_distances <- calculate_summary_distances_between_phenotypes(SPIAT::formatted_image)
+#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
 #' plot_distance_heatmap(summary_distances)
 #' @export
 
