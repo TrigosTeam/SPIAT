@@ -8,6 +8,7 @@
 #' @param n_of_polygons Number specifying the number of tumour regions defined by user
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
 #' @param column Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc
+#' @param Large.sample Number specifying the proportion of referece cells to be sampled if large image. Default is NULL
 #' @import SingleCellExperiment
 #' @import alphahull
 #' @importFrom xROI drawPolygon
@@ -15,7 +16,9 @@
 #' @importFrom dplyr intersect
 #' @export
 
-identify_bordering_cells <- function(sce_object, reference_cell, draw = F, n_of_polygons = 1, ahull_alpha = NULL, column = "Cell.Type"){
+identify_bordering_cells <- function(sce_object, reference_cell, draw = F, 
+                                     n_of_polygons = 1, ahull_alpha = NULL, 
+                                     column = "Cell.Type", Large.sample = NULL){
   # CHECK
   if (is.null(colData(sce_object)[,column])){
     stop("Please define the cell types!")
@@ -49,6 +52,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, draw = F, n_of_
       l[[i]] <- poly
     }
   }
+  
   polys <- Polygons(l,ID = c("a"))
   sp <- SpatialPolygons(list(polys))
   
@@ -107,25 +111,31 @@ identify_bordering_cells <- function(sce_object, reference_cell, draw = F, n_of_
     arc <- ahull$arcs
     ahull_polygon <- get_polygon(xahull,arc)
     
+    points_in_polygon <- data.frame()
     # identify the cells that are in the ahull
-    intumour = point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, ahull_polygon[,1], ahull_polygon[,2])
-    points_in_polygon = allcells_in_polygon[which(intumour == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position",column)]
+    for (i in c(1:length(ahull_polygon))){
+      p <- ahull_polygon[[i]]
+      in_p <- point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, p[,1], p[,2])
+      points_in_polygon <- unique(rbind(points_in_polygon,
+                                 allcells_in_polygon[which(in_p == 1),c("Phenotype","Cell.X.Position","Cell.Y.Position",column)]))
+      
+    }
+
     tumour_in_polygon_df = as.data.frame(tumour_in_polygon)
     points_in_polygon_df = as.data.frame(points_in_polygon)
-    cells_in_boundary = rbind(tumour_in_polygon_df, points_in_polygon_df)
-    cells_in_boundary = unique(cells_in_boundary)
+    cells_in_boundary = unique(rbind(tumour_in_polygon_df, points_in_polygon_df))
+
     in_border_ids <- rownames(cells_in_boundary)
     data[in_border_ids,"Region"] <- "Inside"
     data[border_ids,"Region"] <- "Border"
   }
   
-  
   ##### plot and return #####
-  colData(sce_object)$Region <- data[,"Region"]
+  sce_object$Region <- data$Region
   plot(data[which(data$Region=="Border"), c("Cell.X.Position","Cell.Y.Position")], 
        pch = 19, cex = 0.3, main = paste(attr(sce_object, "name"),"tumour bordering cells"))
-  
+
   # for debugging
-  out <- list(arc,xahull)
+  #out <- list(arc,xahull)
   return(sce_object)
 }

@@ -50,11 +50,33 @@ fix_ahull <- function(ahull){ # the order of cells returned by ahull is messy
 }
 
 get_polygon <- function(xahull, arc){ # this function gets the coordinates that on ahull
-  cell_ID = c()
-  locs <- c()
-  for (i in 1: (dim(arc)[1])){
-    cell_ID = arc[i,7]
-    locs <- rbind(locs,xahull[cell_ID,c(1,2)])
+  df_list <- list()
+  n <- 0
+  s <- 1
+  for (i in 1: (dim(arc)[1]-1)){
+    if (arc[i,8] != arc[i+1,7]){
+      if (i-s > 5){
+        n <- n+1
+        df_list[[n]] <- arc[c(s:i),]
+      }
+      s <- i+1
+    }
   }
-  return(locs)
+  if (length(df_list) == 0) df_list[[1]] <- arc
+  poly_list <- list()
+  c <- 0 
+  for (j in c(1:length(df_list))){
+    df <- df_list[[j]]
+    c <- c+1
+    cell_ID = c()
+    locs <- c()
+    for (i in 1:(dim(df)[1])){
+      cell_ID = df[i,7]
+      locs <- rbind(locs,xahull[cell_ID,c(1,2)])
+    }
+    poly_list[[c]] <- locs
+    polygon(locs)
+    
+  }
+  return(poly_list)
 }
