@@ -20,6 +20,8 @@ plot_cell_basic(
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 
 \item{column}{String specifying the column to be coloured}
+
+\item{cex}{Number specifying the size of the points on the plot. Default is 0.4.}
 }
 \value{
 A plot is returned

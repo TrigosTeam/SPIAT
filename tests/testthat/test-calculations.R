@@ -5,8 +5,6 @@ test_that("calculate_cell_proportions() works", {
     res <- data.frame(row.names = c(1L, 5L, 3L, 4L, 2L, 6L),
                           Cell_type = factor(c("AMACR", "OTHER", "CD3,CD4", "CD3,CD8", "CD3", "PDL-1")), 
                           Number_of_celltype = c(4446, 3299, 513, 138, 19, 4),
-                          Reference = rep("Total", 6),
-                          Number_of_reference = rep(8419, 6),
                           Proportion = c(0.52809122223542, 
                                      0.391851763867443, 0.0609336025656254, 0.0163914954270103, 0.00225680009502316, 
                                      0.00047511580947856), 
@@ -54,7 +52,7 @@ test_that("average_minimum_distance() works", {
 
 test_that("calculate_summary_distances_between_cell_types() works", {
     
-    res <- data.frame(Target = c("OTHER", "OTHER", "OTHER"),
+    res <- data.frame(Reference = c("OTHER", "OTHER", "OTHER"),
                       Nearest = c("AMACR", "CD3,CD4", "CD3,CD8"),
                       Mean = c(130.418076521445, 70.5496420825272, 134.633340256936), 
                       Std.Dev = c(123.531481047835, 61.6136499595389, 124.074239935635),
@@ -122,10 +120,10 @@ test_that("identify_cell_communities() works", {
 test_that("marker_permutation() works", {
     
     res <- data.frame(row.names = c("CD3", "PDL-1", "CD4", "CD8"),
-                      Percentage_of_occurrence = c(100, 90, 100, 100),
                       Observed_cell_number = c(19, 4, 0, 0),
-                      Average_bootstrap_cell_number = c(291.78, 1.75, 216.96, 54.72),
-                      Enrichment.p = c(1, 0.06, 1, 1), 
+                      Percentage_of_iterations_where_present = c(100, 88, 100, 100),
+                      Average_bootstrap_cell_number = c(292.52, 1.71, 216.97, 55.81),
+                      Enrichment.p = c(1, 0.05, 1, 1), 
                       Depletion.p = c(0.01, 1, 0.01, 0.01))
     
     sig <- marker_permutation(formatted_image, num_iter = 100)

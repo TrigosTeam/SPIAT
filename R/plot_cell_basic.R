@@ -7,7 +7,7 @@
 #' @param types_of_interest Vector of cell cell types to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @param column String specifying the column to be coloured
-#' @cex Number the size of the points on the plot
+#' @param cex Number specifying the size of the points on the plot. Default is 0.4.
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
 #' @importFrom graphics legend par 

@@ -1,10 +1,8 @@
-#' calculate_summary_distances_between_cell_types
+#' calculate_minimum_distances
 #'
-#' @description Returns the mean, median and stardard deviation of the distances between phenotypes
+#' @description Returns the distance of the closest cell of a specific type from each reference cell
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param all_marker_combinations If TRUE, the distances between all possible combinations of markers
-#' will be calculated
-#' @param combinations_of_interest Vector of marker combinations to consider if all_marker_combinations
+#' @param cell_types_of_interest Vector of marker combinations to consider
 #' is FALSE
 #' @param column Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)
 #' @importFrom apcluster negDistMat
@@ -16,11 +14,10 @@
 #' @importFrom tibble rownames_to_column
 #' @return A data.frame is returned
 #' @examples
-#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
 #' @export
 
-calculate_summary_distances_between_cell_types <- function(sce_object, column="Phenotype", all_marker_combinations = TRUE,
-                                                           combinations_of_interest = NULL) {
+calculate_minimum_distances <- function(sce_object, column="Phenotype",
+                                                           cell_types_of_interest = NULL) {
   
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
@@ -33,27 +30,18 @@ calculate_summary_distances_between_cell_types <- function(sce_object, column="P
   
   #Get the list of cells under each cell type
   cell_types = list()
-  if (all_marker_combinations) {
-    #assign cells to each cell type based on the markers expressed
-    for (eachType in unique(formatted_data$Cell_type)) {
+  #assign cells to each specified cell type
+  for (eachType in cell_types_of_interest) {
       cell_types[[eachType]] = as.character(formatted_data$Cell.ID[formatted_data[,column] == eachType])
     }
-    print("All markers are used in pair-wise distance calculation: ")
-    print(unique(formatted_data$Cell_type))
-  }else{
-    #assign cells to each specified cell type
-    for (eachType in combinations_of_interest) {
-      cell_types[[eachType]] = as.character(formatted_data$Cell.ID[formatted_data[,column] == eachType])
-    }
-    #keep those cells that are selected
-    formatted_data <- formatted_data[formatted_data[,column] %in% combinations_of_interest, ]
-    #CHECK
-    if (nrow(formatted_data) == 0){
+  #keep those cells that are selected
+  formatted_data <- formatted_data[formatted_data[,column] %in% cell_types_of_interest, ]
+  #CHECK
+  if (nrow(formatted_data) == 0){
       stop("No cells belong to the specified marker combinations of interest")
     }
-    print("Markers had been selected in pair-wise distance calculation: ")
-    print(unique(formatted_data$Cell_type))
-  }
+  print("Markers had been selected in pair-wise distance calculation: ")
+  print(unique(formatted_data$Cell_type))
   
   #permutation for the different cell type combinations
   permu = permutations(length(unique(formatted_data$Cell_type)), 2, repeats.allowed = TRUE)
@@ -70,7 +58,11 @@ calculate_summary_distances_between_cell_types <- function(sce_object, column="P
     
     #No need to calculate min distance when they're the same cell type
     if (name1 == name2) {
-      local_result = data.frame(Reference = name1, Nearest = name2, Mean = NA, Std.Dev = NA, Median = NA)
+       local_dist_mins <- data.frame(RefCell=NA,
+                                    RefType = name1,
+                                    NearestCell = NA,
+                                    NearestType = name2,
+                                    Dist = NA)
     } else {
       #vector to store all mins
       local_dist_min <- vector()
@@ -81,11 +73,17 @@ calculate_summary_distances_between_cell_types <- function(sce_object, column="P
       #find all of closest points
       all_closest <- nn2(data = all_celltype2_cord, query = all_celltype1_cord, k = 1)
       
-      local_dist_mins <- all_closest$nn.dists
+      all_celltype2_cord2 <- formatted_data[formatted_data[,column] == name2, c("Cell.ID", "Cell.X.Position", "Cell.Y.Position")]
       
-      local_result <- data.frame(Reference = name1, Nearest = name2, Mean = mean(local_dist_mins), Std.Dev = sd(local_dist_mins), Median = median(local_dist_mins))
+      local_dist_mins <- all_closest$nn.dists
+      local_dist_mins <- as.vector(local_dist_mins)
+      local_dist_mins <- data.frame(RefCell=formatted_data[formatted_data[,column] == name1, c("Cell.ID")],
+                                    RefType = name1,
+                                    NearestCell = all_celltype2_cord2$Cell.ID[as.vector(all_closest$nn.idx)],
+                                    NearestType = name2,
+                                    Dist = local_dist_mins)
     }
-    result <- rbind(result, local_result)
+    result <- rbind(result, local_dist_mins)
   }
   
   # remove NAs e.g. for distance of cell against itself
