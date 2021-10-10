@@ -38,7 +38,7 @@ calculate_min_distance_to_borders <- function(sce_object, split = NULL){
   
   if (is.null(split)){
     dist_matrix <- crossdist.default(first_dataset[,"Cell.X.Position"], first_dataset[,"Cell.Y.Position"], 
-                             second_dataset[,"Cell.X.Position"], second_dataset[,"Cell.Y.Position"] )
+                                     second_dataset[,"Cell.X.Position"], second_dataset[,"Cell.Y.Position"] )
     colnames(dist_matrix)<-second_dataset$Cell.ID
     rownames(dist_matrix)<-first_dataset$Cell.ID
     
@@ -65,7 +65,7 @@ calculate_min_distance_to_borders <- function(sce_object, split = NULL){
     min_distance <- c(border_cells)
     for (sub_image in splits){
       dist_matrix <- crossdist.default(first_dataset[,"Cell.X.Position"], first_dataset[,"Cell.Y.Position"], 
-                               sub_image[,"Cell.X.Position"], sub_image[,"Cell.Y.Position"] )
+                                       sub_image[,"Cell.X.Position"], sub_image[,"Cell.Y.Position"] )
       colnames(dist_matrix)<-sub_image$Cell.ID
       rownames(dist_matrix)<-first_dataset$Cell.ID
       
@@ -79,4 +79,3 @@ calculate_min_distance_to_borders <- function(sce_object, split = NULL){
   
   return(sce_object)
 }
-

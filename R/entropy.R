@@ -10,7 +10,7 @@
 #' @export
 entropy <- function(sce_object, types_of_interest, column, radius = NULL){
   if((types_of_interest[1] %in% colData(sce_object)[,column]) && 
-     (types_of_interest[2] %in% colData(sce_object)[,column])){
+     any(types_of_interest[-1] %in% colData(sce_object)[,column])){
     if (!is.null(radius)){
       reference_marker <- types_of_interest[1]
       target_marker<-types_of_interest
@@ -26,13 +26,13 @@ entropy <- function(sce_object, types_of_interest, column, radius = NULL){
       n_cells.df[,"total_log"] <- log10(n_cells.df[,"total"])
       n_cells.df[n_cells.df == -Inf] <- 0
       
-      
       for (i in target_marker){
         n_cells.df[which(n_cells.df[,"total"] != 0), paste(i,"ratio",sep = "")] <- n_cells.df[,i]/n_cells.df[,"total"]
         n_cells.df[which(n_cells.df[,"total"] == 0), paste(i,"ratio",sep = "")] <- 0
         n_cells.df[,paste(i,"_entropy",sep = "")] <- n_cells.df[, paste(i,"ratio",sep = "")] *(n_cells.df[,paste(i,"_log10",sep = "")] - n_cells.df[,"total_log"])
       }
-      n_cells.df[,"entropy"] <- -(rowSums(n_cells.df[,grepl("_entropy",colnames(n_cells.df))]))
+      n_cells.df[,"entropy"] <- -(rowSums(n_cells.df[,grepl("_entropy",colnames(n_cells.df))]))  
+
       return(n_cells.df)
     } else{
       entropy_all <- 0

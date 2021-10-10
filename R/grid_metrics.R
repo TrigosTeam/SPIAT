@@ -11,43 +11,29 @@
 #' @export
 
 grid_metrics <- function(sce_object, FUN, n_split, ...){
-  # split the image first
   split <- image_splitter(sce_object,n_split)
-  
-  # for each splitted image
   list.metric <- list()
   for (i in 1:length(split)){
-    # make sure there are data in the splitted image
-    try <- try(sce <- format_colData_to_sce(split[[i]]))
+    if(nrow(split[[i]]) > 0){
+      try <- try(sce <- format_colData_to_sce(split[[i]]))
+    }else{
+      try <- NULL
+    }
     if (class(try) == "SingleCellExperiment"){
-      # make sure the calculation on the splitted image is feasible
-      metric <- try(metric <- FUN(sce, ...), silent = T)
-      # or the metric for this splitted image will be 0.0
-      if (class(metric) == "try-error"){
+      metric <-  FUN(sce, ...)
+      if (length(metric)==0){
         metric <- 0.0
-      } 
-      # mixing score (special case because mixing_score_multiple returns a list)
-      else if (str_detect(deparse(substitute(FUN)), paste0("^", "mixing_score_multiple"))) {
-        metric <- metric$Summary$Normalised_mixing_score
       }
-      else if (str_detect(deparse(substitute(FUN)), paste0("^", "mixing_score_summary"))) {
-        metric <- metric[1,"Normalised_mixing_score"]
-      }
+      list.metric[[i]] <- metric
     }
-    # if there is no data in the splitted image, return 0.0
     else{
-      metric <- 0.0
+      list.metric[[i]] <- 0.0
     }
-    list.metric[[i]] <- metric
   }
-  
-  # create raster object
   x <- raster(ncol=n_split, nrow=n_split, xmn=0, xmx=max(sce_object$Cell.X.Position), ymn=0, 
               ymx=max(sce_object$Cell.Y.Position))
-  # fill the metrics into the raster
   values(x) <- unlist(list.metric)
-  # plot
-  plot(x, main = paste("Plot", deparse(substitute(FUN)), "of", attr(sce_object, "name")))
+  plot(x, main = paste("Plot ",as.character(substitute(FUN)), " of ", attr(sce_object, "name"), sep = ""))
   
   return(x)
 }
