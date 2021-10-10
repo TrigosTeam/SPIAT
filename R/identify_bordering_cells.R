@@ -38,18 +38,18 @@ identify_bordering_cells <- function(sce_object, reference_cell, draw = F,
   ##### interactively draw boundaries ####
   if (n_of_polygons == 1 && !draw){
     l <- list()
-    draw <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
+    draw.polys <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
                                min(sce_object$Cell.X.Position), min(sce_object$Cell.X.Position)),
                        "y" = c(min(sce_object$Cell.Y.Position), max(sce_object$Cell.Y.Position),
                                max(sce_object$Cell.Y.Position), min(sce_object$Cell.Y.Position)))
-    poly <- Polygon(draw, hole = FALSE)
+    poly <- Polygon(draw.polys, hole = FALSE)
     l[[1]] <- poly
   }
   else{
     l <- list()
     for (i in 1:n_of_polygons){
-      draw <- drawPolygon()
-      poly <- Polygon(draw, hole = FALSE)
+      draw.polys <- drawPolygon()
+      poly <- Polygon(draw.polys, hole = FALSE)
       l[[i]] <- poly
     }
   }
@@ -112,9 +112,6 @@ identify_bordering_cells <- function(sce_object, reference_cell, draw = F,
     arc <- ahull$arcs
     ahull_polygon <- get_polygon(xahull,arc)
     points_in_polygon <- data.frame()
-    
-    # for debugging
-    if (draw) plot(ahull_polygon)
     
     # identify the cells that are in the ahull
     for (i in c(1:length(ahull_polygon))){
