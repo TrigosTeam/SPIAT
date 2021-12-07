@@ -220,8 +220,8 @@ jobs:
           _R_CHECK_CRAN_INCOMING_: false
         run: |
           rcmdcheck::rcmdcheck(
-              args = c("--no-build-vignettes", "--no-manual", "--timings", "--no-tests", "--ignore-vignettes"),
-              build_args = c("--no-manual", "--no-resave-data"),
+              args = c("--no-build-vignettes", "--no-manual", "--timings", "--no-tests", "--no-vignettes", "--no-examples"),
+              build_args = c("--no-manual", "--no-resave-data", "--no-build-vignettes"),
               error_on = "warning",
               check_dir = "check"
           )
