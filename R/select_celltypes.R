@@ -10,7 +10,7 @@
 #' @examples
 #' data_subset <- select_celltypes(SPIAT::formatted_image,
 #'                                 celltypes = c("AMACR","CD3,CD8","PDL-1"), 
-#'                                 column = "Phenotype, keep=TRUE)
+#'                                 column = "Phenotype", keep=TRUE)
 #' @export
 select_celltypes <- function(sce_object, celltypes, column = "Phenotype", keep = TRUE){
   data <- data.frame(colData(sce))
