@@ -24,22 +24,6 @@ plot_cell_categories <- function(sce_object, categories_of_interest, colour_vect
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
   formatted_data <- data.frame(colData(sce_object))
   
-  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
-
-  intensity_matrix <- assay(sce_object)
-
-  markers <- rownames(intensity_matrix)
-  cell_ids <- colnames(intensity_matrix)
-
-  rownames(intensity_matrix) <- NULL
-  colnames(intensity_matrix) <- NULL
-  intensity_matrix_t <- t(intensity_matrix)
-  intensity_df <- data.frame(intensity_matrix_t)
-  colnames(intensity_df) <- markers
-
-  formatted_data <- cbind(formatted_data, intensity_df)
-  formatted_data <- formatted_data[complete.cases(formatted_data),]
-  
   #CHECK
   if (length(categories_of_interest) != length(colour_vector)) {
     stop("The colour vector is not the same length as the phenotypes of interest")
