@@ -5,9 +5,9 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param cell_types_of_interest Vector containing cell types to be considered,
 #' if NULL, all cell type combinations will be calculated
-#' @param column Column name with the cell types of interest to be considered
+#' @param feature_colname String of the name the feature column with the cell types of interest to be considered
 #' @import dplyr
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @importFrom tibble rownames_to_column
 #' @importFrom stats complete.cases
 #' @importFrom apcluster negDistMat
@@ -16,7 +16,7 @@
 #' @examples
 #' @export
 
-calculate_all_distances_between_cell_types <- function(sce_object, cell_types_of_interest = NULL, column){
+calculate_all_distances_between_cell_types <- function(sce_object, cell_types_of_interest = NULL, feature_colname){
 
     #Reads the image file and deletes cell rows with NA positions
     dat <- data.frame(colData(sce_object))
@@ -26,19 +26,19 @@ calculate_all_distances_between_cell_types <- function(sce_object, cell_types_of
     #Selects all rows in the data file which only contains the cells of interest
     if(!is.null(cell_types_of_interest)){
         unique_cell_types_selected <- as.vector(unique(unlist(cell_types_of_interest)))
-        dat <- dat[dat[,column] %in% unique_cell_types_selected,]
+        dat <- dat[dat[, feature_colname] %in% unique_cell_types_selected,]
     }
     #CHECK
     if (nrow(dat) == 0) {
       print("There are no cells or no cells of specified cell types")
       cell_to_cell_dist_all <- c(Cell1 = NA, Cell2 = NA, Distance = NA, Pair = NA) 
     }else{
-      dat <- dat[,c("Cell.ID",column, "Cell.X.Position", "Cell.Y.Position")]
+      dat <- dat[,c("Cell.ID", feature_colname, "Cell.X.Position", "Cell.Y.Position")]
       
       #Creates a list of the number of cell types with all their corresponding cell ID's
       cell_types = list()
-      for (eachType in unique(dat[,column])) {
-        cell_types[[eachType]] = as.character(dat$Cell.ID[dat[,column] == eachType])
+      for (eachType in unique(dat[, feature_colname])) {
+        cell_types[[eachType]] = as.character(dat$Cell.ID[dat[, feature_colname] == eachType])
       }
       
       cell_id_vector <- dat$Cell.ID
