@@ -42,7 +42,7 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
   print(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
-  comb = combinations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = F)
+  comb = combinations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
   unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
   result = vector()
   
