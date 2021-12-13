@@ -4,18 +4,18 @@
 #' specific marker within each cluster and the number of cells in the cluster.
 #' @param formatted_data_with_clusters - a dataframe output from generate_clusters
 #' @param type_of_aggregate Cluster or Community
-#' @param column Column with cell types
+#' @param feature_colname Column with cell types
 #' @importFrom stats aggregate
 #' @return A data.frame is returned
 #' @examples
 #' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
-#' communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate = "Community", column="Phenotype")
+#' communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate = "Community", feature_colname="Phenotype")
 #' @export
 
-composition_of_clusters_and_communities <- function(formatted_data_with_clusters, type_of_aggregate, column) {
+composition_of_clusters_and_communities <- function(formatted_data_with_clusters, type_of_aggregate, feature_colname) {
     number_of_clusters <- length(unique(formatted_data_with_clusters[,type_of_aggregate]))
 
-    colnames(formatted_data_with_clusters)[colnames(formatted_data_with_clusters) == column] <- "Temp_pheno"
+    colnames(formatted_data_with_clusters)[colnames(formatted_data_with_clusters) == feature_colname] <- "Temp_pheno"
     
     if(type_of_aggregate == "Community"){
       composition <- aggregate(Cell.ID ~ Temp_pheno + Community, formatted_data_with_clusters, length)
@@ -33,6 +33,6 @@ composition_of_clusters_and_communities <- function(formatted_data_with_clusters
     }
 
     composition$Percentage <- (composition$Number_of_cells/composition$Total_number_of_cells)*100
-    colnames(composition)[colnames(composition) == "Temp_pheno"] <- column
+    colnames(composition)[colnames(composition) == "Temp_pheno"] <- feature_colname
     return(composition)
 }
