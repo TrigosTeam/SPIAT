@@ -10,7 +10,7 @@
 #' @param target_phenotypes String specifying the phenotypes for target cells
 #' @param radius Integer specifying the radius of search for cells around the reference cells.
 #' Radii of ~100 are recommended. If too small, too few cells might be present
-#' @param column String specifying the column with the desired cell type annotations 
+#' @param feature_colname String specifying the column with the desired cell type annotations 
 #' @import dplyr
 #' @importFrom tibble rownames_to_column
 #' @importFrom dbscan frNN
@@ -19,7 +19,7 @@
 #' @examples
 #' @export
 
-average_percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100, column){
+average_percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100, feature_colname){
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   phenotype_names <- output_phenotype <- NULL
@@ -31,8 +31,8 @@ average_percentage_of_cells_within_radius <- function(sce_object, reference_phen
   target_name <- target_phenotypes
   
   #Select cells with the reference phenotype
-  reference_phenotypes <- formatted_data[formatted_data[,column] == reference_phenotypes,]
-  target_phenotypes <- formatted_data[formatted_data[,column] == target_phenotypes,]
+  reference_phenotypes <- formatted_data[formatted_data[,feature_colname] == reference_phenotypes,]
+  target_phenotypes <- formatted_data[formatted_data[,feature_colname] == target_phenotypes,]
   
   #CHECK
   if (nrow(reference_phenotypes) == 0 || nrow(target_phenotypes) == 0) {
