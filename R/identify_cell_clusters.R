@@ -5,7 +5,7 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param cell_types_of_interest Vector of phenotypes to consider
 #' @param radius Integer specifying the radius of search.
-#' @param column Column from which the cell types are selected
+#' @param feature_colname Column from which the cell types are selected
 #' @param no_pheno Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData assay
@@ -20,7 +20,7 @@
 
 # imported ggplo2 as interdependency of functions
 
-identify_cell_clusters <- function(sce_object, cell_types_of_interest, radius, column, no_pheno = NULL) {
+identify_cell_clusters <- function(sce_object, cell_types_of_interest, radius, feature_colname, no_pheno = NULL) {
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
@@ -44,12 +44,12 @@ identify_cell_clusters <- function(sce_object, cell_types_of_interest, radius, c
 
   ######remove cells without a phenotype
   if(!is.null(no_pheno)){
-    formatted_data <- formatted_data[formatted_data[,column] != no_pheno, ]
+    formatted_data <- formatted_data[formatted_data[,feature_colname] != no_pheno, ]
   }
 
   #select cells to include if phenotypes of interest are specified
   if (!is.null(cell_types_of_interest)) {
-    formatted_data <- formatted_data[formatted_data[,column] %in% cell_types_of_interest,]
+    formatted_data <- formatted_data[formatted_data[,feature_colname] %in% cell_types_of_interest,]
   }
   
   #CHECK
