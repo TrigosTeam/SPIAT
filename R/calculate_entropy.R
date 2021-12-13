@@ -33,7 +33,7 @@ calculate_entropy <- function(sce_object, cell_types_of_interest, feature_colnam
         n_cells.df[,paste(i,"_entropy",sep = "")] <- n_cells.df[, paste(i,"ratio",sep = "")] *(n_cells.df[,paste(i,"_log2",sep = "")] - n_cells.df[,"total_log2"])
       }
       n_cells.df[,"entropy"] <- -(rowSums(n_cells.df[,grepl("_entropy",colnames(n_cells.df))]))  
-
+      
       return(n_cells.df)
     } else{
       entropy_all <- 0
