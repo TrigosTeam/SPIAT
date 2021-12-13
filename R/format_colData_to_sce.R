@@ -5,10 +5,10 @@
 #' every cell (columns), and cell phenotype, x and y coordinates are stored under colData
 #' for the purpose of passing dataframe into a function requiring sce_object
 #'
-#' @export
 #' @param colData Dataframe that will be the colData of the sce object
-#' @import SingleCellExperiment
-
+#' @importFrom SingleCellExperiment colData
+#' @return An SingleCellExperiment object
+#' @export
 
 format_colData_to_sce <- function(colData) {
   
