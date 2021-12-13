@@ -18,7 +18,7 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
 #' @importFrom grDevices pdf dev.off
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @importFrom stats complete.cases setNames
 #' @importFrom dittoSeq dittoColors
 #' @return A list of data.frames is returned
