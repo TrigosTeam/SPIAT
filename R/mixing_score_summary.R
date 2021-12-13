@@ -7,7 +7,7 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_marker Cell types of the reference cells
 #' @param target_marker Cell types of the target cells
-#' @param column String specifying the column with the desired cell type annotations 
+#' @param feature_colname String specifying the column with the desired cell type annotations 
 #' @param radius The maximum radius around a reference marker for another cell to be considered an interaction.
 #' @import dplyr
 #' @importFrom SummarizedExperiment colData 
