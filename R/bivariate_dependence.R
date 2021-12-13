@@ -5,7 +5,7 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param method String that is the method for dependence calculation
 #' @param phenotypes Vector of phenotypes of interest
-#' @param column String that is the name of the column of the types
+#' @param feature_colname String that is the name of the column of the types
 #' @param plot_results TRUE if result to be plotted, FALSE if not. In either case, an object with the results is returned
 #' @import SingleCellExperiment
 #' @importFrom spatstat.core Gcross Kcross Lcross Jcross
@@ -15,19 +15,19 @@
 # colData() is in package 'SummarizedExperiment' but imported by SingleCellExperiment
 
 bivariate_dependence <- function(sce_object, method = "Kcross", 
-                                 phenotypes, column, plot_results=TRUE) {
+                                 phenotypes, feature_colname, plot_results=TRUE) {
   
   formatted_data <- colData(sce_object)
   
   #CHECK
-  if (!all(phenotypes %in% formatted_data[[column]])) {
+  if (!all(phenotypes %in% formatted_data[[feature_colname]])) {
     print("Cell type not found!")
     return(NA)
   }else{
     # get x, y coordinates and specified cell types from formatted_data
     x <- formatted_data$Cell.X.Position
     y <- formatted_data$Cell.Y.Position
-    marks <- formatted_data[[column]]
+    marks <- formatted_data[[feature_colname]]
     
     # get windows
     x_summary <- summary(formatted_data$Cell.X.Position)
