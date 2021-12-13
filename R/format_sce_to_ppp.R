@@ -7,17 +7,18 @@
 #' @export
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param window_pol Optional Boolean Specifying if the window is polygon
+#' @param feature_colname String specifying the feature column of interest
 #' @importFrom spatstat.geom ppp owin
 #' @importFrom grDevices chull
 
-format_sce_to_ppp <- function(sce_object, window_pol = F) {
+format_sce_to_ppp <- function(sce_object, window_pol = F, feature_colname="Phenotype") {
   
   # get x, y coordinates and phenotypes from sce object
   sce_data <- data.frame(colData(sce_object))
   sce_data <- sce_data[!duplicated(sce_data[,c("Cell.X.Position", "Cell.Y.Position")]),]
   x <- sce_data$Cell.X.Position
   y <- sce_data$Cell.Y.Position
-  marks <- sce_data$Phenotype
+  marks <- sce_data[[feature_colname]]
   
   # get windows
   x_summary <- summary(sce_data$Cell.X.Position)

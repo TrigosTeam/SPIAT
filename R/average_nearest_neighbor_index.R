@@ -5,7 +5,7 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_cell Cells positive for this marker will be used as reference
-#' @param column String specify the selected column for reference_cell
+#' @param feature_colname String specify the selected column for reference_cell
 #' @import SingleCellExperiment
 #' @importFrom spatstat.geom nndist
 #' @importFrom stats pnorm
@@ -13,12 +13,12 @@
 #' @export
 
 
-average_nearest_neighbor_index <- function(sce_object, reference_cell, column){
+average_nearest_neighbor_index <- function(sce_object, reference_cell, feature_colname){
   
   ppp <- format_sce_to_ppp(sce_object)
   
-  data <- data.frame(colData(sce_object))[,c(column ,"Cell.X.Position","Cell.Y.Position")]
-  data <- data[which(data[,column] == reference_cell),c("Cell.X.Position","Cell.Y.Position") ]
+  data <- data.frame(colData(sce_object))[,c(feature_colname ,"Cell.X.Position","Cell.Y.Position")]
+  data <- data[which(data[,feature_colname] == reference_cell),c("Cell.X.Position","Cell.Y.Position") ]
   
   if(nrow(data) == 0){
     print("No reference cells found")
