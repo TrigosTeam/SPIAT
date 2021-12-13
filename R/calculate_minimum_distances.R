@@ -8,7 +8,7 @@
 #' from (e.g. Cell.Type, Cell.Type2, etc)
 #' @importFrom apcluster negDistMat
 #' @importFrom RANN nn2
-#' @importFrom gtools combinations
+#' @importFrom gtools permutations
 #' @import dplyr
 #' @importFrom stats median sd
 #' @importFrom SingleCellExperiment colData
@@ -42,14 +42,14 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
   print(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
-  comb = combinations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
+  permu = permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
   unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
   result = vector()
   
-  for (i in seq_len(nrow(comb))) {
-    eachComb = comb[i, ]
-    name1 = unique_cells[eachComb[1]]
-    name2 = unique_cells[eachComb[2]]
+  for (i in seq_len(nrow(permu))) {
+    eachPermu = permu[i, ]
+    name1 = unique_cells[eachPermu[1]]
+    name2 = unique_cells[eachPermu[2]]
     
     cell_type1 <- as.character(cell_types[[name1]])
     cell_type2 <- as.character(cell_types[[name2]])
