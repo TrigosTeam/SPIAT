@@ -1,14 +1,14 @@
-#' calculate_summary_distances_of_immune_cells_to_borders
+#' calculate_summary_distances_of_cells_to_borders
 #'
 #' @description Returns the mean, median and stardard deviation of the distances between a specified cell type to the borders
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param immune_cells Vector of cell types to consider
-#' @param column String specifying which column the interested cell types are from 
+#' @param cell_types_of_interest Vector of cell types to consider
+#' @param feature_colname String specifying which column the interested cell types are from 
 #' @importFrom stats median sd
 #' @return A data.frame is returned
 #' @export
 
-calculate_summary_distances_of_immune_cells_to_borders <- function(sce_object, immune_cells, column = NULL) {
+calculate_summary_distances_of_cells_to_borders <- function(sce_object, cell_types_of_interest, feature_colname = "Phenotype") {
   
   # CHECK if "Region" and "Distance.To.Border" columns exist
   if (is.null(sce_object$Region)){
@@ -19,17 +19,17 @@ calculate_summary_distances_of_immune_cells_to_borders <- function(sce_object, i
   }
   
   # CHECK input
-  if (is.null(immune_cells)){
+  if (is.null(cell_types_of_interest)){
     stop("Please indicate the celltypes!")
   }
-  if (is.null(column)){
+  if (is.null(feature_colname)){
     stop("Please indicate the columns of the interest!")
   }
   
   data <- data.frame(colData(sce_object))
   ##### data in #####
-  data_of_interest_in <- dplyr::intersect(data[data[,column] %in% immune_cells,],
-                                          data[which(data$Region == "Inside"),])
+  data_of_interest_in <- data[which((data[[feature_colname]] %in% cell_types_of_interest) 
+                                    & (data$Region == "Inside")),]
   
   df.cols <- c("Cell.Type", "Location", "Min", "Max", "Mean",
                "Median", "St.dev")
@@ -41,10 +41,10 @@ calculate_summary_distances_of_immune_cells_to_borders <- function(sce_object, i
   median_d <- median(data_of_interest_in$Distance.To.Border)
   st.dev_d <- sd(data_of_interest_in$Distance.To.Border)
   
-  df <-  rbind(df, c("All_immune", "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
+  df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
   ##### data out #####
-  data_of_interest_out <- dplyr::intersect(data[data[,column] %in% immune_cells,],
-                                           data[which(data$Region == "Outside"),])
+  data_of_interest_out <- data[which((data[[feature_colname]] %in% cell_types_of_interest) 
+                                     & (data$Region == "Outside")),]
   
   min_d <- min(data_of_interest_out$Distance.To.Border)
   max_d <- max(data_of_interest_out$Distance.To.Border)
@@ -52,21 +52,19 @@ calculate_summary_distances_of_immune_cells_to_borders <- function(sce_object, i
   median_d <- median(data_of_interest_out$Distance.To.Border)
   st.dev_d <- sd(data_of_interest_out$Distance.To.Border)
   
-  df <-  rbind(df, c("All_immune", "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
+  df <-  rbind(df, c("All_cell_types_of_interest", "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
   
-  for(immune in immune_cells){
-    data_of_interest_in <- dplyr::intersect(data[data[,column] %in% immune,],
-                                            data[which(data$Region == "Inside"),])
+  for(type in cell_types_of_interest){
+    data_of_interest_in <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Inside")),]
     min_d <- min(data_of_interest_in$Distance.To.Border)
     max_d <- max(data_of_interest_in$Distance.To.Border)
     mean_d <- mean(data_of_interest_in$Distance.To.Border)
     median_d <- median(data_of_interest_in$Distance.To.Border)
     st.dev_d <- sd(data_of_interest_in$Distance.To.Border)
     
-    df <-  rbind(df, c(immune, "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
+    df <-  rbind(df, c(type, "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
     ##### data out #####
-    data_of_interest_out <- dplyr::intersect(data[data[,column] %in% immune,],
-                                             data[which(data$Region == "Outside"),])
+    data_of_interest_out <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Outside")),]
     
     min_d <- min(data_of_interest_out$Distance.To.Border)
     max_d <- max(data_of_interest_out$Distance.To.Border)
@@ -74,7 +72,7 @@ calculate_summary_distances_of_immune_cells_to_borders <- function(sce_object, i
     median_d <- median(data_of_interest_out$Distance.To.Border)
     st.dev_d <- sd(data_of_interest_out$Distance.To.Border)
     
-    df <-  rbind(df, c(immune, "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
+    df <-  rbind(df, c(type, "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
   }
   colnames(df) <- c("Cell.Type", "Area", "Min_d", "Max_d", "Mean_d", "Median_d", "St.dev_d")
   df <- as.data.frame(df)
