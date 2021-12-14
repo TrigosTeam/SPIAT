@@ -21,6 +21,8 @@
 plot_cell_categories <- function(sce_object, categories_of_interest = NULL, 
                                  colour_vector = NULL, feature_colname = "Cell.Type") {
   
+  # if plotting the structure, users do not have to enter the params
+  # we have stored the categories and colours for them
   if (feature_colname == "Structure" & is.null(categories_of_interest)) {
     categories_of_interest <- c("Border",
                                 "Inside", 
@@ -42,9 +44,17 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   if (length(categories_of_interest) != length(colour_vector)) {
     stop("The colour vector is not the same length as the phenotypes of interest")
   }
+  
+  # if some categories are not in the data, delete them from the categories_of_interest vector
+  # delete the corresponding colours as well
+  # return a message informing the deleted category
   for (category in categories_of_interest) {
     if (!(category %in% unique(formatted_data[[feature_colname]]))) {
-      stop(paste(category, "cells were not found"), sep="")
+      #stop(paste(category, "cells were not found"), sep="")
+      cat_idx <- match(category, categories_of_interest)
+      categories_of_interest <- categories_of_interest[-cat_idx]
+      colour_vector <- colour_vector[-cat_idx]
+      print(paste(category, "cells were not found and not plotted"), sep="")
     }
   }
   
