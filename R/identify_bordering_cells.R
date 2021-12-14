@@ -4,11 +4,12 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_cell Cells positive for this marker will be used as reference
-#' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
-#' @param n_of_polygons Number specifying the number of tumour regions defined by user
-#' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
 #' @param feature_colname Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc
-#' @import SingleCellExperiment
+#' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
+#' @param n_of_polygons Number specifying the number of tumour regions defined by user
+#' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
+#' @param n_to_exclude Number specifying under how many cells are not considered as a tumour cluster
+#' @importFrom SingleCellExperiment ColData
 #' @import alphahull
 #' @importFrom xROI drawPolygon
 #' @import sp
