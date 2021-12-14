@@ -18,7 +18,21 @@
 #' plot_cell_categories(SPIAT::formatted_image, categories_of_interest, colour_vector)
 #' @export
 
-plot_cell_categories <- function(sce_object, categories_of_interest, colour_vector, feature_colname) {
+plot_cell_categories <- function(sce_object, categories_of_interest = NULL, 
+                                 colour_vector = NULL, feature_colname = "Cell.Type") {
+  
+  if (feature_colname == "Structure" & is.null(categories_of_interest)) {
+    categories_of_interest <- c("Border",
+                                "Inside", 
+                                "Infiltrated.immune",
+                                "Outside",    
+                                "Stromal.immune", 
+                                "Internal.margin",     
+                                "Internal.margin.immune",
+                                "External.margin", 
+                                "External.margin.immune")
+    colour_vector <- c("black", "pink", "purple", "yellow", "orange", "lightgreen", "darkgreen", "lightblue", "blue")
+  }
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
@@ -39,7 +53,6 @@ plot_cell_categories <- function(sce_object, categories_of_interest, colour_vect
     formatted_data[!formatted_data$Phenotype %in% categories_of_interest,][[feature_colname]] <- "OTHER"
   }
   
-  
   #Assign the colour to corresponding phenotypes in df
   formatted_data$color <- ""
   for (category in categories_of_interest) {
@@ -54,7 +67,7 @@ plot_cell_categories <- function(sce_object, categories_of_interest, colour_vect
     all_categories <- categories_of_interest
     all_colours <- colour_vector
   }
-  
+    
   p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position", colour = feature_colname)) +
     geom_point(aes_string(colour = feature_colname), size = 1)
   p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position", colour = feature_colname))
