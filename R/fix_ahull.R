@@ -1,5 +1,5 @@
 fix_ahull <- function(ahull){ # the order of cells returned by ahull is messy
-                              # this function reorders the cells
+  # this function reorders the cells
   arc <- ahull$arcs
   n_cells <- dim(arc)[1]
   # copy the arc ends
@@ -49,13 +49,13 @@ fix_ahull <- function(ahull){ # the order of cells returned by ahull is messy
   return(ahull)
 }
 
-get_polygon <- function(xahull, arc){ # this function gets the coordinates that on ahull
+get_polygon <- function(xahull, arc, n_to_exclude){ # this function gets the coordinates that on ahull
   df_list <- list()
   n <- 0
   s <- 1
   for (i in 1: (dim(arc)[1]-1)){
     if (arc[i,8] != arc[i+1,7]){
-      if (i-s > 5){
+      if (i-s > 4){
         n <- n+1
         df_list[[n]] <- arc[c(s:i),]
       }
@@ -67,16 +67,20 @@ get_polygon <- function(xahull, arc){ # this function gets the coordinates that 
   c <- 0 
   for (j in c(1:length(df_list))){
     df <- df_list[[j]]
-    c <- c+1
-    cell_ID = c()
-    locs <- c()
-    for (i in 1:(dim(df)[1])){
-      cell_ID = df[i,7]
-      locs <- rbind(locs,xahull[cell_ID,c(1,2)])
+    # eliminate the small tumour clusters (add later)
+    if (dim(df)[1] <= n_to_exclude){
+      next
     }
-    poly_list[[c]] <- locs
-    polygon(locs)
-    
+    else{
+      c <- c+1
+      cell_ID = c()
+      locs <- c()
+      for (i in 1:(dim(df)[1])){
+        cell_ID = df[i,7]
+        locs <- rbind(locs,xahull[cell_ID,c(1,2)])
+      }
+      poly_list[[c]] <- locs
+    }
   }
   return(poly_list)
 }
