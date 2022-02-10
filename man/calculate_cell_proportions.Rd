@@ -6,7 +6,7 @@
 \usage{
 calculate_cell_proportions(
   sce_object,
-  column = "Phenotype",
+  feature_colname = "Phenotype",
   reference_celltypes = NULL,
   celltypes_to_exclude = NULL
 )
@@ -14,7 +14,7 @@ calculate_cell_proportions(
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{column}{Column of cells to choose the phenotype from (e.g. Phenotype, Cell.Type, etc)}
+\item{feature_colname}{Column of cells to choose the phenotype from (e.g. Phenotype, Cell.Type, etc)}
 
 \item{reference_celltypes}{Vector specifying reference phenotypes. If NULL (default), then the proportion of each cell type against all cells is returned.
 Alternatively, a custom vector of cell types can be used as input, and these will be used as the denominator in the calculation of the proportions.}
