@@ -9,6 +9,9 @@ format_colData_to_sce(colData)
 \arguments{
 \item{colData}{Dataframe that will be the colData of the sce object}
 }
+\value{
+An SingleCellExperiment object
+}
 \description{
 Format a dataframe of colData into a singlecellexperiment class 
 where the count assay is empty
