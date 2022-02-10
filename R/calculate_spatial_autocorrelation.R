@@ -1,4 +1,4 @@
-#' caculate_spatial_autocorrelaiton
+#' calculate_spatial_autocorrelaiton
 #'
 #' @description Calculate the spatial autocorrelation metric of the grid squares that have a certain pattern
 #'
@@ -8,7 +8,7 @@
 #' @importFrom elsa geary moran
 #' @export
 
-caculate_spatial_autocorrelaiton <- function(raster, metric = "globalmoran"){
+calculate_spatial_autocorrelaiton <- function(raster, metric = "globalmoran"){
   raster@data@values[is.na(raster@data@values)] = 0
   if (metric == "GearyC"){
     return(geary(raster, d1=0, d2=600))
