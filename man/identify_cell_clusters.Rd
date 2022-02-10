@@ -6,8 +6,11 @@
 \usage{
 identify_cell_clusters(
   sce_object,
+  method = "hierarchical",
   cell_types_of_interest,
   radius,
+  min_cluster_size = 10,
+  k = 100,
   feature_colname,
   no_pheno = NULL
 )
