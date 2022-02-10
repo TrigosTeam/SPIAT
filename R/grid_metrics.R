@@ -33,6 +33,7 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
   x <- raster(ncol=n_split, nrow=n_split, xmn=0, xmx=max(sce_object$Cell.X.Position), ymn=0, 
               ymx=max(sce_object$Cell.Y.Position))
   values(x) <- unlist(list.metric)
+  x <- flip(x, direction='y')
   plot(x, main = paste("Plot ",as.character(substitute(FUN)), " of ", attr(sce_object, "name"), sep = ""))
   
   return(x)
