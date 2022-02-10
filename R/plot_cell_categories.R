@@ -39,7 +39,7 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
   
-  if (class(data) == 'SingleCellExperiment'){
+  if (class(sce_object) == 'SingleCellExperiment'){
     formatted_data <- data.frame(colData(sce_object))
   }
   else formatted_data <- sce_object
