@@ -42,7 +42,7 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   if (class(data) == 'SingleCellExperiment'){
     formatted_data <- data.frame(colData(sce_object))
   }
-  else formatted_data <- data
+  else formatted_data <- sce_object
   
   #CHECK
   if (length(categories_of_interest) != length(colour_vector)) {
