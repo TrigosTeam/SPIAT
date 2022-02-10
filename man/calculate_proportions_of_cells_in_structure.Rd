@@ -4,11 +4,25 @@
 \alias{calculate_proportions_of_cells_in_structure}
 \title{calculate_proportions_of_cells_in_structure}
 \usage{
-calculate_proportions_of_cells_in_structure(sce_object)
+calculate_proportions_of_cells_in_structure(
+  sce_object,
+  cell_types_of_interest,
+  feature_colname
+)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of 
+format_image_to_sce}
+
+\item{cell_types_of_interest}{Vector of immune cells to consider}
+
+\item{feature_colname}{Column to extract cell types from}
+}
+\value{
+A data.frame
 }
 \description{
-Calculate the proprtion of immune cells in each defined tumour structure, return a dataframe
+Calculate the proprtion of interested cells in each defined 
+tumour structure relative to all cells in each structure or relative to the 
+same cell type in the whole image
 }
