@@ -6,20 +6,20 @@
 \usage{
 plot_cell_basic(
   sce_object,
-  types_of_interest,
+  cell_types_of_interest,
   colour_vector,
-  column,
+  feature_colname,
   cex = 0.4
 )
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
 
-\item{types_of_interest}{Vector of cell cell types to be coloured}
+\item{cell_types_of_interest}{Vector of cell cell types to be coloured}
 
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 
-\item{column}{String specifying the column to be coloured}
+\item{feature_colname}{String specifying the column to be coloured}
 
 \item{cex}{Number specifying the size of the points on the plot. Default is 0.4.}
 }

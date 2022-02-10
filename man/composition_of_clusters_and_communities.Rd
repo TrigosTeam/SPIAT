@@ -7,7 +7,7 @@
 composition_of_clusters_and_communities(
   formatted_data_with_clusters,
   type_of_aggregate,
-  column
+  feature_colname
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ composition_of_clusters_and_communities(
 
 \item{type_of_aggregate}{Cluster or Community}
 
-\item{column}{Column with cell types}
+\item{feature_colname}{Column with cell types}
 }
 \value{
 A data.frame is returned
@@ -26,5 +26,5 @@ specific marker within each cluster and the number of cells in the cluster.
 }
 \examples{
 communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
-communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate = "Community", column="Phenotype")
+communities_vis <- composition_of_clusters_and_communities(communities, type_of_aggregate = "Community", feature_colname="Phenotype")
 }
