@@ -12,7 +12,7 @@
 #' @import dplyr
 #' @importFrom stats median sd
 #' @importFrom SingleCellExperiment colData
-#' @importFrom tibble rownames_to_feature_colname
+#' @importFrom tibble rownames_to_column
 #' @return A data.frame is returned
 #' @examples
 #' @export
