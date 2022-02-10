@@ -10,11 +10,15 @@
 #' having the categories to be defined, by default "Phenotype"
 #' @param names Vector of new names assigned to the selected categories; if NULL, 
 #' the function will use predefined categories and names
-#' @param new_colname (Optional) String specifying the name of the column to be added, by default "Cell.Type"
+#' @param new_colname (Optional) String specifying the name of the column to be added, 
+#' by default "Cell.Type"
+#' @param print.names (Optional) Boolean if the user wants the original and new 
+#' names printed. Default is FALSE.
 #' @export
 
-define_celltypes <- function(sce_object,categories = NULL, category_colname = "Phenotype",
-                             names = NULL, new_colname = "Cell.Type"){
+define_celltypes <- function(sce_object,categories = NULL, 
+                             category_colname = "Phenotype", names = NULL, 
+                             new_colname = "Cell.Type", print.names = F){
   
   # default setting
   if (is.null(categories) & is.null(names)){
@@ -30,8 +34,12 @@ define_celltypes <- function(sce_object,categories = NULL, category_colname = "P
   all_categories <- unique(colData(sce_object)[[category_colname]])
   categories <- intersect(all_categories, pre_categories)
   names <- pre_names[match(categories, pre_categories)]
-  print(categories)
-  print(names)
+  
+  if (print.names){
+    print(print.names)
+    print(categories)
+    print(names)
+  }
   
   sce_object[[new_colname]] <- ""
   names<- c(names,rep("Undefined",length(all_categories[!(all_categories %in% categories)])))
