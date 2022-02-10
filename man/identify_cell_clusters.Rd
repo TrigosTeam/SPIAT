@@ -8,7 +8,7 @@ identify_cell_clusters(
   sce_object,
   cell_types_of_interest,
   radius,
-  column,
+  feature_colname,
   no_pheno = NULL
 )
 }
@@ -19,7 +19,7 @@ identify_cell_clusters(
 
 \item{radius}{Integer specifying the radius of search.}
 
-\item{column}{Column from which the cell types are selected}
+\item{feature_colname}{Column from which the cell types are selected}
 
 \item{no_pheno}{Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")}
 }

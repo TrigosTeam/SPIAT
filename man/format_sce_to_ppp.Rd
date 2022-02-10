@@ -4,12 +4,14 @@
 \alias{format_sce_to_ppp}
 \title{format_sce_to_ppp}
 \usage{
-format_sce_to_ppp(sce_object, window_pol = F)
+format_sce_to_ppp(sce_object, window_pol = F, feature_colname = "Phenotype")
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{window_pol}{Optional Boolean Specifying if the window is polygon}
+
+\item{feature_colname}{String specifying the feature column of interest}
 }
 \description{
 Formats an sce object into a ppp object

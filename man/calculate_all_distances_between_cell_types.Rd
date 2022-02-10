@@ -7,7 +7,7 @@
 calculate_all_distances_between_cell_types(
   sce_object,
   cell_types_of_interest = NULL,
-  column
+  feature_colname
 )
 }
 \arguments{
@@ -16,7 +16,7 @@ calculate_all_distances_between_cell_types(
 \item{cell_types_of_interest}{Vector containing cell types to be considered,
 if NULL, all cell type combinations will be calculated}
 
-\item{column}{Column name with the cell types of interest to be considered}
+\item{feature_colname}{String of the name the feature column with the cell types of interest to be considered}
 }
 \value{
 A data.frame is returned.

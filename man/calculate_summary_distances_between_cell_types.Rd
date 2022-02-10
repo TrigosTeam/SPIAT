@@ -7,21 +7,20 @@
 \usage{
 calculate_summary_distances_between_cell_types(
   sce_object,
-  column = "Phenotype",
-  all_marker_combinations = TRUE,
-  combinations_of_interest = NULL
+  feature_colname = "Phenotype",
+  all_combinations = FALSE,
+  cell_types_of_interest
 )
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{column}{Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)}
+\item{feature_colname}{String Column of cells to choose the cell type from (e.g. Cell.Type, Cell.Type2, etc)}
 
-\item{all_marker_combinations}{If TRUE, the distances between all possible combinations of markers
+\item{all_combinations}{If TRUE, the distances between all possible combinations of cell types
 will be calculated}
 
-\item{combinations_of_interest}{Vector of marker combinations to consider if all_marker_combinations
-is FALSE}
+\item{cell_types_of_interest}{Vector of cell types to consider if all_combinations is FALSE}
 }
 \value{
 A data.frame is returned

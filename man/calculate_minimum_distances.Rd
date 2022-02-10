@@ -6,14 +6,15 @@
 \usage{
 calculate_minimum_distances(
   sce_object,
-  column = "Phenotype",
+  feature_colname,
   cell_types_of_interest = NULL
 )
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{column}{Column of cells to choose the phenotype from (e.g. Cell.Type, Cell.Type2, etc)}
+\item{feature_colname}{String of the feature column of cells to choose the cell types 
+from (e.g. Cell.Type, Cell.Type2, etc)}
 
 \item{cell_types_of_interest}{Vector of marker combinations to consider
 is FALSE}
