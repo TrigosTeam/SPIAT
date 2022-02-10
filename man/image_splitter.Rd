@@ -14,7 +14,7 @@ image_splitter(
   x_position_max = NULL,
   y_position_min = NULL,
   y_position_max = NULL,
-  column = "Cell.Type"
+  feature_colname = "Cell.Type"
 )
 }
 \arguments{
@@ -37,7 +37,7 @@ If NULL, colors will be generated automatically}
 
 \item{y_position_max}{Integer used to specify the maximum y boundary to be splitted}
 
-\item{column}{String specifying which column the colouring should be based on}
+\item{feature_colname}{String specifying which column the colouring should be based on}
 }
 \value{
 A list of data.frames is returned
