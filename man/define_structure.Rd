@@ -4,12 +4,19 @@
 \alias{define_structure}
 \title{define_structure}
 \usage{
-define_structure(sce_object, names_of_immune_cells, n_margin_layers = 5)
+define_structure(
+  sce_object,
+  names_of_immune_cells,
+  feature_colname = "Cell.Type",
+  n_margin_layers = 5
+)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{names_of_immune_cells}{Vector indicating the names of potential immune cells}
+
+\item{feature_colname}{String Specifying which column the names of immune cells are under}
 
 \item{n_margin_layers}{Integer Specifying the number of layers of cells that compose the internal/external margins}
 }
