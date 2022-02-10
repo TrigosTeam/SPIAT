@@ -4,14 +4,21 @@
 \alias{plot_cell_categories}
 \title{plot_cell_categories}
 \usage{
-plot_cell_categories(sce_object, phenotypes_of_interest, colour_vector)
+plot_cell_categories(
+  sce_object,
+  categories_of_interest = NULL,
+  colour_vector = NULL,
+  feature_colname = "Cell.Type"
+)
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
 
-\item{phenotypes_of_interest}{Vector of cell phenotypes to be coloured}
+\item{categories_of_interest}{Vector of cell categories to be coloured}
 
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
+
+\item{feature_colname}{String specifying the column the cell categories belong to}
 }
 \value{
 A plot is returned
@@ -21,7 +28,7 @@ Produces a scatter plot of the cells in the tissue. Cells are coloured
 categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
 }
 \examples{
-phenotypes_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
-colour_vector <- c("darkgrey", "blue", "red")
-plot_cell_categories(SPIAT::formatted_image, phenotypes_of_interest, colour_vector)
+categories_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
+colour_vector <- c("red", "blue", "orange")
+plot_cell_categories(SPIAT::formatted_image, categories_of_interest, colour_vector)
 }
