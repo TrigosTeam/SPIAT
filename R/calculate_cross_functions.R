@@ -10,7 +10,7 @@
 #' @param plot_results TRUE if result to be plotted, FALSE if not. In either case, an object with the results is returned
 #' @param dist Number (OPTIONAL) The largest distance between two cell types at which K function is evaluated. 
 #' If NULL, use the default distances set by cross functions. 
-#' @importFrom spatstat.core Gcross Kcross Lcross Jcross
+#' @importFrom spatstat.core Gcross Kcross.inhom Lcross Jcross Kcross
 #' @importFrom spatstat.geom ppp 
 #' @export 
 
@@ -37,19 +37,27 @@ calculate_cross_functions <- function(sce_object, method = "Kcross",
       plot(p, main = paste("cross G function",attr(sce_object,"name")))
     }
   }
-  if (method == "Kcross"){
+  else if (method == "Kcross"){
     p <- Kcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
-      plot(p, main = paste("cross K function",attr(sce_object,"name")))
+      if (is.null(dist)) plot(p, main = paste("cross K function",attr(sce_object,"name")))
+      else plot(p, main = paste("cross K function",attr(sce_object,"name")), xlim = c(0,dist))
     }
   }
-  if (method == "Lcross"){
+  else if (method == "Kcross.inhom"){
+    p <- Kcross.inhom(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
+    if(plot_results){
+      if (is.null(dist)) plot(p, main = paste("cross K function",attr(sce_object,"name")))
+      else plot(p, main = paste("cross K function",attr(sce_object,"name")), xlim = c(0,dist))
+    }
+  }
+  else if (method == "Lcross"){
     p <- Lcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       plot(p, main = paste("cross L function",attr(sce_object,"name")))
     }
   }
-  if (method == "Jcross"){
+  else if (method == "Jcross"){
     p <- Jcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       plot(p, main = paste("cross J function",attr(sce_object,"name")))
