@@ -8,8 +8,8 @@
 #' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
 #' @param n_of_polygons Number specifying the number of tumour regions defined by user
 #' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
-#' @param n_to_exclude Number specifying under how many cells are not considered as a tumour cluster
-#' @importFrom SingleCellExperiment ColData
+#' @param n_to_exclude Number Clusters under this number will be deleted
+#' @importFrom SingleCellExperiment colData
 #' @import alphahull
 #' @importFrom xROI drawPolygon
 #' @import sp
@@ -32,7 +32,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   colour_vector <- c("green")
   if (draw){
     par(xpd=TRUE)
-    p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, column = feature_colname)
+    p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, feature_colname)
     par(xpd=FALSE)
   }
   
