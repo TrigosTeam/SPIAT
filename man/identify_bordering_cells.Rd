@@ -7,10 +7,11 @@
 identify_bordering_cells(
   sce_object,
   reference_cell,
-  draw = F,
-  n_of_polygons = 1,
+  feature_colname = "Cell.Type",
   ahull_alpha = NULL,
-  column = "Cell.Type"
+  n_of_polygons = 1,
+  draw = F,
+  n_to_exclude = 10
 )
 }
 \arguments{
@@ -18,13 +19,15 @@ identify_bordering_cells(
 
 \item{reference_cell}{Cells positive for this marker will be used as reference}
 
-\item{draw}{Boolean if user chooses to draw the tumour area or not. Default is False.}
-
-\item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
+\item{feature_colname}{Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc}
 
 \item{ahull_alpha}{Number specifying the ahull parameter. Larger number, more points included in the ahull.}
 
-\item{column}{Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc}
+\item{n_of_polygons}{Number specifying the number of tumour regions defined by user}
+
+\item{draw}{Boolean if user chooses to draw the tumour area or not. Default is False.}
+
+\item{n_to_exclude}{Number Clusters under this number will be deleted}
 }
 \description{
 Identify the cells bordering a group of cells of a particular phenotype
