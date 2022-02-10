@@ -16,7 +16,7 @@
 #' @return A data.frame of cell numbers, mixing scores, and normalised mixing scores.
 #' @export
 
-mixing_score_summary <- function(sce_object, reference_marker, target_marker, radius=20, column)
+mixing_score_summary <- function(sce_object, reference_marker, target_marker, radius=20, feature_colname)
 {
   formatted_data <- data.frame(colData(sce_object))
   formatted_data <- formatted_data[complete.cases(formatted_data),]
@@ -27,7 +27,7 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
                "Normalised_mixing_score")
   df <- data.frame(matrix(ncol=8,nrow=1, dimnames=list(NULL, df.cols)), stringsAsFactors = FALSE)
   for (i in reference_marker) {
-    reference_cells <- formatted_data[formatted_data[,column] == i,]
+    reference_cells <- formatted_data[formatted_data[,feature_colname] == i,]
     
     for (j in target_marker) {
       if (i == j) {
@@ -36,7 +36,7 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
         
       }
       tryCatch({
-        target_cells <- formatted_data[formatted_data[,column] == j,]
+        target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
         if (nrow(reference_cells) == 0) {
           print(paste("There are no unique reference cells of specified marker", i, "for target cell", j))
         }

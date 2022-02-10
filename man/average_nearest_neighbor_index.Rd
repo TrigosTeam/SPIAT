@@ -4,14 +4,14 @@
 \alias{average_nearest_neighbor_index}
 \title{average_nearest_neighbor_index}
 \usage{
-average_nearest_neighbor_index(sce_object, reference_cell, column)
+average_nearest_neighbor_index(sce_object, reference_cell, feature_colname)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
 \item{reference_cell}{Cells positive for this marker will be used as reference}
 
-\item{column}{String specify the selected column for reference_cell}
+\item{feature_colname}{String specify the selected column for reference_cell}
 }
 \description{
 Calculate the the ANN index of a specified type of cells. Return a list that contains 

@@ -9,7 +9,7 @@ mixing_score_summary(
   reference_marker,
   target_marker,
   radius = 20,
-  column
+  feature_colname
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ mixing_score_summary(
 
 \item{radius}{The maximum radius around a reference marker for another cell to be considered an interaction.}
 
-\item{column}{String specifying the column with the desired cell type annotations}
+\item{feature_colname}{String specifying the column with the desired cell type annotations}
 }
 \value{
 A data.frame of cell numbers, mixing scores, and normalised mixing scores.

@@ -14,7 +14,7 @@
 #' @param x_position_max Integer used to specify the maximum x boundary to be splitted
 #' @param y_position_min Integer used to specify the minimum y boundary to be splitted
 #' @param y_position_max Integer used to specify the maximum y boundary to be splitted
-#' @param column String specifying which column the colouring should be based on
+#' @param feature_colname String specifying which column the colouring should be based on
 #' @importFrom RColorBrewer brewer.pal
 #' @import ggplot2
 #' @importFrom grDevices pdf dev.off
@@ -28,7 +28,7 @@
 
 image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
                            x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL, 
-                           column = "Cell.Type"){
+                           feature_colname = "Cell.Type"){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
@@ -71,7 +71,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     manual_full_image <- cell_loc[minX < cell_loc$Cell.X.Position & cell_loc$Cell.X.Position <= maxX
                                   & minY < cell_loc$Cell.Y.Position & cell_loc$Cell.Y.Position <= maxY, ]
     if(isTRUE(plot)){
-        number_markers <- length(unique(cell_loc[,column]))
+        number_markers <- length(unique(cell_loc[,feature_colname]))
         #Assigns colours to cell types based on user preference
         if(!is.null(colour_vector)){
             point_colours <- colour_vector
@@ -82,7 +82,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
 
         #Plots partitioned full image
         full_image <- ggplot(manual_full_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-            geom_point(aes(color = manual_full_image[,column]), size = 0.95) +
+            geom_point(aes(color = manual_full_image[,feature_colname]), size = 0.95) +
             scale_color_manual(values = point_colours) +
             guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
             theme(panel.grid.major = element_blank(),
@@ -159,7 +159,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                                            & min(local_coor_y) < temp_cell_loc$Cell.Y.Position & temp_cell_loc$Cell.Y.Position <= max(local_coor_y), ]
             if(isTRUE(plot)){
                 split_plot <- ggplot(divided_image, aes(x = Cell.X.Position, y = Cell.Y.Position)) +
-                    geom_point(aes(colour = divided_image[,column]), size = 0.95) +
+                    geom_point(aes(colour = divided_image[,feature_colname]), size = 0.95) +
                     scale_colour_manual(values = point_colours) +
                     guides(colour = guide_legend(title = "Cell Type", override.aes = list(size=1.0))) +
                     ggtitle(paste("(", x, ", ", y, ")", sep = "")) +

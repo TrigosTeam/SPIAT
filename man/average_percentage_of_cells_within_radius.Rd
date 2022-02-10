@@ -9,7 +9,7 @@ average_percentage_of_cells_within_radius(
   reference_phenotypes,
   target_phenotypes,
   radius = 100,
-  column
+  feature_colname
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ average_percentage_of_cells_within_radius(
 \item{radius}{Integer specifying the radius of search for cells around the reference cells.
 Radii of ~100 are recommended. If too small, too few cells might be present}
 
-\item{column}{String specifying the column with the desired cell type annotations}
+\item{feature_colname}{String specifying the column with the desired cell type annotations}
 }
 \value{
 A numeric vector ard a plot are returned
