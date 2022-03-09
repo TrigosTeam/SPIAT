@@ -76,9 +76,10 @@ Imports:
     xROI,
     Seurat,
     Rphenograph,
-    divo, 
+    divo,
     ggpubr,
-    magrittr
+    magrittr,
+    elsa
 Suggests:
     BiocStyle,
     knitr,
