@@ -13,21 +13,24 @@ calculate_minimum_distances_between_cell_types(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{feature_colname}{String Column of cells to choose the cell type from (e.g. Cell.Type, Cell.Type2, etc)}
+\item{feature_colname}{String. Column of cells to choose the cell type from
+(e.g. Cell.Type, Cell.Type2, etc).}
 
-\item{all_combinations}{If TRUE, the distances between all possible combinations of cell types
-will be calculated}
+\item{all_combinations}{Boolean. If TRUE, the distances between all possible
+combinations of cell types will be calculated.}
 
-\item{cell_types_of_interest}{Vector of cell types to consider if all_combinations is FALSE}
+\item{cell_types_of_interest}{String Vector of cell types to consider if
+all_combinations is FALSE.}
 }
 \value{
 A data.frame is returned
 }
 \description{
-Returns the mean, median and stardard deviation of the minimum 
-distances between phenotypes
+Returns the mean, median and stardard deviation of the minimum
+  distances between phenotypes.
 }
 \examples{
 summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
