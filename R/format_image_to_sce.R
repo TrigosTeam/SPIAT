@@ -28,7 +28,6 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment	
 #' @importFrom SummarizedExperiment colData
 #' @importFrom vroom vroom
-#' @importFrom utils read.delim read.csv
 #' @importFrom Seurat Read10X
 #' @return A SingleCellExperiment object is returned
 
@@ -327,7 +326,7 @@ format_image_to_sce <- function(format = "INFORM",
     expression <- as.matrix(raw_image)
     cells <- colnames(expression)
     
-    location <- read.delim(path_to_visium_coordinates, header=FALSE, sep=",")
+    location <- utils::read.delim(path_to_visium_coordinates, header=FALSE, sep=",")
     location$V1 <- gsub("-1", "", location$V1)
     
     #V2 are the empty spots. Removing from the datasets
@@ -350,10 +349,10 @@ format_image_to_sce <- function(format = "INFORM",
     
   } else if(format == "CODEX") { 
     
-    phenotypes <- read.delim(path_to_codex_cell_phenotypes,header=FALSE)
+    phenotypes <- utils::read.delim(path_to_codex_cell_phenotypes,header=FALSE)
     colnames(phenotypes) <- c("Cluster_ID", "Cell_type")
     
-    data <- read.delim(path, sep=",")
+    data <- utils::read.delim(path, sep=",")
     data$Cell_type <- phenotypes$Cell_type[match(data$Imaging.phenotype.cluster.ID,
                                                  phenotypes$Cluster_ID)]
     data$Imaging.phenotype.cluster.ID <- NULL
@@ -384,7 +383,7 @@ format_image_to_sce <- function(format = "INFORM",
       }
       
       #read in the image
-      image <- read.csv(path)
+      image <- utils::read.csv(path)
       
       #CHECK - if image contains all the columns specified and vectors of same length
       image_colnames <- colnames(image)
