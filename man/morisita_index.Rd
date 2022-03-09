@@ -7,10 +7,12 @@
 morisita_index(sce_objects, CI = 0.95)
 }
 \arguments{
-\item{sce_objects}{A vector of SingleCellExperiment object names in the form of the output of format_image_to_sce}
+\item{sce_objects}{A vector of SingleCellExperiment object names in the form
+of the output of format_image_to_sce.}
 
-\item{CI}{Confidence interval for calculating morisita index}
+\item{CI}{Confidence interval for calculating morisita index.}
 }
 \description{
-Calculate the morisita index between different formatted single cell experiment images
+Calculates the morisita index between different formatted single
+  cell experiment images.
 }

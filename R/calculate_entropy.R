@@ -1,14 +1,19 @@
 #' calculate_entropy
 #'
-#' @description Produces a dataframe of entropies for all reference cells or an entropy number for the whole image if a radius is not supplied. 
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param cell_types_of_interest Cell.Types of interest, the first celltype is considered as reference celltype
-#' @param feature_colname String specifying the column the markers are from
-#' @param radius (OPTIONAL) The maximum radius around a reference cell for another cell to be considered an interaction.
-#' @importFrom SingleCellExperiment colData 
+#' @description Returns a dataframe of entropies for all reference cells or an
+#'   entropy number for the whole image if a radius is not supplied.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param cell_types_of_interest String Vector. Cell types of interest, the
+#'   first cell type is considered as reference cell type.
+#' @param feature_colname String specifying the column the cell types are from.
+#' @param radius (OPTIONAL) Numeric. The maximum radius around a reference cell
+#'   for another cell to be considered an interaction.
+#' @importFrom SummarizedExperiment colData
 #' @return A dataframe or a number depending on the argument radius
 #' @export
-calculate_entropy <- function(sce_object, cell_types_of_interest, feature_colname = "Phenotype", radius = NULL){
+calculate_entropy <- function(sce_object, cell_types_of_interest, 
+                              feature_colname = "Phenotype", radius = NULL){
   
   if((cell_types_of_interest[1] %in% colData(sce_object)[,feature_colname]) && 
      any(cell_types_of_interest[-1] %in% colData(sce_object)[,feature_colname])){

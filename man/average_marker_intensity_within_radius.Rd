@@ -12,23 +12,27 @@ average_marker_intensity_within_radius(
 )
 }
 \arguments{
-\item{sce_object}{A SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{reference_marker}{A string specifying the marker that is used for reference cells}
+\item{reference_marker}{String specifying the marker that is used for
+reference cells.}
 
-\item{target_marker}{A string specifying the marker to calculate its average intensity}
+\item{target_marker}{String specifying the marker to calculate its average
+intensity.}
 
-\item{radius}{An integer specifying the radius of search for cells around the reference cells}
+\item{radius}{Integer specifying the radius of search for cells around the
+reference cells.}
 }
 \value{
 A single number is returned
 }
 \description{
-Calculates the average intensity of the target_marker within a radius
-from the cells positive for the reference marker.
-Note that it pools all cells with the target marker that are within the specific radius of
-any reference cell. Results represent the average intensities within a radius,
-but do not correspond to metrics for each cell
+Calculates the average intensity of the target_marker within a
+  radius from the cells positive for the reference marker. Note that it pools
+  all cells with the target marker that are within the specific radius of any
+  reference cell. Results represent the average intensities within a radius,
+  but do not correspond to metrics for each cell.
 }
 \examples{
 average_marker_intensity_within_radius(SPIAT::formatted_image,
