@@ -6,8 +6,6 @@
 #'
 #' @param predicted_data Output from predict_phenotypes
 #' @param marker Marker to plot
-#' @import SingleCellExperiment
-#' @importFrom gridExtra grid.arrange
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
@@ -58,5 +56,5 @@ marker_prediction_plot <- function(predicted_data, marker) {
           axis.title.y = element_blank(),
           axis.text.y = element_blank(),
           axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
-  grid.arrange(p_actual, p_pred, nrow=1)
+  gridExtra::grid.arrange(p_actual, p_pred, nrow=1)
 }

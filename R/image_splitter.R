@@ -4,23 +4,18 @@
 #' splits the image into specified sections and plots the different combinations
 #' of markers within the image segments.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param number_of_splits Number specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3)
-#' @param plot Specifies whether the splitted images should be printed in a pdf
-#' @param cut_labels - specifies whether to plot where the image had been segmented
-#' @param colour_vector List of colors. If specified, the colours will be used for plotting.
+#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce.
+#' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3).
+#' @param plot Boolean. Specifies whether the splitted images should be printed in a pdf.
+#' @param cut_labels Boolean. Specifies whether to plot where the image had been segmented.
+#' @param colour_vector String Vector. If specified, the colours will be used for plotting.
 #' If NULL, colors will be generated automatically
-#' @param x_position_min Integer used to specify the minimum x boundary to be splitted
-#' @param x_position_max Integer used to specify the maximum x boundary to be splitted
-#' @param y_position_min Integer used to specify the minimum y boundary to be splitted
-#' @param y_position_max Integer used to specify the maximum y boundary to be splitted
-#' @param feature_colname String specifying which column the colouring should be based on
-#' @importFrom RColorBrewer brewer.pal
+#' @param x_position_min Integer used to specify the minimum x boundary to be splitted.
+#' @param x_position_max Integer used to specify the maximum x boundary to be splitted.
+#' @param y_position_min Integer used to specify the minimum y boundary to be splitted.
+#' @param y_position_max Integer used to specify the maximum y boundary to be splitted.
+#' @param feature_colname String specifying which column the colouring should be based on.
 #' @import ggplot2
-#' @importFrom grDevices pdf dev.off
-#' @importFrom SingleCellExperiment colData
-#' @importFrom stats complete.cases setNames
-#' @importFrom dittoSeq dittoColors
 #' @return A list of data.frames is returned
 #' @examples
 #' split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
@@ -37,8 +32,8 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     image_filename <- deparse(substitute(sce_object))
 
     #Reads the image file and deletes cell rows with NA positions
-    cell_loc <- data.frame(colData(sce_object))
-    cell_loc <- cell_loc[complete.cases(cell_loc),]
+    cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
+    cell_loc <- cell_loc[stats::complete.cases(cell_loc),]
     
     #CHECK
     if (nrow(cell_loc) == 0) {
@@ -77,7 +72,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
             point_colours <- colour_vector
         }else{
         #Assigns colourblind-friendly colours    
-            point_colours <- dittoColors()[seq_len(number_markers)]
+            point_colours <- dittoSeq::dittoColors()[seq_len(number_markers)]
         }
 
         #Plots partitioned full image
@@ -107,7 +102,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
                 geom_text(aes_string(x = maxX, y = 50, label = maxX), size = 3)
         }
 
-        pdf(paste(image_filename,"_image_split",".pdf",sep =""))
+        grDevices::pdf(paste(image_filename,"_image_split",".pdf",sep =""))
     }
 
     #Splits the range of x and y coordinates into n + 1 evenly spaced out lengths
@@ -181,7 +176,7 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_label
     }
     if(isTRUE(plot)){
         print(full_image)
-        dev.off()
+        grDevices::dev.off()
         print("PDF saved successfully")
     }
     return(divided_image_obj)
