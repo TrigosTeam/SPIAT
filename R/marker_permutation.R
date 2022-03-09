@@ -5,6 +5,10 @@
 #' @param sce_object SingleCellExperiment object in the form of output from format_image_to_sce
 #' @param num_iter Integer specifying the number of iterations for bootstrapping
 #' @import dplyr
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats complete.cases
+#' @importFrom utils combn
 #' @return A plot is returned
 #' @examples 
 #' sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
@@ -12,15 +16,29 @@
 
 marker_permutation <- function(sce_object, num_iter) {
   
-  formatted_data <- bind_colData_intensity(sce_object)
-  intensity_matrix <- SummarizedExperiment::assay(sce_object)
+  formatted_data <- data.frame(colData(sce_object))
+  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
+  
+  intensity_matrix <- assay(sce_object)
+  
   markers <- rownames(intensity_matrix)
+  cell_ids <- colnames(intensity_matrix)
+  
+  rownames(intensity_matrix) <- NULL
+  colnames(intensity_matrix) <- NULL
+  intensity_matrix_t <- t(intensity_matrix)
+  intensity_df <- data.frame(intensity_matrix_t)
+  colnames(intensity_df) <- markers
+  
+  formatted_data <- cbind(formatted_data, intensity_df)
+  formatted_data <- formatted_data[complete.cases(formatted_data),]
+  
   markers <- markers[markers != "DAPI"]
   
   #generate all combinations of markers into a vector
   marker_combinations <- vector()
   for(i in seq_along(markers)) {
-    comb_matrix <- utils::combn(markers, i)
+    comb_matrix <- combn(markers, i)
     for(j in seq_len(ncol(comb_matrix))) {
       comb <- paste0(comb_matrix[,j], collapse = '', sep=',')
       comb <- gsub(",$", "", comb)

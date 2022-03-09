@@ -12,21 +12,17 @@ calculate_entropy(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{cell_types_of_interest}{String Vector. Cell types of interest, the
-first cell type is considered as reference cell type.}
+\item{cell_types_of_interest}{Cell.Types of interest, the first celltype is considered as reference celltype}
 
-\item{feature_colname}{String specifying the column the cell types are from.}
+\item{feature_colname}{String specifying the column the markers are from}
 
-\item{radius}{(OPTIONAL) Numeric. The maximum radius around a reference cell
-for another cell to be considered an interaction.}
+\item{radius}{(OPTIONAL) The maximum radius around a reference cell for another cell to be considered an interaction.}
 }
 \value{
 A dataframe or a number depending on the argument radius
 }
 \description{
-Returns a dataframe of entropies for all reference cells or an
-  entropy number for the whole image if a radius is not supplied.
+Produces a dataframe of entropies for all reference cells or an entropy number for the whole image if a radius is not supplied.
 }

@@ -1,30 +1,25 @@
 #' calculate_cross_functions
 #'
-#' @description Compute and plot the cross functions between two specified cell
-#'   types.
-#'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
-#' @param method String that is the method for dependence calculation. Options:
-#'   "Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is
-#'   "Kcross".
-#' @param cell_types_of_interest String Vector. Cell types of interest.
-#' @param feature_colname String that is the name of the column of the types.
-#' @param plot_results Boolean. TRUE if result to be plotted, FALSE if not. In
-#'   either case, an object with the results is returned
-#' @param dist Number (OPTIONAL) The largest distance between two cell types at
-#'   which K function is evaluated. If NULL, use the default distances set by
-#'   cross functions.
+#' @description calculate the cross functions between two specified cell types 
+#' 
+#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param method (OPTIONAL) String that is the method for dependence calculation. 
+#' Options: "Gcross", "Kcross", "Lcross", "Jcross". Default method is "Kcross"
+#' @param phenotypes Vector of phenotypes of interest
+#' @param feature_colname String that is the name of the column of the types
+#' @param plot_results TRUE if result to be plotted, FALSE if not. In either case, an object with the results is returned
+#' @param dist Number (OPTIONAL) The largest distance between two cell types at which K function is evaluated. 
+#' If NULL, use the default distances set by cross functions. 
 #' @importFrom spatstat.core Gcross Kcross.inhom Lcross Jcross Kcross
-#' @importFrom spatstat.geom ppp
-#' @export
+#' @importFrom spatstat.geom ppp 
+#' @export 
 
 calculate_cross_functions <- function(sce_object, method = "Kcross", 
-                                      cell_types_of_interest, feature_colname, 
-                                      plot_results = T, dist = NULL) {
+                                      phenotypes, feature_colname, plot_results = T,
+                                      dist = NULL) {
   #CHECK
   formatted_data <- data.frame(colData(sce_object))
-  if (!all(cell_types_of_interest %in% formatted_data[[feature_colname]])) {
+  if (!all(phenotypes %in% formatted_data[[feature_colname]])) {
     stop("Cell type not found!")
   }
   
@@ -37,33 +32,33 @@ calculate_cross_functions <- function(sce_object, method = "Kcross",
   else r <- seq(0, dist, length.out = 100)
   
   if (method == "Gcross"){
-    p <- Gcross(ppp_object, cell_types_of_interest[1],cell_types_of_interest[2],correction = "border", r = r)
+    p <- Gcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       plot(p, main = paste("cross G function",attr(sce_object,"name")))
     }
   }
   else if (method == "Kcross"){
-    p <- Kcross(ppp_object, cell_types_of_interest[1],cell_types_of_interest[2],correction = "border", r = r)
+    p <- Kcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       if (is.null(dist)) plot(p, main = paste("cross K function",attr(sce_object,"name")))
       else plot(p, main = paste("cross K function",attr(sce_object,"name")), xlim = c(0,dist))
     }
   }
   else if (method == "Kcross.inhom"){
-    p <- Kcross.inhom(ppp_object, cell_types_of_interest[1],cell_types_of_interest[2],correction = "border", r = r)
+    p <- Kcross.inhom(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       if (is.null(dist)) plot(p, main = paste("cross K function",attr(sce_object,"name")))
       else plot(p, main = paste("cross K function",attr(sce_object,"name")), xlim = c(0,dist))
     }
   }
   else if (method == "Lcross"){
-    p <- Lcross(ppp_object, cell_types_of_interest[1],cell_types_of_interest[2],correction = "border", r = r)
+    p <- Lcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       plot(p, main = paste("cross L function",attr(sce_object,"name")))
     }
   }
   else if (method == "Jcross"){
-    p <- Jcross(ppp_object, cell_types_of_interest[1],cell_types_of_interest[2],correction = "border", r = r)
+    p <- Jcross(ppp_object, phenotypes[1],phenotypes[2],correction = "border", r = r)
     if(plot_results){
       plot(p, main = paste("cross J function",attr(sce_object,"name")))
     }

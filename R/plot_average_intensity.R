@@ -1,16 +1,13 @@
 #' plot_average_intensity
 #'
 #' @description Takes in a vector or radii and calculates the average intensity
-#'   of a target marker using average_intensity function. It plots the intensity
-#'   level as a line graph.
+#' of a target marker using average_intensity function. It plots the intensity
+#' level as a line graph
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
-#' @param reference_marker String specifying the reference marker.
-#' @param target_marker String specifying the marker to calculate its average
-#'   intensity.
-#' @param radii Vector of integers specifying the search radius around reference
-#'   cells.
+#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param reference_marker String specifying the reference marker
+#' @param target_marker String specifying the marker to calculate its average intensity
+#' @param radii Vector of integers specifying the search radius around reference cells
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples

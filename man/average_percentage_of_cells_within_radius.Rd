@@ -13,27 +13,23 @@ average_percentage_of_cells_within_radius(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{radius}{Integer specifying the radius of search for cells around the
-reference cells. Radii of ~100 are recommended. If too small, too few cells
-might be present.}
+\item{reference_phenotypes}{String specifying the phenotypes of reference cells}
 
-\item{feature_colname}{String specifying the column with the desired cell
-type annotations.}
+\item{target_phenotypes}{String specifying the phenotypes for target cells}
 
-\item{reference_celltype}{String specifying the cell type of reference
-cells.}
+\item{radius}{Integer specifying the radius of search for cells around the reference cells.
+Radii of ~100 are recommended. If too small, too few cells might be present}
 
-\item{target_celltype}{String specifying the cell type for target cells}
+\item{feature_colname}{String specifying the column with the desired cell type annotations}
 }
 \value{
-A numeric vector and a plot are returned
+A numeric vector ard a plot are returned
 }
 \description{
-Calculates the average percentage of cells of a target cell type
-  within a radius from the cells with a reference cell type. The calculation
-  is done per reference cell, so runtime will depend on the number of
-  reference cells present. Output is a single value (the mean for the image).
+Calculates the average percentage of cells of a target phenotype within a radius
+from the cells with a reference phenotype.
+The calculation is done per reference cell, so runtime will depend on the number of reference
+cells present. Output is a single value (the mean for the image).
 }

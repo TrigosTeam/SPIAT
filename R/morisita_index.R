@@ -1,12 +1,13 @@
 #' morisita_index
 #'
-#' @description Calculates the morisita index between different formatted single
-#'   cell experiment images.
+#' @description Calculate the morisita index between different formatted single cell experiment images
 #'
-#' @param sce_objects A vector of SingleCellExperiment object names in the form
-#'   of the output of format_image_to_sce.
-#' @param CI Confidence interval for calculating morisita index.
+#' @param sce_objects A vector of SingleCellExperiment object names in the form of the output of format_image_to_sce
+#' @param CI Confidence interval for calculating morisita index
 #' @import dplyr
+#' @import SingleCellExperiment
+#' @importFrom tibble rownames_to_column
+#' @importFrom divo mh
 #' @export
 
 morisita_index <- function(sce_objects, CI = 0.95) {
@@ -16,13 +17,35 @@ morisita_index <- function(sce_objects, CI = 0.95) {
     df_names <- vector()
     
     phenotypes <- vector()
-
+    
+    format_sce_to_df <- function(sce_object) {
+        formatted_data <- data.frame(colData(sce_object))
+        
+        formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
+        
+        expression_matrix <- assay(sce_object)
+        
+        markers <- rownames(expression_matrix)
+        cell_ids <- colnames(expression_matrix)
+        
+        rownames(expression_matrix) <- NULL
+        colnames(expression_matrix) <- NULL
+        expression_matrix_t <- t(expression_matrix)
+        expression_df <- data.frame(expression_matrix_t)
+        colnames(expression_df) <- markers
+        
+        formatted_data <- cbind(formatted_data, expression_df)
+        formatted_data <- formatted_data[complete.cases(formatted_data),]
+        
+        return(formatted_data)
+    }
+    
     #FORMAT ALL SCE_OBJECTS
     for(num in 1:num_objects) {
         
         sce_object <- sce_objects[num]
         
-        data <- bind_colData_intensity(eval(parse(text = sce_object)))
+        data <- format_sce_to_df(eval(parse(text = sce_object)))
         
         phenotypes <- unique(c(phenotypes, unique(data$Phenotype)))
         
@@ -54,7 +77,7 @@ morisita_index <- function(sce_objects, CI = 0.95) {
     }
     
     #CALCULATE MORISITA INDEX
-    result <- divo::mh(t(count_df), CI=CI)
+    result <- mh(t(count_df), CI=CI)
     
     #set the names of columns and rows
     colnames(result[["Mean"]]) <- sce_objects

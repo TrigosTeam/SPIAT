@@ -1,42 +1,32 @@
 #' predict_phenotypes
 #'
-#' @description Predicts cell phenotypes based on marker intensity levels. If no
-#'   prior cell phenotypes are available, it adds the phenotypes to the
-#'   SingleCellExperiment object used as input. If reference cell phenotypes are
-#'   available, it produces a density plot showing predicted cutoff of a
-#'   positive reading for marker intensity and it returns a dataframe containing
-#'   the predicted intensity status for a particular marker.
+#' @description Predicts cell phenotypes based on marker intensity levels. If no prior cell phenotypes are available,
+#' it adds the phenotypes to the SingleCellExperiment object used as input. If reference cell phenotypes are available,
+#' it produces a density plot showing predicted cutoff of a
+#' positive reading for marker intensity and it returns a dataframe containing
+#' the predicted intensity status for a particular marker.
 
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
-#' @param thresholds (Optional) Numeric Vector specifying the cutoff of a
-#'   positive reading. The order must match the marker order, and it should be
-#'   NA for DAPI.
-#' @param tumour_marker String containing the tumour_marker used for the image.
-#'   If tumor cells are known, annotate tumor cells as 1 and non-tumor cells as
-#'   0, and include the rowname.
-#' @param baseline_markers Markers not found on tumour cells to refine the
-#'   threshold used for tumour cell phenotying.
+#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
+#' @param thresholds (Optional) Vector of numbers specifying the cutoff of a positive reading.
+#' The order must match the marker order, and it should be NA for DAPI.
+#' @param tumour_marker String containing the tumour_marker used for the image. If tumor cells are known,
+#' #annotate tumor cells as 1 and non-tumor cells as 0, and include the rowname
+#' @param baseline_markers Markers not found on tumour cells to refine the threshold used for tumour cell phenotying.
 #' @param nuclear_marker Nuclear marker used.
-#' @param reference_phenotypes TRUE or FALSE value whether there are reference
-#'   phenotypes for the sample obtained by the user through other means (e.g.
-#'   HALO or InForm). If there are reference phenotypes available, a matrix of
-#'   predicted phenotypes, intensities, and reference phenotypes will be
-#'   returned, which can be used as input to "marker_prediction_plot". If no
-#'   reference phenotype available, the result of the function will be added to
-#'   the sce object used in the input. Note that if a reference phenotype is to
-#'   be used, the phenotypes must be an explicit combination of positive markers
-#'   (e.g. AMACR,PDL1), as opposed to descriptive (PDL1+ tumour cells)
-#' @param markers_to_phenotype Markers to be included in the phenotyping. If
-#'   NULL, then all markers will be used. DAPI needs to be excluded
-#' @param plot_distribution If TRUE, plots of the marker intensities
-#'   distributions and cutoffs are plotted
+#' @param reference_phenotypes TRUE or FALSE value whether there are reference phenotypes for the sample obtained by the user through other means (e.g. HALO or InForm).
+#' If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
+#' If no reference phenotype available, the result of the function will be added to the sce object used in the input. Note that if a reference phenotype is to be used,
+#' the phenotypes must be an explicit combination of positive markers (e.g. AMACR,PDL1), as opposed to descriptive (PDL1+ tumour cells)
+#' @param markers_to_phenotype Markers to be included in the phenotyping. If NULL, then all markers will be used. DAPI needs to be excluded
+#' @param plot_distribution If TRUE, plots of the marker intensities distributions and cutoffs are plotted
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
+#' @importFrom pracma findpeaks
 #' @importFrom stats complete.cases density quantile
-#' @return An updated sce object with cell phenotypes or a data.frame of
-#'   predicted phenotypes
+#' @importFrom mmand threshold
+#' @return An updated sce object with cell phenotypes or a data.frame of predicted phenotypes
 #' @examples
 #' @export
 
@@ -46,7 +36,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                plot_distribution=TRUE){
 
     formatted_data <- data.frame(colData(sce_object))
-    formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") #convert rowname to column
+    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
     intensity_matrix <- assay(sce_object)
 
@@ -116,17 +106,17 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         #calculate the predictions
         if (!is.null(thresholds) && !is.na(thresholds[match(marker,markers)])) {
             #there is a threshold value specified for the marker, use the threshold
-            marker_threshold <- mmand::thresholds[match(marker,markers)]
+            marker_threshold <- thresholds[match(marker,markers)]
             print(paste("(", marker, " has threshold specified: ", as.character(marker_threshold), ")", sep=""))
             selected_valley_xcord[[marker]] <- NULL
 
             #get the threshold predictions
-            predictions_by_threshold <- data.frame(mmand::threshold(marker_specific_level, level = marker_threshold))
+            predictions_by_threshold <- data.frame(threshold(marker_specific_level, level = marker_threshold))
 
         } else {
             #calculate the valleys
             intensity_density <- density(marker_specific_level, na.rm=TRUE)
-            valleys <- pracma::findpeaks(-(intensity_density)$y)
+            valleys <- findpeaks(-(intensity_density)$y)
             valley_ycords <- valleys[,1] * -1
             index <- match(valley_ycords, intensity_density$y)
             valley_xcords <- intensity_density$x[index]
@@ -147,7 +137,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
             selected_valley_xcord[[marker]] <- valley_df$valley_xcords[1]
         }
         #using the selected valley as the threshold
-        predictions_by_threshold <- data.frame(mmand::threshold(marker_specific_level, level = selected_valley_xcord[[marker]]))
+        predictions_by_threshold <- data.frame(threshold(marker_specific_level, level = selected_valley_xcord[[marker]]))
         colnames(predictions_by_threshold) <- paste(marker, "_predicted_phenotype", sep="")
         formatted_data <- cbind(formatted_data, predictions_by_threshold)
       }
@@ -184,12 +174,12 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       selected_valley_xcord[[marker]] <- NULL
 
       #get the threshold predictions
-      predictions_by_threshold <- data.frame(mmand::threshold(tumour_specific_level, level = marker_threshold))
+      predictions_by_threshold <- data.frame(threshold(tumour_specific_level, level = marker_threshold))
 
     } else {
       #calculate the valleys
       intensity_density <- density(tumour_specific_level, na.rm=TRUE)
-      valleys <- pracma::findpeaks(-(intensity_density)$y)
+      valleys <- findpeaks(-(intensity_density)$y)
       valley_ycords <- valleys[,1] * -1
       index <- match(valley_ycords, intensity_density$y)
       valley_xcords <- intensity_density$x[index]
@@ -204,7 +194,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       final_threshold <- ifelse(selected_valley_xcord[[tumour_marker]] < cutoff_for_tumour,
                                 selected_valley_xcord[[tumour_marker]], cutoff_for_tumour)
       selected_valley_xcord[[tumour_marker]] <- final_threshold
-      predictions_by_threshold <- data.frame(mmand::threshold(tumour_specific_level, level = final_threshold))
+      predictions_by_threshold <- data.frame(threshold(tumour_specific_level, level = final_threshold))
       colnames(predictions_by_threshold) <- paste(tumour_marker, "_predicted_phenotype", sep="")
       formatted_data <- cbind(formatted_data, predictions_by_threshold)
     }

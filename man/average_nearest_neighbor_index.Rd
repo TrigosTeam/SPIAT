@@ -2,21 +2,18 @@
 % Please edit documentation in R/average_nearest_neighbor_index.R
 \name{average_nearest_neighbor_index}
 \alias{average_nearest_neighbor_index}
-\title{ANN index for point pattern (clustering or dispersion)}
+\title{average_nearest_neighbor_index}
 \usage{
 average_nearest_neighbor_index(sce_object, reference_cell, feature_colname)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{reference_cell}{String. Cells of this type are used as reference cells.}
+\item{reference_cell}{Cells positive for this marker will be used as reference}
 
-\item{feature_colname}{String. Specify the selected column for
-`reference_cell`.}
+\item{feature_colname}{String specify the selected column for reference_cell}
 }
 \description{
-Calculate the the ANN index of a specified type of cells. The
-  index indicates the clustering effect of a point pattern. It can be
-  clustering, random or dispersion.
+Calculate the the ANN index of a specified type of cells. Return a list that contains 
+the pattern of cells ("Clustered", "Dispersed", or "Random")
 }

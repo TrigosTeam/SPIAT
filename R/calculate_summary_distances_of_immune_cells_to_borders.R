@@ -4,6 +4,7 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param cell_types_of_interest Vector of cell types to consider
 #' @param feature_colname String specifying which column the interested cell types are from 
+#' @importFrom stats median sd
 #' @return A data.frame is returned
 #' @export
 
@@ -37,8 +38,8 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object, cell_typ
   min_d <- min(data_of_interest_in$Distance.To.Border)
   max_d <- max(data_of_interest_in$Distance.To.Border)
   mean_d <- mean(data_of_interest_in$Distance.To.Border)
-  median_d <- stats::median(data_of_interest_in$Distance.To.Border)
-  st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border)
+  median_d <- median(data_of_interest_in$Distance.To.Border)
+  st.dev_d <- sd(data_of_interest_in$Distance.To.Border)
   
   df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
   ##### data out #####
@@ -48,8 +49,8 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object, cell_typ
   min_d <- min(data_of_interest_out$Distance.To.Border)
   max_d <- max(data_of_interest_out$Distance.To.Border)
   mean_d <- mean(data_of_interest_out$Distance.To.Border)
-  median_d <- stats::median(data_of_interest_out$Distance.To.Border)
-  st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border)
+  median_d <- median(data_of_interest_out$Distance.To.Border)
+  st.dev_d <- sd(data_of_interest_out$Distance.To.Border)
   
   df <-  rbind(df, c("All_cell_types_of_interest", "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
   
@@ -68,8 +69,8 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object, cell_typ
     min_d <- min(data_of_interest_out$Distance.To.Border)
     max_d <- max(data_of_interest_out$Distance.To.Border)
     mean_d <- mean(data_of_interest_out$Distance.To.Border)
-    median_d <- stats::median(data_of_interest_out$Distance.To.Border)
-    st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border)
+    median_d <- median(data_of_interest_out$Distance.To.Border)
+    st.dev_d <- sd(data_of_interest_out$Distance.To.Border)
     
     df <-  rbind(df, c(type, "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
   }

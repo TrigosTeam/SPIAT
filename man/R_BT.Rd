@@ -2,27 +2,20 @@
 % Please edit documentation in R/R_BT.R
 \name{R_BT}
 \alias{R_BT}
-\title{The ratio of tumour border cell count and tumour cell count}
+\title{R_BT}
 \usage{
-R_BT(sce_object, cell_type_of_interest, feature_colname)
+R_BT(sce_object, cell_types_of_interest, feature_colname)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{}
 
-\item{cell_type_of_interest}{String. The cell type that the user wants to
-determine a cluster of.}
+\item{cell_types_of_interest}{}
 
-\item{feature_colname}{String. The column that contains the
-`cell_type_on_interest`.}
+\item{feature_colname}{}
 }
 \value{
-A number is returned.
+
 }
 \description{
-Calculates the ratio of the tumour border cell count and the
-  total tumour cell count in an image. The tumour border cells are detected
-  by the default `identify_bordering_cells` function. If the ratio is high,
-  it means that most tumour cells are identified as bordering cells. This
-  means there is no clear tumour clusters.
+R_BT
 }

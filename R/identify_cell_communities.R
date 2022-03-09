@@ -10,6 +10,11 @@
 #' @param phenotypes_of_interest Vector of phenotypes to consider
 #' @import ggplot2
 #' @import dplyr
+#' @import Rphenograph
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
+#' @importFrom dbscan dbscan
+#' @importFrom dittoSeq dittoColors
 #' @return A data.frame and a plot is returned
 #' @examples
 #' @export
@@ -19,7 +24,8 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- Community <- Xpos <- Ypos <- community <- NULL
       
-    formatted_data <- get_colData(sce_object)
+    formatted_data <- data.frame(colData(sce_object))
+    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
     intensity_matrix <- assay(sce_object)
 
@@ -50,7 +56,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     }
 
     if (clustering_method == "rphenograph") {
-      Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = min_community_size)
+      Rphenograph_out <- Rphenograph(cell_cords, k = min_community_size)
       formatted_data$Community <- factor(membership(Rphenograph_out[[2]]))
     } else if (clustering_method == "dbscan") {
         #Use dbscan to generate clusters
@@ -69,7 +75,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
     number_of_communities <- length(unique(formatted_data$Community))
     
     # use colourblind-friendly colours
-    colours <- dittoSeq::dittoColors()[seq_len(number_of_communities)]
+    colours <- dittoColors()[seq_len(number_of_communities)]
 
     #label the community centre by averaging x and y
     label_location <- vector()
