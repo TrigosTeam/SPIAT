@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 0.4
+Version: 0.99.0
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -86,7 +86,6 @@ Suggests:
     pkgdown,
     testthat
 Remotes:
-    babichmorrowc/hull2spatial,
     JinmiaoChenLab/Rphenograph
 biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
