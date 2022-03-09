@@ -12,9 +12,6 @@
 #' 
 #' @param point_pattern ppp object representing data, can be marked point pattern of whole sample or of a single phenotype
 #' @param phenotypes_of_interest specifies which phenotype to base cluster model
-#' 
-#' @importFrom spatstat.core kppm 
-#' @importFrom spatstat.geom unmark
 
 fit_cluster_model <- function(point_pattern, phenotypes_of_interest = NULL){
   # Check for specified cell phenotype and subset if necessary 
@@ -23,11 +20,12 @@ fit_cluster_model <- function(point_pattern, phenotypes_of_interest = NULL){
     point_pattern <- temp
   } 
   # Unmark point_pattern 
-  point_pattern <- unmark(point_pattern)
+  point_pattern <- spatstat.geom::unmark(point_pattern)
   # Fit Cauchy cluster model
-  model <- kppm(point_pattern, clusters = "Cauchy")
+  model <- spatstat.core::kppm(point_pattern, clusters = "Cauchy")
   #Extract and return relevant data
-  model_parameters <- list(kappa = model$clustpar[1], mean_cluster_size = model$mu, estimated_intensity = model$lambda)
+  model_parameters <- list(kappa = model$clustpar[1], mean_cluster_size = model$mu, 
+                           estimated_intensity = model$lambda)
    
   return(model_parameters)
 }
