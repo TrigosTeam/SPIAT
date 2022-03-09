@@ -79,7 +79,9 @@ Imports:
     divo,
     ggpubr,
     magrittr,
-    elsa
+    elsa,
+    Rtsne,
+    umap
 Suggests:
     BiocStyle,
     knitr,
