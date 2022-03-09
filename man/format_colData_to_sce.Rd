@@ -4,10 +4,10 @@
 \alias{format_colData_to_sce}
 \title{format_colData_to_sce}
 \usage{
-format_colData_to_sce(colData)
+format_colData_to_sce(df)
 }
 \arguments{
-\item{colData}{Dataframe that will be the colData of the sce object}
+\item{df}{Dataframe that will be the colData of the sce object}
 }
 \value{
 An SingleCellExperiment object

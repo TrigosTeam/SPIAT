@@ -8,8 +8,6 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param window_pol Optional Boolean Specifying if the window is polygon
 #' @param feature_colname String specifying the feature column of interest
-#' @importFrom spatstat.geom ppp owin
-#' @importFrom grDevices chull
 
 format_sce_to_ppp <- function(sce_object, window_pol = F, feature_colname="Phenotype") {
   
@@ -29,20 +27,21 @@ format_sce_to_ppp <- function(sce_object, window_pol = F, feature_colname="Pheno
   y_max <- as.numeric(y_summary[6])
   
   if (window_pol == T){
-
+    
     # get ploy window
     X <- data.frame(x,y)
-    hpts <- chull(X)
+    hpts <- grDevices::chull(X)
     poly_window <- list(x=rev(X[hpts, 1]), y=rev(X[hpts, 2]))
     
     # format sce to ppp
-    ppp_object <- ppp(x, y, poly = poly_window, 
-                      marks = marks)
+    ppp_object <- spatstat.geom::ppp(x, y, poly = poly_window, 
+                                     marks = marks)
   }
-
+  
   else{  
-    ppp_object <- ppp(x, y, window = owin(c(x_min, x_max), c(y_min, y_max)), 
-                    marks = marks)
+    ppp_object <- spatstat.geom::ppp(x, y, 
+                                     window = spatstat.geom::owin(c(x_min, x_max), c(y_min, y_max)), 
+                                     marks = marks)
   }
   return(ppp_object)
 }

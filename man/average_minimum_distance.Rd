@@ -7,13 +7,15 @@
 average_minimum_distance(sce_object)
 }
 \arguments{
-\item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{Singlecellexperiment object in the form of the output of
+format_image_to_sce.}
 }
 \value{
 A single number is returned
 }
 \description{
-Calculates the average minimum distance of all cells in the sce_object
+Calculates the average minimum distance of all cells in the
+  sce_object.
 }
 \examples{
 average_minimum_distance(SPIAT::formatted_image)

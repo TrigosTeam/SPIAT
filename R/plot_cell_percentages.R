@@ -5,7 +5,6 @@
 #' @param tumour_marker Tumour marker to exclude if needed
 #' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name"
 #' @import ggplot2
-#' @importFrom stats reorder
 #' @return A plot is returned
 #' @examples
 #' p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
@@ -24,7 +23,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL, cellprop
   cell_proportions <- cell_proportions[cell_proportions$Cell_type != "OTHER",]
 
   cell_percentages_full_plot <-
-    ggplot(cell_proportions,aes(x = reorder({{cellprop_colname}}, Percentage), y = Percentage)) +
+    ggplot(cell_proportions,aes(x = stats::reorder({{cellprop_colname}}, Percentage), y = Percentage)) +
       geom_bar(stat = 'identity', fill = "#bababa") +
       theme_bw() +
       theme(legend.position = "none") +
@@ -39,7 +38,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL, cellprop
     cell_proportions_no_tumour$Percentage_label <- round(cell_proportions_no_tumour$Percentage, digits=1)
 
     cell_percentages_no_tumour_plot <-
-      ggplot(cell_proportions_no_tumour, aes(x = reorder({{cellprop_colname}}, Percentage), y = Percentage)) +
+      ggplot(cell_proportions_no_tumour, aes(x = stats::reorder({{cellprop_colname}}, Percentage), y = Percentage)) +
       geom_bar(stat = 'identity', fill = "#bababa") +
       ggtitle("Excluding tumor cells")+
       theme_bw() +

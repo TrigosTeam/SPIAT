@@ -16,7 +16,8 @@ measure_association_to_cell_properties(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce}
 
 \item{property}{String that is the name of the column of interest}
 
@@ -26,17 +27,20 @@ measure_association_to_cell_properties(
 
 \item{merge_name}{String that is the name of the merged phenotype}
 
-\item{method}{the analysis to do on the selected phenotypes and property. Options are density, box, t, wilcox}
+\item{method}{the analysis to do on the selected phenotypes and property.
+Options are density, box, t, wilcox}
 
 \item{Nucleus.Ratio}{when the ratio of the nucleus size is of interest}
 
 \item{log.scale}{if log the data}
 }
 \value{
-With method "box" or "density a plot is returned. With method "t" or "wilcox", the text output from the test are returned.
+With method "box" or "density a plot is returned. With method "t" or
+  "wilcox", the text output from the test are returned.
 }
 \description{
-Plots the density or boxplot of a property of two cell phenotypes or compares using t test/wilcoxon rank sum test
+Plots the density or boxplot of a property of two cell
+  phenotypes or compares using t test/wilcoxon rank sum test
 }
 \examples{
 measure_association_to_cell_properties(SPIAT::formatted_image,
@@ -46,5 +50,5 @@ measure_association_to_cell_properties(SPIAT::formatted_image,
 measure_association_to_cell_properties(SPIAT::formatted_image,
                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
                                       property = "Cell.Area",
-                                      method = "t")                                     
+                                      method = "t")
 }

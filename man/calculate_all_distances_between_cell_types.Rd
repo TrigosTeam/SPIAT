@@ -11,17 +11,20 @@ calculate_all_distances_between_cell_types(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{cell_types_of_interest}{Vector containing cell types to be considered,
-if NULL, all cell type combinations will be calculated}
+\item{cell_types_of_interest}{String Vector containing cell types to be
+considered, if NULL, all cell type combinations will be calculated.}
 
-\item{feature_colname}{String of the name the feature column with the cell types of interest to be considered}
+\item{feature_colname}{String of the name the feature column with the cell
+types of interest to be considered.}
 }
 \value{
 A data.frame is returned.
 }
 \description{
-Returns the distances between cells of different types. 
-If none of the cell types are found, it will print an error message and return a vector of NAs
+Returns the distances between cells of different types. If none
+  of the cell types are found, it will print an error message and return a
+  vector of NAs.
 }
