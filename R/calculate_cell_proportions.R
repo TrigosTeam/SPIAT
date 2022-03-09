@@ -1,22 +1,29 @@
 #' calculate_cell_proportions
 #'
-#' @description Calculate the number and proportion of each cell phenotype in an image
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_celltypes Vector specifying reference phenotypes. If NULL (default), then the proportion of each cell type against all cells is returned.
-#' Alternatively, a custom vector of cell types can be used as input, and these will be used as the denominator in the calculation of the proportions.
-#' @param celltypes_to_exclude Vector specifying cell types to exclude. For example "OTHER" will exclude that celltype from the Total. If NULL, all cell types are included
-#' @param feature_colname Column of cells to choose the phenotype from (e.g. Phenotype, Cell.Type, etc)
-#' @importFrom SummarizedExperiment colData
-#' @importFrom stats complete.cases
+#' @description Calculates the number and proportion of each cell type.
+#' 
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param reference_celltypes String Vector specifying reference phenotypes. If
+#'   NULL (default), then the proportion of each cell type against all cells is
+#'   returned. Alternatively, a custom vector of cell types can be used as
+#'   input, and these will be used as the denominator in the calculation of the
+#'   proportions.
+#' @param celltypes_to_exclude String Vector specifying cell types to exclude.
+#'   For example "OTHER" will exclude that celltype from the Total. If NULL, all
+#'   cell types are included.
+#' @param feature_colname String. Column of cells to choose the cell type from
+#'   (e.g. Phenotype, Cell.Type, etc).
 #' @return A data.frame is returned
 #' @examples
 #' @export
 
-calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype", reference_celltypes = NULL, celltypes_to_exclude = NULL){
+calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype", 
+                                       reference_celltypes = NULL, celltypes_to_exclude = NULL){
 
     #Reads the image file and deletes cell rows with NA positions
-    cell_loc <- data.frame(colData(sce_object))
-    cell_loc <- cell_loc[complete.cases(cell_loc),]
+    cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
+    cell_loc <- cell_loc[stats::complete.cases(cell_loc),]
     
     #CHECK
     if (nrow(cell_loc) == 0) {

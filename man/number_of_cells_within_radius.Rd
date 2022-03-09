@@ -13,19 +13,23 @@ number_of_cells_within_radius(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{reference_marker}{Marker to be used for reference cells}
+\item{target_marker}{String. Cell type to be used for target cells.}
 
-\item{target_marker}{Marker to be used for target cells}
+\item{radius}{Numeric. Radius around the reference cells.}
 
-\item{radius}{Radius around the reference cells}
+\item{feature_colname}{String specifying the column with the desired cell
+type annotations.}
 
-\item{feature_colname}{String specifying the column with the desired cell type annotations}
+\item{reference_celltype}{String. Cell type to be used for reference cells.}
 }
 \value{
-List of dataframes with the number of target cells of each of the reference cells
+A list of dataframes with the number of target cells of each of the
+  reference cells
 }
 \description{
-Calculates the number of cells positive for a target marker within a pre-defined radius around cells positive for a reference marker
+Calculates the number of cells positive for a target marker
+  within a pre-defined radius around cells positive for a reference marker
 }
