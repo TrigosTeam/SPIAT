@@ -363,7 +363,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     phenotype_predictions_vector[phenotype_predictions_vector == ""] <- "None"
 
     if(!reference_phenotypes){
-      colData(sce_object)$Phenotype <- phenotype_predictions_vector
+      SummarizedExperiment::colData(sce_object)$Phenotype <- phenotype_predictions_vector
       return_results <- sce_object
     }else{
       return_results <- predicted_data

@@ -61,8 +61,8 @@ format_image_to_sce <- function(format = "INFORM",
   # function to remove rows where intensity is NA
   remove_intensity_na <- function(intensity_columns) {
     n_before <- nrow(intensity_columns)
-    intensity_columns <- na.omit(intensity_columns)
-    n_after <- length(attributes(na.omit(intensity_columns))$row.names)
+    intensity_columns <- stats::na.omit(intensity_columns)
+    n_after <- length(attributes(stats::na.omit(intensity_columns))$row.names)
     n <- n_before - n_after
     message(sprintf("Note: %i rows removed due to NA intensity values.",n))
     return(intensity_columns)
@@ -325,7 +325,7 @@ format_image_to_sce <- function(format = "INFORM",
     rownames(assay_data_matrix) <- NULL
     assay_data_matrix_t <- t(assay_data_matrix)
     
-    sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
     
     rownames(sce) <- markers
     colnames(sce) <- formatted_data[,"Cell.ID"]
@@ -354,7 +354,7 @@ format_image_to_sce <- function(format = "INFORM",
     
     expression <- expression[,colnames(expression) %in% location$Cell]
     
-    sce <- SingleCellExperiment(assays = list(counts = expression))
+    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = expression))
     
     location <- location[match(colnames(expression), location$Cell),]
     
@@ -382,7 +382,7 @@ format_image_to_sce <- function(format = "INFORM",
     rownames(data) <- paste("Cell", rownames(data), sep="_")
     data <- t(data)
     
-    sce <- SingleCellExperiment(assays = list(counts = data))
+    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = data))
     
     metadata_columns <- data.frame(Phenotype = phenotype,
                                    Cell.X.Position = coordinates$X.X,
@@ -454,7 +454,7 @@ format_image_to_sce <- function(format = "INFORM",
       rownames(assay_data_matrix) <- NULL
       assay_data_matrix_t <- t(assay_data_matrix)
       
-      sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+      sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
       
       rownames(sce) <- markers
       colnames(sce) <- formatted_data[,"Cell.ID"]
@@ -465,7 +465,7 @@ format_image_to_sce <- function(format = "INFORM",
   } 
   else if(format == "general"){
     intensity_matrix <- remove_intensity_na(intensity_matrix)
-    sce <- SingleCellExperiment(assays = list(counts = intensity_matrix))
+    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = intensity_matrix))
     
     rownames(sce) <- rownames(intensity_matrix)
     colnames(sce) <- colnames(intensity_matrix)

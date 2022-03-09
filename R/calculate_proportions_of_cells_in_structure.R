@@ -1,21 +1,20 @@
 #' calculate_proportions_of_cells_in_structure
 #'
-#' @description Calculate the proprtion of interested cells in each defined 
-#' tumour structure relative to all cells in each structure or relative to the 
-#' same cell type in the whole image
-#' @param sce_object SingleCellExperiment object in the form of the output of 
-#' format_image_to_sce
-#' @param cell_types_of_interest Vector of immune cells to consider
-#' @param feature_colname Column to extract cell types from
+#' @description Calculate the proportion of interested cells in each defined
+#'   tumour structure relative to all cells in each structure or relative to the
+#'   same cell type in the whole image.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param cell_types_of_interest String Vector of immune cells to consider.
+#' @param feature_colname String. The name of the column where the immune cell
+#'   types are under.
 #' @return A data.frame
 #' @export
-
 
 calculate_proportions_of_cells_in_structure <- function(sce_object, 
                                                         cell_types_of_interest, 
                                                         feature_colname){
-  
-  data_local <- data.frame(colData(sce_object))
+  data_local <- get_colData(sce_object)
   
   #Relative to all cells in each area
   proportions <- vector()

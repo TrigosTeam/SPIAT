@@ -51,7 +51,7 @@ identify_cell_communities <- function(sce_object, clustering_method = "dbscan", 
 
     if (clustering_method == "rphenograph") {
       Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = min_community_size)
-      formatted_data$Community <- factor(membership(Rphenograph_out[[2]]))
+      formatted_data$Community <- factor(igraph::membership(Rphenograph_out[[2]]))
     } else if (clustering_method == "dbscan") {
         #Use dbscan to generate clusters
         db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_community_size)

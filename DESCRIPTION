@@ -49,7 +49,6 @@ Imports:
     ggplot2 (>= 3.2.1),
     gridExtra (>= 2.3),
     gtools (>= 3.8.1),
-    RColorBrewer (>= 1.1-2),
     reshape2 (>= 1.4.3),
     dplyr (>= 0.8.3),
     plotly (>= 4.9.0),
@@ -64,11 +63,8 @@ Imports:
     vroom,
     ComplexHeatmap,
     dittoSeq,
-    spatstat,
     spatstat.geom,
     alphahull,
-    stringr,
-    igraph,
     methods,
     spatstat.core,
     raster,
@@ -78,10 +74,10 @@ Imports:
     Rphenograph,
     divo,
     ggpubr,
-    magrittr,
     elsa,
     Rtsne,
-    umap
+    umap,
+    igraph
 Suggests:
     BiocStyle,
     knitr,

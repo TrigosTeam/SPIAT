@@ -12,15 +12,18 @@ calculate_summary_distances_of_cells_to_borders(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{cell_types_of_interest}{Vector of cell types to consider}
+\item{cell_types_of_interest}{String Vector of cell types to consider.}
 
-\item{feature_colname}{String specifying which column the interested cell types are from}
+\item{feature_colname}{String specifying which column the interested cell
+types are from.}
 }
 \value{
 A data.frame is returned
 }
 \description{
-Returns the mean, median and stardard deviation of the distances between a specified cell type to the borders
+Returns the mean, median and stardard deviation of the distances
+  between a specified cell type to the borders.
 }

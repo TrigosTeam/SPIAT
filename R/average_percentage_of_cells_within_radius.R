@@ -21,24 +21,24 @@
 #' @export
 
 average_percentage_of_cells_within_radius <- function(sce_object, 
-                                                      reference_phenotypes, 
-                                                      target_phenotypes, 
+                                                      reference_celltype, 
+                                                      target_celltypes, 
                                                       radius = 100, 
                                                       feature_colname){
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   phenotype_names <- output_phenotype <- NULL
   formatted_data <- get_colData(sce_object)
   #Select cells with the reference phenotype
-  reference_phenotypes <- formatted_data[formatted_data[,feature_colname] == reference_phenotypes,]
-  target_phenotypes <- formatted_data[formatted_data[,feature_colname] == target_phenotypes,]
+  reference_celltypes <- formatted_data[formatted_data[,feature_colname] == reference_celltypes,]
+  target_celltypes <- formatted_data[formatted_data[,feature_colname] == target_celltypes,]
   
   #CHECK
-  if (nrow(reference_phenotypes) == 0 || nrow(target_phenotypes) == 0) {
+  if (nrow(reference_celltypes) == 0 || nrow(target_celltypes) == 0) {
     print("There are no reference cells or no target cells")
     return(NA)
   }else{
     #get the coordinates to find neighbours
-    reference_cell_cords <- reference_phenotypes[,c("Cell.X.Position", "Cell.Y.Position")]
+    reference_cell_cords <- reference_celltypes[,c("Cell.X.Position", "Cell.Y.Position")]
     
     #frNN output ids
     search_result <- dbscan::frNN(formatted_data[,c("Cell.X.Position", 
@@ -61,7 +61,7 @@ average_percentage_of_cells_within_radius <- function(sce_object,
         radius_cells <- formatted_data[radius_cells,]
         
         percentage <- (nrow(radius_cells[radius_cells$Cell.ID %in% 
-                                           target_phenotypes$Cell.ID, ])
+                                           target_celltypes$Cell.ID, ])
                        /nrow(radius_cells))*100
         output_percentage <- c(output_percentage, percentage)
         cell_IDs <- c(cell_IDs, formatted_data[cell,"Cell.ID"])
