@@ -1,18 +1,14 @@
 #' calculate_minimum_distances
 #'
-#' @description Returns the distance of the closest cell of a specific type from each reference cell
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param cell_types_of_interest Vector of marker combinations to consider
-#' is FALSE
-#' @param feature_colname String of the feature column of cells to choose the cell types 
-#' from (e.g. Cell.Type, Cell.Type2, etc)
-#' @importFrom apcluster negDistMat
-#' @importFrom RANN nn2
-#' @importFrom gtools permutations
+#' @description Returns the distance of the closest cell of a specific type from
+#'   each reference cell.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param cell_types_of_interest String Vector of marker combinations to
+#'   consider is FALSE.
+#' @param feature_colname String of the feature column of cells to choose the
+#'   cell types from (e.g. Cell.Type, Cell.Type2, etc).
 #' @import dplyr
-#' @importFrom stats median sd
-#' @importFrom SingleCellExperiment colData
-#' @importFrom tibble rownames_to_column
 #' @return A data.frame is returned
 #' @examples
 #' @export
@@ -20,8 +16,7 @@
 calculate_minimum_distances <- function(sce_object, feature_colname,
                                         cell_types_of_interest = NULL) {
   
-  formatted_data <- data.frame(colData(sce_object))
-  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
+  formatted_data <- get_colData(sce_object)
   
   formatted_data <- formatted_data[,c("Cell.ID","Cell.X.Position", "Cell.Y.Position", feature_colname)]
   formatted_data <- formatted_data[formatted_data[,feature_colname] != "",]
@@ -42,7 +37,7 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
   print(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
-  permu = permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
+  permu = gtools::permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
   unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
   result = vector()
   
@@ -69,7 +64,7 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
       all_celltype1_cord <- formatted_data[formatted_data[,feature_colname] == name1, c("Cell.X.Position", "Cell.Y.Position")]
       
       #find all of closest points
-      all_closest <- nn2(data = all_celltype2_cord, query = all_celltype1_cord, k = 1)
+      all_closest <- RANN::nn2(data = all_celltype2_cord, query = all_celltype1_cord, k = 1)
       
       all_celltype2_cord2 <- formatted_data[formatted_data[,feature_colname] == name2, c("Cell.ID", "Cell.X.Position", "Cell.Y.Position")]
       
