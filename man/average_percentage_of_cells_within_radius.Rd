@@ -6,8 +6,8 @@
 \usage{
 average_percentage_of_cells_within_radius(
   sce_object,
-  reference_phenotypes,
-  target_phenotypes,
+  reference_celltype,
+  target_celltypes,
   radius = 100,
   feature_colname
 )
@@ -16,15 +16,15 @@ average_percentage_of_cells_within_radius(
 \item{sce_object}{SingleCellExperiment object in the form of the output of
 format_image_to_sce.}
 
+\item{reference_celltype}{String specifying the cell type of reference
+cells.}
+
 \item{radius}{Integer specifying the radius of search for cells around the
 reference cells. Radii of ~100 are recommended. If too small, too few cells
 might be present.}
 
 \item{feature_colname}{String specifying the column with the desired cell
 type annotations.}
-
-\item{reference_celltype}{String specifying the cell type of reference
-cells.}
 
 \item{target_celltype}{String specifying the cell type for target cells}
 }

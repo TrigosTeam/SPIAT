@@ -2,15 +2,17 @@
 % Please edit documentation in R/calculate_spatial_autocorrelation.R
 \name{calculate_spatial_autocorrelaiton}
 \alias{calculate_spatial_autocorrelaiton}
-\title{calculate_spatial_autocorrelaiton}
+\title{calculate_spatial_autocorrelation}
 \usage{
-calculate_spatial_autocorrelaiton(raster, metric = "globalmoran")
+calculate_spatial_autocorrelaiton(raster_obj, metric = "globalmoran")
 }
 \arguments{
-\item{metric}{String The method for calculating spatial autocorrelation. Choose from "globalmoran" and "GearyC"}
+\item{raster_obj}{Raster object in the form of the output of raster function.}
 
-\item{raster_obj}{Raster object in the form of the output of raster function}
+\item{metric}{String. The method for calculating spatial autocorrelation.
+Choose from "globalmoran" and "GearyC".}
 }
 \description{
-Calculate the spatial autocorrelation metric of the grid squares that have a certain pattern
+Calculate the spatial autocorrelation metric of the grid squares
+  that have a certain pattern.
 }

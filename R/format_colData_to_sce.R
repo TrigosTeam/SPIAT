@@ -17,7 +17,6 @@ format_colData_to_sce <- function(df) {
     stop("No data in the dataframe")
   } 
   
-  
   df[,"pseudo"] <- 0
   assay_data <- df[,"pseudo"]
   assay_rownames <- "pseudo"
@@ -29,7 +28,7 @@ format_colData_to_sce <- function(df) {
   rownames(assay_data_matrix) <- NULL
   assay_data_matrix_t <- t(assay_data_matrix)
   
-  sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+  sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
   
   rownames(sce) <- assay_rownames
   colnames(sce) <- assay_colnames

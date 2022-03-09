@@ -11,18 +11,19 @@ calculate_proportions_of_cells_in_structure(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of 
-format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{cell_types_of_interest}{Vector of immune cells to consider}
+\item{cell_types_of_interest}{String Vector of immune cells to consider.}
 
-\item{feature_colname}{Column to extract cell types from}
+\item{feature_colname}{String. The name of the column where the immune cell
+types are under.}
 }
 \value{
 A data.frame
 }
 \description{
-Calculate the proprtion of interested cells in each defined 
-tumour structure relative to all cells in each structure or relative to the 
-same cell type in the whole image
+Calculate the proportion of interested cells in each defined
+  tumour structure relative to all cells in each structure or relative to the
+  same cell type in the whole image.
 }

@@ -29,16 +29,14 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
                                       y_position_min = NULL, y_position_max = NULL){
     
     #CHECK
-    intensity_matrix <- assay(sce_object)
-    markers <- rownames(intensity_matrix)
+    intensity_df <- assay(sce_object)
+    markers <- rownames(intensity_df)
     if (!all(markers_to_plot %in% markers)) {
         stop("One or more markers specified cannot be found")
     }
     
     # format data
     formatted_data <- bind_colData_intensity(sce_object)
-    formatted_data <- cbind(formatted_data, intensity_df)
-    formatted_data <- formatted_data[complete.cases(formatted_data),]
     formatted_data$split.X <- 0
     formatted_data$split.Y <- 0
     
