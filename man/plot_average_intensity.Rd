@@ -7,24 +7,21 @@
 plot_average_intensity(sce_object, reference_marker, target_marker, radii)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{reference_marker}{String specifying the reference marker.}
+\item{reference_marker}{String specifying the reference marker}
 
-\item{target_marker}{String specifying the marker to calculate its average
-intensity.}
+\item{target_marker}{String specifying the marker to calculate its average intensity}
 
-\item{radii}{Vector of integers specifying the search radius around reference
-cells.}
+\item{radii}{Vector of integers specifying the search radius around reference cells}
 }
 \value{
 A plot is returned
 }
 \description{
 Takes in a vector or radii and calculates the average intensity
-  of a target marker using average_intensity function. It plots the intensity
-  level as a line graph.
+of a target marker using average_intensity function. It plots the intensity
+level as a line graph
 }
 \examples{
 plot_average_intensity(SPIAT::formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))

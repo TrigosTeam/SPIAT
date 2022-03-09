@@ -9,6 +9,8 @@
 #' @param feature_colname String specifying the column the cell categories belong to
 #' @import dplyr
 #' @import ggplot2
+#' @import tibble
+#' @importFrom SummarizedExperiment colData assay
 #' @return A plot is returned
 #' @examples
 #' categories_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
@@ -37,8 +39,8 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
   
-  if (class(sce_object) == 'SingleCellExperiment' || class(sce_object) == 'SummarizedExperiment'){
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+  if (class(sce_object) == 'SingleCellExperiment'){
+    formatted_data <- data.frame(colData(sce_object))
   }
   else formatted_data <- sce_object
   
@@ -84,10 +86,30 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   
   p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) +
     geom_point(aes_string(colour = feature_colname), size = 1)
+  # p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position", colour = "color"))
+  # if (any(formatted_data[[feature_colname]] == "OTHER")) {
+  #   p <- p + geom_point(data=subset(formatted_data, get(feature_colname) =='OTHER'),
+  #                       aes_string(colour = "color"), size = 1) +
+  #     geom_point(data=subset(formatted_data, get(feature_colname) !='OTHER'),
+  #                aes_string(colour = "color"), size = 1)
+  # }else{
+  #   p <- p + geom_point(aes_string(colour = "color"), size = 1)}
+  # 
   p <- p +
     guides(alpha = "none") +
     ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
     scale_color_manual(breaks = all_categories, values=all_colours)
+  # labs(colour = all_categories) +
+  
+  #   theme(panel.grid.major = element_blank(),
+  #         panel.grid.minor = element_blank(),
+  #         panel.background = element_rect(fill = "white"),
+  #         axis.title.x = element_blank(),
+  #         axis.text.x = element_blank(),
+  #         axis.ticks.x = element_blank(),
+  #         axis.title.y = element_blank(),
+  #         axis.text.y = element_blank(),
+  #         axis.ticks.y = element_blank())
   
   print(p)
 }
