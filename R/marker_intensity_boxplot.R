@@ -4,10 +4,7 @@
 #' for the marker, and those that where phenotyped as being negative.
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param marker Marker being queried
-#' @importFrom SummarizedExperiment colData assay
 #' @import dplyr
-#' @importFrom tibble rownames_to_column
-#' @importFrom stats complete.cases
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
@@ -20,24 +17,7 @@ marker_intensity_boxplot <- function(sce_object, marker){
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     intensity <- NULL
 
-    formatted_data <- data.frame(colData(sce_object))
-
-    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
-
-    intensity_matrix <- assay(sce_object)
-    
-    markers <- rownames(intensity_matrix)
-
-    cell_ids <- colnames(intensity_matrix)
-
-    rownames(intensity_matrix) <- NULL
-    colnames(intensity_matrix) <- NULL
-    intensity_matrix_t <- t(intensity_matrix)
-    intensity_df <- data.frame(intensity_matrix_t)
-    colnames(intensity_df) <- markers
-
-    formatted_data <- cbind(formatted_data, intensity_df)
-    formatted_data <- formatted_data[complete.cases(formatted_data),]
+    formatted_data <- bind_colData_intensity(sce_object)
 
     #selecting cells that do express the marker
     intensity_true <- formatted_data[grepl(marker, formatted_data$Phenotype), ]

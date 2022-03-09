@@ -15,8 +15,7 @@
 #' 
 #' @param point_pattern sample point pattern to be analysed
 #' @param quadrat_dim vector containing number of quadrants in x,y direction respectively
-#' @param phenotypes_of_interest String describing the phenotypes to be examined 
-#' @importFrom spatstat.core quadrat.test clarkevans.test
+#' @param phenotypes_of_interest String describing the phenotypes to be examined
 
 check_distribution_type <- function(point_pattern, quadrat_dim = c(3,3), phenotypes_of_interest = NULL){
   # Find point pattern subset if required
@@ -25,7 +24,7 @@ check_distribution_type <- function(point_pattern, quadrat_dim = c(3,3), phenoty
   }
   
   # Perform Quadrat Test 
-  quadrat_test_results <- quadrat.test(point_pattern, quadrat_dim[1],
+  quadrat_test_results <- spatstat.core::quadrat.test(point_pattern, quadrat_dim[1],
                                        quadrat_dim[2], alternative = "two.sided")
   # Print quadrat test results 
   if(quadrat_test_results$p.value < 0.05){
@@ -38,7 +37,7 @@ check_distribution_type <- function(point_pattern, quadrat_dim = c(3,3), phenoty
   }
   
   # Perform Clark Evans test 
-  clark_evans_results <- clarkevans.test(point_pattern, alternative="clustered", correction = "none")
+  clark_evans_results <- spatstat.core::clarkevans.test(point_pattern, alternative="clustered", correction = "none")
   # Print Clark Evans Test results
    if (clark_evans_results$statistic < 1){
     print(paste("Reject null distribution (Complete Spatial Randomness), p-value:", signif(clark_evans_results$p.value, 4)))
