@@ -239,24 +239,24 @@ format_image_to_sce <- function(format = "INFORM",
         intensity_columns_interest[i] <- intensity_col_all[grepl(name, intensity_col_all)]
         i <- i + 1
       }
-    
-      } else {
-    
-        #CHECK - if image contains all the columns specified and vectors of same length
-        image_colnames <- colnames(image)
-        if (!all(intensity_columns_interest %in% image_colnames)) {
-          stop("One or more Intensity_columns_interest not found in image")
-        }
-        marker_count <- length(markers)
-        intensity_col_count <- length(intensity_columns_interest)
-        if (marker_count != intensity_col_count) {
-          stop("The number of dyes and columns does not match")
-        }
+      
+    } else {
+      
+      #CHECK - if image contains all the columns specified and vectors of same length
+      image_colnames <- colnames(image)
+      if (!all(intensity_columns_interest %in% image_colnames)) {
+        stop("One or more Intensity_columns_interest not found in image")
+      }
+      marker_count <- length(markers)
+      intensity_col_count <- length(intensity_columns_interest)
+      if (marker_count != intensity_col_count) {
+        stop("The number of dyes and columns does not match")
+      }
     }
     
     ###added: extract intensities
-    intensity_of_markers <- image[,c("Cell ID", intensity_columns_interest)]
-    colnames(intensity_of_markers) <- c("Cell ID", markers)
+    intensity_of_markers <- image[,c("Cell.ID", intensity_columns_interest)]
+    colnames(intensity_of_markers) <- c("Cell.ID", markers)
     intensity_of_markers[intensity_of_markers == "#N/A"] <- NA
     intensity_of_markers <- remove_intensity_na(intensity_of_markers)
     intensity_of_markers <- apply(intensity_of_markers, 2, function(x){
@@ -264,8 +264,8 @@ format_image_to_sce <- function(format = "INFORM",
     })
     
     # remove intensity NA rows from image
-    image <- subset(image, `Cell ID` %in% intensity_of_markers[, "Cell ID"])
-    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Cell ID")]
+    image <- subset(image, `Cell.ID` %in% intensity_of_markers[, "Cell.ID"])
+    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Cell.ID")]
     
     #extract the columns of interest and discard the rest
     colnames(image) <- make.names(colnames(image))
@@ -274,7 +274,7 @@ format_image_to_sce <- function(format = "INFORM",
     names(image)[names(image)=="Entire.Cell.Area..pixels."] <- "Cell.Area"
     names(image)[names(image)=="Nucleus.Area..pixels."] <- "Nucleus.Area"
     names(image)[names(image)=="Entire.Cell.Axis.Ratio"] <- "Cell.Axis.Ratio"
-
+    
     cell_properties_cols <- c("Cell.Area","Nucleus.Area",
                               "Nucleus.Compactness","Nucleus.Axis.Ratio",
                               "Cell.Axis.Ratio")
