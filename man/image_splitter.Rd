@@ -18,26 +18,26 @@ image_splitter(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce.}
 
-\item{number_of_splits}{Number specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3)}
+\item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3).}
 
-\item{plot}{Specifies whether the splitted images should be printed in a pdf}
+\item{plot}{Boolean. Specifies whether the splitted images should be printed in a pdf.}
 
-\item{cut_labels}{- specifies whether to plot where the image had been segmented}
+\item{cut_labels}{Boolean. Specifies whether to plot where the image had been segmented.}
 
-\item{colour_vector}{List of colors. If specified, the colours will be used for plotting.
+\item{colour_vector}{String Vector. If specified, the colours will be used for plotting.
 If NULL, colors will be generated automatically}
 
-\item{x_position_min}{Integer used to specify the minimum x boundary to be splitted}
+\item{x_position_min}{Integer used to specify the minimum x boundary to be splitted.}
 
-\item{x_position_max}{Integer used to specify the maximum x boundary to be splitted}
+\item{x_position_max}{Integer used to specify the maximum x boundary to be splitted.}
 
-\item{y_position_min}{Integer used to specify the minimum y boundary to be splitted}
+\item{y_position_min}{Integer used to specify the minimum y boundary to be splitted.}
 
-\item{y_position_max}{Integer used to specify the maximum y boundary to be splitted}
+\item{y_position_max}{Integer used to specify the maximum y boundary to be splitted.}
 
-\item{feature_colname}{String specifying which column the colouring should be based on}
+\item{feature_colname}{String specifying which column the colouring should be based on.}
 }
 \value{
 A list of data.frames is returned

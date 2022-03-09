@@ -1,35 +1,33 @@
 #' average_percentage_of_cells_within_radius
 #'
-#' @description Calculates the average percentage of cells of a target phenotype within a radius
-#' from the cells with a reference phenotype.
-#' The calculation is done per reference cell, so runtime will depend on the number of reference
-#' cells present. Output is a single value (the mean for the image).
+#' @description Calculates the average percentage of cells of a target cell type
+#'   within a radius from the cells with a reference cell type. The calculation
+#'   is done per reference cell, so runtime will depend on the number of
+#'   reference cells present. Output is a single value (the mean for the image).
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_phenotypes String specifying the phenotypes of reference cells
-#' @param target_phenotypes String specifying the phenotypes for target cells
-#' @param radius Integer specifying the radius of search for cells around the reference cells.
-#' Radii of ~100 are recommended. If too small, too few cells might be present
-#' @param feature_colname String specifying the column with the desired cell type annotations 
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param reference_celltype String specifying the cell type of reference
+#'   cells.
+#' @param target_celltype String specifying the cell type for target cells
+#' @param radius Integer specifying the radius of search for cells around the
+#'   reference cells. Radii of ~100 are recommended. If too small, too few cells
+#'   might be present.
+#' @param feature_colname String specifying the column with the desired cell
+#'   type annotations.
 #' @import dplyr
-#' @importFrom tibble rownames_to_column
-#' @importFrom dbscan frNN
-#' @importFrom SummarizedExperiment colData assay
-#' @return A numeric vector ard a plot are returned 
+#' @return A numeric vector and a plot are returned
 #' @examples
 #' @export
 
-average_percentage_of_cells_within_radius <- function(sce_object, reference_phenotypes, target_phenotypes, radius = 100, feature_colname){
-  
+average_percentage_of_cells_within_radius <- function(sce_object, 
+                                                      reference_phenotypes, 
+                                                      target_phenotypes, 
+                                                      radius = 100, 
+                                                      feature_colname){
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   phenotype_names <- output_phenotype <- NULL
-  
-  formatted_data <- data.frame(colData(sce_object))
-  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
-  
-  ref_name <- reference_phenotypes
-  target_name <- target_phenotypes
-  
+  formatted_data <- get_colData(sce_object)
   #Select cells with the reference phenotype
   reference_phenotypes <- formatted_data[formatted_data[,feature_colname] == reference_phenotypes,]
   target_phenotypes <- formatted_data[formatted_data[,feature_colname] == target_phenotypes,]
@@ -43,9 +41,10 @@ average_percentage_of_cells_within_radius <- function(sce_object, reference_phen
     reference_cell_cords <- reference_phenotypes[,c("Cell.X.Position", "Cell.Y.Position")]
     
     #frNN output ids
-    search_result <- frNN(formatted_data[,c("Cell.X.Position", "Cell.Y.Position")],
-                          eps = radius, query = reference_cell_cords, sort = FALSE)
-    
+    search_result <- dbscan::frNN(formatted_data[,c("Cell.X.Position", 
+                                                    "Cell.Y.Position")],
+                                  eps = radius, query = reference_cell_cords, 
+                                  sort = FALSE)
     rownums <- unique(unlist(search_result$id))
     
     #CHECK
@@ -61,14 +60,14 @@ average_percentage_of_cells_within_radius <- function(sce_object, reference_phen
         radius_cells <- radius_cells[radius_cells != cell]
         radius_cells <- formatted_data[radius_cells,]
         
-        percentage <- (nrow(radius_cells[radius_cells$Cell.ID %in% target_phenotypes$Cell.ID, ])/nrow(radius_cells))*100
+        percentage <- (nrow(radius_cells[radius_cells$Cell.ID %in% 
+                                           target_phenotypes$Cell.ID, ])
+                       /nrow(radius_cells))*100
         output_percentage <- c(output_percentage, percentage)
         cell_IDs <- c(cell_IDs, formatted_data[cell,"Cell.ID"])
       }
       names(output_percentage) <- cell_IDs
     }
-    
     return(mean(output_percentage))
   }
-  
 }

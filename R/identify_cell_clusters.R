@@ -8,11 +8,6 @@
 #' @param feature_colname Column from which the cell types are selected
 #' @param no_pheno Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")
 #' @import dplyr
-#' @importFrom SummarizedExperiment colData assay
-#' @importFrom tibble rownames_to_column
-#' @importFrom stats complete.cases hclust cutree as.dist
-#' @importFrom apcluster negDistMat
-#' @importFrom dittoSeq dittoColors
 #' @import ggplot2
 #' @return A data.frame and a plot is returned
 #' @examples
@@ -28,9 +23,7 @@ identify_cell_clusters <- function(sce_object, method = "hierarchical",
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
-  formatted_data <- data.frame(colData(sce_object))
-  formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
-  formatted_data <- formatted_data[complete.cases(formatted_data),]
+  formatted_data <- get_colData(sce_object)
   
   ######remove cells without a phenotype
   if(!is.null(no_pheno)){
@@ -51,7 +44,7 @@ identify_cell_clusters <- function(sce_object, method = "hierarchical",
   # hierarchical clustering
   if (method == "hierarchical"){
     rownames(formatted_data) <- formatted_data$Cell.ID
-    sim_close <- - negDistMat(formatted_data[,c("Cell.X.Position", "Cell.Y.Position")])
+    sim_close <- - apcluster::negDistMat(formatted_data[,c("Cell.X.Position", "Cell.Y.Position")])
     
     sim_close[sim_close > radius] <- NA
     sim_close[sim_close == 0] <- NA
@@ -75,9 +68,9 @@ identify_cell_clusters <- function(sce_object, method = "hierarchical",
       cells_in_cluster <- rownames(sim_close)
       sim_close <- ifelse(is.na(sim_close), 1, 0)
       if(nrow(sim_close) != 0 & ncol(sim_close) != 0){
-        h <- hclust(as.dist(sim_close), method="single")
+        h <- stats::hclust(stats::as.dist(sim_close), method="single")
         
-        local_clusters <- cutree(h, h = 0.5)
+        local_clusters <- stats::cutree(h, h = 0.5)
         
         formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, names(local_clusters))])
         
@@ -133,7 +126,7 @@ identify_cell_clusters <- function(sce_object, method = "hierarchical",
   colnames(label_location) <- c("Cluster", "Xpos", "Ypos")
   
   # use colourblind-friendly colours
-  cluster_colours <- dittoColors()[seq_len(number_of_clusters)]
+  cluster_colours <- dittoSeq::dittoColors()[seq_len(number_of_clusters)]
   
   q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
   q <- q + geom_point(aes(color = Cluster))#, size = 0.01)

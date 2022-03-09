@@ -5,7 +5,6 @@
 #' @param formatted_data_with_clusters - a dataframe output from generate_clusters
 #' @param type_of_aggregate Cluster or Community
 #' @param feature_colname Column with cell types
-#' @importFrom stats aggregate
 #' @return A data.frame is returned
 #' @examples
 #' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
@@ -24,7 +23,7 @@ composition_of_clusters_and_communities <- function(formatted_data_with_clusters
       composition$Total_number_of_cells <- as.vector(cluster_size[match(composition$Community, names(cluster_size))])
 
     }else if(type_of_aggregate == "Cluster"){
-      composition <- aggregate(Cell.ID ~ Temp_pheno + Cluster, formatted_data_with_clusters, length)
+      composition <- stats::aggregate(Cell.ID ~ Temp_pheno + Cluster, formatted_data_with_clusters, length)
       colnames(composition)[3] <- "Number_of_cells"
       cluster_size <- table(formatted_data_with_clusters$Cluster)
       composition$Total_number_of_cells <- as.vector(cluster_size[match(composition$Cluster, names(cluster_size))])
