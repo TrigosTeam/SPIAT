@@ -1,11 +1,16 @@
 #' calculate_summary_distances_between_cell_types
 #'
-#' @description Returns the mean, median and stardard deviation of the distances between phenotypes
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param all_combinations If TRUE, the distances between all possible combinations of cell types
-#' will be calculated
-#' @param cell_types_of_interest Vector of cell types to consider if all_combinations is FALSE
-#' @param feature_colname String Column of cells to choose the cell type from (e.g. Cell.Type, Cell.Type2, etc)
+#' @description Returns the mean, median and stardard deviation of the distances
+#'   between phenotypes.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param all_combinations Boolean. If TRUE, the distances between all possible
+#'   combinations of cell types will be calculated.
+#' @param cell_types_of_interest String Vector of cell types to consider if
+#'   all_combinations is FALSE.
+#' @param feature_colname String. Column of cells to choose the cell type from
+#'   (e.g. Cell.Type, Cell.Type2, etc).
+#'   
 #' @import dplyr
 #' @return A data.frame is returned
 #' @examples

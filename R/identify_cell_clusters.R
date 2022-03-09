@@ -1,12 +1,20 @@
 #' identify_cell_clusters
 #'
-#' @description Uses Euclidean distances to identify clusters of cells within a specified radius.
+#' @description Uses Euclidean distances to identify clusters of cells within a
+#'   specified radius.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param cell_types_of_interest Vector of phenotypes to consider
-#' @param radius Integer specifying the radius of search.
-#' @param feature_colname Column from which the cell types are selected
-#' @param no_pheno Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param method String. The clustering method. Choose from "hierarchical",
+#'   "dbscan" and "Rphenograph".
+#' @param cell_types_of_interest String Vector of phenotypes to consider.
+#' @param radius Numeric specifying the radius of search.
+#' @param min_cluster_size Numeric. The minimum number of cells within each
+#'   cluster.
+#' @param k Numeric. The parameter for Rphenograph method.
+#' @param feature_colname String. Column from which the cell types are selected.
+#' @param no_pheno Cell type corresponding to cells without a known phenotype
+#'   (e.g. "None", "Other")
 #' @import dplyr
 #' @import ggplot2
 #' @return A data.frame and a plot is returned
@@ -93,8 +101,8 @@ identify_cell_clusters <- function(sce_object, method = "hierarchical",
   }
   else if (method == "rphenograph"){
     cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-    Rphenograph_out <- Rphenograph(cell_cords, k = k)
-    formatted_data$Cluster <- factor(membership(Rphenograph_out[[2]]))
+    Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
+    formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
   }
   else {
     stop("Please select a valid clustering method, current options: dbscan")

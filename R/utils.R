@@ -179,17 +179,15 @@ plot_cell_basic <- function (sce_object, cell_types_of_interest, colour_vector,
     y.max <- max(sce_object$Cell.Y.Position)
     x <- x.max
     y <- y.max/2
-    par(mar=c(5.1, 4.1, 4.1, 5.1), xpd=TRUE)
-    legend(x,y, legend=all_phenotypes,
+    graphics::par(mar=c(5.1, 4.1, 4.1, 5.1), xpd=TRUE)
+    graphics::legend(x,y, legend=all_phenotypes,
            col=all_colours, cex=0.6, pch = 19,box.lty=0, bg='gray')
     
 }
 
 # define a function to get the number of certain name under a certain column
-count_category <- function(sce_object, 
-                           cat = cell_type_of_interest, 
-                           feature_colname = feature_colname){
-    data <- data.frame(colData(sce_object))
+count_category <- function(sce_object, cat, feature_colname){
+    data <- data.frame(SummarizedExperiment::colData(sce_object))
     count_table <- table(data[feature_colname])
     count <- unname(count_table[match(cat, names(count_table))])
     return(count)
