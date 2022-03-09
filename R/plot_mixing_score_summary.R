@@ -7,8 +7,6 @@
 
 #' @param mixing_score_summary SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param individual.plots (OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.
-#' @import ggpubr
-#' @importFrom gridExtra grid.arrange
 #' @return Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.
 #' @export
 
@@ -20,7 +18,7 @@ plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FAL
   mixing.df$log_mix_score <- log2(mixing.df$Mixing_score)
   mixing.df$log_normalised_score <- log2(mixing.df$Normalised_mixing_score)
   if (isFALSE(individual.plots)) {
-    p1 <- ggscatter(mixing.df,
+    p1 <- ggpubr::ggscatter(mixing.df,
                     x="log_mix_score", y="log_tar_no", 
                     add = "reg.line",
                     conf.int=TRUE,
@@ -28,7 +26,7 @@ plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FAL
       stat_cor(method = "spearman", label.y=3) + 
       facet_grid(~Reference, scales="free") +
       ggtitle("Mixing scores for all reference cells")
-    p2 <- ggscatter(mixing.df,
+    p2 <- ggpubr::ggscatter(mixing.df,
                     x="log_normalised_score", y="log_tar_no", 
                     add = "reg.line",
                     conf.int=TRUE,
@@ -36,16 +34,16 @@ plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FAL
       stat_cor(method = "spearman", label.y=3) + 
       facet_grid(~Reference, scales="free") +
       ggtitle("Mixing scores for all reference cells")
-    grid.arrange(p1, p2, nrow = 2)
+    gridExtra::grid.arrange(p1, p2, nrow = 2)
   }
   else {
     for (reference in unique(mixing.df$Reference)) {
       reference.df <- mixing.df[mixing.df$Reference == reference,]
-      p1 <- ggscatter(reference.df,
+      p1 <- ggpubr::ggscatter(reference.df,
                       x="log_mix_score", y="log_tar_no") 
-      p2 <- ggscatter(reference.df,
+      p2 <- ggpubr::ggscatter(reference.df,
                       x="log_normalised_score", y="log_tar_no") 
-      grid.arrange(p1, p2, nrow = 1, top=paste("Mixing scores for", reference, "as reference cell"))
+      gridExtra::grid.arrange(p1, p2, nrow = 1, top=paste("Mixing scores for", reference, "as reference cell"))
     }
   }
 }
