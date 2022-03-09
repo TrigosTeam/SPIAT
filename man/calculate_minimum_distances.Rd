@@ -11,17 +11,19 @@ calculate_minimum_distances(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{feature_colname}{String of the feature column of cells to choose the cell types 
-from (e.g. Cell.Type, Cell.Type2, etc)}
+\item{feature_colname}{String of the feature column of cells to choose the
+cell types from (e.g. Cell.Type, Cell.Type2, etc).}
 
-\item{cell_types_of_interest}{Vector of marker combinations to consider
-is FALSE}
+\item{cell_types_of_interest}{String Vector of marker combinations to
+consider is FALSE.}
 }
 \value{
 A data.frame is returned
 }
 \description{
-Returns the distance of the closest cell of a specific type from each reference cell
+Returns the distance of the closest cell of a specific type from
+  each reference cell.
 }
