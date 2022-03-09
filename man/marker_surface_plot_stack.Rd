@@ -16,35 +16,30 @@ marker_surface_plot_stack(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{num_splits}{Integer specifying the number of splits on the image,
-higher splits equal to higher resolution. Recommendation: 10-100.}
+\item{num_splits}{Integer specifying the number of splits on the image, higher
+splits equal to higher resolution. Recommendation: 10-100}
 
-\item{markers_to_plot}{Vector of marker names for plotting.}
+\item{markers_to_plot}{Vector of marker names for plotting}
 
-\item{sep}{Integer specifying the distance separation between each surface
-plot. We recommend values in the 1-2 range.}
+\item{sep}{Integer specifying the distance separation between each surface plot.
+We recommend values in the 1-2 range.}
 
-\item{x_position_min}{Integer specifying the minimum x boundary to be
-splitted.}
+\item{x_position_min}{Integer specifying the minimum x boundary to be splitted}
 
-\item{x_position_max}{Integer specifying the maximum x boundary to be
-splitted.}
+\item{x_position_max}{Integer specifying the maximum x boundary to be splitted}
 
-\item{y_position_min}{Integer specifying the minimum y boundary to be
-splitted.}
+\item{y_position_min}{Integer specifying the minimum y boundary to be splitted}
 
-\item{y_position_max}{Integer specifying the maximum y boundary to be
-splitted.}
+\item{y_position_max}{Integer specifying the maximum y boundary to be splitted}
 }
 \value{
 A plot is returned
 }
 \description{
-Generates stacked 3D surface plots showing normalized intensity
-  level of specified markers.
+Generates stacked 3D surface plots showing normalized
+intensity level of specified markers.
 }
 \examples{
 marker_surface_plot_stack(SPIAT::formatted_image, num_splits=15, markers=c("AMACR", "CD3"))

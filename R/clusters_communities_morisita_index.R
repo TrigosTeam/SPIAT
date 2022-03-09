@@ -7,6 +7,7 @@
 #' @param clusters_or_communities_of_interest A vector containing the names of clusters/communities to calculate morisita index
 #' @param CI Confidence interval for calculating morisita index
 #' @import dplyr
+#' @importFrom divo mh
 #' @export
 
 #formatted_data_with_clusters_or_communities <- clusters_data_panimmune_1
@@ -74,7 +75,7 @@ clusters_communities_morisita_index <- function(formatted_data_with_clusters_or_
             
             out <- tryCatch(
                 {
-                    divo::mh(matrix_of_two_groups, CI=CI)
+                    mh(matrix_of_two_groups, CI=CI)
                 }, 
                 error=function(cond) {
                     message(paste("Cannot calculate morisita index between ", group1_name, " and ", group2_name, sep=""))
@@ -114,7 +115,7 @@ clusters_communities_morisita_index <- function(formatted_data_with_clusters_or_
             }
         }
         
-        #result <- divo::mh(t(count_df), CI=CI)
+        #result <- mh(t(count_df), CI=CI)
         
         #set the names of columns and rows
         #colnames(result[["Mean"]]) <- group_names

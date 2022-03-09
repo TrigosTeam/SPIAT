@@ -12,6 +12,10 @@
 #' @param y_position_min Integer specifying the minimum y boundary to be splitted
 #' @param y_position_max Integer specifying the maximum y boundary to be splitted
 #' @import dplyr
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats aggregate
+#' @importFrom plotly plot_ly add_surface
 #' @return A plot is returned
 #' @examples
 #' marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
@@ -19,15 +23,31 @@
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
-    #CHECK
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+
+    formatted_data <- data.frame(colData(sce_object))
+
+    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
+
+    intensity_matrix <- assay(sce_object)
+
     markers <- rownames(intensity_matrix)
     
+    #CHECK
     if (is.element(marker, markers) == FALSE) {
         stop("Data does not contain marker specified")
     }
     
-    formatted_data <- bind_colData_intensity(sce_object)
+    cell_ids <- colnames(intensity_matrix)
+
+    rownames(intensity_matrix) <- NULL
+    colnames(intensity_matrix) <- NULL
+    intensity_matrix_t <- t(intensity_matrix)
+    intensity_df <- data.frame(intensity_matrix_t)
+    colnames(intensity_df) <- markers
+
+    formatted_data <- cbind(formatted_data, intensity_df)
+    formatted_data <- formatted_data[complete.cases(formatted_data),]
+
     formatted_data$split.X <- 0
     formatted_data$split.Y <- 0
 
@@ -97,7 +117,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     }
 
     #create a df with only the intensity level of a single marker of interest and the coordinates
-    df <- stats::aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
+    df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
     #initialize a matrix for surface plot, dim=num_splits^2
     my_matrix <- matrix(nrow = num_splits, ncol=num_splits)
@@ -127,7 +147,7 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     #rename the matrix
     mean_marker_level <- my_matrix
 
-    plotly::plot_ly(z = ~mean_marker_level, reversescale = TRUE) %>% plotly::add_surface()
+    plot_ly(z = ~mean_marker_level, reversescale = TRUE) %>% add_surface()
     
 
 }

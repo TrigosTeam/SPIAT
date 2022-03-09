@@ -7,32 +7,27 @@
 calculate_cross_functions(
   sce_object,
   method = "Kcross",
-  cell_types_of_interest,
+  phenotypes,
   feature_colname,
   plot_results = T,
   dist = NULL
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{method}{String that is the method for dependence calculation. Options:
-"Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is
-"Kcross".}
+\item{method}{(OPTIONAL) String that is the method for dependence calculation. 
+Options: "Gcross", "Kcross", "Lcross", "Jcross". Default method is "Kcross"}
 
-\item{cell_types_of_interest}{String Vector. Cell types of interest.}
+\item{phenotypes}{Vector of phenotypes of interest}
 
-\item{feature_colname}{String that is the name of the column of the types.}
+\item{feature_colname}{String that is the name of the column of the types}
 
-\item{plot_results}{Boolean. TRUE if result to be plotted, FALSE if not. In
-either case, an object with the results is returned}
+\item{plot_results}{TRUE if result to be plotted, FALSE if not. In either case, an object with the results is returned}
 
-\item{dist}{Number (OPTIONAL) The largest distance between two cell types at
-which K function is evaluated. If NULL, use the default distances set by
-cross functions.}
+\item{dist}{Number (OPTIONAL) The largest distance between two cell types at which K function is evaluated. 
+If NULL, use the default distances set by cross functions.}
 }
 \description{
-Compute and plot the cross functions between two specified cell
-  types.
+calculate the cross functions between two specified cell types
 }

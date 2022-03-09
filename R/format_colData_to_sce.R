@@ -5,23 +5,24 @@
 #' every cell (columns), and cell phenotype, x and y coordinates are stored under colData
 #' for the purpose of passing dataframe into a function requiring sce_object
 #'
-#' @param df Dataframe that will be the colData of the sce object
+#' @param colData Dataframe that will be the colData of the sce object
+#' @importFrom SingleCellExperiment colData
 #' @return An SingleCellExperiment object
 #' @export
 
-format_colData_to_sce <- function(df) {
+format_colData_to_sce <- function(colData) {
   
   #CHECK
-  if (dim(df)[1]==0){
+  if (dim(colData)[1]==0){
     print(1)
     stop("No data in the dataframe")
   } 
   
   
-  df[,"pseudo"] <- 0
-  assay_data <- df[,"pseudo"]
+  colData[,"pseudo"] <- 0
+  assay_data <- colData[,"pseudo"]
   assay_rownames <- "pseudo"
-  assay_colnames <- rownames(df)
+  assay_colnames <- rownames(colData)
   
   #transpose the matrix so every column is a cell and every row is a marker
   assay_data_matrix <- as.matrix(assay_data)
@@ -35,8 +36,8 @@ format_colData_to_sce <- function(df) {
   colnames(sce) <- assay_colnames
   
   #Assign the columns
-  for (name in colnames(df)){
-    SummarizedExperiment::colData(sce)[[name]] <- df[,name]
+  for (name in colnames(colData)){
+    colData(sce)[[name]] <- colData[,name]
   }
   return(sce)
 }

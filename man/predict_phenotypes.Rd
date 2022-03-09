@@ -16,47 +16,34 @@ predict_phenotypes(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 
-\item{thresholds}{(Optional) Numeric Vector specifying the cutoff of a
-positive reading. The order must match the marker order, and it should be
-NA for DAPI.}
+\item{thresholds}{(Optional) Vector of numbers specifying the cutoff of a positive reading.
+The order must match the marker order, and it should be NA for DAPI.}
 
-\item{tumour_marker}{String containing the tumour_marker used for the image.
-If tumor cells are known, annotate tumor cells as 1 and non-tumor cells as
-0, and include the rowname.}
+\item{tumour_marker}{String containing the tumour_marker used for the image. If tumor cells are known,
+#annotate tumor cells as 1 and non-tumor cells as 0, and include the rowname}
 
-\item{baseline_markers}{Markers not found on tumour cells to refine the
-threshold used for tumour cell phenotying.}
+\item{baseline_markers}{Markers not found on tumour cells to refine the threshold used for tumour cell phenotying.}
 
 \item{nuclear_marker}{Nuclear marker used.}
 
-\item{reference_phenotypes}{TRUE or FALSE value whether there are reference
-phenotypes for the sample obtained by the user through other means (e.g.
-HALO or InForm). If there are reference phenotypes available, a matrix of
-predicted phenotypes, intensities, and reference phenotypes will be
-returned, which can be used as input to "marker_prediction_plot". If no
-reference phenotype available, the result of the function will be added to
-the sce object used in the input. Note that if a reference phenotype is to
-be used, the phenotypes must be an explicit combination of positive markers
-(e.g. AMACR,PDL1), as opposed to descriptive (PDL1+ tumour cells)}
+\item{reference_phenotypes}{TRUE or FALSE value whether there are reference phenotypes for the sample obtained by the user through other means (e.g. HALO or InForm).
+If there are reference phenotypes available, a matrix of predicted phenotypes, intensities, and reference phenotypes will be returned, which can be used as input to "marker_prediction_plot".
+If no reference phenotype available, the result of the function will be added to the sce object used in the input. Note that if a reference phenotype is to be used,
+the phenotypes must be an explicit combination of positive markers (e.g. AMACR,PDL1), as opposed to descriptive (PDL1+ tumour cells)}
 
-\item{markers_to_phenotype}{Markers to be included in the phenotyping. If
-NULL, then all markers will be used. DAPI needs to be excluded}
+\item{markers_to_phenotype}{Markers to be included in the phenotyping. If NULL, then all markers will be used. DAPI needs to be excluded}
 
-\item{plot_distribution}{If TRUE, plots of the marker intensities
-distributions and cutoffs are plotted}
+\item{plot_distribution}{If TRUE, plots of the marker intensities distributions and cutoffs are plotted}
 }
 \value{
-An updated sce object with cell phenotypes or a data.frame of
-  predicted phenotypes
+An updated sce object with cell phenotypes or a data.frame of predicted phenotypes
 }
 \description{
-Predicts cell phenotypes based on marker intensity levels. If no
-  prior cell phenotypes are available, it adds the phenotypes to the
-  SingleCellExperiment object used as input. If reference cell phenotypes are
-  available, it produces a density plot showing predicted cutoff of a
-  positive reading for marker intensity and it returns a dataframe containing
-  the predicted intensity status for a particular marker.
+Predicts cell phenotypes based on marker intensity levels. If no prior cell phenotypes are available,
+it adds the phenotypes to the SingleCellExperiment object used as input. If reference cell phenotypes are available,
+it produces a density plot showing predicted cutoff of a
+positive reading for marker intensity and it returns a dataframe containing
+the predicted intensity status for a particular marker.
 }

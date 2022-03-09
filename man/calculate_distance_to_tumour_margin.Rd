@@ -7,13 +7,11 @@
 calculate_distance_to_tumour_margin(sce_object)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
 }
 \value{
 An sce_object is returned
 }
 \description{
-Returns the sce_object with the minimum distance from immune
-  cells to the identified tumour bordering cells.
+Returns the sce_object with the minimum distance from immune cells to the identified tumour bordering cells
 }
