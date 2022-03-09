@@ -4,7 +4,8 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param radii Vector specifying the range of radii for the metrics to be calculated
 #' @param FUN Variable name specifying the metric
-#' @param ... Arguments of FUN
+#' @param ... Arguments of FUN 
+#' @importFrom SingleCellExperiment colData 
 #' @return A list of the metrics under all radii
 #' @export
 #' 

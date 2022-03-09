@@ -9,7 +9,7 @@ plot_composition_heatmap(
   pheno_to_exclude = NULL,
   log_values = FALSE,
   type_of_aggregate,
-  feature_colname
+  column
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ plot_composition_heatmap(
 
 \item{type_of_aggregate}{Cluster or Community}
 
-\item{feature_colname}{String. Column with cell types.}
+\item{column}{Column with cell types}
 }
 \value{
 A plot is returned

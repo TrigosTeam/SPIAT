@@ -2,15 +2,13 @@
 % Please edit documentation in R/AUC_of_cross_function.R
 \name{AUC_of_cross_function}
 \alias{AUC_of_cross_function}
-\title{The difference in AUC of the cross function curves}
+\title{AUC_of_cross_function}
 \usage{
 AUC_of_cross_function(df.cross)
 }
 \arguments{
-\item{df.cross}{Data.Frame. The output the the cross functions. Containing
-the positions of the two curves.}
+\item{df.cross}{Dataframe containing the positions of the two curves}
 }
 \description{
-Calculate the difference of area under the curve (AUC) between
-  two curves, normalised by the total area of the graph.
+Calculate the difference of area under curve between two curves
 }

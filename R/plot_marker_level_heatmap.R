@@ -9,6 +9,9 @@
 #' Higher numbers result in higher resolution.
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats aggregate
 #' @return A plot is returned
 #' @examples
 #' plot_marker_level_heatmap(SPIAT::formatted_image, num_splits = 100, "AMACR")
@@ -19,11 +22,11 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     xcord <- ycord <- NULL
 
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+    formatted_data <- data.frame(colData(sce_object))
 
-    formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") #convert rowname to column
+    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID") #convert rowname to column
 
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- assay(sce_object)
 
     markers <- rownames(intensity_matrix)
     
@@ -97,7 +100,7 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     heatmap_title <- paste(marker, "level")
 
     #create a df with only the intensity level of a single marker of interest and the coordinates
-    df <- stats::aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
+    df <- aggregate(formatted_data[,marker], by=list(xcord=formatted_data$split.X, ycord=formatted_data$split.Y), FUN=mean)
 
     p <- ggplot(df, aes(xcord, ycord, fill=x)) + geom_tile()
     p <- p + scale_fill_gradient(low="white", high="red")
