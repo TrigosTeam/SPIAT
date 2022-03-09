@@ -23,7 +23,7 @@ plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FAL
                     add = "reg.line",
                     conf.int=TRUE,
                     add.params=list(color="blue", fill="lightgrey")) +  
-      stat_cor(method = "spearman", label.y=3) + 
+      ggpubr::stat_cor(method = "spearman", label.y=3) + 
       facet_grid(~Reference, scales="free") +
       ggtitle("Mixing scores for all reference cells")
     p2 <- ggpubr::ggscatter(mixing.df,
@@ -31,7 +31,7 @@ plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FAL
                     add = "reg.line",
                     conf.int=TRUE,
                     add.params=list(color="blue", fill="lightgrey")) +  
-      stat_cor(method = "spearman", label.y=3) + 
+      ggpubr::stat_cor(method = "spearman", label.y=3) + 
       facet_grid(~Reference, scales="free") +
       ggtitle("Mixing scores for all reference cells")
     gridExtra::grid.arrange(p1, p2, nrow = 2)

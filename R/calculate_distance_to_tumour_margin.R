@@ -39,7 +39,7 @@ calculate_distance_to_tumour_margin <- function(sce_object){
   dist_matrix <- dist_matrix[order(dist_matrix$Order),]
   dat <- merge(dat, dist_matrix,by.x = "Cell.ID",by.y = "RefCell", 
                all.x = TRUE, sort = FALSE)
-  colData(sce_object)$Distance.To.Border <- dat$Dist
+  SummarizedExperiment::colData(sce_object)$Distance.To.Border <- dat$Dist
   
   return(sce_object)
 }

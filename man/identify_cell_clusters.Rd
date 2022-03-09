@@ -16,19 +16,30 @@ identify_cell_clusters(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{cell_types_of_interest}{Vector of phenotypes to consider}
+\item{method}{String. The clustering method. Choose from "hierarchical",
+"dbscan" and "Rphenograph".}
 
-\item{radius}{Integer specifying the radius of search.}
+\item{cell_types_of_interest}{String Vector of phenotypes to consider.}
 
-\item{feature_colname}{Column from which the cell types are selected}
+\item{radius}{Numeric specifying the radius of search.}
 
-\item{no_pheno}{Cell type corresponding to cells without a known phenotype (e.g. "None", "Other")}
+\item{min_cluster_size}{Numeric. The minimum number of cells within each
+cluster.}
+
+\item{k}{Numeric. The parameter for Rphenograph method.}
+
+\item{feature_colname}{String. Column from which the cell types are selected.}
+
+\item{no_pheno}{Cell type corresponding to cells without a known phenotype
+(e.g. "None", "Other")}
 }
 \value{
 A data.frame and a plot is returned
 }
 \description{
-Uses Euclidean distances to identify clusters of cells within a specified radius.
+Uses Euclidean distances to identify clusters of cells within a
+  specified radius.
 }

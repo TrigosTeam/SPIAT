@@ -7,12 +7,14 @@
 calculate_percentage_of_grids(raster_obj, threshold, above)
 }
 \arguments{
-\item{raster_obj}{Raster object in the form of the output of raster function}
+\item{raster_obj}{Raster object in the form of the output of raster function.}
 
-\item{threshold}{Number that is the threshold for defining the pattern}
+\item{threshold}{Numeric. The threshold for defining the pattern.}
 
-\item{above}{Boolean idicating the pattern is above (TRUE) or below (FALSE) the threshold}
+\item{above}{Boolean. Indicating whether the pattern is above (TRUE) or below
+(FALSE) the threshold.}
 }
 \description{
-Calculate the percentage of the grid squares that have a certain pattern
+Calculate the percentage of the grid squares that have a certain
+  pattern.
 }

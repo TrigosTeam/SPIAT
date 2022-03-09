@@ -9,17 +9,16 @@
 #' @param n_of_polygons Number specifying the number of tumour regions defined by user
 #' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
 #' @param n_to_exclude Number Clusters under this number will be deleted
-#' @importFrom SummarizedExperiment colData
 #' @export
 
 identify_bordering_cells <- function(sce_object, reference_cell, feature_colname = "Cell.Type",
                                      ahull_alpha = NULL, n_of_polygons = 1, draw = F,  
                                      n_to_exclude = 10){
   # CHECK
-  if (is.null(colData(sce_object)[,feature_colname])){
+  if (is.null(SummarizedExperiment::colData(sce_object)[,feature_colname])){
     stop("Please define the cell types!")
   }
-  if (!(reference_cell %in% colData(sce_object)[,feature_colname])){
+  if (!(reference_cell %in% SummarizedExperiment::colData(sce_object)[,feature_colname])){
     stop("Reference cell not found!")
   }
   
@@ -27,9 +26,9 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   phenotypes_of_interest <- c(reference_cell)
   colour_vector <- c("green")
   if (draw){
-    par(xpd=TRUE)
+    graphics::par(xpd=TRUE)
     p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, feature_colname)
-    par(xpd=FALSE)
+    graphics::par(xpd=FALSE)
   }
   
   ##### interactively draw boundaries ####
@@ -55,7 +54,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   sp_obj <- sp::SpatialPolygons(list(polys))
   
   ##### for loop, get the boundary cells and inside cells for each polygon #####
-  data = data.frame(colData(sce_object))
+  data = get_colData(sce_object)
   data[,"Region"] <- "Outside"
   
   for (i in 1:n_of_polygons){
@@ -130,7 +129,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   }
   
   ##### plot and return #####
-  colData(sce_object)$Region <- data[,"Region"]
+  SummarizedExperiment::colData(sce_object)$Region <- data[,"Region"]
   plot(data[which(data$Region=="Border"), c("Cell.X.Position","Cell.Y.Position")], 
        pch = 19, cex = 0.3, main = paste(attr(sce_object, "name"),"tumour bordering cells"))
   
