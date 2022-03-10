@@ -4,7 +4,12 @@
 \alias{average_nearest_neighbor_index}
 \title{ANN index for point pattern (clustering or dispersion)}
 \usage{
-average_nearest_neighbor_index(sce_object, reference_cell, feature_colname)
+average_nearest_neighbor_index(
+  sce_object,
+  reference_cell,
+  feature_colname,
+  p.val = 5e-06
+)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
@@ -14,6 +19,9 @@ format_image_to_sce.}
 
 \item{feature_colname}{String. Specify the selected column for
 `reference_cell`.}
+
+\item{p.val}{Numeric. The p value threshold to determine the significance of
+a pattern.}
 }
 \description{
 Calculate the the ANN index of a specified type of cells. The
