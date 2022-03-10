@@ -17,7 +17,7 @@ plot_cell_percentages <- function(cell_proportions, tumour_marker=NULL, cellprop
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell_type <- Percentage <- Percentage_label <- NULL
   
-  cellprop_colname <- ensym(cellprop_colname)
+  cellprop_colname <- rlang::ensym(cellprop_colname)
 
   cell_proportions$Percentage_label <- round(cell_proportions$Percentage, digits=1)
   cell_proportions <- cell_proportions[cell_proportions$Cell_type != "OTHER",]
