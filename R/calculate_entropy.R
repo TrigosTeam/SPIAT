@@ -20,8 +20,8 @@ calculate_entropy <- function(sce_object, cell_types_of_interest,
     if (!is.null(radius)){
       reference_marker <- cell_types_of_interest[1]
       target_marker<-cell_types_of_interest
-      n_cells <- number_of_cells_within_radius(sce_object, reference_marker = reference_marker,
-                                               target_marker = target_marker,radius = radius, feature_colname = feature_colname)
+      n_cells <- number_of_cells_within_radius(sce_object, reference_celltype = reference_marker,
+                                               target_celltype = target_marker,radius = radius, feature_colname = feature_colname)
       n_cells.df <- n_cells[[reference_marker]]
       n_cells.df[,"total"] <- 0
       
