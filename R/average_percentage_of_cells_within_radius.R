@@ -22,15 +22,15 @@
 
 average_percentage_of_cells_within_radius <- function(sce_object, 
                                                       reference_celltype, 
-                                                      target_celltypes, 
+                                                      target_celltype, 
                                                       radius = 100, 
                                                       feature_colname){
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   phenotype_names <- output_phenotype <- NULL
   formatted_data <- get_colData(sce_object)
   #Select cells with the reference phenotype
-  reference_celltypes <- formatted_data[formatted_data[,feature_colname] == reference_celltypes,]
-  target_celltypes <- formatted_data[formatted_data[,feature_colname] == target_celltypes,]
+  reference_celltypes <- formatted_data[formatted_data[,feature_colname] == reference_celltype,]
+  target_celltypes <- formatted_data[formatted_data[,feature_colname] == target_celltype,]
   
   #CHECK
   if (nrow(reference_celltypes) == 0 || nrow(target_celltypes) == 0) {
