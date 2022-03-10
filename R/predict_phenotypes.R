@@ -33,8 +33,6 @@
 #'   distributions and cutoffs are plotted
 #' @import dplyr
 #' @import ggplot2
-#' @importFrom SummarizedExperiment colData assay
-#' @importFrom stats complete.cases density quantile
 #' @return An updated sce object with cell phenotypes or a data.frame of
 #'   predicted phenotypes
 #' @examples
@@ -45,10 +43,8 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                reference_phenotypes = FALSE, markers_to_phenotype = NULL,
                                plot_distribution=TRUE){
 
-    formatted_data <- data.frame(colData(sce_object))
-    formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") #convert rowname to column
-
-    intensity_matrix <- assay(sce_object)
+    formatted_data <- get_colData(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(sce_object)
 
     if(is.null(markers_to_phenotype)){
       markers <- rownames(intensity_matrix)
@@ -125,7 +121,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
         } else {
             #calculate the valleys
-            intensity_density <- density(marker_specific_level, na.rm=TRUE)
+            intensity_density <- stats::density(marker_specific_level, na.rm=TRUE)
             valleys <- pracma::findpeaks(-(intensity_density)$y)
             valley_ycords <- valleys[,1] * -1
             index <- match(valley_ycords, intensity_density$y)
@@ -168,7 +164,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     formatted_data_baseline <- formatted_data[formatted_data$Cell.ID %in% baseline_cells,tumour_marker]
     if(length(unique(formatted_data_baseline)) != 2){
-      cutoff_for_tumour <- quantile(formatted_data_baseline, 0.95)
+      cutoff_for_tumour <- stats::quantile(formatted_data_baseline, 0.95)
     }else{
       cutoff_for_tumour <- max(formatted_data_baseline)-min(formatted_data_baseline)/2
     }
@@ -188,7 +184,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
 
     } else {
       #calculate the valleys
-      intensity_density <- density(tumour_specific_level, na.rm=TRUE)
+      intensity_density <- stats::density(tumour_specific_level, na.rm=TRUE)
       valleys <- pracma::findpeaks(-(intensity_density)$y)
       valley_ycords <- valleys[,1] * -1
       index <- match(valley_ycords, intensity_density$y)
