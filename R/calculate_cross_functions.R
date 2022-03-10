@@ -29,7 +29,7 @@ calculate_cross_functions <- function(sce_object, method = "Kcross",
   }
   
   # format sce to ppp object
-  ppp_object <- format_sce_to_ppp(sce_object)
+  ppp_object <- format_sce_to_ppp(sce_object, feature_colname = feature_colname)
   ppp_object$marks <- as.factor(ppp_object$marks)
   
   # r
