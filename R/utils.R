@@ -1,3 +1,13 @@
+# function to remove rows where intensity is NA
+remove_intensity_na <- function(intensity_columns) {
+    n_before <- nrow(intensity_columns)
+    intensity_columns <- stats::na.omit(intensity_columns)
+    n_after <- length(attributes(stats::na.omit(intensity_columns))$row.names)
+    n <- n_before - n_after
+    message(sprintf("Note: %i rows removed due to NA intensity values.",n))
+    return(intensity_columns)
+}
+
 # convert sce object to a dataframe with both colData and intensity matrix
 bind_colData_intensity <- function(sce_object){
     formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
