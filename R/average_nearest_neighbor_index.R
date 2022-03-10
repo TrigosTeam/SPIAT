@@ -9,10 +9,13 @@
 #' @param reference_cell String. Cells of this type are used as reference cells.
 #' @param feature_colname String. Specify the selected column for
 #'   `reference_cell`.
+#' @param p.val Numeric. The p value threshold to determine the significance of
+#'   a pattern.
 #' @export
 
 
-average_nearest_neighbor_index <- function(sce_object, reference_cell, feature_colname){
+average_nearest_neighbor_index <- function(sce_object, reference_cell, 
+                                           feature_colname, p.val = 5e-6){
   
   ppp <- format_sce_to_ppp(sce_object)
   formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
@@ -40,7 +43,7 @@ average_nearest_neighbor_index <- function(sce_object, reference_cell, feature_c
     z <- (ann.p - ann.e)/se
     p <- stats::pnorm(-abs(z))
     
-    if (p <= 5e-6){
+    if (p <= p.val){
       if (ann.p <= ann.e){
         pattern <- "Clustered"
       }
