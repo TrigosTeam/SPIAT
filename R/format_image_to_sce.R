@@ -57,17 +57,6 @@ format_image_to_sce <- function(format = "INFORM",
                                 phenotypes = NULL,
                                 coord_x = NULL,
                                 coord_y = NULL){
-
-  # function to remove rows where intensity is NA
-  remove_intensity_na <- function(intensity_columns) {
-    n_before <- nrow(intensity_columns)
-    intensity_columns <- stats::na.omit(intensity_columns)
-    n_after <- length(attributes(stats::na.omit(intensity_columns))$row.names)
-    n <- n_before - n_after
-    message(sprintf("Note: %i rows removed due to NA intensity values.",n))
-    return(intensity_columns)
-  }
-  
   #process the data based on data format
   if (format == "HALO"){
     #following is from format_HALO_new
@@ -98,7 +87,6 @@ format_image_to_sce <- function(format = "INFORM",
         } else {
           stop('Location incorrectly specified. Must be either "Nucleus", "Cytoplasm" or "Membrane"')
         }
-        
         i <- i + 1
       }
       
@@ -235,6 +223,9 @@ format_image_to_sce <- function(format = "INFORM",
     #remove all rows with empty phenotype/no markers
     image <- image[image$Phenotype != "",]
     image <- image[!is.na(image$Phenotype), ]
+    
+    # rename "Cell ID" to "Cell.ID"
+    colnames(image)[which(names(image) == "Cell ID")] <- "Cell.ID"
     
     if (!is.null(locations)) {
       
