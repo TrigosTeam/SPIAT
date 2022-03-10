@@ -6,8 +6,6 @@
 #' @param raster_obj Raster object in the form of the output of raster function.
 #' @param metric String. The method for calculating spatial autocorrelation.
 #'   Choose from "globalmoran" and "GearyC".
-#' @import raster
-
 #' @export
 
 calculate_spatial_autocorrelaiton <- function(raster_obj, metric = "globalmoran"){
