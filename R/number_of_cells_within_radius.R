@@ -15,7 +15,7 @@
 #'   reference cells
 #' @export
 
-number_of_cells_within_radius <- function (sce_object, reference_celltype, 
+number_of_cells_within_radius <- function(sce_object, reference_celltype, 
                                            target_celltype, radius = 20, 
                                            feature_colname) 
 {
@@ -27,10 +27,6 @@ number_of_cells_within_radius <- function (sce_object, reference_celltype,
         reference_cells <- formatted_data[which(formatted_data[,feature_colname] == i), ]
         reference_cell_cords <- reference_cells[, c("Cell.ID", "Cell.X.Position","Cell.Y.Position")]
         dataframe <- tibble::remove_rownames(reference_cell_cords)
-        
-        
-        
-        
         dataframe <- dataframe %>% tibble::column_to_rownames("Cell.ID")
         reference_cell_cords <- reference_cells[, c( "Cell.X.Position","Cell.Y.Position")]
         for (j in target_celltype) {
