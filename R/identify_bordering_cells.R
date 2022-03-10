@@ -54,7 +54,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   sp_obj <- sp::SpatialPolygons(list(polys))
   
   ##### for loop, get the boundary cells and inside cells for each polygon #####
-  data = get_colData(sce_object)
+  data <- data.frame(SummarizedExperiment::colData(sce_object))
   data[,"Region"] <- "Outside"
   
   for (i in 1:n_of_polygons){
