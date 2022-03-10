@@ -20,7 +20,6 @@ number_of_cells_within_radius <- function(sce_object, reference_celltype,
                                            feature_colname) 
 {
     formatted_data <- get_colData(sce_object)
-    print(dim(formatted_data)[1])
     
     all.df <- list()
     for (i in reference_celltype) {
