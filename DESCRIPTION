@@ -77,7 +77,8 @@ Imports:
     elsa,
     Rtsne,
     umap,
-    igraph
+    igraph,
+    rlang
 Suggests:
     BiocStyle,
     knitr,
