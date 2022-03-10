@@ -9,10 +9,8 @@
 #' @export
 #' 
 compute_gradient <- function(sce_object, radii, FUN, ...){
-  
   list.metric <- list() 
   for (i in 1:length(radii)){
-    
     metric <- FUN(sce_object,radius = radii[i], ...)
     list.metric[[i]] <- metric 
   }
