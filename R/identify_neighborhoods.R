@@ -1,4 +1,4 @@
-#' identify_cell_clusters
+#' identify_neighborhoods
 #'
 #' @description Uses Euclidean distances to identify clusters of cells within a
 #'   specified radius.
@@ -23,7 +23,7 @@
 
 # imported ggplo2 as interdependency of functions
 
-identify_cell_clusters <- function(sce_object, method = "hierarchical", 
+identify_neighborhoods <- function(sce_object, method = "hierarchical", 
                                    cell_types_of_interest, radius, 
                                    min_cluster_size = 10,
                                    k=100,
