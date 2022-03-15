@@ -316,20 +316,16 @@ We can obtain the number and proportion of each cell type with `calculate_cell_p
 ```{r}
 p_cells <- calculate_cell_proportions(formatted_image, 
                                       reference_celltypes=NULL, 
-                                      feature_colname ="Cell.Type")
+                                      feature_colname ="Cell.Type",
+                                      plot.image = TRUE)
 p_cells
 ```
 
 To visualize the cell type proportions as barplots we can use `plot_cell_percentages`. (This one doesn't work)
 
-```{r}
-plot_cell_percentages(p_cells)
-```
-ggplot works (not sure what's wrong with the original function...)
-```{r}
-ggplot(p_cells, aes(x=Cell_type, y=Percentage))+
-  geom_bar(stat='identity')+
-  theme_bw()
+```{r, fig.height=2, fig.width=6}
+plot_cell_percentages(cell_proportions = p_cells, 
+                      cells_to_exclude = "Tumour", cellprop_colname="Proportion_name")
 ```
 
 # Visualizing tissues
