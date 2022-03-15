@@ -9,7 +9,7 @@
 #'   "dbscan" and "Rphenograph".
 #' @param cell_types_of_interest String Vector of phenotypes to consider.
 #' @param radius Numeric specifying the radius of search.
-#' @param min_cluster_size Numeric. The minimum number of cells within each
+#' @param min_neighborhood_size Numeric. The minimum number of cells within each
 #'   cluster.
 #' @param k Numeric. The parameter for Rphenograph method.
 #' @param feature_colname String. Column from which the cell types are selected.
@@ -25,7 +25,7 @@
 
 identify_neighborhoods <- function(sce_object, method = "hierarchical", 
                                    cell_types_of_interest, radius, 
-                                   min_cluster_size = 10,
+                                   min_neighborhood_size = 10,
                                    k=100,
                                    feature_colname, no_pheno = NULL) {
   
@@ -84,18 +84,32 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
         
       } else {
         formatted_data$Cluster <- NA
-        #stop("The radius specified may be too small, no clusters were found")
       }
     } else {
       formatted_data$Cluster <- NA  
-      #stop("The radius specified may be too small, no clusters were found")
     }
-    
+    # if the number of cells in a neighborhood is smaller than min_neighborhood_size, then name the cluster as NA
+    summarised_data <- formatted_data %>% group_by(Cluster) %>% summarise(n=n())
+    big_clusters <- summarised_data[summarised_data$n>min_neighborhood_size,"Cluster"]$Cluster
+    formatted_data[formatted_data$Cluster %in% big_clusters, "size"] <- "larger"
+    cluster_ids <- unique(formatted_data[formatted_data$size == "larger","Cluster"])
+    n_cluster <- length(cluster_ids)
+    n <- 1
+    for (cluster_id in cluster_ids){
+      if (!is.na(cluster_id)){
+        formatted_data[which(formatted_data$Cluster == cluster_id), "new_cluster"] <- n
+        n <- n+1
+      }
+    }
+    formatted_data$Cluster <- formatted_data$new_cluster
+    formatted_data$Cluster <- as.character(formatted_data$Cluster)
+    formatted_data$new_cluster <- NULL
+    formatted_data$size <- NULL
   }
   else if (method == "dbscan"){
     cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
     #Use dbscan to generate clusters
-    db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_cluster_size)
+    db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_neighborhood_size)
     #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
     formatted_data$Cluster <- factor(db$cluster + 1)
   }

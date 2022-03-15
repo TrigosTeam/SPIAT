@@ -9,7 +9,7 @@ identify_neighborhoods(
   method = "hierarchical",
   cell_types_of_interest,
   radius,
-  min_cluster_size = 10,
+  min_neighborhood_size = 10,
   k = 100,
   feature_colname,
   no_pheno = NULL
@@ -26,7 +26,7 @@ format_image_to_sce.}
 
 \item{radius}{Numeric specifying the radius of search.}
 
-\item{min_cluster_size}{Numeric. The minimum number of cells within each
+\item{min_neighborhood_size}{Numeric. The minimum number of cells within each
 cluster.}
 
 \item{k}{Numeric. The parameter for Rphenograph method.}
