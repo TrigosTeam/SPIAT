@@ -8,7 +8,6 @@ plot_composition_heatmap(
   composition,
   pheno_to_exclude = NULL,
   log_values = FALSE,
-  type_of_aggregate,
   feature_colname
 )
 }
@@ -18,8 +17,6 @@ plot_composition_heatmap(
 \item{pheno_to_exclude}{Vector of phenotype to exclude}
 
 \item{log_values}{TRUE if the percentages should be logged (base 10)}
-
-\item{type_of_aggregate}{Cluster or Community}
 
 \item{feature_colname}{String. Column with cell types.}
 }

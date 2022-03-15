@@ -4,16 +4,11 @@
 \alias{composition_of_neighborhoods}
 \title{composition_of_neighborhoods}
 \usage{
-composition_of_neighborhoods(
-  formatted_data_with_clusters,
-  type_of_aggregate,
-  feature_colname
-)
+composition_of_neighborhoods(formatted_data_with_clusters, feature_colname)
 }
 \arguments{
-\item{formatted_data_with_clusters}{- a dataframe output from generate_clusters}
-
-\item{type_of_aggregate}{Cluster or Community}
+\item{formatted_data_with_clusters}{- a dataframe output from
+generate_clusters}
 
 \item{feature_colname}{Column with cell types}
 }
@@ -21,10 +16,11 @@ composition_of_neighborhoods(
 A data.frame is returned
 }
 \description{
-Returns a dataframe which contains the percentages of cells with a
-specific marker within each cluster and the number of cells in the cluster.
+Returns a dataframe which contains the percentages of cells with
+  a specific marker within each cluster and the number of cells in the
+  cluster.
 }
 \examples{
 communities <- identify_neighborhoods(SPIAT::formatted_image, radius=100)
-communities_vis <- composition_of_neighborhoods(communities, type_of_aggregate = "Community", feature_colname="Phenotype")
+communities_vis <- composition_of_neighborhoods(communities, feature_colname="Phenotype")
 }
