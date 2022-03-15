@@ -1,7 +1,7 @@
 #' calculate_cell_proportions
 #'
 #' @description Calculates the number and proportion of each cell type.
-#' 
+#'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
 #' @param reference_celltypes String Vector specifying reference phenotypes. If
@@ -14,12 +14,16 @@
 #'   cell types are included.
 #' @param feature_colname String. Column of cells to choose the cell type from
 #'   (e.g. Phenotype, Cell.Type, etc).
+#' @param plot.image Boolean. Whether to plot the barplot of the cell percentages.
+#'   By default is TRUE.
+#' @import ggplot2
 #' @return A data.frame is returned
 #' @examples
 #' @export
 
 calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype", 
-                                       reference_celltypes = NULL, celltypes_to_exclude = NULL){
+                                       reference_celltypes = NULL, 
+                                       celltypes_to_exclude = NULL, plot.image = TRUE){
 
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
@@ -63,6 +67,14 @@ calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype",
     
     #order by Reference celltype (reverse to have Total first if present) then by highest proportion
     cell_proportions <- cell_proportions[rev(order(cell_proportions$Proportion)), ]
+    
+    if(plot.image){
+        print("plot")
+        g <- ggplot(cell_proportions, aes(x=Cell_type, y=Percentage)) +
+            geom_bar(stat='identity') +
+            theme_bw()
+        print(g)
+    }
     
     return(cell_proportions)
 }
