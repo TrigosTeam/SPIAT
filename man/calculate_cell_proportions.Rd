@@ -8,7 +8,8 @@ calculate_cell_proportions(
   sce_object,
   feature_colname = "Phenotype",
   reference_celltypes = NULL,
-  celltypes_to_exclude = NULL
+  celltypes_to_exclude = NULL,
+  plot.image = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ proportions.}
 \item{celltypes_to_exclude}{String Vector specifying cell types to exclude.
 For example "OTHER" will exclude that celltype from the Total. If NULL, all
 cell types are included.}
+
+\item{plot.image}{Boolean. Whether to plot the barplot of the cell percentages.
+By default is TRUE.}
 }
 \value{
 A data.frame is returned
