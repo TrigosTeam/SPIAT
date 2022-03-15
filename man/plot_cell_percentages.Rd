@@ -6,22 +6,22 @@
 \usage{
 plot_cell_percentages(
   cell_proportions,
-  tumour_marker = NULL,
+  cells_to_exclude = NULL,
   cellprop_colname = "Proportion_name"
 )
 }
 \arguments{
-\item{cell_proportions}{Output from calculate_cell_proportions}
-
-\item{tumour_marker}{Tumour marker to exclude if needed}
+\item{cell_proportions}{Data Frame. Output from `calculate_cell_proportions`.}
 
 \item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name"}
+
+\item{tumour_marker}{String. Tumour marker to exclude if needed.}
 }
 \value{
 A plot is returned
 }
 \description{
-Plots cells proportions as barplots
+Plots cells proportions as barplots.
 }
 \examples{
 p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
