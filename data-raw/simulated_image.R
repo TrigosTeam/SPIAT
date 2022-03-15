@@ -1,4 +1,4 @@
-## code to prepare `DATASET` dataset goes here
+## code to prepare `simulated_images` dataset goes here
 #####
 library(spaSim)
 library(SPIAT)
@@ -139,3 +139,4 @@ simulated_image <- format_image_to_sce(format = "general",
 
 #####
 usethis::use_data(simulated_image, overwrite = TRUE)
+
