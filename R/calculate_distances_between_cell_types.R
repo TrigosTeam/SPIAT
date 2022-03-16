@@ -1,4 +1,4 @@
-#' calculate_all_distances_between_cell_types
+#' calculate_distances_between_cell_types
 #'
 #' @description Returns the distances between cells of different types. If none
 #'   of the cell types are found, it will print an error message and return a
@@ -12,11 +12,13 @@
 #' @import dplyr
 #' @return A data.frame is returned.
 #' @examples
+#' calculate_distances_between_cell_types(SPIAT::defined_image, 
+#' cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
 #' @export
 
-calculate_all_distances_between_cell_types <- function(sce_object, 
-                                                       cell_types_of_interest = NULL, 
-                                                       feature_colname){
+calculate_distances_between_cell_types <- function(sce_object, 
+                                                   cell_types_of_interest = NULL, 
+                                                   feature_colname){
 
   #Reads the image file and deletes cell rows with NA positions
   dat <- get_colData(sce_object)
