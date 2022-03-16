@@ -9,10 +9,10 @@ bg <- simulate_mixing(names_of_mixing = c("Tumour", "Immune1", "Immune2",
                                           "Immune", "Others"),
                       mixing_degree =c(0.03, 0.1, 0.05, 0.02, 0.8),
                       plot.image = FALSE)
-# Tumour: AMACR
-# Immune1: CD3,CD4
-# Immune2: CD3,CD8
-# Immune: CD3,CD4,FOXP3
+# Tumour: Tumour_marker
+# Immune1: Immune_marker1,Immune_marker2
+# Immune2: Immune_marker1,Immune_marker3
+# Immune: Immune_marker1,Immune_marker2,Immune_marker4
 # Others: all other cells not included in above
 
 set.seed(610)
@@ -43,33 +43,33 @@ table(a$Cell.Type)
 
 n_cells <- sum(table(a$Cell.Type))
 set.seed(610)
-AMACR <- rbeta(n_cells, 0.25, 0.78)
-plot(density(AMACR))
-AMACR_p <- AMACR > 0.6
-table(AMACR_p)
+Tumour_marker <- rbeta(n_cells, 0.25, 0.78)
+plot(density(Tumour_marker))
+Tumour_marker_p <- Tumour_marker > 0.6
+table(Tumour_marker_p)
 
 set.seed(610)
-CD3 <- rbeta(n_cells, 0.07, 0.5)
-plot(density(CD3))
-CD3_p <- CD3 > 0.2
-table(CD3_p)
+Immune_marker1 <- rbeta(n_cells, 0.07, 0.5)
+plot(density(Immune_marker1))
+Immune_marker1_p <- Immune_marker1 > 0.2
+table(Immune_marker1_p)
 
 set.seed(610)
-CD4 <- rbeta(n_cells, 0.08, 0.6)
-plot(density(CD4))
-CD4_p <- CD4 > 0.2
-table(CD4_p)
+Immune_marker2 <- rbeta(n_cells, 0.08, 0.6)
+plot(density(Immune_marker2))
+Immune_marker2_p <- Immune_marker2 > 0.2
+table(Immune_marker2_p)
 
 set.seed(610)
-CD8 <- rbeta(n_cells, 0.08, 3)
-plot(density(CD8))
-CD8_p <- CD8 > 0.2
-table(CD8_p)
+Immune_marker3 <- rbeta(n_cells, 0.08, 3)
+plot(density(Immune_marker3))
+Immune_marker3_p <- Immune_marker3 > 0.2
+table(Immune_marker3_p)
 
-FOXP3 <- rbeta(n_cells, 1, 200)
-plot(density(FOXP3))
-FOXP3_p <- FOXP3 > 0.01
-table(FOXP3_p)
+Immune_marker4 <- rbeta(n_cells, 1, 200)
+plot(density(Immune_marker4))
+Immune_marker4_p <- Immune_marker4 > 0.01
+table(Immune_marker4_p)
 
 
 # assign the marker intensities to cells
@@ -78,56 +78,71 @@ data$lab <- NULL
 data$pseudo <- NULL
 
 
-# AMACR
+# Tumour_marker
 set.seed(610)
-AMACR_intensities <- sample(AMACR[AMACR_p], 819, replace = TRUE)
-data[data$Cell.Type == "Tumour", "AMACR"] <- AMACR_intensities
+Tumour_marker_intensities <- sample(Tumour_marker[Tumour_marker_p], 819, 
+                                    replace = TRUE)
+data[data$Cell.Type == "Tumour", "Tumour_marker"] <- Tumour_marker_intensities
 set.seed(610)
-NoAMACR_intensities <- sample(AMACR[!AMACR_p], n_cells-819, replace = TRUE)
-data[data$Cell.Type != "Tumour", "AMACR"] <- NoAMACR_intensities
+NoTumour_marker_intensities <- sample(Tumour_marker[!Tumour_marker_p], 
+                                      n_cells-819, replace = TRUE)
+data[data$Cell.Type != "Tumour", "Tumour_marker"] <- NoTumour_marker_intensities
 
-#CD3
+#Immune_marker1
 set.seed(610)
-CD3_intensities <- sample(CD3[CD3_p], 1146, replace = TRUE)
-data[data$Cell.Type %in% c("Immune","Immune1","Immune2"), "CD3"] <- CD3_intensities
+Immune_marker1_intensities <- sample(Immune_marker1[Immune_marker1_p], 1146, 
+                                     replace = TRUE)
+data[data$Cell.Type %in% c("Immune","Immune1","Immune2"), 
+     "Immune_marker1"] <- Immune_marker1_intensities
 set.seed(610)
-NoCD3_intensities <- sample(CD3[!CD3_p], n_cells-1146, replace = TRUE)
-data[!data$Cell.Type %in% c("Immune","Immune1","Immune2"), "CD3"] <- NoCD3_intensities
+NoImmune_marker1_intensities <- sample(Immune_marker1[!Immune_marker1_p], 
+                                       n_cells-1146, replace = TRUE)
+data[!data$Cell.Type %in% c("Immune","Immune1","Immune2"), 
+     "Immune_marker1"] <- NoImmune_marker1_intensities
 
-#CD4
+#Immune_marker2
 set.seed(610)
-CD4_intensities <- sample(CD4[CD4_p], 968, replace = TRUE)
-data[data$Cell.Type %in% c("Immune","Immune1"), "CD4"] <- CD4_intensities
+Immune_marker2_intensities <- sample(Immune_marker2[Immune_marker2_p], 968, 
+                                     replace = TRUE)
+data[data$Cell.Type %in% c("Immune","Immune1"), 
+     "Immune_marker2"] <- Immune_marker2_intensities
 set.seed(610)
-NoCD4_intensities <- sample(CD4[!CD4_p], n_cells-968, replace = TRUE)
-data[!data$Cell.Type %in% c("Immune","Immune1"), "CD4"] <- NoCD4_intensities
+NoImmune_marker2_intensities <- sample(Immune_marker2[!Immune_marker2_p], 
+                                       n_cells-968, replace = TRUE)
+data[!data$Cell.Type %in% c("Immune","Immune1"), 
+     "Immune_marker2"] <- NoImmune_marker2_intensities
 
-#CD8
+#Immune_marker3
 set.seed(610)
-CD8_intensities <- sample(CD8[CD8_p], 178, replace = TRUE)
-data[data$Cell.Type == "Immune2", "CD8"] <- CD8_intensities
+Immune_marker3_intensities <- sample(Immune_marker3[Immune_marker3_p], 178, 
+                                     replace = TRUE)
+data[data$Cell.Type == "Immune2", "Immune_marker3"] <- Immune_marker3_intensities
 set.seed(610)
-NoCD8_intensities <- sample(CD8[!CD8_p], n_cells-178, replace = TRUE)
-data[data$Cell.Type != "Immune2", "CD8"] <- NoCD8_intensities
+NoImmune_marker3_intensities <- sample(Immune_marker3[!Immune_marker3_p], 
+                                       n_cells-178, replace = TRUE)
+data[data$Cell.Type != "Immune2", "Immune_marker3"] <- NoImmune_marker3_intensities
 
-#FOXP3
+#Immune_marker4
 set.seed(610)
-FOXP3_intensities <- sample(FOXP3[FOXP3_p], 630, replace = TRUE)
-data[data$Cell.Type == "Immune", "FOXP3"] <- FOXP3_intensities
+Immune_marker4_intensities <- sample(Immune_marker4[Immune_marker4_p], 630, 
+                                     replace = TRUE)
+data[data$Cell.Type == "Immune", "Immune_marker4"] <- Immune_marker4_intensities
 set.seed(610)
-NoFOXP3_intensities <- sample(FOXP3[!FOXP3_p], n_cells-630, replace = TRUE)
-data[data$Cell.Type != "Immune", "FOXP3"] <- NoFOXP3_intensities
+NoImmune_marker4_intensities <- sample(Immune_marker4[!Immune_marker4_p], 
+                                       n_cells-630, replace = TRUE)
+data[data$Cell.Type != "Immune", "Immune_marker4"] <- NoImmune_marker4_intensities
 
 # define the orginial phenotypes
-data[data$Cell.Type == "Tumour", "Phenotype_ori"] <- "AMACR"
-data[data$Cell.Type == "Immune1", "Phenotype_ori"] <- "CD3,CD4"
-data[data$Cell.Type == "Immune2", "Phenotype_ori"] <- "CD3,CD8"
-data[data$Cell.Type == "Immune", "Phenotype_ori"] <- "CD3,CD4,FOXP3"
+data[data$Cell.Type == "Tumour", "Phenotype_ori"] <- "Tumour_marker"
+data[data$Cell.Type == "Immune1", "Phenotype_ori"] <- "Immune_marker1,Immune_marker2"
+data[data$Cell.Type == "Immune2", "Phenotype_ori"] <- "Immune_marker1,Immune_marker3"
+data[data$Cell.Type == "Immune", "Phenotype_ori"] <- "Immune_marker1,Immune_marker2,Immune_marker4"
 data[data$Cell.Type == "Others", "Phenotype_ori"] <- "OTHER"
 
 
 # format to sce
-intensity_matrix <- t(data[,c("AMACR","CD3","CD4","CD8","FOXP3")])
+intensity_matrix <- t(data[,c("Tumour_marker","Immune_marker1","Immune_marker2",
+                              "Immune_marker3","Immune_marker4")])
 coord_x <- data$Cell.X.Position
 coord_y <- data$Cell.Y.Position
 
