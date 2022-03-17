@@ -4,7 +4,7 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
-#' @param reference_celltypes String Vector specifying reference phenotypes. If
+#' @param reference_celltypes String Vector specifying reference cell types. If
 #'   NULL (default), then the proportion of each cell type against all cells is
 #'   returned. Alternatively, a custom vector of cell types can be used as
 #'   input, and these will be used as the denominator in the calculation of the
@@ -19,11 +19,13 @@
 #' @import ggplot2
 #' @return A data.frame is returned
 #' @examples
+#' calculate_cell_proportions(SPIAT::defined_image, reference_celltypes = NULL, 
+#' celltypes_to_exclude = "Others", feature_colname="Cell.Type", plot.image = FALSE)
 #' @export
 
-calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype", 
-                                       reference_celltypes = NULL, 
-                                       celltypes_to_exclude = NULL, plot.image = TRUE){
+calculate_cell_proportions <- function(sce_object,  reference_celltypes = NULL, 
+                                       celltypes_to_exclude = NULL, 
+                                       feature_colname="Phenotype",plot.image = TRUE){
 
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
@@ -42,7 +44,8 @@ calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype",
     #Exclude any phenotypes not wanted
     if (!is.null(celltypes_to_exclude)) {
         for (celltype in celltypes_to_exclude) {
-            cell_proportions <- cell_proportions[!grepl(celltype, cell_proportions[[feature_colname]]), ]
+            cell_proportions <- 
+                cell_proportions[!grepl(celltype, cell_proportions[["Cell_type"]]), ]
         }
     } 
     
@@ -51,16 +54,20 @@ calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype",
         celltype_cells_total <- sum(celltype_cells$Number_of_celltype)
         celltype_cells$Proportion <- celltype_cells$Number_of_celltype/celltype_cells_total
         celltype_cells$Percentage <- celltype_cells$Proportion*100
-        celltype_cells$Proportion_name <- paste(celltype_cells[[feature_colname]], "Total", sep="/")  
+        celltype_cells$Proportion_name <- paste(celltype_cells[[feature_colname]],
+                                                "Total", sep="/")  
         cell_proportions$Reference <- "Total"
         cell_proportions <- celltype_cells
     
     }else{
         celltype_cells <- cell_proportions
-        celltype_cells_total <- sum(celltype_cells$Number_of_celltype[celltype_cells[[feature_colname]] %in% reference_celltypes])
+        celltype_cells_total <- 
+            sum(celltype_cells$Number_of_celltype[celltype_cells[[feature_colname]] 
+                                                  %in% reference_celltypes])
         celltype_cells$Proportion <- celltype_cells$Number_of_celltype/celltype_cells_total
         celltype_cells$Percentage <- celltype_cells$Proportion*100
-        celltype_cells$Proportion_name <- paste(celltype_cells[[feature_colname]], "Custom", sep="/")   
+        celltype_cells$Proportion_name <- paste(celltype_cells[[feature_colname]], 
+                                                "Custom", sep="/")   
         cell_proportions <- celltype_cells
         cell_proportions$Reference <- paste(reference_celltypes, collapse=",")
     }
@@ -69,7 +76,6 @@ calculate_cell_proportions <- function(sce_object, feature_colname="Phenotype",
     cell_proportions <- cell_proportions[rev(order(cell_proportions$Proportion)), ]
     
     if(plot.image){
-        print("plot")
         g <- ggplot(cell_proportions, aes(x=Cell_type, y=Percentage)) +
             geom_bar(stat='identity') +
             theme_bw()
