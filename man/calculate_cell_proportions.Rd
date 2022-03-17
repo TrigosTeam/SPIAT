@@ -6,9 +6,9 @@
 \usage{
 calculate_cell_proportions(
   sce_object,
-  feature_colname = "Phenotype",
   reference_celltypes = NULL,
   celltypes_to_exclude = NULL,
+  feature_colname = "Phenotype",
   plot.image = TRUE
 )
 }
@@ -16,10 +16,7 @@ calculate_cell_proportions(
 \item{sce_object}{SingleCellExperiment object in the form of the output of
 format_image_to_sce.}
 
-\item{feature_colname}{String. Column of cells to choose the cell type from
-(e.g. Phenotype, Cell.Type, etc).}
-
-\item{reference_celltypes}{String Vector specifying reference phenotypes. If
+\item{reference_celltypes}{String Vector specifying reference cell types. If
 NULL (default), then the proportion of each cell type against all cells is
 returned. Alternatively, a custom vector of cell types can be used as
 input, and these will be used as the denominator in the calculation of the
@@ -29,6 +26,9 @@ proportions.}
 For example "OTHER" will exclude that celltype from the Total. If NULL, all
 cell types are included.}
 
+\item{feature_colname}{String. Column of cells to choose the cell type from
+(e.g. Phenotype, Cell.Type, etc).}
+
 \item{plot.image}{Boolean. Whether to plot the barplot of the cell percentages.
 By default is TRUE.}
 }
@@ -37,4 +37,8 @@ A data.frame is returned
 }
 \description{
 Calculates the number and proportion of each cell type.
+}
+\examples{
+calculate_cell_proportions(SPIAT::defined_image, reference_celltypes = NULL, 
+celltypes_to_exclude = "Others", feature_colname="Cell.Type", plot.image = FALSE)
 }
