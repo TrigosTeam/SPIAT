@@ -1,1 +1,4 @@
-destination: docs
+url: https://pkgdown.SPIAT.org
+template:
+  bootstrap: 5
+
