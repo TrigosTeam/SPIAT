@@ -7,9 +7,8 @@
 measure_association_to_cell_properties(
   sce_object,
   property = "Cell.Area",
-  phenotypes,
-  merge = NULL,
-  merge_name = NULL,
+  celltypes,
+  feature_colname = "Cell.Type",
   method = "density",
   Nucleus.Ratio = FALSE,
   log.scale = FALSE
@@ -17,22 +16,20 @@ measure_association_to_cell_properties(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce}
+format_image_to_sce.}
 
-\item{property}{String that is the name of the column of interest}
+\item{property}{String that is the name of the column of interest.}
 
-\item{phenotypes}{Vector of phenotypes of interest}
+\item{celltypes}{Vector of celltypes of interest.}
 
-\item{merge}{Vector of phenotypes to be merged}
+\item{feature_colname}{String that speficies the column of the cell types.}
 
-\item{merge_name}{String that is the name of the merged phenotype}
+\item{method}{the analysis to do on the selected cell types and property.
+Options are "density", "box", "t", "wilcox".}
 
-\item{method}{the analysis to do on the selected phenotypes and property.
-Options are density, box, t, wilcox}
+\item{Nucleus.Ratio}{Boolean when the ratio of the nucleus size is of interest.}
 
-\item{Nucleus.Ratio}{when the ratio of the nucleus size is of interest}
-
-\item{log.scale}{if log the data}
+\item{log.scale}{Boolean if log the data.}
 }
 \value{
 With method "box" or "density a plot is returned. With method "t" or
@@ -40,7 +37,7 @@ With method "box" or "density a plot is returned. With method "t" or
 }
 \description{
 Plots the density or boxplot of a property of two cell
-  phenotypes or compares using t test/wilcoxon rank sum test
+  celltypes or compares using t test/wilcoxon rank sum test.
 }
 \examples{
 measure_association_to_cell_properties(image_no_markers,
