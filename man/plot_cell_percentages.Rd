@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_cell_percentages.R
 \name{plot_cell_percentages}
 \alias{plot_cell_percentages}
-\title{plot_cell_proportions}
+\title{plot_cell_percentages}
 \usage{
 plot_cell_percentages(
   cell_proportions,
@@ -24,6 +24,6 @@ A plot is returned
 Plots cells proportions as barplots.
 }
 \examples{
-p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
+p_cells <- calculate_cell_proportions(SPIAT::simulated_image) 
 plot_cell_percentages(p_cells)
 }
