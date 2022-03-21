@@ -30,17 +30,11 @@ calculate_summary_distances_between_cell_types <- function(sce_object, feature_c
   #Get the list of cells under each cell type
   cell_types = list()
   if (all_combinations) {
-    #assign cells to each cell type based on the markers expressed
-    for (eachType in unique(formatted_data[[feature_colname]])) {
-      cell_types[[eachType]] = as.character(formatted_data$Cell.ID[formatted_data[,feature_colname] == eachType])
-    }
+    # all cell types are cell types of interest
+    cell_types_of_interest <- unique(formatted_data[[feature_colname]])
     print("All markers are used in pair-wise distance calculation: ")
     print(unique(formatted_data[[feature_colname]]))
   }else{
-    #assign cells to each specified cell type
-    for (eachType in cell_types_of_interest) {
-      cell_types[[eachType]] = as.character(formatted_data$Cell.ID[formatted_data[,feature_colname] == eachType])
-    }
     #keep those cells that are selected
     formatted_data <- formatted_data[formatted_data[,feature_colname] %in% cell_types_of_interest, ]
     #CHECK
@@ -51,44 +45,19 @@ calculate_summary_distances_between_cell_types <- function(sce_object, feature_c
     print(unique(formatted_data[[feature_colname]]))
   }
   
-  #permutation for the different cell type combinations
-  comb = gtools::permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
-  unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
-  result = vector()
+  # calculate all distances between cell types
+  pairwise_dists <- calculate_distances_between_cell_types(sce_object, 
+                                         cell_types_of_interest = cell_types_of_interest, 
+                                         feature_colname = feature_colname)
   
-  for (i in seq_len(nrow(comb))) {
-    eachComb = comb[i, ]
-    name1 = unique_cells[eachComb[1]]
-    name2 = unique_cells[eachComb[2]]
+  # summarise the results
+  summarised_dists <- pairwise_dists %>% 
+    group_by(Pair) %>%
+    summarise(mean(Distance), min(Distance), max(Distance),
+              stats::median(Distance), stats::sd(Distance))
     
-    cell_type1 <- as.character(cell_types[[name1]])
-    cell_type2 <- as.character(cell_types[[name2]])
-    
-    #No need to calculate min distance when they're the same cell type
-    if (name1 == name2) {
-      local_result = data.frame(Reference = name1, Nearest = name2, Mean = NA, Std.Dev = NA, Median = NA)
-    } else {
-      #vector to store all mins
-      local_dist_min <- vector()
-      #grab coordinates of all other cells in cell_type2 to calculate distances with
-      all_celltype2_cord <- formatted_data[formatted_data[,feature_colname] == name2, c("Cell.X.Position", "Cell.Y.Position")]
-      all_celltype1_cord <- formatted_data[formatted_data[,feature_colname] == name1, c("Cell.X.Position", "Cell.Y.Position")]
-      
-      #find all of closest points
-      all_closest <- RANN::nn2(data = all_celltype2_cord, query = all_celltype1_cord, k = 1)
-      
-      local_dist_mins <- all_closest$nn.dists
-      
-      local_result <- data.frame(Reference = name1, Nearest = name2, 
-                                 Mean = mean(local_dist_mins), 
-                                 Std.Dev = stats::sd(local_dist_mins), 
-                                 Median = stats::median(local_dist_mins))
-    }
-    result <- rbind(result, local_result)
-  }
+  summarised_dists <- data.frame(summarised_dists)
+  colnames(summarised_dists) <- c("Pair" , "Mean", "Min", "Max", "Median", "Std.Dev")
   
-  # remove NAs e.g. for distance of cell against itself
-  result <- result[complete.cases(result),]
-  
-  return(result)
+  return(summarised_dists)
 }
