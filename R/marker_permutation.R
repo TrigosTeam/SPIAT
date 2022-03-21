@@ -1,9 +1,10 @@
 #' marker_permutation
 #'
-#' @description Creates random combinations of phenotypes by shuffling markers and
-#' calculates the enrichment and depletion p values
-#' @param sce_object SingleCellExperiment object in the form of output from format_image_to_sce
-#' @param num_iter Integer specifying the number of iterations for bootstrapping
+#' @description Creates random combinations of phenotypes by shuffling markers
+#'   and calculates the enrichment and depletion p values.
+#' @param sce_object SingleCellExperiment object in the form of output from
+#'   format_image_to_sce.
+#' @param num_iter Integer specifying the number of iterations for bootstrapping.
 #' @import dplyr
 #' @return A plot is returned
 #' @examples
