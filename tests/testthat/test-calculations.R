@@ -1,143 +1,207 @@
 context("calculations")
 
-test_that("calculate_cell_proportions() works", {
-    
-    res <- data.frame(row.names = c(1L, 5L, 3L, 4L, 2L, 6L),
-                          Cell_type = factor(c("AMACR", "OTHER", "CD3,CD4", "CD3,CD8", "CD3", "PDL-1")), 
-                          Number_of_celltype = c(4446, 3299, 513, 138, 19, 4),
-                          Proportion = c(0.52809122223542, 
-                                     0.391851763867443, 0.0609336025656254, 0.0163914954270103, 0.00225680009502316, 
-                                     0.00047511580947856), 
-                          Percentage = c(52.809122223542, 39.1851763867443, 
-                                     6.09336025656254, 1.63914954270103, 0.225680009502316, 0.047511580947856),
-                          Proportion_name = c("AMACR/Total", "OTHER/Total", "CD3,CD4/Total", "CD3,CD8/Total", "CD3/Total", "PDL-1/Total"),
-                          stringsAsFactors = FALSE)
-    
-    p_cells <- calculate_cell_proportions(sce_object = formatted_image)
-    
-    expect_equal(p_cells, res)
-    
-})
-
-
-test_that("compute_mixing_score() works", {
-    
-    score <- compute_mixing_score(formatted_image, reference_marker = "CD4", target_marker = "PDL-1")
-    
-    expect_equal(score, 0.009708738)
-    
-})
-
-
 test_that("average_marker_intensity_within_radius() works", {
-    
-    ave_marker_intensity <- average_marker_intensity_within_radius(formatted_image,
-                                                   reference_marker ="AMACR",
-                                                   target_marker = "CD3",
-                                                   radius=30)
-    
-    expect_equal(ave_marker_intensity, 3.717, tolerance=1e-3)
-    
+    res <- 0.5995
+    out <- average_marker_intensity_within_radius(simulated_image,
+               reference_marker ="Immune_marker3", target_marker = "Immune_marker2",
+               radius=30)
+    expect_equal(out, res, tolerance=1e-4)
 })
-
 
 test_that("average_minimum_distance() works", {
-    
-    ave_min_dist <- average_minimum_distance(formatted_image)
-    
-    expect_equal(ave_min_dist, 15.924, tolerance=1e-3)
-    
+    res <- 17.0134
+    out <- average_minimum_distance(simulated_image)
+    expect_equal(out, res, tolerance=1e-4)
 })
 
+test_that("average_nearest_neighbor_index() works", {
+    res <- list()
+    res$pattern <- "Clustered"
+    res$`p-value` <- 7.11006e-32
+    out <- average_nearest_neighbor_index(defined_image, "Tumour", "Cell.Type")
+    expect_equivalent(out, res)
+})
+
+test_that("average_percentage_of_cells_within_radius() works", {
+    res <- 17.4571
+    out <- average_percentage_of_cells_within_radius(defined_image, "Tumour", 
+                                                     "Immune3", radius = 100, "Cell.Type")
+    expect_equal(out, res, tolerance=1e-4)
+})
+
+test_that("calculate_cell_proportions() works", {
+    res <- data.frame(row.names = c(4L, 5L, 2L, 1L,3L),
+                          Cell_type = factor(c("OTHER", "Tumour_marker", "Immune_marker1,Immune_marker2,Immune_marker4", 
+                                               "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3")), 
+                          Number_of_celltype = c(2986, 819, 630, 338, 178),
+                          Proportion = c(0.60311048273076151016,  0.16542112704504141618, 
+                                         0.12724702080387800818, 0.06826903655827105954, 0.03595233286204806838), 
+                          Percentage = c(60.31104827307615323662, 16.54211270450414161814, 
+                                         12.72470208038780015158, 6.82690365582710612102, 3.59523328620480686624),
+                          Proportion_name = rep("/Total", 5),
+                          stringsAsFactors = FALSE)
+    
+    p_cells <- calculate_cell_proportions(sce_object = simulated_image)
+    
+    expect_equal(p_cells, res)
+})
+
+test_that("calculate_distances_between_cell_types() works", {
+    res <- data.frame(row.names = c(2L, 3L, 4L),
+                      Cell1 = factor(c("Cell_25", "Cell_30", "Cell_48")), 
+                      Cell2 = factor(c("Cell_15", "Cell_15", "Cell_15")),
+                      Distance = c(119.39827385631407707933,  61.77859234377793029580, 
+                                   279.84943528052491501512), 
+                      Pair = rep("Immune1_Immune1", 3),
+                      stringsAsFactors = FALSE)
+    
+    out <- calculate_distances_between_cell_types(defined_image, cell_types_of_interest = c("Tumour","Immune1"), 
+                                                      feature_colname = "Cell.Type")
+    expect_equal(p_cells, res)
+})
 
 test_that("calculate_summary_distances_between_cell_types() works", {
     
-    res <- data.frame(Reference = c("OTHER", "OTHER", "OTHER"),
-                      Nearest = c("AMACR", "CD3,CD4", "CD3,CD8"),
-                      Mean = c(130.418076521445, 70.5496420825272, 134.633340256936), 
-                      Std.Dev = c(123.531481047835, 61.6136499595389, 124.074239935635),
-                      Median = c(85.8661749468322, 52.3545604508337, 97.0463806640928))
+    res <- data.frame(row.names = c(2L, 3L),
+                      Reference = c("Immune1", "Tumour"),
+                      Nearest = c("Tumour", "Immune1"),
+                      Mean = c(85.84773, 187.52474), 
+                      Std.Dev = c(40.72454, 75.13630),
+                      Median = c(80.80592, 191.09109))
     
-    summary_distances <- calculate_summary_distances_between_cell_types(formatted_image)
-    rownames(summary_distances) <- NULL
+    summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
+                            feature_colname = "Cell.Type", all_combinations = FALSE,
+                            cell_types_of_interest = c("Tumour","Immune1"))
     
-    expect_equal(summary_distances[1:3, ], res, tolerance=1e-3)
-    
+    expect_equal(summary_distances, res, tolerance=1e-4)
 })
 
-
-test_that("calculate_all_distances_between_cell_types() works", {
-    
-    cells <- c("Cell_174", "Cell_264", "Cell_305")
-    res <- data.frame(Cell1 = factor(cells, levels=cells),  
-                      Cell2 = factor(c(rep("Cell_78", 3))),
-                      Distance = c(1392.07040, 40.26164, 993.83399), 
-                      Pair = rep("CD3,CD4_CD3,CD4", 3))
-    
-    distances <- calculate_all_distances_between_cell_types(formatted_image,
-                                                            cell_types_of_interest = c("CD3,CD4", "CD3,CD8"),
-                                                            column="Phenotype")
-    distances <- distances[1:3, ]
-    distances <- droplevels(distances)
-    rownames(distances) <- NULL
-    
-    expect_equal(distances, res, tolerance=1e-3)
-    
+test_that("calculate_entropy() works", {
+    out <- calculate_entropy(defined_image, cell_types_of_interest = c("Immune1","Immune2"), 
+                             feature_colname = "Cell.Type")
+    expect_equal(0.9294873, out, tolerance=1e-4)
 })
 
-
-test_that("identify_cell_clusters() works", {
-    
-    cells <- c("Cell_78", "Cell_174", "Cell_195", "Cell_237")
-    res <- data.frame(row.names = c("Cell_195", "Cell_237", "Cell_320", "Cell_441"),
-                Cell.ID = c("Cell_195", "Cell_237", "Cell_320", "Cell_441"), 
-                Phenotype = c("CD3,CD8", "CD3,CD8", "CD3,CD8", "CD3,CD8"), 
-                Cell.X.Position = c(1145, 1119, 550, 856), 
-                Cell.Y.Position = c(33, 40, 73, 93))
-    
-    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD8"),
-                                       radius = 30, column = "Phenotype")
-    
-    expect_equal(clusters[1:4, 1:4], res)
-    
+test_that("calculate_minimum_distances_between_cell_types() works", {
+    min_distances <- calculate_minimum_distances_between_cell_types(defined_image,
+                                                                    feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
+    expect_equal(0.9294873, out, tolerance=1e-4)
 })
 
-test_that("identify_cell_communities() works", {
-    
-    res <- data.frame(row.names = 2:5,
-                      Cell.ID = c("Cell_2", "Cell_3", "Cell_4", "Cell_5"), 
-                      Phenotype = c("AMACR", "AMACR", "AMACR", "AMACR"), 
-                      Cell.X.Position = c(171, 184, 201, 219), 
-                      Cell.Y.Position = c(22, 38, 52, 63))
-    
-    communities <- identify_cell_communities(formatted_image, radius=100)
-    
-    expect_equal(communities[1:4, 1:4], res)
-    
+test_that("calculate_minimum_distances() works", {
+    res <- data.frame(row.names = c(2L, 3L, 4L),
+                      RefCell = c("Cell_15", "Cell_25", "Cell_30"),
+                      RefType = c("Immune1", "Immune1", "Immune1"),
+                      NearestCell = c("Cell_32", "Cell_27", "Cell_32"),
+                      NearestType = c("Tumour", "Tumour", "Tumour"),
+                      Dist = c(17.18740, 44.79503, 78.52918))
+    min_dists <- calculate_minimum_distances(SPIAT::defined_image, 
+                                             cell_types_of_interest = c("Tumour","Immune1"),
+                                             feature_colname = "Cell.Type")
+    out <- min_dists[1:3,]
+    expect_equal(res, out, tolerance=1e-4)
 })
-
 
 test_that("marker_permutation() works", {
     
-    res <- data.frame(row.names = c("CD3", "PDL-1", "CD4", "CD8"),
-                      Observed_cell_number = c(19, 4, 0, 0),
-                      Percentage_of_iterations_where_present = c(100, 88, 100, 100),
-                      Average_bootstrap_cell_number = c(292.52, 1.71, 216.97, 55.81),
-                      Enrichment.p = c(1, 0.05, 1, 1), 
-                      Depletion.p = c(0.01, 1, 0.01, 0.01))
+    res <- data.frame(row.names = c("Tumour_marker", "Immune_marker1", "Immune_marker2"),
+                      Observed_cell_number = c(819, 0, 0),
+                      Percentage_of_iterations_where_present = c(100, 100, 100),
+                      Average_bootstrap_cell_number = c(423.41, 643.25, 517.77),
+                      Enrichment.p = c(0.01, 1.00, 1.00), 
+                      Depletion.p = c(1.00, 0.01, 0.01))
     
-    sig <- marker_permutation(formatted_image, num_iter = 100)
-    sig <- sig[1:4,]
+    sig <- marker_permutation(simulated_image, num_iter = 100)
+    out <- sig[1:3,]
     
-    expect_equal(sig, res, tolerance=0.9)
+    expect_equal(out, res, tolerance=1e-2)
     
 })
 
+test_that("mixing_score_summary() works", {
+    
+    res <- data.frame(row.names = c(2L),
+                      Reference = "Tumour",
+                      Target = "Immune1",
+                      Number_of_reference_cells = 819,
+                      Number_of_target_cells = 338,
+                      Reference_target_interaction = 80,
+                      Reference_reference_interaction = 5026,
+                      Mixing_score = 0.0159,
+                      Normalised_mixing_score = 0.077)
+    
+    out <- mixing_score_summary(defined_image, reference_celltype = "Tumour", target_celltype="Immune1",
+                                radius = 50, feature_colname = "Cell.Type")
+    
+    expect_equal(out, res, tolerance=1e-2)
+    
+})
 
-test_that("average_percentage_of_cells_within_radius() works", {
+test_that("number_of_cells_within_radius() works", {
     
-    percent_cells <- average_percentage_of_cells_within_radius(formatted_image, reference_phenotypes = "PDL-1", target_phenotypes = "AMACR", radius=100, column="Phenotype")
+    res <- data.frame(row.names = c("Cell_19", "Cell_27"),
+                      Cell.X.Position = c(11.82661, 144.71614),
+                      Cell.Y.Position = c(145.4592, 172.2780),
+                      Immune1 = c(0,1))
     
-    expect_equal(percent_cells, 10.52296, tolerance=1e-7)
+    n_in_radius <- number_of_cells_within_radius(defined_image, 
+                                                reference_celltype = "Tumour", 
+                                                target_celltype="Immune1", radius = 50, 
+                                                feature_colname = "Cell.Type")
+    out <- n_in_radius$Tumour[1:2,]
     
+    expect_is(n_in_radius, "list")
+    expect_equal(out, res, tolerance=1e-2)
+})
+
+test_that("compute_gradient() works", {
+    
+    gradient_positions <- c(30, 50, 100)
+    gradient_entropy <- compute_gradient(defined_image, radii = gradient_positions, 
+                                         FUN = calculate_entropy,  
+                                         cell_types_of_interest = c("Immune1","Immune2"),
+                                         feature_colname = "Cell.Type")
+
+    out <- gradient_entropy[[1]]
+    
+    expect_is(gradient_entropy, "list")
+    expect_length(gradient_entropy, 3)
+    expect_equal(dim(out), c(338,13))
+})
+
+test_that("compute_gradient() works", {
+    
+    res <- data.frame(row.names = c(1L, 2L),
+                      Celltype1 = c("Tumour", "Immune3"),
+                      Celltype2 = c("Immune3", "Tumour"),
+                      Pos_50 = c(0.5974227,0.8053223),
+                      Pos_100 = c(0.7667379, .9667266))
+    
+    gradient_pos <- seq(50, 500, 50)
+    gradient_results <- entropy_gradient_aggregated(defined_image, 
+                                                    cell_types_of_interest = c("Tumour","Immune3"),
+                                                    feature_colname = "Cell.Type", radii = gradient_pos)
+    
+    out <- gradient_results$gradient_df[, 1:4]
+    
+    expect_is(gradient_results, "list")
+    expect_equal(gradient_results$peak, 10)
+    expect_equal(res, out, tolerance = 1e-4)
+})
+
+test_that("measure_association_to_cell_properties() works", {
+    t <- measure_association_to_cell_properties(image_no_markers,
+                                                celltypes = c("Tumour", "Immune2"),
+                                                feature_colname="Cell.Type",
+                                                property = "Cell.Size",
+                                                method = "t")
+    expect_is(t, "htest")
+    expect_equal(unname(t$statistic), 27.4, tolerance = 0.1)
+    
+    p <- measure_association_to_cell_properties(image_no_markers,
+                                                celltypes = c("Tumour", "Immune2"),
+                                                feature_colname="Cell.Type",
+                                                property = "Cell.Size",
+                                                method = "box")
+    expect_is(p, "ggplot")
 })

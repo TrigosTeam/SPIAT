@@ -2,127 +2,97 @@ context("plotting")
 
 test_that("plot_average_intensity() creates a plot", {
     
-    p <- plot_average_intensity(formatted_image, reference_marker="AMACR", target_marker="CD4", radii=c(30, 35, 40, 45, 50, 75, 100))
+    p <-plot_average_intensity(simulated_image, reference_marker="Immune_marker3", 
+                               target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
     
     expect_is(p, "ggplot")
 })
 
-
 test_that("plot_cell_categories() creates a plot", {
     
-    phenotypes_of_interest <- c("AMACR", "CD3,CD4", "CD3,CD8")
-    colour_vector <- c("darkgrey", "red", "blue")
+    phenotypes_of_interest <- c("Tumour", "Immune2")
+    colour_vector <- c("darkgrey", "blue")
     
-    p <- plot_cell_categories(formatted_image, phenotypes_of_interest, colour_vector)
+    p <- plot_cell_categories(defined_image, phenotypes_of_interest, colour_vector,"Cell.Type")
+    
+    expect_is(p, "ggplot")
+})
+
+test_that("plot_cell_distances_violin() creates a plot", {
+    
+    distances <- calculate_distances_between_cell_types(defined_image,
+                                                    cell_types_of_interest = c("Immune1", "Immune2"), feature_colname="Cell.Type")
+    p <- plot_cell_distances_violin(distances)
     
     expect_is(p, "ggplot")
 })
 
 test_that("plot_cell_percentages() creates a plot", {
     
-    p_cells <- calculate_cell_proportions(sce_object = formatted_image)
-    
+    p_cells <- calculate_cell_proportions(simulated_image) 
     p <- plot_cell_percentages(p_cells)
     
     expect_is(p, "ggplot")
 })
 
-
 test_that("plot_cell_marker_levels() creates a plot", {
     
-    p <- plot_cell_marker_levels(formatted_image, "CD3")
+    p <- plot_cell_marker_levels(simulated_image, "Immune_marker1")
     
     expect_is(p, "ggplot")
     
 })
-
 
 test_that("plot_marker_level_heatmap() creates a plot", {
     
-    p <- plot_marker_level_heatmap(formatted_image, num_splits = 100, "CD3")
+    p <- plot_marker_level_heatmap(simulated_image, num_splits = 100, "Tumour_marker")
     
     expect_is(p, "ggplot")
     
 })
 
-
 test_that("plot_distance_heatmap() creates a plot", {
     
-    summary_distances <- calculate_summary_distances_between_cell_types(formatted_image)
-    
+    summary_distances <- calculate_summary_distances_between_cell_types(defined_image,
+                                                                        feature_colname = "Cell.Type", all_combinations = FALSE, cell_types_of_interest = c("Tumour","Immune1"))
     p <- plot_distance_heatmap(summary_distances)
     
     expect_is(p, "ggplot")
     
 })
 
-
-test_that("plot_composition_heatmap() creates a plot", {
-    
-    clusters <- identify_cell_clusters(formatted_image, cell_types_of_interest = c("CD3,CD4", "CD3,CD8"),
-                                       radius = 30, column = "Phenotype")
-    clusters_2 <- composition_of_clusters_and_communities(clusters, type_of_aggregate = "Cluster", column = "Phenotype")
-    clusters_2 <- clusters_2[clusters_2$Total_number_of_cells >=5,]
-    
-    p <- plot_composition_heatmap(clusters_2, type_of_aggregate = "Cluster", column="Phenotype")
-    
-    expect_is(p, "Heatmap")
-    
-})
-
-# Comment out until update with Jojo's new function
-# test_that("identify_bordering_cells() creates a plot", {
-#     
-#     p <- identify_bordering_cells(formatted_image, reference_marker = "AMACR",
-#                                   rm_noise_radius = 50, radius = 100, lower_bound = 0.05,
-#                                   upper_bound=0.7)
-#     
-#     expect_is(p, "ggplot")
-#     
-# })
-
-
 test_that("marker_intensity_boxplot() creates a plot", {
     
-    p <- marker_intensity_boxplot(formatted_image, "CD3")
+    p <- marker_intensity_boxplot(simulated_image, "Immune_marker1")
     
     expect_is(p, "ggplot")
     
 })
 
-
-#test_that("marker_prediction_plot() creates a plot", {
-#    
-#    predicted_image <- predict_phenotypes(formatted_image,
-#                                          thresholds = NULL,
-#                                          tumour_marker = "AMACR",
-#                                          baseline_markers = c("CD3", "CD4", "CD8"),
-#                                          reference_phenotypes = FALSE)
-#    
-#    p <- marker_prediction_plot(predicted_image, marker="AMACR")
-#    
-#    expect_is(p, "gtable")
-#    
-#})
-
+test_that("marker_prediction_plot() creates a plot", {
+    predicted_result <- predict_phenotypes(sce_object = simulated_image, 
+                                           thresholds = NULL,tumour_marker = "Tumour_marker",
+                                           baseline_markers = c("Immune_marker1", "Immune_marker2","Immune_marker3", "Immune_marker4"), 
+                                           reference_phenotypes = TRUE)
+    p <- marker_prediction_plot(predicted_result, marker = "Tumour_marker")
+    expect_is(p, "gtable")    
+})
 
 test_that("marker_surface_plot() creates a plot", {
     
-    p <- marker_surface_plot(formatted_image, num_splits=15, marker="CD3")
+    p <- marker_surface_plot(simulated_image, num_splits=15, marker="Immune_marker1")
     
     expect_is(p, "plotly")
     
 })
-
 
 test_that("marker_surface_plot_stack() creates a plot", {
     
-    p <- marker_surface_plot_stack(formatted_image, num_splits=10, markers=c("CD4", "AMACR"))
+    p <- marker_surface_plot_stack(simulated_image, num_splits=15, 
+                                   markers=c("Tumour_marker", "Immune_marker4"))
     
     expect_is(p, "plotly")
-    
 })
-
 
 test_that("measure_association_to_cell_properties() creates a plot", {
     
@@ -131,3 +101,12 @@ test_that("measure_association_to_cell_properties() creates a plot", {
     expect_is(p, "ggplot")
     
 })
+
+test_that("dimensionality_reduction_plot() creates a plot", {
+    
+    p <- dimensionality_reduction_plot(simulated_image, plot_type = "TSNE", 
+                                       feature_colname = "Phenotype")
+    
+    expect_is(p, "ggplot")
+})
+
