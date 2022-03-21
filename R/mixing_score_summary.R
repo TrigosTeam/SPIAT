@@ -5,15 +5,19 @@
 #' It derives the mixing score and normalises the score by (mixing score) * (number of reference cells) * 2 / (number of target cells).
 #' Function returns NA if the mixing score is being calculated between cells of the same type
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_marker Cell types of the reference cells
-#' @param target_marker Cell types of the target cells
+#' @param reference_celltype Cell types of the reference cells
+#' @param target_celltype Cell types of the target cells
 #' @param feature_colname String specifying the column with the desired cell type annotations 
-#' @param radius The maximum radius around a reference marker for another cell to be considered an interaction.
+#' @param radius The maximum radius around a reference celltype for another cell to be considered an interaction.
 #' @import dplyr
 #' @return A data.frame of cell numbers, mixing scores, and normalised mixing scores.
 #' @export
+#' @examples 
+#' mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",
+#' radius = 50, feature_colname = "Cell.Type")
 
-mixing_score_summary <- function(sce_object, reference_marker, target_marker, radius=20, feature_colname)
+mixing_score_summary <- function(sce_object, reference_celltype, target_celltype, 
+                                 radius=20, feature_colname)
 {
     formatted_data <- get_colData(sce_object)
     df.cols <- c("Reference", "Target", "Number_of_reference_cells",
@@ -21,9 +25,9 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
                  "Reference_reference_interaction", "Mixing_score", 
                  "Normalised_mixing_score")
     df <- data.frame(matrix(ncol=8,nrow=1, dimnames=list(NULL, df.cols)), stringsAsFactors = FALSE)
-    for (i in reference_marker) {
+    for (i in reference_celltype) {
         reference_cells <- formatted_data[formatted_data[,feature_colname] == i,]
-        for (j in target_marker) {
+        for (j in target_celltype) {
             if (i == j) {
                 df <-  rbind(df[ ,df.cols], 
                              c(i, j, nrow(reference_cells), nrow(target_cells), NA, NA, NA, NA))
@@ -31,10 +35,10 @@ mixing_score_summary <- function(sce_object, reference_marker, target_marker, ra
             tryCatch({
                 target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
                 if (nrow(reference_cells) == 0) {
-                    print(paste("There are no unique reference cells of specified marker", i, "for target cell", j))
+                    print(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
                 }
                 if (nrow(target_cells) == 0) {
-                    print(paste("There are no unique target cells of specified marker", j, "for reference cell", i))
+                    print(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
                 }
                 reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
                                                             "Cell.Y.Position")]
