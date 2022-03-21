@@ -7,6 +7,8 @@
 #' @param categories_of_interest Vector of cell categories to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @param feature_colname String specifying the column the cell categories belong to
+#' @param cex Numeric. The size of the plot points. Default is 1.
+#' @param layered Boolean. Whether to plot the cells layer by layer (cell categories). By default is FALSE.
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned
@@ -17,7 +19,8 @@
 #' @export
 
 plot_cell_categories <- function(sce_object, categories_of_interest = NULL, 
-                                 colour_vector = NULL, feature_colname = "Cell.Type") {
+                                 colour_vector = NULL, feature_colname = "Cell.Type",
+                                 cex = 1, layered = FALSE) {
   
   # if plotting the structure, users do not have to enter the params
   # we have stored the categories and colours for them
