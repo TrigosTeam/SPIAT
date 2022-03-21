@@ -1,39 +1,37 @@
 #' measure_association_to_cell_properties
 #'
 #' @description Plots the density or boxplot of a property of two cell
-#'   phenotypes or compares using t test/wilcoxon rank sum test
+#'   celltypes or compares using t test/wilcoxon rank sum test.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce
-#' @param property String that is the name of the column of interest
-#' @param phenotypes Vector of phenotypes of interest
-#' @param merge Vector of phenotypes to be merged
-#' @param merge_name String that is the name of the merged phenotype
-#' @param method the analysis to do on the selected phenotypes and property.
-#'   Options are density, box, t, wilcox
-#' @param Nucleus.Ratio when the ratio of the nucleus size is of interest
-#' @param log.scale if log the data
+#'   format_image_to_sce.
+#' @param property String that is the name of the column of interest.
+#' @param celltypes Vector of celltypes of interest.
+#' @param feature_colname String that speficies the column of the cell types.
+#' @param method the analysis to do on the selected cell types and property.
+#'   Options are "density", "box", "t", "wilcox".
+#' @param Nucleus.Ratio Boolean when the ratio of the nucleus size is of interest.
+#' @param log.scale Boolean if log the data.
 #' @import ggplot2
 #' @return With method "box" or "density a plot is returned. With method "t" or
 #'   "wilcox", the text output from the test are returned.
 #' @examples
-#' measure_association_to_cell_properties(SPIAT::formatted_image,
-#'                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-#'                                       property = "Cell.Area",
+#' measure_association_to_cell_properties(image_no_markers,
+#'                                       celltypes = c("Tumour", "Immune1"),
+#'                                       feature_colname = "Cell.Type",
+#'                                       property = "Cell.Size",
 #'                                       method = "box")
-#' measure_association_to_cell_properties(SPIAT::formatted_image,
-#'                                       phenotypes = c("CD3,CD4", "CD3,CD8"),
-#'                                       property = "Cell.Area",
+#' measure_association_to_cell_properties(image_no_markers,
+#'                                       celltypes = c("Tumour", "Immune2"),
+#'                                       feature_colname="Cell.Type",
+#'                                       property = "Cell.Size",
 #'                                       method = "t")
 #' @export
 
 measure_association_to_cell_properties <- function(sce_object, property = "Cell.Area", 
-                                                   phenotypes, merge = NULL, merge_name = NULL, 
+                                                   celltypes, feature_colname = "Cell.Type",
                                                    method = "density", Nucleus.Ratio = FALSE,
                                                    log.scale = FALSE) {
-  
-  # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
-  Phenotype <- NULL
   
   formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
   
@@ -42,8 +40,8 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
     stop("Property of interest not found")
   }
   
-  if (!all(phenotypes %in% formatted_data$Phenotype)) {
-    stop("phenotype not found")
+  if (!all(celltypes %in% formatted_data[[feature_colname]])) {
+    stop("Cell type not found")
   }
   
   # CHECK if nucleus.ratio is the property of interest
@@ -52,16 +50,10 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
     property <- "Nucleus.Ratio"
   }
   
-  #Extract interested property and phenotypes
-  formatted_data <- formatted_data[which(formatted_data$Phenotype %in% phenotypes),
-                                   c("Phenotype",property)]
-  
-  # CHECK if there are any columns to be merged
-  if (is.null(merge) == FALSE){
-    formatted_data[which(formatted_data$Phenotype %in% merge),]$Phenotype <- merge_name
-    # update phenotypes of interest
-    phenotypes <- c(setdiff(phenotypes, merge), merge_name)
-  }
+  #Extract interested property and celltypes
+  formatted_data <- formatted_data[which(formatted_data[[feature_colname]] %in% celltypes),
+                                   c(feature_colname,property)]
+
   
   # CHECK if log the scale
   if (log.scale == TRUE){
@@ -74,7 +66,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
     # get colourblind-friendly colours
     colours <- dittoSeq::dittoColors()[seq_len(2)]
     
-    p <- ggplot(formatted_data, aes(x=formatted_data[,property], color = Phenotype)) + 
+    p <- ggplot(formatted_data, aes_string(x=property, color = feature_colname)) + 
       geom_density() + 
       labs(x = property) +
       scale_color_manual(values = colours) +
@@ -89,7 +81,7 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
       return(c(y = max(x)+1, label = length(x)))
     }
     
-    p <- ggplot(formatted_data, aes(Phenotype,formatted_data[,property])) + 
+    p <- ggplot(formatted_data, aes_string(feature_colname,property, fill = feature_colname)) + 
       geom_boxplot()  +
       stat_summary(fun.data = give.n, geom = "text", vjust = -0.5) +
       ylab(property) +
@@ -99,25 +91,25 @@ measure_association_to_cell_properties <- function(sce_object, property = "Cell.
   
   if (method == "t"){
     # CHECK
-    if (length(phenotypes) != 2){
+    if (length(celltypes) != 2){
       stop("wrong number of inputs to do t.test")
     }
     else{
-      p <- stats::t.test(formatted_data[formatted_data$Phenotype == phenotypes[1],property],
-                         formatted_data[formatted_data$Phenotype == phenotypes[2],property])
+      p <- stats::t.test(formatted_data[formatted_data[[feature_colname]] == celltypes[1],property],
+                         formatted_data[formatted_data[[feature_colname]] == celltypes[2],property])
       
       # make output name nicer
-      p$data.name <- paste(phenotypes[1], "and", phenotypes[2])
+      p$data.name <- paste(celltypes[1], "and", celltypes[2])
     }
   }
   if (method == "wilcox"){
     # CHECK
-    if (length(phenotypes) != 2){
+    if (length(celltypes) != 2){
       stop("wrong number of inputs to do Wilcoxon Rank Sum test")
     }
     else{
-      p <- stats::wilcox.test(formatted_data[formatted_data$Phenotype == phenotypes[1],property],
-                              formatted_data[formatted_data$Phenotype == phenotypes[2],property])
+      p <- stats::wilcox.test(formatted_data[formatted_data[[feature_colname]] == celltypes[1],property],
+                              formatted_data[formatted_data[[feature_colname]] == celltypes[2],property])
     }
   }
   
