@@ -2,7 +2,7 @@
 % Please edit documentation in R/print_feature.R
 \name{print_feature}
 \alias{print_feature}
-\title{print_feature}
+\title{Print the unique values of a specified column}
 \usage{
 print_feature(sce_object, feature_colname)
 }
@@ -20,5 +20,5 @@ Print the unique values of a specified column (feature).
 }
 \examples{
 feature_colname <- "Phenotype"
-print_phenotypes(SPIAT::formatted_image, feature_colname)
+print_feature(SPIAT::simulated_image, feature_colname)
 }
