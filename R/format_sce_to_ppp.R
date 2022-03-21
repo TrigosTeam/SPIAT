@@ -8,6 +8,8 @@
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param window_pol Optional Boolean Specifying if the window is polygon
 #' @param feature_colname String specifying the feature column of interest
+#' @examples 
+#' ppp_object<-format_sce_to_ppp(SPIAT::defined_image, feature_colname = "Cell.Type")
 
 format_sce_to_ppp <- function(sce_object, window_pol = F, feature_colname="Phenotype") {
   

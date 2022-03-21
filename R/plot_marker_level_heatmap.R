@@ -11,7 +11,7 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' plot_marker_level_heatmap(SPIAT::formatted_image, num_splits = 100, "AMACR")
+#' plot_marker_level_heatmap(SPIAT::simulated_image, num_splits = 100, "Tumour_marker")
 #' @export
 
 plot_marker_level_heatmap <- function(sce_object, num_splits, marker){

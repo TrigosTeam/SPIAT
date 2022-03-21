@@ -6,8 +6,8 @@
 #' @param num_iter Integer specifying the number of iterations for bootstrapping
 #' @import dplyr
 #' @return A plot is returned
-#' @examples 
-#' sig <- marker_permutation(SPIAT::formatted_image, num_iter = 100)
+#' @examples
+#' sig <- marker_permutation(SPIAT::simulated_image, num_iter = 100)
 #' @export
 
 marker_permutation <- function(sce_object, num_iter) {

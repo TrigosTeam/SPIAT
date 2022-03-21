@@ -21,6 +21,8 @@ Returns a dataframe which contains the percentages of cells with
   cluster.
 }
 \examples{
-communities <- identify_neighborhoods(SPIAT::formatted_image, radius=100)
-communities_vis <- composition_of_neighborhoods(communities, feature_colname="Phenotype")
+neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
+min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+radius = 50, feature_colname = "Cell.Type")
+neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
 }

@@ -7,6 +7,9 @@
 #' @param ... arguments of FUN 
 #' @return a list of the metrics of all grids
 #' @export
+#' @examples 
+#' grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,
+#' cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")
 
 grid_metrics <- function(sce_object, FUN, n_split, ...){
   split <- image_splitter(sce_object,n_split)

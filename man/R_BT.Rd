@@ -26,3 +26,7 @@ Calculates the ratio of the tumour border cell count and the
   it means that most tumour cells are identified as bordering cells. This
   means there is no clear tumour clusters.
 }
+\examples{
+R_BT(SPIAT::defined_image, cell_type_of_interest = "Tumour", "Cell.Type")
+
+}

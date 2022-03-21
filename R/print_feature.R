@@ -1,4 +1,4 @@
-#' print_feature
+#' Print the unique values of a specified column
 #'
 #' @description Print the unique values of a specified column (feature).
 #'
@@ -8,7 +8,7 @@
 #' @return A character vector is returned
 #' @examples
 #' feature_colname <- "Phenotype"
-#' print_phenotypes(SPIAT::formatted_image, feature_colname)
+#' print_feature(SPIAT::simulated_image, feature_colname)
 #' @export
 
 print_feature <- function(sce_object, feature_colname){

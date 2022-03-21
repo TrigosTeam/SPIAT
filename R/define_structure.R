@@ -8,7 +8,13 @@
 #' @param feature_colname String Specifying which column the names of immune cells are under
 #' @import dplyr
 #' @export
-
+#' @examples 
+#' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+#' feature_colname = "Cell.Type", n_to_exclude = 10)
+#' sce_dist <- calculate_distance_to_tumour_margin(sce_border)
+#' sce_structure <- define_structure(sce_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
+#' feature_colname = "Cell.Type", n_margin_layers = 5)
+#' plot_cell_categories(sce_structure, feature_colname = "Structure")
 
 define_structure <- function(sce_object, names_of_immune_cells, feature_colname = "Cell.Type",
                              n_margin_layers = 5){

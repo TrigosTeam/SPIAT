@@ -27,5 +27,6 @@ Takes in a vector or radii and calculates the average intensity
   level as a line graph.
 }
 \examples{
-plot_average_intensity(SPIAT::formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+plot_average_intensity(SPIAT::simulated_image, reference_marker="Immune_marker3", 
+target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
 }

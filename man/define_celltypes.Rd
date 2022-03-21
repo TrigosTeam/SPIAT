@@ -36,3 +36,9 @@ Define celltypes of selected categories. If the specified category vector is
 shorter than the categories in the sce_object, then the unspecified categories will be defined
 as "Undefined"
 }
+\examples{
+defined_sce <- define_celltypes(SPIAT::simulated_image, 
+categories = c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3", 
+"Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), category_colname = "Phenotype",
+names = c("Tumour", "Immune1", "Immune2","Immune3", "Others"), new_colname = "Cell.Type")
+}

@@ -18,3 +18,6 @@ Formats an sce object into a ppp object
 which has the x,y coordinates, phenotypes as markers 
 window specifies the range of x and y coordinates
 }
+\examples{
+ppp_object<-format_sce_to_ppp(SPIAT::defined_image, feature_colname = "Cell.Type")
+}

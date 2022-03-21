@@ -14,10 +14,12 @@
 #' @import dplyr
 #' @return A data.frame is returned
 #' @examples
-#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
+#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
+#' feature_colname = "Cell.Type", all_combinations = FALSE, 
+#' cell_types_of_interest = c("Tumour","Immune1"))
 #' @export
 
-calculate_summary_distances_between_cell_types <- function(sce_object, feature_colname="Phenotype", 
+calculate_summary_distances_between_cell_types <- function(sce_object, feature_colname="Cell.Type", 
                                                            all_combinations = FALSE,
                                                            cell_types_of_interest) {
   

@@ -14,7 +14,7 @@
 #' @import dplyr
 #' @return A plot is returned
 #' @examples
-#' marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
+#' marker_surface_plot(SPIAT::simulated_image, num_splits=15, marker="Immune_marker1")
 #' @export
 
 marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,

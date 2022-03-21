@@ -28,3 +28,6 @@ Calculate the the ANN index of a specified type of cells. The
   index indicates the clustering effect of a point pattern. It can be
   clustering, random or dispersion.
 }
+\examples{
+average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")
+}

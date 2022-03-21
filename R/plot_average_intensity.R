@@ -14,7 +14,8 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' plot_average_intensity(SPIAT::formatted_image, reference_marker="CD8", target_marker="CD4", c(30, 35, 40, 45, 50, 75, 100))
+#' plot_average_intensity(SPIAT::simulated_image, reference_marker="Immune_marker3", 
+#' target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
 #' @export
 
 plot_average_intensity <- function(sce_object, reference_marker, target_marker, radii) {

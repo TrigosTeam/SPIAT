@@ -13,9 +13,12 @@
 #'   and cell count can be accessed by `attr(slim_sce, "original_cell_number")`
 #'   and `attr(slim_sce, "range_of_coords")`.
 #' @examples
-#' data_subset <- select_celltypes(SPIAT::formatted_image,
-#'                                 celltypes = c("AMACR","CD3,CD8","PDL-1"),
-#'                                 feature_colname = "Phenotype", keep=TRUE)
+#' data_subset <- select_celltypes(SPIAT::simulated_image,
+#' celltypes = c("Tumour_marker","Immune_marker1","Immune_marker2","Immune_marker3","Immune_marker4"),
+#' feature_colname = "Phenotype", keep=TRUE)
+#' attr(data_subset, "original_cell_number") #cell number in the original image
+#' attr(data_subset, "range_of_coords") 
+#' dim(data_subset)[2] # this is the new image cell number
 #' @export
 select_celltypes <- function(sce_object, celltypes, 
                              feature_colname = "Phenotype", keep = TRUE){

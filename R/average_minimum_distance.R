@@ -8,7 +8,7 @@
 #' @import dplyr
 #' @return A single number is returned
 #' @examples
-#' average_minimum_distance(SPIAT::formatted_image)
+#' average_minimum_distance(SPIAT::simulated_image)
 #' @export
 
 average_minimum_distance <- function(sce_object) {

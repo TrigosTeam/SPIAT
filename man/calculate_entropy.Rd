@@ -30,3 +30,7 @@ A dataframe or a number depending on the argument radius
 Returns a dataframe of entropies for all reference cells or an
   entropy number for the whole image if a radius is not supplied.
 }
+\examples{
+calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"), 
+feature_colname = "Cell.Type")
+}
