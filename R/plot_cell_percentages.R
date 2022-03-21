@@ -1,4 +1,4 @@
-#' plot_cell_proportions
+#' plot_cell_percentages
 #'
 #' @description Plots cells proportions as barplots.
 #' @param cell_proportions Data Frame. Output from `calculate_cell_proportions`.
