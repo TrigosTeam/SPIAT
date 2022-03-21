@@ -9,6 +9,10 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
+#' predicted_result <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+#' tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
+#' "Immune_marker3", "Immune_marker4"), reference_phenotypes = TRUE)
+#' marker_prediction_plot(predicted_result, marker = "Tumour_marker")
 #' @export
 
 marker_prediction_plot <- function(predicted_data, marker) {

@@ -60,3 +60,13 @@ Predicts cell phenotypes based on marker intensity levels. If no
   positive reading for marker intensity and it returns a dataframe containing
   the predicted intensity status for a particular marker.
 }
+\examples{
+# keep the original phenotypes
+predicted_result <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
+"Immune_marker3", "Immune_marker4"), reference_phenotypes = TRUE)
+# update the predicted phenotypes
+predicted_sce_image <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
+"Immune_marker3", "Immune_marker4"), reference_phenotypes = FALSE)
+}

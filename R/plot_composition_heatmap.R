@@ -8,9 +8,11 @@
 #' @param feature_colname String. Column with cell types.
 #' @return A plot is returned
 #' @examples
-#' communities <- identify_cell_communities(SPIAT::formatted_image, radius=100)
-#' communities_vis <- composition_of_clusters_and_communities(communities, feature_colname="Phenotype)
-#' plot_composition_heatmap(communities_vis, feature_colname="Phenotype")
+#' neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
+#' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+#' radius = 50, feature_colname = "Cell.Type")
+#' neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
+#' plot_composition_heatmap(neighborhoods_vis, feature_colname="Cell.Type")
 #' @export
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, feature_colname) {

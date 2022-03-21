@@ -38,5 +38,5 @@ Generates a 3D surface plot of the level of the selected
 marker. Note that the image is blurred based on the 'num_splits' parameter.
 }
 \examples{
-marker_surface_plot(SPIAT::formatted_image, num_splits=15, marker="CD3")
+marker_surface_plot(SPIAT::simulated_image, num_splits=15, marker="Immune_marker1")
 }

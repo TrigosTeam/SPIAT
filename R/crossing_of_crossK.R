@@ -9,6 +9,11 @@
 #' @export
 #'
 #' @examples
+#' df_cross <- calculate_cross_functions(formatted_image, method = "Kcross",
+#'               cell_types_of_interest = c("Tumour","Immune3"), 
+#'               feature_colname ="Cell.Type", dist = 100)
+#' crossing_of_crossK(df_cross)
+
 crossing_of_crossK <- function(df.cross){
   df.cross$sign <- df.cross$theo - df.cross$border
   change_of_sign <- diff(sign(df.cross$sign[-1]))
@@ -17,7 +22,8 @@ crossing_of_crossK <- function(df.cross){
   if (length(ix) == 1 && ix/n > 0.04){
     print("Crossing of cross K function is detected for this image, indicating a potential immune ring.")
     perc <- round(ix/n *100,2)
-    print(paste("The crossing happens at the", perc, "% of the specified distance."), sep = "")
+    print(paste("The crossing happens at the", 
+                perc, "% of the specified distance."), sep = "")
   }
   else ix <- NA
   return(round(1-ix/n,2))

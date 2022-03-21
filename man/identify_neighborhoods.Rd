@@ -43,3 +43,8 @@ A data.frame and a plot is returned
 Uses Euclidean distances to identify clusters of cells within a
   specified radius.
 }
+\examples{
+neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
+min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+radius = 50, feature_colname = "Cell.Type")
+}

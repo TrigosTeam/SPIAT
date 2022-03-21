@@ -15,6 +15,13 @@
 #'
 #' @return A list of the gradient of entropy and the peak
 #' @export
+#' 
+#' @examples 
+#' gradient_pos <- seq(50, 500, 50)
+#' gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, 
+#' cell_types_of_interest = c("Tumour","Immune3"),
+#' feature_colname = "Cell.Type", radii = gradient_pos)
+#' plot(1:10,gradient_results$gradient_df[1, 3:12])
 entropy_gradient_aggregated <- function(sce_object,
                                        cell_types_of_interest,
                                        feature_colname,
@@ -31,8 +38,8 @@ entropy_gradient_aggregated <- function(sce_object,
           # get the gradient
           gradient_local <- compute_gradient(sce_object, radii = radii,
                                              number_of_cells_within_radius,
-                                             reference_marker = pheno1,
-                                             target_marker = c(pheno1, pheno2),
+                                             reference_celltype = pheno1,
+                                             target_celltype = c(pheno1, pheno2),
                                              feature_colname = feature_colname)
           
           

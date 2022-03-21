@@ -12,6 +12,10 @@
 #' @importFrom SummarizedExperiment colData
 #' @return A dataframe or a number depending on the argument radius
 #' @export
+#' @examples 
+#' calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"), 
+#' feature_colname = "Cell.Type")
+
 calculate_entropy <- function(sce_object, cell_types_of_interest, 
                               feature_colname = "Phenotype", radius = NULL){
   

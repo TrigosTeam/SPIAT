@@ -21,5 +21,5 @@ Produces a scatter plot of the level of a marker in each cell.
   positive or negative for the particular marker.
 }
 \examples{
-plot_cell_marker_levels(SPIAT::formatted_image, "CD3")
+plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")
 }

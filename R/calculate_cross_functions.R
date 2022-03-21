@@ -18,6 +18,10 @@
 #' @importFrom spatstat.core Gcross Kcross.inhom Lcross Jcross Kcross
 #' @importFrom spatstat.geom ppp
 #' @export
+#' @examples
+#' df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
+#'               cell_types_of_interest = c("Tumour","Immune3"),
+#'               feature_colname ="Cell.Type", dist = 100)
 
 calculate_cross_functions <- function(sce_object, method = "Kcross", 
                                       cell_types_of_interest, feature_colname, 

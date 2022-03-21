@@ -35,8 +35,8 @@ Calculates the average intensity of the target_marker within a
   but do not correspond to metrics for each cell.
 }
 \examples{
-average_marker_intensity_within_radius(SPIAT::formatted_image,
-                                       reference_marker ="CD8",
-                                       target_marker = "CD4",
+average_marker_intensity_within_radius(SPIAT::simulated_image,
+                                       reference_marker ="Immune_marker3",
+                                       target_marker = "Immune_marker2",
                                        radius=30)
 }

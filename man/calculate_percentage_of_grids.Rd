@@ -7,7 +7,8 @@
 calculate_percentage_of_grids(raster_obj, threshold, above)
 }
 \arguments{
-\item{raster_obj}{Raster object in the form of the output of raster function.}
+\item{raster_obj}{Raster object in the form of the output of `grid_metrics`
+function.}
 
 \item{threshold}{Numeric. The threshold for defining the pattern.}
 
@@ -17,4 +18,9 @@ calculate_percentage_of_grids(raster_obj, threshold, above)
 \description{
 Calculate the percentage of the grid squares that have a certain
   pattern.
+}
+\examples{
+grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,
+cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")
+calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
 }

@@ -17,3 +17,8 @@ An sce_object is returned
 Returns the sce_object with the minimum distance from immune
   cells to the identified tumour bordering cells.
 }
+\examples{
+sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+feature_colname = "Cell.Type", n_to_exclude = 10)
+sce_dist <- calculate_distance_to_tumour_margin(sce_border)
+}

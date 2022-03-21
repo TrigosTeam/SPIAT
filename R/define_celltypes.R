@@ -15,6 +15,11 @@
 #' @param print.names (Optional) Boolean if the user wants the original and new 
 #' names printed. Default is FALSE.
 #' @export
+#' @examples 
+#' defined_sce <- define_celltypes(SPIAT::simulated_image, 
+#' categories = c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3", 
+#' "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), category_colname = "Phenotype",
+#' names = c("Tumour", "Immune1", "Immune2","Immune3", "Others"), new_colname = "Cell.Type")
 
 define_celltypes <- function(sce_object,categories = NULL, 
                              category_colname = "Phenotype", names = NULL, 
@@ -47,7 +52,6 @@ define_celltypes <- function(sce_object,categories = NULL,
   for (i in 1:length(categories)){
     sce_object[,sce_object[[category_colname]] == categories[i]][[new_colname]] <- names[i]
   }
-  
   
   return(sce_object)
 }

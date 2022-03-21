@@ -14,3 +14,9 @@ the positions of the two curves.}
 Calculate the difference of area under the curve (AUC) between
   two curves, normalised by the total area of the graph.
 }
+\examples{
+df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
+              cell_types_of_interest = c("Tumour","Immune3"),
+              feature_colname ="Cell.Type", dist = 100)
+AUC_of_cross_function(df_cross)
+}
