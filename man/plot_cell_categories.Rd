@@ -28,7 +28,8 @@ Produces a scatter plot of the cells in the tissue. Cells are coloured
 categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
 }
 \examples{
-categories_of_interest <- c("AMACR", "CD3,CD8", "PDL-1")
-colour_vector <- c("red", "blue", "orange")
-plot_cell_categories(SPIAT::formatted_image, categories_of_interest, colour_vector)
+categories_of_interest <- c("Tumour", "Immune1","Immune2","Immune3")
+colour_vector <- c("red","darkblue","blue","darkgreen")
+plot_cell_categories(SPIAT::defined_image, categories_of_interest, colour_vector,
+feature_colname = "Cell.Type")
 }
