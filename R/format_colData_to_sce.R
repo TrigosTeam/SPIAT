@@ -21,8 +21,7 @@ format_colData_to_sce <- function(df) {
     stop("No data in the dataframe")
   } 
   
-  df[,"pseudo"] <- 0
-  assay_data <- df[,"pseudo"]
+  assay_data <- rep(0, dim(df)[1])
   assay_rownames <- "pseudo"
   assay_colnames <- rownames(df)
   
