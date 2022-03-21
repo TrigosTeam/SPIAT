@@ -1,29 +1,40 @@
-#' image_splitter
+#' Split a large image into sub images
 #'
-#' @description Takes in a singlecellexperiment object from format_image_to_sce,
-#' splits the image into specified sections and plots the different combinations
-#' of markers within the image segments.
+#' @description Takes in a SingleCellExperiment object from format_image_to_sce,
+#'   splits the image into specified sections and plots the different
+#'   combinations of markers within the image segments.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce.
-#' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3).
-#' @param plot Boolean. Specifies whether the splitted images should be printed in a pdf.
-#' @param cut_labels Boolean. Specifies whether to plot where the image had been segmented.
-#' @param colour_vector String Vector. If specified, the colours will be used for plotting.
-#' If NULL, colors will be generated automatically
-#' @param x_position_min Integer used to specify the minimum x boundary to be splitted.
-#' @param x_position_max Integer used to specify the maximum x boundary to be splitted.
-#' @param y_position_min Integer used to specify the minimum y boundary to be splitted.
-#' @param y_position_max Integer used to specify the maximum y boundary to be splitted.
-#' @param feature_colname String specifying which column the colouring should be based on.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   format_image_to_sce.
+#' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 =
+#'   2x2, 3 = 3x3).
+#' @param plot Boolean. Specifies whether the splitted images should be printed
+#'   in a pdf.
+#' @param cut_labels Boolean. Specifies whether to plot where the image had been
+#'   segmented.
+#' @param colour_vector String Vector. If specified, the colours will be used
+#'   for plotting. If NULL, colors will be generated automatically
+#' @param x_position_min Integer used to specify the minimum x boundary to be
+#'   splitted.
+#' @param x_position_max Integer used to specify the maximum x boundary to be
+#'   splitted.
+#' @param y_position_min Integer used to specify the minimum y boundary to be
+#'   splitted.
+#' @param y_position_max Integer used to specify the maximum y boundary to be
+#'   splitted.
+#' @param feature_colname String specifying which column the colouring should be
+#'   based on. Specify when plot is TRUE.
 #' @import ggplot2
-#' @return A list of data.frames is returned
+#' @return A list of data.frames is returned. Each data frame represents an
+#'   image without assay data.
 #' @examples
-#' split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
+#' split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)
 #' @export
 
-image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, colour_vector = NULL,
-                           x_position_min = NULL, x_position_max = NULL, y_position_min = NULL, y_position_max = NULL, 
-                           feature_colname = "Cell.Type"){
+image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, 
+                           colour_vector = NULL, x_position_min = NULL, 
+                           x_position_max = NULL, y_position_min = NULL, 
+                           y_position_max = NULL, feature_colname = "Cell.Type"){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
