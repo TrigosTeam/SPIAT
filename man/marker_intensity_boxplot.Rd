@@ -19,5 +19,5 @@ Produces boxplots of marker levels for cells phenotyped as being positive
 for the marker, and those that where phenotyped as being negative.
 }
 \examples{
-marker_intensity_boxplot(SPIAT::formatted_image, "CD3")
+marker_intensity_boxplot(SPIAT::simulated_image, "Immune_marker1")
 }

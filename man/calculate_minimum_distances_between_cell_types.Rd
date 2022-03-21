@@ -33,5 +33,7 @@ Returns the mean, median and stardard deviation of the minimum
   distances between phenotypes.
 }
 \examples{
-summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
+min_distances <- 
+calculate_minimum_distances_between_cell_types(SPIAT::defined_image,
+feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
 }

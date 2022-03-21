@@ -32,3 +32,7 @@ identify_bordering_cells(
 \description{
 Identify the cells bordering a group of cells of a particular phenotype
 }
+\examples{
+sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+feature_colname = "Cell.Type", n_to_exclude = 10)
+}

@@ -7,6 +7,10 @@
 #'   format_image_to_sce.
 #' @return An sce_object is returned
 #' @export
+#' @examples 
+#' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+#' feature_colname = "Cell.Type", n_to_exclude = 10)
+#' sce_dist <- calculate_distance_to_tumour_margin(sce_border)
 
 calculate_distance_to_tumour_margin <- function(sce_object){
   

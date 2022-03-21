@@ -18,6 +18,8 @@
 #' @import dplyr
 #' @return A numeric vector and a plot are returned
 #' @examples
+#' average_percentage_of_cells_within_radius(SPIAT::defined_image, "Tumour", 
+#' "Immune3", radius = 100, "Cell.Type")
 #' @export
 
 average_percentage_of_cells_within_radius <- function(sce_object, 

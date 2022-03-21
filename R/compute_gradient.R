@@ -8,6 +8,12 @@
 #' @return A list of the metrics under all radii
 #' @export
 #' 
+#' @examples 
+#' gradient_positions <- c(30, 50, 100)
+#' gradient_entropy <- compute_gradient(SPIAT::defined_image, radii = gradient_positions, 
+#' FUN = calculate_entropy,  cell_types_of_interest = c("Immune1","Immune2"),
+#' feature_colname = "Cell.Type")
+
 compute_gradient <- function(sce_object, radii, FUN, ...){
   list.metric <- list() 
   for (i in 1:length(radii)){

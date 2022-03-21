@@ -27,3 +27,10 @@ A plot is returned
 Produces a heatmap showing the marker percentages within each cluster
 and the cluster sizes
 }
+\examples{
+neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
+min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+radius = 50, feature_colname = "Cell.Type")
+neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
+plot_composition_heatmap(neighborhoods_vis, feature_colname="Cell.Type")
+}

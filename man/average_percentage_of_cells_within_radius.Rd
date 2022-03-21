@@ -37,3 +37,7 @@ Calculates the average percentage of cells of a target cell type
   is done per reference cell, so runtime will depend on the number of
   reference cells present. Output is a single value (the mean for the image).
 }
+\examples{
+average_percentage_of_cells_within_radius(SPIAT::defined_image, "Tumour", 
+"Immune3", radius = 100, "Cell.Type")
+}

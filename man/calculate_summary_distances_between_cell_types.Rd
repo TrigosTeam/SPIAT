@@ -7,7 +7,7 @@
 \usage{
 calculate_summary_distances_between_cell_types(
   sce_object,
-  feature_colname = "Phenotype",
+  feature_colname = "Cell.Type",
   all_combinations = FALSE,
   cell_types_of_interest
 )
@@ -33,5 +33,7 @@ Returns the mean, median and stardard deviation of the distances
   between phenotypes.
 }
 \examples{
-summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
+summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
+feature_colname = "Cell.Type", all_combinations = FALSE, 
+cell_types_of_interest = c("Tumour","Immune1"))
 }
