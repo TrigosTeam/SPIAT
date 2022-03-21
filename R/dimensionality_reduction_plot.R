@@ -10,10 +10,12 @@
 #'
 #' @return A plot
 #' @export
+#' @examples 
+#' dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 
+#' feature_colname = "Phenotype")
 dimensionality_reduction_plot <- function(sce_object, plot_type = "UMAP", 
                                           scale=TRUE, feature_colname){
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
-    formatted_data <- formatted_data %>% rownames_to_column("Cell.ID")
+    formatted_data <- get_colData(sce_object)
     
     intensity_matrix <- SummarizedExperiment::assay(sce_object)
     intensity_matrix_no_DAPI <- intensity_matrix[rownames(intensity_matrix) != "DAPI",]

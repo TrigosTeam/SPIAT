@@ -16,3 +16,9 @@ A numeric The percentage of the crossing position of the specified distance.
 Determine if there is a crossing in the cross K curves, to further 
 detect the existance of potential immune ring.
 }
+\examples{
+df_cross <- calculate_cross_functions(formatted_image, method = "Kcross",
+              cell_types_of_interest = c("Tumour","Immune3"), 
+              feature_colname ="Cell.Type", dist = 100)
+crossing_of_crossK(df_cross)
+}

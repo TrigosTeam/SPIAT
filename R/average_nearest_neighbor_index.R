@@ -12,7 +12,8 @@
 #' @param p.val Numeric. The p value threshold to determine the significance of
 #'   a pattern.
 #' @export
-
+#' @examples
+#' average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")
 
 average_nearest_neighbor_index <- function(sce_object, reference_cell, 
                                            feature_colname, p.val = 5e-6){

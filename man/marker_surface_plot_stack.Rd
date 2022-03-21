@@ -47,5 +47,5 @@ Generates stacked 3D surface plots showing normalized intensity
   level of specified markers.
 }
 \examples{
-marker_surface_plot_stack(SPIAT::formatted_image, num_splits=15, markers=c("AMACR", "CD3"))
+marker_surface_plot_stack(SPIAT::simulated_image, num_splits=15, markers=c("Tumour_marker", "Immune_marker4"))
 }

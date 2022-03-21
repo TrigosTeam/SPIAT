@@ -5,7 +5,8 @@
 #' @param cell_to_cell_dist Output from calculate_all_distances_between_phenotypes
 #' @import ggplot2
 #' @examples
-#' distances <- calculate_all_distances_between_cell_types(SPIAT::formatted_image, cell_types_of_interest = c("CD3,CD4", "CD3,CD8"), column="Phenotype")
+#' distances <- calculate_distances_between_cell_types(SPIAT::defined_image,
+#' cell_types_of_interest = c("Immune1", "Immune2"), feature_colname="Cell.Type")
 #' plot_cell_distances_violin(distances)
 #' @return A plot is returned
 #' @export

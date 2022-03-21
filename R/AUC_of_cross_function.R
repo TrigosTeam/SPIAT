@@ -6,7 +6,12 @@
 #' @param df.cross Data.Frame. The output the the cross functions. Containing
 #'   the positions of the two curves.
 #' @export
-
+#'
+#' @examples
+#' df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
+#'               cell_types_of_interest = c("Tumour","Immune3"),
+#'               feature_colname ="Cell.Type", dist = 100)
+#' AUC_of_cross_function(df_cross)
 
 AUC_of_cross_function <- function(df.cross){
   AUC <- pracma::trapz(df.cross$r ,df.cross$border) - 

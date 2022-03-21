@@ -10,6 +10,9 @@
 #' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
 #' @param n_to_exclude Number Clusters under this number will be deleted
 #' @export
+#' @examples
+#' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+#' feature_colname = "Cell.Type", n_to_exclude = 10)
 
 identify_bordering_cells <- function(sce_object, reference_cell, feature_colname = "Cell.Type",
                                      ahull_alpha = NULL, n_of_polygons = 1, draw = F,  

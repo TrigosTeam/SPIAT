@@ -8,7 +8,7 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' marker_intensity_boxplot(SPIAT::formatted_image, "CD3")
+#' marker_intensity_boxplot(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
 marker_intensity_boxplot <- function(sce_object, marker){

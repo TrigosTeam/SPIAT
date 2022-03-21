@@ -18,6 +18,7 @@ A plot is returned
 Takes the output of cell_distances and plot the distances as a heatmap
 }
 \examples{
-summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::formatted_image)
+summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
+feature_colname = "Cell.Type", all_combinations = FALSE, cell_types_of_interest = c("Tumour","Immune1"))
 plot_distance_heatmap(summary_distances)
 }

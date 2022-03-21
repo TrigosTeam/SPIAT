@@ -36,6 +36,14 @@
 #' @return An updated sce object with cell phenotypes or a data.frame of
 #'   predicted phenotypes
 #' @examples
+#' # keep the original phenotypes
+#' predicted_result <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+#' tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
+#' "Immune_marker3", "Immune_marker4"), reference_phenotypes = TRUE)
+#' # update the predicted phenotypes
+#' predicted_sce_image <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+#' tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
+#' "Immune_marker3", "Immune_marker4"), reference_phenotypes = FALSE)
 #' @export
 
 predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,

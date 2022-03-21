@@ -36,3 +36,8 @@ cross functions.}
 Compute and plot the cross functions between two specified cell
   types.
 }
+\examples{
+df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
+              cell_types_of_interest = c("Tumour","Immune3"),
+              feature_colname ="Cell.Type", dist = 100)
+}

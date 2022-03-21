@@ -8,7 +8,7 @@
 #' @import dplyr
 #' @return A plot is returned
 #' @examples
-#' p_cells <- calculate_cell_proportions(SPIAT::formatted_image, reference_celltypes=c("Total", "CD3"))
+#' p_cells <- calculate_cell_proportions(SPIAT::simulated_image) 
 #' plot_cell_percentages(p_cells)
 #' @export
 plot_cell_percentages <- function(cell_proportions, cells_to_exclude =NULL, 

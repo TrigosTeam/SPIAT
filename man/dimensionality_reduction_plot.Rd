@@ -28,3 +28,7 @@ Generates the dimensionality reduction plots (UMAP or TSNE)
   based on marker intensities. Cells are grouped by the categories under the
   selected column.
 }
+\examples{
+dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 
+feature_colname = "Phenotype")
+}

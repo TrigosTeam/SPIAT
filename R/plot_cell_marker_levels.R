@@ -11,7 +11,7 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' plot_cell_marker_levels(SPIAT::formatted_image, "CD3")
+#' plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
 plot_cell_marker_levels <- function(sce_object, marker) {

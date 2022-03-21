@@ -14,6 +14,9 @@
 #'
 #' @return A number is returned.
 #' @export
+#' @examples 
+#' R_BT(SPIAT::defined_image, cell_type_of_interest = "Tumour", "Cell.Type")
+#' 
 R_BT <- function(sce_object, cell_type_of_interest, feature_colname){
   
   # identify the bordering cells

@@ -11,6 +11,8 @@
 #' @import dplyr
 #' @return A data.frame is returned
 #' @examples
+#' min_dists <- calculate_minimum_distances(SPIAT::defined_image, 
+#' feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
 #' @export
 
 calculate_minimum_distances <- function(sce_object, feature_colname,

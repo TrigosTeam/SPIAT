@@ -29,5 +29,6 @@ Returns the distances between cells of different types. If none
   vector of NAs.
 }
 \examples{
-calculate_all_distances_between_cell_types(SPIAT::defined_image, c("Tumour","Immune1"))
+calculate_distances_between_cell_types(SPIAT::defined_image, 
+cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
 }

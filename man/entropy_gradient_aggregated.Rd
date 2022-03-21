@@ -31,3 +31,10 @@ This function first calculates the entropy of interested cell
   radii, the entropies of all circles are aggregated into one number. At the
   end, the function returns the aggregated entropy at all radii.
 }
+\examples{
+gradient_pos <- seq(50, 500, 50)
+gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, 
+cell_types_of_interest = c("Tumour","Immune3"),
+feature_colname = "Cell.Type", radii = gradient_pos)
+plot(1:10,gradient_results$gradient_df[1, 3:12])
+}
