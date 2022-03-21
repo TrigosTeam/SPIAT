@@ -16,12 +16,12 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
   list.metric <- list()
   for (i in 1:length(split)){
     if(nrow(split[[i]]) > 0){
-      sce <- try(format_colData_to_sce(split[[i]]))
+      sce <- try(quiet_basic(format_colData_to_sce(split[[i]])))
     }else{
       sce <- NULL
     }
     if (class(sce) == "SingleCellExperiment" || class(sce) == "SummarizedExperiment"){
-      metric <-  FUN(sce, ...)
+      metric <-  quiet_basic(FUN(sce, ...))
       if (length(metric)==0){
         metric <- 0.0
       }
