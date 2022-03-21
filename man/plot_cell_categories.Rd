@@ -8,7 +8,9 @@ plot_cell_categories(
   sce_object,
   categories_of_interest = NULL,
   colour_vector = NULL,
-  feature_colname = "Cell.Type"
+  feature_colname = "Cell.Type",
+  cex = 1,
+  layered = FALSE
 )
 }
 \arguments{
@@ -19,6 +21,10 @@ plot_cell_categories(
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 
 \item{feature_colname}{String specifying the column the cell categories belong to}
+
+\item{cex}{Numeric. The size of the plot points. Default is 1.}
+
+\item{layered}{Boolean. Whether to plot the cells layer by layer (cell categories). By default is FALSE.}
 }
 \value{
 A plot is returned
