@@ -37,12 +37,28 @@ a$Phenotype <- NULL
 plot_cell_categories(a, c("Tumour","Immune1", "Immune2", "Immune"), 
                      c("red","darkblue", "darkgreen", "brown"), "Cell.Type")
 
-# simulate markers 
+
 table(a$Cell.Type)
 # Immune Immune1 Immune2  Others  Tumour 
 # 499     600     674    3059     119 
 sum(table(a$Cell.Type))
 
+
+# simulate cell sizes
+set.seed(610)
+Tumour_size <- rnorm(119, 15, 2)
+plot(density(Tumour_size))
+a[a$Cell.Type == "Tumour", "Cell.Size"] <- Tumour_size
+
+set.seed(610)
+Immune_size <- rnorm(1773, 9, 3)
+plot(density(Immune_size))
+a[a$Cell.Type %in% c("Immune","Immune1","Immune2"), "Cell.Size"] <- Immune_size
+
+set.seed(610)
+Other_size <- rnorm(3059, 12, 6)
+plot(density(Other_size))
+a[a$Cell.Type == "Others", "Cell.Size"] <- Other_size
 
 # format to sce
 intensity_matrix <- NULL
