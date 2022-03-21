@@ -2,7 +2,7 @@
 % Please edit documentation in R/image_splitter.R
 \name{image_splitter}
 \alias{image_splitter}
-\title{image_splitter}
+\title{Split a large image into sub images}
 \usage{
 image_splitter(
   sce_object,
@@ -18,35 +18,45 @@ image_splitter(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+format_image_to_sce.}
 
-\item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 = 2x2, 3 = 3x3).}
+\item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 =
+2x2, 3 = 3x3).}
 
-\item{plot}{Boolean. Specifies whether the splitted images should be printed in a pdf.}
+\item{plot}{Boolean. Specifies whether the splitted images should be printed
+in a pdf.}
 
-\item{cut_labels}{Boolean. Specifies whether to plot where the image had been segmented.}
+\item{cut_labels}{Boolean. Specifies whether to plot where the image had been
+segmented.}
 
-\item{colour_vector}{String Vector. If specified, the colours will be used for plotting.
-If NULL, colors will be generated automatically}
+\item{colour_vector}{String Vector. If specified, the colours will be used
+for plotting. If NULL, colors will be generated automatically}
 
-\item{x_position_min}{Integer used to specify the minimum x boundary to be splitted.}
+\item{x_position_min}{Integer used to specify the minimum x boundary to be
+splitted.}
 
-\item{x_position_max}{Integer used to specify the maximum x boundary to be splitted.}
+\item{x_position_max}{Integer used to specify the maximum x boundary to be
+splitted.}
 
-\item{y_position_min}{Integer used to specify the minimum y boundary to be splitted.}
+\item{y_position_min}{Integer used to specify the minimum y boundary to be
+splitted.}
 
-\item{y_position_max}{Integer used to specify the maximum y boundary to be splitted.}
+\item{y_position_max}{Integer used to specify the maximum y boundary to be
+splitted.}
 
-\item{feature_colname}{String specifying which column the colouring should be based on.}
+\item{feature_colname}{String specifying which column the colouring should be
+based on. Specify when plot is TRUE.}
 }
 \value{
-A list of data.frames is returned
+A list of data.frames is returned. Each data frame represents an
+  image without assay data.
 }
 \description{
-Takes in a singlecellexperiment object from format_image_to_sce,
-splits the image into specified sections and plots the different combinations
-of markers within the image segments.
+Takes in a SingleCellExperiment object from format_image_to_sce,
+  splits the image into specified sections and plots the different
+  combinations of markers within the image segments.
 }
 \examples{
-split_image <- image_splitter(SPIAT::formatted_image, number_of_splits=3, plot = FALSE)
+split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)
 }
