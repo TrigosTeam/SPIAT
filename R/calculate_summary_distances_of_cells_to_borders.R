@@ -47,11 +47,11 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object,
                "Median", "St.dev")
   df <- vector()
   
-  min_d <- min(data_of_interest_in$Distance.To.Border)
-  max_d <- max(data_of_interest_in$Distance.To.Border)
-  mean_d <- mean(data_of_interest_in$Distance.To.Border)
-  median_d <- stats::median(data_of_interest_in$Distance.To.Border)
-  st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border)
+  min_d <- min(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  max_d <- max(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  median_d <- stats::median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
   
   df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
   ##### data out #####
@@ -68,21 +68,21 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object,
   
   for(type in cell_types_of_interest){
     data_of_interest_in <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Inside")),]
-    min_d <- min(data_of_interest_in$Distance.To.Border)
-    max_d <- max(data_of_interest_in$Distance.To.Border)
-    mean_d <- mean(data_of_interest_in$Distance.To.Border)
-    median_d <- median(data_of_interest_in$Distance.To.Border)
-    st.dev_d <- sd(data_of_interest_in$Distance.To.Border)
+    min_d <- min(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    max_d <- max(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    median_d <- median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    st.dev_d <- sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
     
     df <-  rbind(df, c(type, "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
     ##### data out #####
     data_of_interest_out <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Outside")),]
     
-    min_d <- min(data_of_interest_out$Distance.To.Border)
-    max_d <- max(data_of_interest_out$Distance.To.Border)
-    mean_d <- mean(data_of_interest_out$Distance.To.Border)
-    median_d <- stats::median(data_of_interest_out$Distance.To.Border)
-    st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border)
+    min_d <- min(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    max_d <- max(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    mean_d <- mean(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    median_d <- stats::median(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
     
     df <-  rbind(df, c(type, "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
   }
