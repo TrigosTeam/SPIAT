@@ -7,15 +7,16 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
-#' feature_colname = "Cell.Type", all_combinations = FALSE, cell_types_of_interest = c("Tumour","Immune1"))
+#' summary_distances <- calculate_summary_distances_between_cell_types(
+#' SPIAT::defined_image, feature_colname = "Cell.Type", all_combinations = FALSE, 
+#' cell_types_of_interest = c("Tumour","Immune1"))
 #' plot_distance_heatmap(summary_distances)
 #' @export
 
 plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
   
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
-    Reference <- Nearest <- Mean <- Std.Dev <- Median <- NULL
+    Reference <- Target <- Min <- Max <- Mean <- Std.Dev <- Median <- NULL
 
     if(metric == "mean"){
       limit <- range(unlist(phenotype_distances_result$Mean), na.rm=TRUE)

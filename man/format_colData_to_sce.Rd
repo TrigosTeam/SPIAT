@@ -19,7 +19,7 @@ Format a dataframe of colData into a singlecellexperiment class
   dataframe into a function requiring sce_object.
 }
 \examples{
-df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), Cell.Y.Positions = c(3.3, 8),
-Phenotypes = c("CD3", "CD3,CD8"))
+df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), 
+Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
 sce <- format_colData_to_sce(df)
 }

@@ -16,7 +16,8 @@
 #' @export
 #' @examples 
 #' n_in_radius <- number_of_cells_within_radius(SPIAT::defined_image, 
-#' reference_celltype = "Tumour", target_celltype="Immune1", radius = 50, feature_colname = "Cell.Type")
+#' reference_celltype = "Tumour", target_celltype="Immune1", radius = 50, 
+#' feature_colname = "Cell.Type")
 
 number_of_cells_within_radius <- function(sce_object, reference_celltype, 
                                            target_celltype, radius = 20, 
