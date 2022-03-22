@@ -2,7 +2,7 @@
 % Please edit documentation in R/morisita_index.R
 \name{morisita_index}
 \alias{morisita_index}
-\title{morisita_index}
+\title{morisita_index (not compatibale with current version; needs update)}
 \usage{
 morisita_index(sce_objects, CI = 0.95)
 }
@@ -15,4 +15,7 @@ of the output of format_image_to_sce.}
 \description{
 Calculates the morisita index between different formatted single
   cell experiment images.
+}
+\examples{
+morisita_index(SPIAT::defined_image)
 }
