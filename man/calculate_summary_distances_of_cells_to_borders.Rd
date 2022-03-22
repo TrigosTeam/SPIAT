@@ -28,11 +28,12 @@ Returns the mean, median and stardard deviation of the distances
   between a specified cell type to the borders.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
-feature_colname = "Cell.Type", n_to_exclude = 10)
+sce_border <- identify_bordering_cells(SPIAT::defined_image, 
+reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
 sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-sce_structure <- define_structure(sce_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
-feature_colname = "Cell.Type", n_margin_layers = 5)
+sce_structure <- define_structure(sce_dist, names_of_immune_cells = 
+c("Immune1","Immune2","Immune3"), feature_colname = "Cell.Type", 
+n_margin_layers = 5)
 calculate_summary_distances_of_cells_to_borders(sce_structure, 
 cell_types_of_interest = c("Immune1","Immune3"),feature_colname = "Cell.Type")
 }

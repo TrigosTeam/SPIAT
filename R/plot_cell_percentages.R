@@ -2,8 +2,8 @@
 #'
 #' @description Plots cells proportions as barplots.
 #' @param cell_proportions Data Frame. Output from `calculate_cell_proportions`.
-#' @param tumour_marker String. Tumour marker to exclude if needed.
-#' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name"
+#' @param cells_to_exclude String Vector. Markers to exclude.
+#' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name".
 #' @import ggplot2
 #' @import dplyr
 #' @return A plot is returned
