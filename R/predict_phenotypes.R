@@ -50,7 +50,9 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
                                baseline_markers, nuclear_marker = NULL,
                                reference_phenotypes = FALSE, markers_to_phenotype = NULL,
                                plot_distribution=TRUE){
-
+  
+    Marker_level <- NULL
+    
     formatted_data <- get_colData(sce_object)
     intensity_matrix <- SummarizedExperiment::assay(sce_object)
 
@@ -120,7 +122,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         #calculate the predictions
         if (!is.null(thresholds) && !is.na(thresholds[match(marker,markers)])) {
             #there is a threshold value specified for the marker, use the threshold
-            marker_threshold <- mmand::thresholds[match(marker,markers)]
+            marker_threshold <- thresholds[match(marker,markers)]
             print(paste("(", marker, " has threshold specified: ", as.character(marker_threshold), ")", sep=""))
             selected_valley_xcord[[marker]] <- NULL
 

@@ -22,7 +22,7 @@
 calculate_summary_distances_between_cell_types <- function(sce_object, feature_colname="Cell.Type", 
                                                            all_combinations = FALSE,
                                                            cell_types_of_interest) {
-  
+  Pair <- Distance <- NULL
   formatted_data <- get_colData(sce_object)
   formatted_data <- formatted_data[,c("Cell.ID","Cell.X.Position", "Cell.Y.Position", feature_colname)]
   formatted_data <- formatted_data[formatted_data[,feature_colname] != "",]
