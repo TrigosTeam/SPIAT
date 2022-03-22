@@ -23,6 +23,7 @@ calculate_minimum_distances_between_cell_types <- function(sce_object,
                                                            all_combinations = FALSE,
                                                            cell_types_of_interest) {
   
+  Pair <- Distance <- NULL
   formatted_data <- get_colData(sce_object)
   
   formatted_data <- formatted_data[,c("Cell.ID","Cell.X.Position", "Cell.Y.Position", feature_colname)]
@@ -87,7 +88,7 @@ calculate_minimum_distances_between_cell_types <- function(sce_object,
   }
   
   # remove NAs e.g. for distance of cell against itself
-  result <- result[complete.cases(result),]
+  result <- result[stats::complete.cases(result),]
   
   return(result)
 }

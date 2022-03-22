@@ -15,6 +15,8 @@
 #' feature_colname = "Phenotype")
 dimensionality_reduction_plot <- function(sce_object, plot_type = "UMAP", 
                                           scale=TRUE, feature_colname){
+    
+    Cell_ID <- X_coord <- Y_coord <- NULL
     formatted_data <- get_colData(sce_object)
     
     intensity_matrix <- SummarizedExperiment::assay(sce_object)

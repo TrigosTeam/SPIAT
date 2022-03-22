@@ -27,6 +27,7 @@ calculate_cell_proportions <- function(sce_object,  reference_celltypes = NULL,
                                        celltypes_to_exclude = NULL, 
                                        feature_colname="Phenotype",plot.image = TRUE){
 
+    Cell_type <- Percentage <- NULL
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
     cell_loc <- cell_loc[stats::complete.cases(cell_loc),]
