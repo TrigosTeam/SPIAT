@@ -59,5 +59,11 @@ calculate_summary_distances_between_cell_types <- function(sce_object, feature_c
   summarised_dists <- data.frame(summarised_dists)
   colnames(summarised_dists) <- c("Pair" , "Mean", "Min", "Max", "Median", "Std.Dev")
   
+  for (i in seq(1,dim(summarised_dists)[1])){
+    cellnames <- strsplit(summarised_dists[i,"Pair"],"_")[[1]]
+    summarised_dists[i, "Reference"] <- cellnames[1]
+    summarised_dists[i, "Target"] <- cellnames[2]
+  }
+  
   return(summarised_dists)
 }
