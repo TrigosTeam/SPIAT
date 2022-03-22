@@ -69,7 +69,7 @@ calculate_distances_between_cell_types <- function(sce_object,
       }
     }
     # remove NAs e.g. for distance of cell against itself
-    cell_to_cell_dist_all <- cell_to_cell_dist_all[complete.cases(cell_to_cell_dist_all),]
+    cell_to_cell_dist_all <- cell_to_cell_dist_all[stats::complete.cases(cell_to_cell_dist_all),]
     colnames(cell_to_cell_dist_all)[1:2] <- c("Cell1", "Cell2")
   }
   return(cell_to_cell_dist_all)
