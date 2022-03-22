@@ -1,23 +1,30 @@
-#' calculate_k_function, calculates Ripley's K-function with border correction 
-#' with options to specify cell phenotype, plot, plot confidence envelope and plot confidence interval
-#' of K function. Plotted K-functions utilise an inhomogenous Poisson distrubution with 
-#' point intensity produced to reflect the original data as the null distribution. Unable to plot both condience interval and envelope
-#' simultaneously 
-#' 
-#' Inputs - 
-#' point_pattern: ppp object (marked) to determine K function 
-#' determine_confidence: assign any integer value to indicate to plot the confidence interval for the K-function itself. Set to NULL as default, calculating this can be computationally expensive
-#' phenotypes_of_interest: the cell phenotype/phenotypes to be considered in the K-function calculation if not the entire ppp object. Set to NULL as default
-#' plot_envelope: assign any integer value to indicate to plot the envelope of the simulated inhomogenous poisson distribution
-#' plot: assign any integer value to indicate to plot the K-function itself, default is to plot. Set to NULL if plot is not to be produced
-#' Outputs - 
-#' k_function: Array containing values required to plot K function and the associated inhomogenous Poisson distribution (null distribution)
-#' @description Returns K function of cell distribution
-#' 
-#' @param point_pattern ppp object used as input data for K function 
-#' @param determine_confidence Indicate to plot confidence interval of the K function calculated (adds significant run time)
-#' @param phenotypes_of_interest String supplying the phenotype of interest, if unspecified the entire point pattern will be considered
-#' @param plot_envelope Indicates whether the significance envelope of simulated data should be plotted (based on inhomogenous Poisson distribution)
+#' Calculates Ripley's K-function with border correction
+#'
+#' determine_confidence: assign any integer value to indicate to plot the
+#' confidence interval for the K-function itself. Set to NULL as default,
+#' calculating this can be computationally expensive phenotypes_of_interest: the
+#' cell phenotype/phenotypes to be considered in the K-function calculation if
+#' not the entire ppp object. Set to NULL as default plot_envelope: assign any
+#' integer value to indicate to plot the envelope of the simulated inhomogeneous
+#' poisson distribution plot: assign any integer value to indicate to plot the
+#' K-function itself, default is to plot. Set to NULL if plot is not to be
+#' produced Outputs - k_function: Array containing values required to plot K
+#' function and the associated inhomogeneous Poisson distribution (null
+#' distribution)
+#' @description Returns K function of cell distribution with options to specify
+#'   cell phenotype, plot, plot confidence envelope and plot confidence interval
+#'   of K function. Plotted K-functions utilise an inhomogeneous Poisson
+#'   distribution with point intensity produced to reflect the original data as
+#'   the null distribution. Unable to plot both confidence interval and envelope
+#'   simultaneously.
+#'
+#' @param point_pattern ppp object (marked point pattern).
+#' @param determine_confidence Indicate to plot confidence interval of the K
+#'   function calculated (adds significant run time)
+#' @param phenotypes_of_interest String supplying the phenotype of interest, if
+#'   unspecified the entire point pattern will be considered
+#' @param plot_envelope Indicates whether the significance envelope of simulated
+#'   data should be plotted (based on inhomogeneous Poisson distribution)
 #' @param plot Indicates whether to plot K-function
 #' @importFrom spatstat.core lohboot Kinhom envelope
 #' @export
