@@ -45,8 +45,9 @@ measure_association_to_cell_properties(image_no_markers,
                                       feature_colname = "Cell.Type",
                                       property = "Cell.Size",
                                       method = "box")
-measure_association_to_cell_properties(SPIAT::formatted_image,
+measure_association_to_cell_properties(image_no_markers,
                                       celltypes = c("Tumour", "Immune2"),
+                                      feature_colname="Cell.Type",
                                       property = "Cell.Size",
                                       method = "t")
 }
