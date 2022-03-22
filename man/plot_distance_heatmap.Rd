@@ -7,7 +7,7 @@
 plot_distance_heatmap(phenotype_distances_result, metric = "mean")
 }
 \arguments{
-\item{phenotype_distances_result}{Dataframe output from calculate_distances_between_phenotypes}
+\item{phenotype_distances_result}{Dataframe output from calculate_summary_distances_between_phenotypes}
 
 \item{metric}{Metric to be plotted. One of "mean", "std.dev" or "median".}
 }
