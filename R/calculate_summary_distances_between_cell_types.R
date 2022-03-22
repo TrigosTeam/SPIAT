@@ -53,8 +53,8 @@ calculate_summary_distances_between_cell_types <- function(sce_object, feature_c
   # summarise the results
   summarised_dists <- pairwise_dists %>% 
     group_by(Pair) %>%
-    summarise(mean(Distance), min(Distance), max(Distance),
-              stats::median(Distance), stats::sd(Distance))
+    summarise(mean(Distance, na.rm = TRUE), min(Distance, na.rm = TRUE), max(Distance, na.rm = TRUE),
+              stats::median(Distance, na.rm = TRUE), stats::sd(Distance, na.rm = TRUE))
     
   summarised_dists <- data.frame(summarised_dists)
   colnames(summarised_dists) <- c("Pair" , "Mean", "Min", "Max", "Median", "Std.Dev")
