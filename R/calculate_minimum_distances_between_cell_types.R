@@ -80,7 +80,8 @@ calculate_minimum_distances_between_cell_types <- function(sce_object,
       
       local_dist_mins <- all_closest$nn.dists
       
-      local_result <- data.frame(Reference = name1, Nearest = name2, Mean = mean(local_dist_mins), Std.Dev = stats::sd(local_dist_mins), Median = stats::median(local_dist_mins))
+      local_result <- data.frame(Reference = name1, Nearest = name2, Mean = mean(local_dist_mins, na.rm = TRUE), 
+                                 Std.Dev = stats::sd(local_dist_mins, na.rm = TRUE), Median = stats::median(local_dist_mins, na.rm = TRUE))
     }
     result <- rbind(result, local_result)
   }
