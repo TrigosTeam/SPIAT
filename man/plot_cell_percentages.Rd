@@ -13,9 +13,9 @@ plot_cell_percentages(
 \arguments{
 \item{cell_proportions}{Data Frame. Output from `calculate_cell_proportions`.}
 
-\item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name"}
+\item{cells_to_exclude}{String Vector. Markers to exclude.}
 
-\item{tumour_marker}{String. Tumour marker to exclude if needed.}
+\item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name".}
 }
 \value{
 A plot is returned

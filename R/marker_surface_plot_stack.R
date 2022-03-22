@@ -21,7 +21,8 @@
 #' @import dplyr
 #' @return A plot is returned
 #' @examples
-#' marker_surface_plot_stack(SPIAT::simulated_image, num_splits=15, markers=c("Tumour_marker", "Immune_marker4"))
+#' marker_surface_plot_stack(SPIAT::simulated_image, num_splits=15, 
+#' markers=c("Tumour_marker", "Immune_marker4"))
 #' @export
 
 marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, sep = 1,
@@ -29,7 +30,7 @@ marker_surface_plot_stack <- function(sce_object, num_splits, markers_to_plot, s
                                       y_position_min = NULL, y_position_max = NULL){
     
     #CHECK
-    intensity_df <- assay(sce_object)
+    intensity_df <- SummarizedExperiment::assay(sce_object)
     markers <- rownames(intensity_df)
     if (!all(markers_to_plot %in% markers)) {
         stop("One or more markers specified cannot be found")
