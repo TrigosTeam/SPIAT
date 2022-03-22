@@ -1,4 +1,4 @@
-#' morisita_index
+#' morisita_index (not compatibale with current version; needs update)
 #'
 #' @description Calculates the morisita index between different formatted single
 #'   cell experiment images.
@@ -7,6 +7,8 @@
 #'   of the output of format_image_to_sce.
 #' @param CI Confidence interval for calculating morisita index.
 #' @import dplyr
+#' @examples 
+#' morisita_index(SPIAT::defined_image)
 #' @export
 
 morisita_index <- function(sce_objects, CI = 0.95) {
