@@ -1,4 +1,4 @@
-#' clusters_communities_morisita_index
+#' clusters_communities_morisita_index (not compatible with current version; needs update)
 #'
 #' @description Calculate the morisita index between different clusters or communities
 #'
@@ -33,14 +33,14 @@ clusters_communities_morisita_index <- function(formatted_data_with_clusters_or_
             group_names <- unique(formatted_data_with_clusters_or_communities$Cluster)
         }
         num_groups <- length(group_names)
-        phenotypes <- unique(formatted_data_with_clusters_or_communities$Phenotype)
+        phenotypes <- unique(formatted_data_with_clusters_or_communities$Cell.Type)
         
         #INITIALIZE A DATAFRAME TO STORE THE COUNTS
         count_df <- data.frame(matrix(nrow = num_groups, ncol = length(phenotypes)))
         colnames(count_df) <- phenotypes
         
         #Rename the cluster/community column to 'group'
-        colnames(formatted_data_with_clusters_or_communities)[12] <- "Group"
+        colnames(formatted_data_with_clusters_or_communities)[6] <- "Group"
         
         #READ IN FREQ, row order in count_df is the order in group_names
         rownum = 1
