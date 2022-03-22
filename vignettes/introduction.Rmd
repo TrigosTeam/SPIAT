@@ -565,7 +565,7 @@ After calculating the localised entropy, we can apply metrics like percentages o
 calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
 ```
 ```{r}
-calculate_spatial_autocorrelaiton(grid, metric = "globalmoran")
+calculate_spatial_autocorrelation(grid, metric = "globalmoran")
 ```
 
 The selection of threshold depends on the pattern and metric the user chooses to find the localised pattern.
