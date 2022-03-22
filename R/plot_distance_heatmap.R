@@ -1,14 +1,18 @@
 #' plot_distance_heatmap
 #'
-#' @description Takes the output of cell_distances and plot the distances as a heatmap
+#' @description Takes the output of cell_distances and plot the distances as a
+#'   heatmap.
 #'
-#' @param phenotype_distances_result Dataframe output from calculate_summary_distances_between_phenotypes
-#' @param metric Metric to be plotted. One of "mean", "std.dev" or "median".
+#' @param phenotype_distances_result Dataframe output from
+#'   `calculate_summary_distances_between_cell_types` or
+#'   `calculate_minimum_distances_between_cell_types`.
+#' @param metric Metric to be plotted. One of "mean", "std.dev", "median", "min"
+#'   or "max".
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
 #' summary_distances <- calculate_summary_distances_between_cell_types(
-#' SPIAT::defined_image, feature_colname = "Cell.Type", all_combinations = FALSE, 
+#' SPIAT::defined_image, feature_colname = "Cell.Type", all_combinations = FALSE,
 #' cell_types_of_interest = c("Tumour","Immune1"))
 #' plot_distance_heatmap(summary_distances)
 #' @export
