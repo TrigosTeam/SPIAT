@@ -68,7 +68,8 @@ calculate_minimum_distances_between_cell_types <- function(sce_object,
     
     #No need to calculate min distance when they're the same cell type
     if (name1 == name2) {
-      local_result = data.frame(Reference = name1, Nearest = name2, Mean = NA, Std.Dev = NA, Median = NA)
+      local_result = data.frame(Reference = name1, Target = name2, Mean = NA, 
+                                Std.Dev = NA, Median = NA, Min = NA, Max = NA)
     } else {
       #vector to store all mins
       local_dist_min <- vector()
@@ -81,8 +82,12 @@ calculate_minimum_distances_between_cell_types <- function(sce_object,
       
       local_dist_mins <- all_closest$nn.dists
       
-      local_result <- data.frame(Reference = name1, Nearest = name2, Mean = mean(local_dist_mins, na.rm = TRUE), 
-                                 Std.Dev = stats::sd(local_dist_mins, na.rm = TRUE), Median = stats::median(local_dist_mins, na.rm = TRUE))
+      local_result <- data.frame(Reference = name1, Target = name2, 
+                                 Mean = mean(local_dist_mins, na.rm = TRUE), 
+                                 Std.Dev = stats::sd(local_dist_mins, na.rm = TRUE), 
+                                 Median = stats::median(local_dist_mins, na.rm = TRUE),
+                                 Min = min(local_dist_mins, na.rm = TRUE),
+                                 Max = max(local_dist_mins, na.rm = TRUE))
     }
     result <- rbind(result, local_result)
   }
