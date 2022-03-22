@@ -6,10 +6,11 @@
 #'   dataframe into a function requiring sce_object.
 #'
 #' @param df Dataframe that will be the colData of the sce object.
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @return An SingleCellExperiment object
 #' @examples
-#' df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), Cell.Y.Positions = c(3.3, 8),
-#' Phenotypes = c("CD3", "CD3,CD8"))
+#' df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), 
+#' Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
 #' sce <- format_colData_to_sce(df)
 #' @export
 
@@ -31,7 +32,7 @@ format_colData_to_sce <- function(df) {
   rownames(assay_data_matrix) <- NULL
   assay_data_matrix_t <- t(assay_data_matrix)
   
-  sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+  sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
   
   rownames(sce) <- assay_rownames
   colnames(sce) <- assay_colnames
