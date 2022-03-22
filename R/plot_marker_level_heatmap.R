@@ -41,7 +41,7 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     colnames(intensity_df) <- markers
 
     formatted_data <- cbind(formatted_data, intensity_df)
-    formatted_data <- formatted_data[complete.cases(formatted_data),]
+    formatted_data <- formatted_data[stats::complete.cases(formatted_data),]
 
     formatted_data$split.X <- 0
     formatted_data$split.Y <- 0
