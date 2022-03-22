@@ -124,8 +124,8 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
   }
   
   #get cells assigned to clusters
-  cells_in_clusters <- formatted_data[complete.cases(formatted_data),]
-  cells_not_in_clusters <- formatted_data[!complete.cases(formatted_data),]
+  cells_in_clusters <- formatted_data[stats::complete.cases(formatted_data),]
+  cells_not_in_clusters <- formatted_data[!stats::complete.cases(formatted_data),]
   
   #get number_of_clusters
   number_of_clusters <- length(unique(cells_in_clusters$Cluster))
