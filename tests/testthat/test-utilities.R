@@ -45,7 +45,7 @@ test_that("format_colData_to_sce() wroks", {
   
   expect_s4_class(sce, "SingleCellExperiment")
   expect_equal(dim(sce)[1], 1)
-  expect_equal(dim(out)[2], 5)
+  expect_equal(dim(out)[2], 4)
 })
 
 test_that("print_feature works", {

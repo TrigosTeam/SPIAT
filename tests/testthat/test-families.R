@@ -84,11 +84,11 @@ test_that("functions in tumour structure family work", {
     ## summarise the distances from cells to the tumour border
     res <- data.frame(Cell.Type = c("All_cell_types_of_interest", "All_cell_types_of_interest", "Immune1", "Immune1", "Immune3", "Immune3"),
                       Area = c("Tumor_area", "Stroma", "Tumor_area", "Stroma", "Tumor_area", "Stroma"),
-                      Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", "Inf", "84.2001833941197", "10.9322494547641", "10.0238703579346")),
-                      Max_d = as.numeric(c("192.409359800297", "971.56383420638", "-Inf", "970.774932660564", "192.409359800297", "971.56383420638")),
-                      Mean_d = as.numeric(c("86.200421492396", "195.106365999404", "NaN", "346.140958983386", "86.200421492396", "102.79227480847")),
-                      Median_d=as.numeric(c("88.2329866304885", "101.951127102521", "NA", "301.015350157948", "88.2329866304885", "68.192180252124")),
-                      St.dev_d=as.numeric(c("45.27413945602", "194.685066632607", "NA", "187.042468626624", "45.27413945602", "131.327138494673")))
+                      Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", Inf, "84.2001833941197", "10.9322494547641", "10.0238703579346")),
+                      Max_d = as.numeric(c("192.409359800297", "971.56383420638", -Inf, "970.774932660564", "192.409359800297", "971.56383420638")),
+                      Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NaN, "346.140958983386", "86.200421492396", "102.79227480847")),
+                      Median_d=as.numeric(c("88.2329866304885", "101.951127102521", NA, "301.015350157948", "88.2329866304885", "68.192180252124")),
+                      St.dev_d=as.numeric(c("45.27413945602", "194.685066632607",NA, "187.042468626624", "45.27413945602", "131.327138494673")))
     out <- calculate_summary_distances_of_cells_to_borders(sce_structure, 
                                                            cell_types_of_interest = c("Immune1","Immune3"),
                                                            feature_colname = "Cell.Type")
@@ -114,7 +114,7 @@ test_that("functions in spatial heterogeneity family work", {
     
     ## calculate_spatial_autocorrelation
     res <- -0.1152657
-    out <- calculate_spatial_autocorrelaiton(grid, metric = "globalmoran")
+    out <- calculate_spatial_autocorrelation(grid, metric = "globalmoran")
     expect_equal(res, out, tolerance = 1e-4)
 })
 
@@ -126,6 +126,7 @@ test_that("functions in identify neighborhood family work", {
                       Cell.X.Position = c(109.670273, 142.033630, 46.017590, 153.227951), 
                       Cell.Y.Position = c(17.129564, 32.068722, 4.760143, 128.299149),
                       Cell.Type = c("Immune1", "Immune", "Immune2", "Immune1"), 
+                      Cell.Size = c(10.913455, 9.853069, 9.315296, 10.547904),
                       Cluster = rep("Free_cell",4))
     
     neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
