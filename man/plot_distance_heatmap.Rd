@@ -7,19 +7,23 @@
 plot_distance_heatmap(phenotype_distances_result, metric = "mean")
 }
 \arguments{
-\item{phenotype_distances_result}{Dataframe output from calculate_summary_distances_between_phenotypes}
+\item{phenotype_distances_result}{Dataframe output from
+`calculate_summary_distances_between_cell_types` or
+`calculate_minimum_distances_between_cell_types`.}
 
-\item{metric}{Metric to be plotted. One of "mean", "std.dev" or "median".}
+\item{metric}{Metric to be plotted. One of "mean", "std.dev", "median", "min"
+or "max".}
 }
 \value{
 A plot is returned
 }
 \description{
-Takes the output of cell_distances and plot the distances as a heatmap
+Takes the output of cell_distances and plot the distances as a
+  heatmap.
 }
 \examples{
 summary_distances <- calculate_summary_distances_between_cell_types(
-SPIAT::defined_image, feature_colname = "Cell.Type", all_combinations = FALSE, 
+SPIAT::defined_image, feature_colname = "Cell.Type", all_combinations = FALSE,
 cell_types_of_interest = c("Tumour","Immune1"))
 plot_distance_heatmap(summary_distances)
 }
