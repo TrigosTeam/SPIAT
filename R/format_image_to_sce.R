@@ -43,6 +43,7 @@
 #'   be in the same order as in the intensity_matrix.
 #' @param coord_y A vector with the Y coordinates of the cells. The cells must
 #'   be in the same order as in the intensity_matrix.
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @return A SingleCellExperiment object is returned
 
 format_image_to_sce <- function(format = "INFORM", 
@@ -57,6 +58,8 @@ format_image_to_sce <- function(format = "INFORM",
                                 phenotypes = NULL,
                                 coord_x = NULL,
                                 coord_y = NULL){
+  
+  Object.Id <- Cell.ID <- ObjectNumber <- NULL
   #process the data based on data format
   if (format == "HALO"){
     #following is from format_HALO_new
@@ -205,7 +208,7 @@ format_image_to_sce <- function(format = "INFORM",
     rownames(assay_data_matrix) <- NULL
     assay_data_matrix_t <- t(assay_data_matrix)
     
-    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+    sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
     
     rownames(sce) <- markers
     colnames(sce) <- formatted_data[,"Cell.ID"]
@@ -316,7 +319,7 @@ format_image_to_sce <- function(format = "INFORM",
     rownames(assay_data_matrix) <- NULL
     assay_data_matrix_t <- t(assay_data_matrix)
     
-    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+    sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
     
     rownames(sce) <- markers
     colnames(sce) <- formatted_data[,"Cell.ID"]
@@ -345,7 +348,7 @@ format_image_to_sce <- function(format = "INFORM",
     
     expression <- expression[,colnames(expression) %in% location$Cell]
     
-    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = expression))
+    sce <- SingleCellExperiment(assays = list(counts = expression))
     
     location <- location[match(colnames(expression), location$Cell),]
     
@@ -373,7 +376,7 @@ format_image_to_sce <- function(format = "INFORM",
     rownames(data) <- paste("Cell", rownames(data), sep="_")
     data <- t(data)
     
-    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = data))
+    sce <- SingleCellExperiment(assays = list(counts = data))
     
     metadata_columns <- data.frame(Phenotype = phenotype,
                                    Cell.X.Position = coordinates$X.X,
@@ -445,7 +448,7 @@ format_image_to_sce <- function(format = "INFORM",
       rownames(assay_data_matrix) <- NULL
       assay_data_matrix_t <- t(assay_data_matrix)
       
-      sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+      sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
       
       rownames(sce) <- markers
       colnames(sce) <- formatted_data[,"Cell.ID"]
@@ -456,7 +459,7 @@ format_image_to_sce <- function(format = "INFORM",
   } 
   else if(format == "general"){
     intensity_matrix <- remove_intensity_na(intensity_matrix)
-    sce <- SingleCellExperiment::SingleCellExperiment(assays = list(counts = intensity_matrix))
+    sce <- SingleCellExperiment(assays = list(counts = intensity_matrix))
     
     rownames(sce) <- rownames(intensity_matrix)
     colnames(sce) <- colnames(intensity_matrix)
