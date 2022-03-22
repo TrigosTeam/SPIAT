@@ -82,7 +82,7 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
   }
   
   # remove NAs e.g. for distance of cell against itself
-  result <- result[complete.cases(result),]
+  result <- result[stats::complete.cases(result),]
   
   return(result)
 }
