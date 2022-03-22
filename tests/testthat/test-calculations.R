@@ -48,32 +48,39 @@ test_that("calculate_cell_proportions() works", {
 
 test_that("calculate_distances_between_cell_types() works", {
     res <- data.frame(row.names = c(2L, 3L, 4L),
-                      Cell1 = factor(c("Cell_25", "Cell_30", "Cell_48")), 
-                      Cell2 = factor(c("Cell_15", "Cell_15", "Cell_15")),
-                      Distance = c(119.39827385631407707933,  61.77859234377793029580, 
-                                   279.84943528052491501512), 
-                      Pair = rep("Immune1_Immune1", 3),
-                      stringsAsFactors = FALSE)
+                      Cell1 = c("Cell_25", "Cell_30", "Cell_48"), 
+                      Cell2 = c("Cell_15", "Cell_15", "Cell_15"),
+                      Distance = c(119.3982738563,  61.7785923437, 279.8494352805), 
+                      Pair = rep("Immune1_Immune1", 3))
     
-    out <- calculate_distances_between_cell_types(defined_image, cell_types_of_interest = c("Tumour","Immune1"), 
-                                                      feature_colname = "Cell.Type")
-    expect_equal(p_cells, res)
+    dists <- calculate_distances_between_cell_types(defined_image, 
+                                                    cell_types_of_interest = c("Tumour","Immune1"), 
+                                                    feature_colname = "Cell.Type")
+    out <- dists[1:3, ]
+    out$Cell1 <- as.character(out$Cell1)
+    out$Cell2 <- as.character(out$Cell2)
+    expect_equal(out, res, tolerance = 1e-6)
 })
 
 test_that("calculate_summary_distances_between_cell_types() works", {
     
-    res <- data.frame(row.names = c(2L, 3L),
-                      Reference = c("Immune1", "Tumour"),
-                      Nearest = c("Tumour", "Immune1"),
-                      Mean = c(85.84773, 187.52474), 
-                      Std.Dev = c(40.72454, 75.13630),
-                      Median = c(80.80592, 191.09109))
+    res <- data.frame(row.names = c(1L, 2L),
+                      Pair = c("Immune1_Immune1", "Immune1_Tumour"),
+                      Mean = c(1164.7096, 1013.3697), 
+                      Min = c(10.84056, 13.59204),
+                      Max = c(2729.120, 2708.343),
+                      Median = c(1191.3645, 1004.6579),
+                      Std.Dev = c(552.0154, 413.7815),
+                      Reference = c("Immune1", "Immune1"),
+                      Target = c("Immune1", "Tumour"),
+                      stringsAsFactors = FALSE)
     
     summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
                             feature_colname = "Cell.Type", all_combinations = FALSE,
                             cell_types_of_interest = c("Tumour","Immune1"))
+    out <- summary_distances[c(1,2),]
     
-    expect_equal(summary_distances, res, tolerance=1e-4)
+    expect_equal(out, res, tolerance=1e-4)
 })
 
 test_that("calculate_entropy() works", {
@@ -83,9 +90,17 @@ test_that("calculate_entropy() works", {
 })
 
 test_that("calculate_minimum_distances_between_cell_types() works", {
-    min_distances <- calculate_minimum_distances_between_cell_types(defined_image,
-                                                                    feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
-    expect_equal(0.9294873, out, tolerance=1e-4)
+    res <- data.frame(row.names = c(2L, 3L),
+                      Reference = c("Immune1", "Tumour"),
+                      Nearest = c("Tumour", "Immune1"),
+                      Mean = c(85.84773, 187.52474), 
+                      Std.Dev = c(40.72454, 75.13630),
+                      Median = c(80.80592, 191.09109),
+                      stringsAsFactors = FALSE)
+    out <- calculate_minimum_distances_between_cell_types(defined_image,
+                                                         feature_colname = "Cell.Type", 
+                                                         cell_types_of_interest = c("Tumour","Immune1"))
+    expect_equal(res, out, tolerance=1e-4)
 })
 
 test_that("calculate_minimum_distances() works", {
@@ -95,7 +110,7 @@ test_that("calculate_minimum_distances() works", {
                       NearestCell = c("Cell_32", "Cell_27", "Cell_32"),
                       NearestType = c("Tumour", "Tumour", "Tumour"),
                       Dist = c(17.18740, 44.79503, 78.52918))
-    min_dists <- calculate_minimum_distances(SPIAT::defined_image, 
+    min_dists <- calculate_minimum_distances(defined_image, 
                                              cell_types_of_interest = c("Tumour","Immune1"),
                                              feature_colname = "Cell.Type")
     out <- min_dists[1:3,]
