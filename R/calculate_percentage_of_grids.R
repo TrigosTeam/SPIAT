@@ -1,7 +1,7 @@
 #' calculate_percentage_of_grids
 #'
 #' @description Calculate the percentage of the grid squares that have a certain
-#'   pattern.
+#'   pattern. --might need to contextualise by describing how this is used with other functions?
 #'
 #' @param raster_obj Raster object in the form of the output of `grid_metrics`
 #'   function.

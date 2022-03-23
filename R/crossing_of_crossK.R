@@ -1,7 +1,7 @@
 #' crossing_of_crossK
 #'
 #' @description Determine if there is a crossing in the cross K curves, to further 
-#' detect the existance of potential immune ring.
+#' detect the existance of potential immune ring. --requires additional explanation/reference. Cite own paper?
 #' 
 #' @param df.cross Dataframe containing the positions of the two curves 
 #'

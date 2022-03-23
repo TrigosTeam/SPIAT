@@ -1,8 +1,8 @@
 #' ANN index for point pattern (clustering or dispersion)
 #'
-#' @description Calculate the the ANN index of a specified type of cells. The
+#' @description Calculate the the average nearest neighbour (ANN) index of a specified type of cells. The
 #'   index indicates the clustering effect of a point pattern. It can be
-#'   clustering, random or dispersion.
+#'   clustering, random or dispersion. -- include a reference to the metric and/or mathematical notation of how it is computed
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

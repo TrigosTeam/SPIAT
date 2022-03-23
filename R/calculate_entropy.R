@@ -1,11 +1,11 @@
 #' calculate_entropy
 #'
 #' @description Returns a dataframe of entropies for all reference cells or an
-#'   entropy number for the whole image if a radius is not supplied.
+#'   entropy number for the whole image if a radius is not supplied. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
 #' @param cell_types_of_interest String Vector. Cell types of interest, the
-#'   first cell type is considered as reference cell type.
+#'   first cell type is considered as reference cell type. -- need to describe what a reference cell type is
 #' @param feature_colname String specifying the column the cell types are from.
 #' @param radius (OPTIONAL) Numeric. The maximum radius around a reference cell
 #'   for another cell to be considered an interaction.

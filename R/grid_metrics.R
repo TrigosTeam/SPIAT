@@ -1,6 +1,6 @@
 #' grid_metrics
 #'
-#' @description Calculate a specified metric for each little grid in the image and plot the metrics for the grids 
+#' @description Calculate a specified metric for each grid tile in the image and plot the metrics for the grids 
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param n_split Integer specifying the number of splits for the calculation of metrics
 #' @param FUN Variable name specifying the metric to be calculated
