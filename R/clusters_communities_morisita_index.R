@@ -1,10 +1,10 @@
 #' clusters_communities_morisita_index (not compatible with current version; needs update)
 #'
-#' @description Calculate the morisita index between different clusters or communities
+#' @description Calculate the morisita index between different clusters or communities -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #'
-#' @param formatted_data_with_clusters_or_communities A dataframe output from identify_cell_clusters or identify_cell_communities
+#' @param formatted_data_with_clusters_or_communities A dataframe output from identify_cell_clusters or identify_cell_communities -- name is too long
 #' @param column_to_consider Column name to consider as community/clusters
-#' @param clusters_or_communities_of_interest A vector containing the names of clusters/communities to calculate morisita index
+#' @param clusters_or_communities_of_interest A vector containing the names of clusters/communities to calculate morisita index --name is too long
 #' @param CI Confidence interval for calculating morisita index
 #' @import dplyr
 #' @export

@@ -1,7 +1,7 @@
 #' number_of_cells_within_radius
 #'
 #' @description Calculates the number of cells positive for a target celltype
-#'   within a pre-defined radius around cells positive for a reference celltype
+#'   within a pre-defined radius around cells positive for a reference celltype --what is meant by a celltype? Is it a slot in the input object?
 
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

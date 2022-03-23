@@ -4,7 +4,7 @@
 #'   cells to the identified tumour bordering cells.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   format_image_to_sce. -- params are incompletely documented
 #' @return An sce_object is returned
 #' @export
 #' @examples 

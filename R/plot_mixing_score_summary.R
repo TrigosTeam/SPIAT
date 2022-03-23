@@ -3,7 +3,7 @@
 #' @description Plots mixing scores against target cells from the input mixing_score_summary data.frame.
 #' It produces multiple scatterplots for each reference cell observed, with line of best fit. 
 #' It gives a Rho statistic with p-value based off Spearman's correlation.
-#' It produces different sets of plots based off mixing scores and normalised mixing scores.
+#' It produces different sets of plots based off mixing scores and normalised mixing scores. -- do you mean it makes the same plots for both metrics?
 
 #' @param mixing_score_summary SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param individual.plots (OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.

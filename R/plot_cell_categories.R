@@ -1,7 +1,7 @@
 #' plot_cell_categories
 #' 
 #' @description Produces a scatter plot of the cells in the tissue. Cells are coloured
-#' categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
+#' categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey" -- a scatter plot of their x-y positions?
 #' 
 #' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
 #' @param categories_of_interest Vector of cell categories to be coloured

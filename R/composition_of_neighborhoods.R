@@ -3,7 +3,7 @@
 #' @description Returns a dataframe which contains the percentages of cells with
 #'   a specific marker within each cluster and the number of cells in the
 #'   cluster.
-#' @param formatted_data_with_clusters - a dataframe output from
+#' @param formatted_data_with_clusters - a dataframe output from --name is too long
 #'   generate_clusters
 #' @param feature_colname Column with cell types
 #' @return A data.frame is returned
