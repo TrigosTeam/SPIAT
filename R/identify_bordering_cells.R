@@ -1,6 +1,6 @@
 #' identify_bordering_cells
 #'
-#' @description Identify the cells bordering a group of cells of a particular phenotype
+#' @description Identify the cells bordering a group of cells of a particular phenotype -- needs longer explanation of how this works
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param reference_cell Cells positive for this marker will be used as reference

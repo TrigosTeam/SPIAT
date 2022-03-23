@@ -1,7 +1,7 @@
 #' Fit Cauchy model to point pattern
 #' 
 #' fit_cluster_model fits a Cauchy cluster model to the data given in point_pattern. 
-#' If phenotypes_of_interest is given only a subset of data will be used to create the model. 
+#' If phenotypes_of_interest is given only a subset of data will be used to create the model. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #' 
 #' Inputs - 
 #' point_pattern: ppp object representing data can be marked or unmarked

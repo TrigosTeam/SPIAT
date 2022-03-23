@@ -1,6 +1,6 @@
 #' compute_gradient
 #'
-#' @description Calculate the metrics for all of the specified radii	
+#' @description Calculate the metrics over all of the specified radii -- should clarify which metrics will work with this. Also, is this function supposed to be accessed by the user or is it a :::method?
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param radii Vector specifying the range of radii for the metrics to be calculated
 #' @param FUN Variable name specifying the metric

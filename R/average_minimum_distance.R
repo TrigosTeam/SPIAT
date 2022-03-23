@@ -1,7 +1,7 @@
 #' average_minimum_distance
 #'
 #' @description Calculates the average minimum distance of all cells in the
-#'   sce_object.
+#'   sce_object. -- distance between what?
 #'
 #' @param sce_object Singlecellexperiment object in the form of the output of
 #'   format_image_to_sce.

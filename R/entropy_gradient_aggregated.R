@@ -1,9 +1,9 @@
 #' The aggregated gradient of entropy and the peak of the gradient
 #'
-#' @description This function first calculates the entropy of interested cell
-#'   types within a circle of each reference cell at each radii. Then at each
+#' @description This function first calculates the entropy of cell types of interest
+#'   within a circle of each reference cell at each radii. Then at each
 #'   radii, the entropies of all circles are aggregated into one number. At the
-#'   end, the function returns the aggregated entropy at all radii.
+#'   end, the function returns the aggregated entropy at all radii. --probably needs better explanation that you are 'sweeping' over a vector of radii values
 #'
 #' @param sce_object SingleCellExperiment object.
 #' @param cell_types_of_interest String Vector. The cell types that the entropy

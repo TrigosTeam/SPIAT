@@ -2,7 +2,7 @@
 #'
 #' @description Takes in a SingleCellExperiment object from format_image_to_sce,
 #'   splits the image into specified sections and plots the different
-#'   combinations of markers within the image segments.
+#'   combinations of markers within the image segments. -- plots the different combinations of markers? Does this just mean it plots a subsection of the original image exactly as it was?
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

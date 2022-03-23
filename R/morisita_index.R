@@ -1,7 +1,7 @@
 #' morisita_index (not compatibale with current version; needs update)
 #'
 #' @description Calculates the morisita index between different formatted single
-#'   cell experiment images.
+#'   cell experiment images. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #'
 #' @param sce_objects A vector of SingleCellExperiment object names in the form
 #'   of the output of format_image_to_sce.

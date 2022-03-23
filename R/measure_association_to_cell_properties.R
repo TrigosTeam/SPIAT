@@ -1,7 +1,7 @@
 #' measure_association_to_cell_properties
 #'
 #' @description Plots the density or boxplot of a property of two cell
-#'   celltypes or compares using t test/wilcoxon rank sum test.
+#'   celltypes or compares using t test/wilcoxon rank sum test. -- should maybe be split into two functions, one for the plots and one for the tests?
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

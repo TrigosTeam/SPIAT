@@ -4,7 +4,7 @@
 #'   two curves, normalised by the total area of the graph.
 
 #' @param df.cross Data.Frame. The output the the cross functions. Containing
-#'   the positions of the two curves.
+#'   the positions of the two curves. --maybe specify which functions in the package generate these dfs or what these dfs look like. Need to specify return value also?
 #' @export
 #'
 #' @examples
