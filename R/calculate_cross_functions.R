@@ -1,7 +1,7 @@
 #' calculate_cross_functions
 #'
 #' @description Compute and plot the cross functions between two specified cell
-#'   types.
+#'   types. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

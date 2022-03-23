@@ -1,6 +1,6 @@
 #' plot_marker_level_heatmap
 #'
-#' @description Blurres the image by splitting the images into small squares.
+#' @description Blurs the image by splitting the images into small squares.
 #' The marker levels are then averaged within each square. All cells are considered,
 #' regardless of phenotype status
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce

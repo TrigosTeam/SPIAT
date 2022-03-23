@@ -1,7 +1,7 @@
 #' identify_neighborhoods
 #'
 #' @description Uses Euclidean distances to identify clusters of cells within a
-#'   specified radius.
+#'   specified radius. -- clarify that you cans elect the clustering algorithm
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

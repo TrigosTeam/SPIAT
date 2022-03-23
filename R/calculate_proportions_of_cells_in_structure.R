@@ -1,8 +1,8 @@
 #' calculate_proportions_of_cells_in_structure
 #'
-#' @description Calculate the proportion of interested cells in each defined
-#'   tumour structure relative to all cells in each structure or relative to the
-#'   same cell type in the whole image.
+#' @description Calculate the proportion of cells of interest in each defined
+#'   tumour structure relative to all cells in each structure and relative to the
+#'   same cell type in the whole image. -- or -> and because it always does both?
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
 #' @param cell_types_of_interest String Vector of immune cells to consider.

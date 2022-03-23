@@ -4,7 +4,7 @@
 #'   radius from the cells positive for the reference marker. Note that it pools
 #'   all cells with the target marker that are within the specific radius of any
 #'   reference cell. Results represent the average intensities within a radius,
-#'   but do not correspond to metrics for each cell.
+#'   but do not correspond to metrics for each cell. -- do you mean that only one number is returned (i.e. that this is the average across all selected cells, not a vector of individual values)?
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.

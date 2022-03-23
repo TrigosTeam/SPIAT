@@ -1,6 +1,6 @@
 #' define_structure
 #'
-#' @description Identify the cells that compose the invasive front, the infiltration and the exclusion
+#' @description Identify the cells that compose the invasive front, the infiltration and the exclusion -- elaborate on what these mean? Or cite your paper for definitions?
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
 #' @param names_of_immune_cells Vector indicating the names of potential immune cells
