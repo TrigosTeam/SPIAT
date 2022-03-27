@@ -4,25 +4,25 @@
 \alias{composition_of_neighborhoods}
 \title{composition_of_neighborhoods}
 \usage{
-composition_of_neighborhoods(formatted_data_with_clusters, feature_colname)
+composition_of_neighborhoods(neighborhoods_df, feature_colname)
 }
 \arguments{
-\item{formatted_data_with_clusters}{- a dataframe output from --name is too long
-generate_clusters}
+\item{neighborhoods_df}{Data.frame that is the output of
+\code{\link{identify_neighborhoods}}. generate_clusters}
 
-\item{feature_colname}{Column with cell types}
+\item{feature_colname}{String. Column with cell types.}
 }
 \value{
 A data.frame is returned
 }
 \description{
-Returns a dataframe which contains the percentages of cells with
-  a specific marker within each cluster and the number of cells in the
-  cluster.
+Returns a data.frame which contains the percentages of cells with
+  a specific marker within each neighborhood. and the number of cells in the
+  neighborhood.
 }
 \examples{
 neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
 radius = 50, feature_colname = "Cell.Type")
 neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
 }

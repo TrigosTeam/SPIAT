@@ -19,7 +19,7 @@ image_splitter(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 =
 2x2, 3 = 3x3).}
@@ -53,9 +53,9 @@ A list of data.frames is returned. Each data frame represents an
   image without assay data.
 }
 \description{
-Takes in a SingleCellExperiment object from format_image_to_sce,
-  splits the image into specified sections and plots the different
-  combinations of markers within the image segments. -- plots the different combinations of markers? Does this just mean it plots a subsection of the original image exactly as it was?
+Takes in an image in SingleCellExperiment format, and splits the
+  image into specified sections. Users can choose to plot the cell positions
+  in each sub image.
 }
 \examples{
 split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)

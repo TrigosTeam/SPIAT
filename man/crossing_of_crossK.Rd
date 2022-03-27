@@ -7,14 +7,18 @@
 crossing_of_crossK(df.cross)
 }
 \arguments{
-\item{df.cross}{Dataframe containing the positions of the two curves}
+\item{df.cross}{Data.frame. The output of
+\code{\link{calculate_cross_functions}}. Containing the positions of the
+two curves. Columns contain "r", "border" and "theo".}
 }
 \value{
-A numeric The percentage of the crossing position of the specified distance.
+A number. The percentage of the crossing position of the specified
+  distance.
 }
 \description{
-Determine if there is a crossing in the cross K curves, to further 
-detect the existance of potential immune ring. --requires additional explanation/reference. Cite own paper?
+Determine if there is a crossing in the cross K curves, to
+  further detect the existence of potential immune rings. --requires
+  additional explanation/reference. Cite own paper?
 }
 \examples{
 df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",

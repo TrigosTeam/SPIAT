@@ -15,7 +15,7 @@ calculate_cross_functions(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{method}{String that is the method for dependence calculation. Options:
 "Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is
@@ -34,7 +34,7 @@ cross functions.}
 }
 \description{
 Compute and plot the cross functions between two specified cell
-  types. -- include a reference to the metrics and/or mathematical notation of how they are computed?
+  types. This function implements the cross functions from [spatstat] package.
 }
 \examples{
 df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",

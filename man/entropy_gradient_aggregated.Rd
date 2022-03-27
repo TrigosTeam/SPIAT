@@ -12,10 +12,11 @@ entropy_gradient_aggregated(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
 \item{cell_types_of_interest}{String Vector. The cell types that the entropy
-is computed upon. The reference cell.}
+is computed on.}
 
 \item{feature_colname}{String. The column name of the interested cell types.}
 
@@ -26,14 +27,15 @@ cell where the entropy is computed on.}
 A list of the gradient of entropy and the peak
 }
 \description{
-This function first calculates the entropy of cell types of interest
-  within a circle of each reference cell at each radii. Then at each
-  radii, the entropies of all circles are aggregated into one number. At the
-  end, the function returns the aggregated entropy at all radii. --probably needs better explanation that you are 'sweeping' over a vector of radii values
+This function first calculates the entropy within circles of
+  each reference cell at each radius. Then at each radius, the entropy of all
+  circles surrounding each cell are aggregated into one number. The function
+  sweeps over the specified radii and calculates the aggregated entropy under
+  each radius.
 }
 \examples{
 gradient_pos <- seq(50, 500, 50)
-gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, 
+gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image,
 cell_types_of_interest = c("Tumour","Immune3"),
 feature_colname = "Cell.Type", radii = gradient_pos)
 plot(1:10,gradient_results$gradient_df[1, 3:12])

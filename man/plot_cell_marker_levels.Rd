@@ -8,7 +8,7 @@ plot_cell_marker_levels(sce_object, marker)
 }
 \arguments{
 \item{sce_object}{Singlecellexperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{marker}{String. Marker to plot.}
 }
@@ -17,8 +17,9 @@ A plot is returned
 }
 \description{
 Produces a scatter plot of the level of a marker in each cell.
-  The level of the marker in all cells is shown, whether phenotyped as being
-  positive or negative for the particular marker. -- should clarify it is of x-y posiiton with marker expression by colour
+  The level of the marker in all cells is shown, at x-y positions, no matter
+  if cells are phenotyped as being positive or negative for the particular
+  marker.
 }
 \examples{
 plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")
