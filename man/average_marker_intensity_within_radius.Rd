@@ -21,7 +21,7 @@ reference cells.}
 \item{target_marker}{String specifying the marker to calculate its average
 intensity.}
 
-\item{radius}{Integer specifying the radius of search for cells around the
+\item{radius}{Numeric specifying the radius of search for cells around the
 reference cells.}
 }
 \value{
@@ -32,7 +32,7 @@ Calculates the average intensity of the target_marker within a
   radius from the cells positive for the reference marker. Note that it pools
   all cells with the target marker that are within the specific radius of any
   reference cell. Results represent the average intensities within a radius,
-  but do not correspond to metrics for each cell.
+  but not a vector of metrics for each cell.
 }
 \examples{
 average_marker_intensity_within_radius(SPIAT::simulated_image,

@@ -1,14 +1,18 @@
 #' plot_cell_categories
-#' 
-#' @description Produces a scatter plot of the cells in the tissue. Cells are coloured
-#' categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
-#' 
-#' @param sce_object Singlecellexperiment object in the form of the output of format_image_to_sce
+#'
+#' @description Produces a scatter plot of the cells of their x-y positions in
+#'   the tissue. Cells are coloured categorically by phenotype. Cells not part
+#'   of the phenotypes of interest will be coloured "lightgrey".
+#'
+#' @param sce_object Singlecellexperiment object in the form of the output of
+#'   format_image_to_sce.
 #' @param categories_of_interest Vector of cell categories to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
-#' @param feature_colname String specifying the column the cell categories belong to
+#' @param feature_colname String specifying the column the cell categories
+#'   belong to
 #' @param cex Numeric. The size of the plot points. Default is 1.
-#' @param layered Boolean. Whether to plot the cells layer by layer (cell categories). By default is FALSE.
+#' @param layered Boolean. Whether to plot the cells layer by layer (cell
+#'   categories). By default is FALSE.
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned

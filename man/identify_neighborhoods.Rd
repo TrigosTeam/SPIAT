@@ -41,7 +41,7 @@ A data.frame and a plot is returned
 }
 \description{
 Uses Euclidean distances to identify clusters of cells within a
-  specified radius.
+  specified radius. -- clarify that you cans elect the clustering algorithm
 }
 \examples{
 neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",

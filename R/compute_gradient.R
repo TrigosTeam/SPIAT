@@ -1,16 +1,23 @@
 #' compute_gradient
 #'
-#' @description Calculate the metrics for all of the specified radii	
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param radii Vector specifying the range of radii for the metrics to be calculated
-#' @param FUN Variable name specifying the metric
+#' @description The function sweeps over circles of a range of radii surrounding
+#'   reference cells and calculates the metrics at the radii. Metrics used with
+#'   function need two conditions: 1) have a `radius` parameter. 2) return a
+#'   single number. For metrics that do not return a single number, users can
+#'   wrap them in a new function that returns a number and then pass the new
+#'   function to `compute_gradient()`.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
+#' @param radii Numeric Vector specifying the range of radii for the metrics to
+#'   be calculated.
+#' @param FUN Variable name specifying the metric.
 #' @param ... Arguments of FUN
 #' @return A list of the metrics under all radii
 #' @export
-#' 
-#' @examples 
+#'
+#' @examples
 #' gradient_positions <- c(30, 50, 100)
-#' gradient_entropy <- compute_gradient(SPIAT::defined_image, radii = gradient_positions, 
+#' gradient_entropy <- compute_gradient(SPIAT::defined_image, radii = gradient_positions,
 #' FUN = calculate_entropy,  cell_types_of_interest = c("Immune1","Immune2"),
 #' feature_colname = "Cell.Type")
 

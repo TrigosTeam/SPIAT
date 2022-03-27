@@ -1,11 +1,11 @@
 #' Split a large image into sub images
 #'
-#' @description Takes in a SingleCellExperiment object from format_image_to_sce,
-#'   splits the image into specified sections and plots the different
-#'   combinations of markers within the image segments.
+#' @description Takes in an image in SingleCellExperiment format, and splits the
+#'   image into specified sections. Users can choose to plot the cell positions
+#'   in each sub image. 
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 =
 #'   2x2, 3 = 3x3).
 #' @param plot Boolean. Specifies whether the splitted images should be printed
@@ -31,10 +31,11 @@
 #' split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)
 #' @export
 
-image_splitter <- function(sce_object, number_of_splits, plot = FALSE, cut_labels = TRUE, 
-                           colour_vector = NULL, x_position_min = NULL, 
-                           x_position_max = NULL, y_position_min = NULL, 
-                           y_position_max = NULL, feature_colname = "Cell.Type"){
+image_splitter <- function(sce_object, number_of_splits, plot = FALSE, 
+                           cut_labels = TRUE, colour_vector = NULL, 
+                           x_position_min = NULL, x_position_max = NULL, 
+                           y_position_min = NULL, y_position_max = NULL, 
+                           feature_colname = "Cell.Type"){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL

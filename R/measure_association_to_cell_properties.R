@@ -1,17 +1,17 @@
 #' measure_association_to_cell_properties
 #'
-#' @description Plots the density or boxplot of a property of two cell
-#'   celltypes or compares using t test/wilcoxon rank sum test.
-#'
+#' @description Plots the density or boxplot of a property of two cell celltypes
+#'   or compares using t test/wilcoxon rank sum test.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param property String that is the name of the column of interest.
-#' @param celltypes Vector of celltypes of interest.
+#' @param celltypes String Vector of celltypes of interest.
 #' @param feature_colname String that speficies the column of the cell types.
-#' @param method the analysis to do on the selected cell types and property.
-#'   Options are "density", "box", "t", "wilcox".
-#' @param Nucleus.Ratio Boolean when the ratio of the nucleus size is of interest.
-#' @param log.scale Boolean if log the data.
+#' @param method String. The analysis to perform on the selected cell types and
+#'   property. Options are "density", "box", "t", "wilcox".
+#' @param Nucleus.Ratio Boolean whether the ratio of the nucleus size is of
+#'   interest.
+#' @param log.scale Boolean whether to log the data.
 #' @import ggplot2
 #' @return With method "box" or "density a plot is returned. With method "t" or
 #'   "wilcox", the text output from the test are returned.

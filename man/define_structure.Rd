@@ -21,7 +21,7 @@ define_structure(
 \item{n_margin_layers}{Integer Specifying the number of layers of cells that compose the internal/external margins}
 }
 \description{
-Identify the cells that compose the invasive front, the infiltration and the exclusion
+Identify the cells that compose the invasive front, the infiltration and the exclusion -- elaborate on what these mean? Or cite your paper for definitions?
 }
 \examples{
 sce_border <- identify_bordering_cells(SPIAT::defined_image, 

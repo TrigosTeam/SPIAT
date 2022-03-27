@@ -24,7 +24,7 @@ types are from.}
 A data.frame is returned
 }
 \description{
-Returns the mean, median and stardard deviation of the distances
+Returns the mean, median and standard deviation of the distances
   between a specified cell type to the borders.
 }
 \examples{

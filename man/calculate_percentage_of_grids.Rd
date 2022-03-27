@@ -17,7 +17,7 @@ function.}
 }
 \description{
 Calculate the percentage of the grid squares that have a certain
-  pattern.
+  pattern. --might need to contextualise by describing how this is used with other functions?
 }
 \examples{
 grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,

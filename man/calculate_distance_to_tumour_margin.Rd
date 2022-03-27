@@ -8,7 +8,7 @@ calculate_distance_to_tumour_margin(sce_object)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+format_image_to_sce. -- params are incompletely documented}
 }
 \value{
 An sce_object is returned
