@@ -3,7 +3,7 @@
 #' @description Calculates the number of cells of a target cell type
 #'   within a pre-defined radius around cells of a reference cell type.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param reference_celltype String. Cell type to be used for reference cells.
 #' @param target_celltype String. Cell type to be used for target cells.
 #' @param radius Numeric. Radius around the reference cells.

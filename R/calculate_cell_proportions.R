@@ -3,7 +3,7 @@
 #' @description Calculates the number and proportion of each cell type.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param reference_celltypes String Vector specifying reference cell types. If
 #'   NULL (default), then the proportion of each cell type against all cells is
 #'   returned. Alternatively, a custom vector of cell types can be used as

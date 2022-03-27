@@ -4,8 +4,8 @@
 #' generates a .pdf file containing scatter plots of actual intensity and
 #' predicted intensity for every marker.
 #'
-#' @param predicted_data Output from predict_phenotypes
-#' @param marker Marker to plot
+#' @param predicted_data Output from \code{\link{predict_phenotypes}}.
+#' @param marker String. Marker to plot
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples

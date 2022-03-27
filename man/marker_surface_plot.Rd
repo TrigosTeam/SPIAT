@@ -15,27 +15,32 @@ marker_surface_plot(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{num_splits}{Integer specifying the number of splits on the image, higher
-splits equal to higher resolution. Recommendation: 10-100}
+\item{num_splits}{Integer specifying the number of splits on the image,
+higher splits equal to higher resolution. Recommendation: 10-100}
 
 \item{marker}{Marker to plot}
 
-\item{x_position_min}{Integer specifying the minimum x boundary to be splitted}
+\item{x_position_min}{Integer specifying the minimum x boundary to be
+splitted}
 
-\item{x_position_max}{Integer specifying the maximum x boundary to be splitted}
+\item{x_position_max}{Integer specifying the maximum x boundary to be
+splitted}
 
-\item{y_position_min}{Integer specifying the minimum y boundary to be splitted}
+\item{y_position_min}{Integer specifying the minimum y boundary to be
+splitted}
 
-\item{y_position_max}{Integer specifying the maximum y boundary to be splitted}
+\item{y_position_max}{Integer specifying the maximum y boundary to be
+splitted}
 }
 \value{
 A plot is returned
 }
 \description{
-Generates a 3D surface plot of the level of the selected
-marker. Note that the image is blurred based on the 'num_splits' parameter.
+Generates a 3D surface plot of the level of the selected marker.
+  Note that the image is blurred based on the 'num_splits' parameter.
 }
 \examples{
 marker_surface_plot(SPIAT::simulated_image, num_splits=15, marker="Immune_marker1")

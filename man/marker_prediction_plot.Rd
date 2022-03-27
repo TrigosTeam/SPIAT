@@ -7,9 +7,9 @@
 marker_prediction_plot(predicted_data, marker)
 }
 \arguments{
-\item{predicted_data}{Output from predict_phenotypes}
+\item{predicted_data}{Output from \code{\link{predict_phenotypes}}.}
 
-\item{marker}{Marker to plot}
+\item{marker}{String. Marker to plot}
 }
 \value{
 A plot is returned

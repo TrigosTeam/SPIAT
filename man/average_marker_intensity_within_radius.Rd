@@ -13,7 +13,7 @@ average_marker_intensity_within_radius(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{reference_marker}{String specifying the marker that is used for
 reference cells.}

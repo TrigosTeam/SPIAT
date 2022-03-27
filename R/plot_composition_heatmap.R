@@ -1,15 +1,17 @@
 #' plot_composition_heatmap
 #'
-#' @description Produces a heatmap showing the marker percentages within each cluster
-#' and the cluster sizes
-#' @param composition - a dataframe output from cluster_percent_composition
-#' @param pheno_to_exclude Vector of phenotype to exclude
-#' @param log_values TRUE if the percentages should be logged (base 10)
+#' @description Produces a heatmap showing the marker percentages within each
+#'   cluster and the cluster sizes.
+#' @param composition Data.frame. Output from
+#'   \code{\link{cluster_percent_composition}}.
+#' @param pheno_to_exclude String Vector of phenotype to exclude.
+#' @param log_values Boolean. TRUE if the percentages should be logged (base
+#'   10).
 #' @param feature_colname String. Column with cell types.
 #' @return A plot is returned
 #' @examples
 #' neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-#' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+#' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
 #' radius = 50, feature_colname = "Cell.Type")
 #' neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
 #' plot_composition_heatmap(neighborhoods_vis, feature_colname="Cell.Type")

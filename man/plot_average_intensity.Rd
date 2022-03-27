@@ -8,7 +8,7 @@ plot_average_intensity(sce_object, reference_marker, target_marker, radii)
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{reference_marker}{String specifying the reference marker.}
 

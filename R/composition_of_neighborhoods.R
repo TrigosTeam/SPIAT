@@ -4,7 +4,7 @@
 #'   a specific marker within each neighborhood. and the number of cells in the
 #'   neighborhood.
 #' @param neighborhoods_df Data.frame that is the output of
-#'   \code{\link{identify_neighborhoods}}. generate_clusters
+#'   \code{\link{identify_neighborhoods}}.
 #' @param feature_colname String. Column with cell types.
 #' @return A data.frame is returned
 #' @examples
