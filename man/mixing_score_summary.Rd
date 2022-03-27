@@ -2,7 +2,7 @@
 % Please edit documentation in R/mixing_score_summary.R
 \name{mixing_score_summary}
 \alias{mixing_score_summary}
-\title{mixing_score_summary}
+\title{Calculate the (normalised) mixing score for interested cell types}
 \usage{
 mixing_score_summary(
   sce_object,
@@ -13,24 +13,40 @@ mixing_score_summary(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{reference_celltype}{Cell types of the reference cells}
+\item{reference_celltype}{String Vector. Cell types of the reference cells.}
 
-\item{target_celltype}{Cell types of the target cells}
+\item{target_celltype}{String Vector. Cell types of the target cells.}
 
-\item{radius}{The maximum radius around a reference celltype for another cell to be considered an interaction.}
+\item{radius}{The maximum radius around a reference cell type for another cell
+to be considered an interaction.}
 
-\item{feature_colname}{String specifying the column with the desired cell type annotations}
+\item{feature_colname}{String specifying the column with the desired cell
+type annotations.}
 }
 \value{
-A data.frame of cell numbers, mixing scores, and normalised mixing scores.
+A data.frame of cell numbers, mixing scores, and normalised mixing
+  scores.
 }
 \description{
-Produces a data.frame with mixing scores of inputed reference and target cells from a SingleCellExperiment object. 
-It calculates reference-target interactions and reference-reference interactions based on default radius of 20.
-It derives the mixing score and normalises the score by (mixing score) * (number of reference cells) * 2 / (number of target cells).
-Function returns NA if the mixing score is being calculated between cells of the same type --include reference for mixing score itself?
+Produces a data.frame with mixing scores of input reference and
+  target cells from a SingleCellExperiment object. It calculates
+  reference-target interactions and reference-reference interactions based on
+  a radius. It derives the mixing score and the normalised mixing score.
+  Function returns NA if the mixing score is being calculated between cells
+  of the same type.
+}
+\details{
+The mixing score was originally defined as the number of
+  immune-tumour interactions divided by the number of immune-immune
+  interactions within a defined radius (Keren et al., 2018). The normalised
+  mixing score normalises the immune-tumour interactions and immune-immune
+  interactions within radius by the total number of immune-tumour and
+  immune-immune interactions in the image, respectively. We have generalized
+  this score to allow calculation of any two cell phenotypes defined by the
+  user.
 }
 \examples{
 mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",

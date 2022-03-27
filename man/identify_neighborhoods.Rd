@@ -17,19 +17,20 @@ identify_neighborhoods(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{method}{String. The clustering method. Choose from "hierarchical",
 "dbscan" and "Rphenograph".}
 
 \item{cell_types_of_interest}{String Vector of phenotypes to consider.}
 
-\item{radius}{Numeric specifying the radius of search.}
+\item{radius}{Numeric specifying the radius of search. Need to specify when
+`method` is "hierarchical" or "dbscan".}
 
 \item{min_neighborhood_size}{Numeric. The minimum number of cells within each
-cluster.}
+cluster. Need to specify when `method` is "hierarchical" or "dbscan".}
 
-\item{k}{Numeric. The parameter for Rphenograph method.}
+\item{k}{Numeric. The parameter for "Rphenograph" method.}
 
 \item{feature_colname}{String. Column from which the cell types are selected.}
 
@@ -40,11 +41,12 @@ cluster.}
 A data.frame and a plot is returned
 }
 \description{
-Uses Euclidean distances to identify clusters of cells within a
-  specified radius. -- clarify that you cans elect the clustering algorithm
+Uses Euclidean distances to identify neighborhoods of cells.
+  Three clustering methods are available, including hierarchical clustering,
+  dbscan, and Rphenograph.
 }
 \examples{
 neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
 radius = 50, feature_colname = "Cell.Type")
 }

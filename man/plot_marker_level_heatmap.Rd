@@ -7,10 +7,11 @@
 plot_marker_level_heatmap(sce_object, num_splits, marker)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{num_splits}{Integer specifying the blurring level (number of splits) for the image.
-Higher numbers result in higher resolution.}
+\item{num_splits}{Integer specifying the blurring level (number of splits)
+for the image. Higher numbers result in higher resolution.}
 
 \item{marker}{Marker to plot}
 }
@@ -18,9 +19,9 @@ Higher numbers result in higher resolution.}
 A plot is returned
 }
 \description{
-Blurs the image by splitting the images into small squares.
-The marker levels are then averaged within each square. All cells are considered,
-regardless of phenotype status
+Blurs the image by splitting the images into small squares. The
+  marker levels are then averaged within each square. All cells are
+  considered, regardless of phenotype status.
 }
 \examples{
 plot_marker_level_heatmap(SPIAT::simulated_image, num_splits = 100, "Tumour_marker")
