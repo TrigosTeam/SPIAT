@@ -30,7 +30,7 @@ A data.frame of cell numbers, mixing scores, and normalised mixing scores.
 Produces a data.frame with mixing scores of inputed reference and target cells from a SingleCellExperiment object. 
 It calculates reference-target interactions and reference-reference interactions based on default radius of 20.
 It derives the mixing score and normalises the score by (mixing score) * (number of reference cells) * 2 / (number of target cells).
-Function returns NA if the mixing score is being calculated between cells of the same type
+Function returns NA if the mixing score is being calculated between cells of the same type --include reference for mixing score itself?
 }
 \examples{
 mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",

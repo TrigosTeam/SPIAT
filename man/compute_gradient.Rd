@@ -19,7 +19,7 @@ compute_gradient(sce_object, radii, FUN, ...)
 A list of the metrics under all radii
 }
 \description{
-Calculate the metrics for all of the specified radii
+Calculate the metrics over all of the specified radii -- should clarify which metrics will work with this. Also, is this function supposed to be accessed by the user or is it a :::method?
 }
 \examples{
 gradient_positions <- c(30, 50, 100)

@@ -30,7 +30,7 @@ identify_bordering_cells(
 \item{n_to_exclude}{Number Clusters under this number will be deleted}
 }
 \description{
-Identify the cells bordering a group of cells of a particular phenotype
+Identify the cells bordering a group of cells of a particular phenotype -- needs longer explanation of how this works
 }
 \examples{
 sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",

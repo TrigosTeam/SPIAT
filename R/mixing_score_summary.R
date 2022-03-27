@@ -1,18 +1,32 @@
-#' mixing_score_summary
+#' Calculate the (normalised) mixing score for interested cell types
 #'
-#' @description Produces a data.frame with mixing scores of inputed reference and target cells from a SingleCellExperiment object. 
-#' It calculates reference-target interactions and reference-reference interactions based on default radius of 20.
-#' It derives the mixing score and normalises the score by (mixing score) * (number of reference cells) * 2 / (number of target cells).
-#' Function returns NA if the mixing score is being calculated between cells of the same type
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_celltype Cell types of the reference cells
-#' @param target_celltype Cell types of the target cells
-#' @param feature_colname String specifying the column with the desired cell type annotations 
-#' @param radius The maximum radius around a reference celltype for another cell to be considered an interaction.
+#' @description Produces a data.frame with mixing scores of input reference and
+#'   target cells from a SingleCellExperiment object. It calculates
+#'   reference-target interactions and reference-reference interactions based on
+#'   a radius. It derives the mixing score and the normalised mixing score.
+#'   Function returns NA if the mixing score is being calculated between cells
+#'   of the same type.
+#' @details The mixing score was originally defined as the number of
+#'   immune-tumour interactions divided by the number of immune-immune
+#'   interactions within a defined radius (Keren et al., 2018). The normalised
+#'   mixing score normalises the immune-tumour interactions and immune-immune
+#'   interactions within radius by the total number of immune-tumour and
+#'   immune-immune interactions in the image, respectively. We have generalized
+#'   this score to allow calculation of any two cell phenotypes defined by the
+#'   user.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
+#' @param reference_celltype String Vector. Cell types of the reference cells.
+#' @param target_celltype String Vector. Cell types of the target cells.
+#' @param feature_colname String specifying the column with the desired cell
+#'   type annotations.
+#' @param radius The maximum radius around a reference cell type for another cell
+#'   to be considered an interaction.
 #' @import dplyr
-#' @return A data.frame of cell numbers, mixing scores, and normalised mixing scores.
+#' @return A data.frame of cell numbers, mixing scores, and normalised mixing
+#'   scores.
 #' @export
-#' @examples 
+#' @examples
 #' mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",
 #' radius = 50, feature_colname = "Cell.Type")
 

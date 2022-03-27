@@ -7,8 +7,12 @@
 AUC_of_cross_function(df.cross)
 }
 \arguments{
-\item{df.cross}{Data.Frame. The output the the cross functions. Containing
-the positions of the two curves.}
+\item{df.cross}{Data.frame. The output of
+\code{\link{calculate_cross_functions}}. Containing the positions of the
+two curves. Columns contain "r", "border" and "theo".}
+}
+\value{
+A number
 }
 \description{
 Calculate the difference of area under the curve (AUC) between

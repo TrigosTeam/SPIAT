@@ -18,7 +18,7 @@ Higher numbers result in higher resolution.}
 A plot is returned
 }
 \description{
-Blurres the image by splitting the images into small squares.
+Blurs the image by splitting the images into small squares.
 The marker levels are then averaged within each square. All cells are considered,
 regardless of phenotype status
 }

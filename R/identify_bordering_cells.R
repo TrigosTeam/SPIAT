@@ -1,14 +1,26 @@
 #' identify_bordering_cells
 #'
-#' @description Identify the cells bordering a group of cells of a particular phenotype
+#' @description Identify the cells bordering a group of cells of a particular
+#'   phenotype.
+#' @details The bordering cell detection algorithm is based on computing an
+#'   alpha hull (Hemmer et al., 2020), a generalization of convex hull (Green
+#'   and Silverman, 1979). The cells detected to be on the alpha hull are
+#'   identified as the bordering cells.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param reference_cell Cells positive for this marker will be used as reference
-#' @param feature_colname Column to select for phenotypes. Can be Phenotypes, Cell.Type, etc
-#' @param ahull_alpha Number specifying the ahull parameter. Larger number, more points included in the ahull.
-#' @param n_of_polygons Number specifying the number of tumour regions defined by user
-#' @param draw Boolean if user chooses to draw the tumour area or not. Default is False.
-#' @param n_to_exclude Number Clusters under this number will be deleted
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
+#' @param reference_cell String. Cells of this cell type will be used for border
+#'   detection.
+#' @param feature_colname String that speficies the column of `reference_cell`.
+#' @param ahull_alpha Number specifying the parameter for the alpha hull
+#'   algorithm. The larger the number, the more cells will be included in one
+#'   cell cluster.
+#' @param n_of_polygons Integer specifying the number of tumour regions defined
+#'   by user.
+#' @param draw Boolean if user chooses to manually draw the tumour area or not.
+#'   Default is False.
+#' @param n_to_exclude Integer. Clusters with cell count under this number will
+#'   be deleted.
 #' @export
 #' @examples
 #' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",

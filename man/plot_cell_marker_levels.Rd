@@ -18,7 +18,7 @@ A plot is returned
 \description{
 Produces a scatter plot of the level of a marker in each cell.
   The level of the marker in all cells is shown, whether phenotyped as being
-  positive or negative for the particular marker.
+  positive or negative for the particular marker. -- should clarify it is of x-y posiiton with marker expression by colour
 }
 \examples{
 plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")

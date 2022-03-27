@@ -1,10 +1,10 @@
 #' average_minimum_distance
 #'
-#' @description Calculates the average minimum distance of all cells in the
-#'   sce_object.
+#' @description Calculates the average minimum distance of all cells to their
+#'   nearest cells in the input image.
 #'
-#' @param sce_object Singlecellexperiment object in the form of the output of
-#'   format_image_to_sce.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
 #' @import dplyr
 #' @return A single number is returned
 #' @examples

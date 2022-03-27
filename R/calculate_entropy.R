@@ -1,19 +1,25 @@
 #' calculate_entropy
 #'
-#' @description Returns a dataframe of entropies for all reference cells or an
-#'   entropy number for the whole image if a radius is not supplied.
+#' @description If arg `radius` is not specified, the function returns the
+#'   entropy of the cell types of interest for the whole image. If arg `radius`
+#'   is specified, the function returns a data.frame where each row is a
+#'   reference cell and the columns stores the entropy of the cell types of
+#'   interest in each circle of the reference cells.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
-#' @param cell_types_of_interest String Vector. Cell types of interest, the
-#'   first cell type is considered as reference cell type.
+#'   \code{\link{format_image_to_sce}}.
+#' @param cell_types_of_interest String Vector. Cell types of interest. If arg
+#'   `radius` is not NULL, the first cell type is considered as reference cell
+#'   type. Circles of the specified radius will be drawn around the reference
+#'   cells and the entropy of cell types will be calculated for each of the
+#'   reference cells.
 #' @param feature_colname String specifying the column the cell types are from.
 #' @param radius (OPTIONAL) Numeric. The maximum radius around a reference cell
 #'   for another cell to be considered an interaction.
 #' @importFrom SummarizedExperiment colData
 #' @return A dataframe or a number depending on the argument radius
 #' @export
-#' @examples 
-#' calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"), 
+#' @examples
+#' calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"),
 #' feature_colname = "Cell.Type")
 
 calculate_entropy <- function(sce_object, cell_types_of_interest, 

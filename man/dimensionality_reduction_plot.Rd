@@ -24,9 +24,9 @@ dimensionality_reduction_plot(
 A plot
 }
 \description{
-Generates the dimensionality reduction plots (UMAP or TSNE)
+Generates the dimensionality reduction plots (UMAP or tSNE)
   based on marker intensities. Cells are grouped by the categories under the
-  selected column.
+  selected column. -- have you tried doing PCA on the matrix and then doing the UMAP/tSNE? Does it help? scRNAseq workflows do this.
 }
 \examples{
 dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 

@@ -1,13 +1,17 @@
 #' grid_metrics
 #'
-#' @description Calculate a specified metric for each little grid in the image and plot the metrics for the grids 
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param n_split Integer specifying the number of splits for the calculation of metrics
-#' @param FUN Variable name specifying the metric to be calculated
-#' @param ... arguments of FUN 
-#' @return a list of the metrics of all grids
+#' @description Calculates a specified metric for each grid tile in the image
+#'   and plots the metrics for the grid tiles.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
+#' @param n_split Integer specifying the number of splits for the calculation of
+#'   metrics. This number is the splits on each side (e.g. `n_split` = 3 means
+#'   the image will be split into 9 tiles.)
+#' @param FUN Variable name specifying the metric to be calculated.
+#' @param ... Arguments of FUN
+#' @return A list of the metrics of all grid tiles
 #' @export
-#' @examples 
+#' @examples
 #' grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,
 #' cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")
 

@@ -69,12 +69,12 @@ be in the same order as in the intensity_matrix.}
 A SingleCellExperiment object is returned
 }
 \description{
-Formats an INFORM, HALO, Visum, CODEX, cellprofiler outputs into
+Formats INFORM, HALO, Visum, CODEX, cellprofiler outputs into
   a singlecellexperiment class. Users can also input a generic format. The
   count assay stores the intensity level of every marker (rows) for every
   cell (columns). Cell phenotype, x and y coordinates and other properties
   are stored under colData. If INFORM format, the cell properties are
   Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and
   Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area,
-  Nucleus.Area and Cytoplasm.Area.
+  Nucleus.Area and Cytoplasm.Area. -- do you need to list the other output formats?
 }
