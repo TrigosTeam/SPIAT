@@ -1,11 +1,15 @@
 #' crossing_of_crossK
 #'
-#' @description Determine if there is a crossing in the cross K curves, to further 
-#' detect the existance of potential immune ring.
-#' 
-#' @param df.cross Dataframe containing the positions of the two curves 
+#' @description Determine if there is a crossing in the cross K curves, to
+#'   further detect the existence of potential immune rings. --requires
+#'   additional explanation/reference. Cite own paper?
 #'
-#' @return A numeric The percentage of the crossing position of the specified distance.
+#' @param df.cross Data.frame. The output of
+#'   \code{\link{calculate_cross_functions}}. Containing the positions of the
+#'   two curves. Columns contain "r", "border" and "theo".
+#'
+#' @return A number. The percentage of the crossing position of the specified
+#'   distance.
 #' @export
 #'
 #' @examples
