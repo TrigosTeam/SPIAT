@@ -34,7 +34,8 @@ names printed. Default is FALSE.}
 \description{
 Define celltypes of selected categories. If the specified category vector is 
 shorter than the categories in the sce_object, then the unspecified categories will be defined
-as "Undefined"
+as "Undefined" -- I think this is for linking cell types to their known marker genes but it is a little confusing
+--need additional explanation of behaviour when other inputs are not the same length, like 'names' and 'categories' in your example
 }
 \examples{
 defined_sce <- define_celltypes(SPIAT::simulated_image, 

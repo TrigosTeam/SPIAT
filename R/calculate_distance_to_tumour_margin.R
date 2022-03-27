@@ -1,13 +1,13 @@
 #' calculate_distance_to_tumour_margin
 #'
-#' @description Returns the sce_object with the minimum distance from immune
+#' @description Returns a SCE object with the minimum distance from immune
 #'   cells to the identified tumour bordering cells.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#' @param sce_object SingleCellExperiment object that has the information of the
+#'   detected bordering cells (metadata has "Region" column).
 #' @return An sce_object is returned
 #' @export
-#' @examples 
+#' @examples
 #' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
 #' feature_colname = "Cell.Type", n_to_exclude = 10)
 #' sce_dist <- calculate_distance_to_tumour_margin(sce_border)

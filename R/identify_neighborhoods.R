@@ -1,17 +1,19 @@
 #' identify_neighborhoods
 #'
-#' @description Uses Euclidean distances to identify clusters of cells within a
-#'   specified radius.
+#' @description Uses Euclidean distances to identify neighborhoods of cells.
+#'   Three clustering methods are available, including hierarchical clustering,
+#'   dbscan, and Rphenograph.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param method String. The clustering method. Choose from "hierarchical",
 #'   "dbscan" and "Rphenograph".
 #' @param cell_types_of_interest String Vector of phenotypes to consider.
-#' @param radius Numeric specifying the radius of search.
+#' @param radius Numeric specifying the radius of search. Need to specify when
+#'   `method` is "hierarchical" or "dbscan".
 #' @param min_neighborhood_size Numeric. The minimum number of cells within each
-#'   cluster.
-#' @param k Numeric. The parameter for Rphenograph method.
+#'   cluster. Need to specify when `method` is "hierarchical" or "dbscan".
+#' @param k Numeric. The parameter for "Rphenograph" method.
 #' @param feature_colname String. Column from which the cell types are selected.
 #' @param no_pheno Cell type corresponding to cells without a known phenotype
 #'   (e.g. "None", "Other")
@@ -20,14 +22,14 @@
 #' @return A data.frame and a plot is returned
 #' @examples
 #' neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-#' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"), 
+#' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
 #' radius = 50, feature_colname = "Cell.Type")
 #' @export
 
 identify_neighborhoods <- function(sce_object, method = "hierarchical", 
                                    cell_types_of_interest, radius, 
                                    min_neighborhood_size = 10,
-                                   k=100,
+                                   k = 100,
                                    feature_colname, no_pheno = NULL) {
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check

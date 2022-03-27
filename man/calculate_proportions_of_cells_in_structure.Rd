@@ -23,9 +23,9 @@ types are under.}
 A data.frame
 }
 \description{
-Calculate the proportion of interested cells in each defined
-  tumour structure relative to all cells in each structure or relative to the
-  same cell type in the whole image.
+Calculate the proportion of cells of interest in each defined
+  tumour structure relative to all cells in each structure and relative to the
+  same cell type in the whole image. -- or -> and because it always does both?
 }
 \examples{
 sce_border <- identify_bordering_cells(SPIAT::defined_image, 

@@ -4,7 +4,7 @@
 #'   radius from the cells positive for the reference marker. Note that it pools
 #'   all cells with the target marker that are within the specific radius of any
 #'   reference cell. Results represent the average intensities within a radius,
-#'   but do not correspond to metrics for each cell.
+#'   but not a vector of metrics for each cell. 
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
@@ -12,7 +12,7 @@
 #'   reference cells.
 #' @param target_marker String specifying the marker to calculate its average
 #'   intensity.
-#' @param radius Integer specifying the radius of search for cells around the
+#' @param radius Numeric specifying the radius of search for cells around the
 #'   reference cells.
 #' @import dplyr
 #' @return A single number is returned

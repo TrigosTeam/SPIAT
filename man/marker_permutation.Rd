@@ -17,7 +17,7 @@ A plot is returned
 }
 \description{
 Creates random combinations of phenotypes by shuffling markers
-  and calculates the enrichment and depletion p values.
+  and calculates the enrichment and depletion p values. -- p values based on what hypothesis? Does this need an explanation of what context you would use this in?
 }
 \examples{
 sig <- marker_permutation(SPIAT::simulated_image, num_iter = 100)

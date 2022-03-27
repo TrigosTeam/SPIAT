@@ -3,8 +3,10 @@
 #' @description Calculate the difference of area under the curve (AUC) between
 #'   two curves, normalised by the total area of the graph.
 
-#' @param df.cross Data.Frame. The output the the cross functions. Containing
-#'   the positions of the two curves.
+#' @param df.cross Data.frame. The output of
+#'   \code{\link{calculate_cross_functions}}. Containing the positions of the
+#'   two curves. Columns contain "r", "border" and "theo".
+#' @return A number
 #' @export
 #'
 #' @examples

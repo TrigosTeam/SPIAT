@@ -1,22 +1,31 @@
-#' ANN index for point pattern (clustering or dispersion)
+#' Average nearest neighbor index for point pattern (clustering or dispersion)
 #'
-#' @description Calculate the the ANN index of a specified type of cells. The
-#'   index indicates the clustering effect of a point pattern. It can be
-#'   clustering, random or dispersion.
+#' @description Calculate the the average nearest neighbor (ANN) index of a
+#'   specified type of cells. The index indicates the clustering effect of a
+#'   point pattern. The pattern can be clustering, random or dispersion.
+#'   
+#' @details ANN index is a statistical test to test for the presence of clusters
+#'   of cells, (Clark and Evans, 1954). The ANN index evaluates the spatial
+#'   aggregation or dispersion effect of objects based on the average distances
+#'   between pairs of the nearest objects and can be used to test for the
+#'   clustering of specific cell types (e.g. immune or tumor cells). Next, the z
+#'   score and p-value of the ANN index is calculated to validate the
+#'   significance of the pattern.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param reference_cell String. Cells of this type are used as reference cells.
 #' @param feature_colname String. Specify the selected column for
 #'   `reference_cell`.
-#' @param p.val Numeric. The p value threshold to determine the significance of
+#' @param p_val Numeric. The p value threshold to determine the significance of
 #'   a pattern.
 #' @export
+#' @return A list with the pattern type and a p value
 #' @examples
 #' average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")
 
 average_nearest_neighbor_index <- function(sce_object, reference_cell, 
-                                           feature_colname, p.val = 5e-6){
+                                           feature_colname, p_val = 5e-6){
   
   ppp <- format_sce_to_ppp(sce_object)
   formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
@@ -44,7 +53,7 @@ average_nearest_neighbor_index <- function(sce_object, reference_cell,
     z <- (ann.p - ann.e)/se
     p <- stats::pnorm(-abs(z))
     
-    if (p <= p.val){
+    if (p <= p_val){
       if (ann.p <= ann.e){
         pattern <- "Clustered"
       }

@@ -1,9 +1,9 @@
 #' calculate_summary_distances_of_cells_to_borders
 #'
-#' @description Returns the mean, median and stardard deviation of the distances
+#' @description Returns the mean, median and standard deviation of the distances
 #'   between a specified cell type to the borders.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param cell_types_of_interest String Vector of cell types to consider.
 #' @param feature_colname String specifying which column the interested cell
 #'   types are from.

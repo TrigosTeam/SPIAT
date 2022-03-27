@@ -2,13 +2,13 @@
 % Please edit documentation in R/average_nearest_neighbor_index.R
 \name{average_nearest_neighbor_index}
 \alias{average_nearest_neighbor_index}
-\title{ANN index for point pattern (clustering or dispersion)}
+\title{Average nearest neighbor index for point pattern (clustering or dispersion)}
 \usage{
 average_nearest_neighbor_index(
   sce_object,
   reference_cell,
   feature_colname,
-  p.val = 5e-06
+  p_val = 5e-06
 )
 }
 \arguments{
@@ -20,13 +20,17 @@ format_image_to_sce.}
 \item{feature_colname}{String. Specify the selected column for
 `reference_cell`.}
 
-\item{p.val}{Numeric. The p value threshold to determine the significance of
+\item{p_val}{Numeric. The p value threshold to determine the significance of
 a pattern.}
 }
+\value{
+A list with the pattern type and a p value
+}
 \description{
-Calculate the the ANN index of a specified type of cells. The
-  index indicates the clustering effect of a point pattern. It can be
-  clustering, random or dispersion.
+Calculate the the average nearest neighbor (ANN) index of a
+  specified type of cells. The index indicates the clustering effect of a
+  point pattern. The pattern can be clustering, random or dispersion. Details
+  of this metric see \doi{https://doi.org/10.2307/1931034}.
 }
 \examples{
 average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")

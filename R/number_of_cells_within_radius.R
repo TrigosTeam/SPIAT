@@ -1,8 +1,7 @@
 #' number_of_cells_within_radius
 #'
-#' @description Calculates the number of cells positive for a target celltype
-#'   within a pre-defined radius around cells positive for a reference celltype
-
+#' @description Calculates the number of cells of a target cell type
+#'   within a pre-defined radius around cells of a reference cell type.
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   format_image_to_sce.
 #' @param reference_celltype String. Cell type to be used for reference cells.
@@ -14,9 +13,9 @@
 #' @return A list of dataframes with the number of target cells of each of the
 #'   reference cells
 #' @export
-#' @examples 
-#' n_in_radius <- number_of_cells_within_radius(SPIAT::defined_image, 
-#' reference_celltype = "Tumour", target_celltype="Immune1", radius = 50, 
+#' @examples
+#' n_in_radius <- number_of_cells_within_radius(SPIAT::defined_image,
+#' reference_celltype = "Tumour", target_celltype="Immune1", radius = 50,
 #' feature_colname = "Cell.Type")
 
 number_of_cells_within_radius <- function(sce_object, reference_celltype, 

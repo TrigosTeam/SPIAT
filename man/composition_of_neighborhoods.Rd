@@ -7,7 +7,7 @@
 composition_of_neighborhoods(formatted_data_with_clusters, feature_colname)
 }
 \arguments{
-\item{formatted_data_with_clusters}{- a dataframe output from
+\item{formatted_data_with_clusters}{- a dataframe output from --name is too long
 generate_clusters}
 
 \item{feature_colname}{Column with cell types}
