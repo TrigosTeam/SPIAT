@@ -32,7 +32,7 @@ Returns K function of cell distribution with options to specify
   of K function. Plotted K-functions utilise an inhomogeneous Poisson
   distribution with point intensity produced to reflect the original data as
   the null distribution. Unable to plot both confidence interval and envelope
-  simultaneously.
+  simultaneously. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 }
 \details{
 determine_confidence: assign any integer value to indicate to plot the

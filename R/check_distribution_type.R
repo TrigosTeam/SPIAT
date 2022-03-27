@@ -1,4 +1,4 @@
-#' check for initial underlying distribution (cluster or Homogenous Poisson)
+#' check for initial underlying distribution (cluster or Homogeneous Poisson)
 #' 
 #' check_distribution_types Takes in point pattern object and performs a quadrat test and clark evans test
 #' to determine the underlying pattern. The results and p value will be printed to console
@@ -11,7 +11,7 @@
 #' to be examined in the case the entire point pattern is not relevant
 #' 
 #' Output - 
-#' test_results: List containing 2 htest objects containing test data 
+#' test_results: List containing 2 htest objects containing test data -- needs proper `@`description, etc.
 #' 
 #' @param point_pattern sample point pattern to be analysed
 #' @param quadrat_dim vector containing number of quadrants in x,y direction respectively

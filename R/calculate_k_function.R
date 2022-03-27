@@ -16,7 +16,7 @@
 #'   of K function. Plotted K-functions utilise an inhomogeneous Poisson
 #'   distribution with point intensity produced to reflect the original data as
 #'   the null distribution. Unable to plot both confidence interval and envelope
-#'   simultaneously.
+#'   simultaneously. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 #'
 #' @param point_pattern ppp object (marked point pattern).
 #' @param determine_confidence Indicate to plot confidence interval of the K
