@@ -2,7 +2,7 @@
 #'
 #' @description Generates the dimensionality reduction plots (UMAP or tSNE)
 #'   based on marker intensities. Cells are grouped by the categories under the
-#'   selected column. -- have you tried doing PCA on the matrix and then doing the UMAP/tSNE? Does it help? scRNAseq workflows do this.
+#'   selected column. -- have you tried doing PCA on the matrix and then doing the UMAP/tSNE? Does it help? scRNAseq workflows do this. (?)
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   \code{\link{format_image_to_sce}}.
 #' @param plot_type String. Choose from "UMAP" and "TSNE".
