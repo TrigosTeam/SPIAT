@@ -4,7 +4,7 @@
 #'   of the cell types are found, it will print an error message and return a
 #'   vector of NAs.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param cell_types_of_interest String Vector containing cell types to be
 #'   considered, if NULL, all cell type combinations will be calculated.
 #' @param feature_colname String of the name the feature column with the cell

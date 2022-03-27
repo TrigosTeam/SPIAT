@@ -17,7 +17,7 @@ marker_surface_plot_stack(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{num_splits}{Integer specifying the number of splits on the image,
 higher splits equal to higher resolution. Recommendation: 10-100.}

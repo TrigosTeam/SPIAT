@@ -8,7 +8,7 @@ composition_of_neighborhoods(neighborhoods_df, feature_colname)
 }
 \arguments{
 \item{neighborhoods_df}{Data.frame that is the output of
-\code{\link{identify_neighborhoods}}. generate_clusters}
+\code{\link{identify_neighborhoods}}.}
 
 \item{feature_colname}{String. Column with cell types.}
 }

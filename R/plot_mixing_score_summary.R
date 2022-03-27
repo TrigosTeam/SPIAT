@@ -5,9 +5,12 @@
 #' It gives a Rho statistic with p-value based off Spearman's correlation.
 #' It produces different sets of plots based off mixing scores and normalised mixing scores. -- do you mean it makes the same plots for both metrics?
 
-#' @param mixing_score_summary SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param individual.plots (OPTIONAL) Individual plots for each reference cell are given, rather than being arranged in a grid.
-#' @return Various plots of log2(mixing score) vs log2(number of target cells) for each reference cell.
+#' @param mixing_score_summary SingleCellExperiment object in the form of the
+#'   output of format_image_to_sce
+#' @param individual.plots (OPTIONAL) Individual plots for each reference cell
+#'   are given, rather than being arranged in a grid.
+#' @return Various plots of log2(mixing score) vs log2(number of target cells)
+#'   for each reference cell.
 #' @export
 
 plot_mixing_score_summary <- function(mixing_score_summary, individual.plots=FALSE) 

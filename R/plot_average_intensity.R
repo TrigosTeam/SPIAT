@@ -5,7 +5,7 @@
 #'   level as a line graph.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param reference_marker String specifying the reference marker.
 #' @param target_marker String specifying the marker to calculate its average
 #'   intensity.

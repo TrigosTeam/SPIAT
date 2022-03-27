@@ -14,8 +14,8 @@ plot_cell_categories(
 )
 }
 \arguments{
-\item{sce_object}{Singlecellexperiment object in the form of the output of
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
 \item{categories_of_interest}{Vector of cell categories to be coloured}
 

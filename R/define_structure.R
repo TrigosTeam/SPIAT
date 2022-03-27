@@ -7,8 +7,9 @@
 #'   margins. It also identifies the immune cells that are infiltrated, stromal,
 #'   internal margin or external margin immune cells.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param sce_object SingleCellExperiment object whose metadata has the
+#'   information of tumour bordering cells and cell distances to tumour border
+#'   (has columns "Region" and "Distance.To.Border").
 #' @param names_of_immune_cells String Vector of the names of immune cells.
 #' @param n_margin_layers Integer. The number of layers of cells that compose
 #'   the internal/external tumour margins.

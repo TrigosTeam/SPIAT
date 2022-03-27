@@ -14,7 +14,7 @@ average_percentage_of_cells_within_radius(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{reference_celltype}{String specifying the cell type of reference
 cells.}
