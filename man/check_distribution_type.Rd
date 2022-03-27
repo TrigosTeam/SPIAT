@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_distribution_type.R
 \name{check_distribution_type}
 \alias{check_distribution_type}
-\title{check for initial underlying distribution (cluster or Homogenous Poisson)}
+\title{check for initial underlying distribution (cluster or Homogeneous Poisson)}
 \usage{
 check_distribution_type(
   point_pattern,
@@ -30,5 +30,5 @@ phenotypes_of_interest: String vector containing the names of the cell phenotype
 to be examined in the case the entire point pattern is not relevant
 
 Output - 
-test_results: List containing 2 htest objects containing test data
+test_results: List containing 2 htest objects containing test data -- needs proper `@`description, etc.
 }
