@@ -73,7 +73,6 @@ Imports:
     Seurat,
     Rphenograph,
     divo,
-    ggpubr,
     elsa,
     Rtsne,
     umap,
