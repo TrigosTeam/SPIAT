@@ -4,8 +4,8 @@
 #'   the tissue. Cells are coloured categorically by phenotype. Cells not part
 #'   of the phenotypes of interest will be coloured "lightgrey".
 #'
-#' @param sce_object Singlecellexperiment object in the form of the output of
-#'   format_image_to_sce.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
 #' @param categories_of_interest Vector of cell categories to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @param feature_colname String specifying the column the cell categories

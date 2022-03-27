@@ -14,7 +14,7 @@ calculate_minimum_distances_between_cell_types(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{feature_colname}{String. Column of cells to choose the cell type from
 (e.g. Cell.Type, Cell.Type2, etc).}
@@ -29,7 +29,7 @@ all_combinations is FALSE.}
 A data.frame is returned
 }
 \description{
-Returns the mean, median and stardard deviation of the minimum
+Returns the mean, median and standard deviation of the minimum
   distances between phenotypes.
 }
 \examples{

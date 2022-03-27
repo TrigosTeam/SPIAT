@@ -14,7 +14,7 @@ calculate_cell_proportions(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{reference_celltypes}{String Vector specifying reference cell types. If
 NULL (default), then the proportion of each cell type against all cells is

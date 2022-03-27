@@ -1,9 +1,10 @@
 #' marker_intensity_boxplot
 #'
-#' @description Produces boxplots of marker levels for cells phenotyped as being positive
-#' for the marker, and those that where phenotyped as being negative.
-#' @param sce_object SingleCellExperiment object in the form of the output of format_image_to_sce
-#' @param marker Marker being queried
+#' @description Produces boxplots of marker levels for cells phenotyped as being
+#'   positive for the marker, and those that where phenotyped as being negative.
+#' @param sce_object SingleCellExperiment object in the form of the output of
+#'   \code{\link{format_image_to_sce}}.
+#' @param marker String. Marker being queried.
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned

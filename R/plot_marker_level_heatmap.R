@@ -6,7 +6,7 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   \code{\link{format_image_to_sce}}.
-#' @param marker Marker to plot
+#' @param marker String. Marker to plot.
 #' @param num_splits Integer specifying the blurring level (number of splits)
 #'   for the image. Higher numbers result in higher resolution.
 #' @import dplyr

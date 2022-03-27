@@ -11,11 +11,13 @@ plot_cell_percentages(
 )
 }
 \arguments{
-\item{cell_proportions}{Data Frame. Output from `calculate_cell_proportions`.}
+\item{cell_proportions}{Data Frame. Output from
+\code{\link{calculate_cell_proportions}}.}
 
 \item{cells_to_exclude}{String Vector. Markers to exclude.}
 
-\item{cellprop_colname}{Column to use for y axis names. Default is "Proportion_name".}
+\item{cellprop_colname}{String. Column to use for y axis names. Default is
+"Proportion_name".}
 }
 \value{
 A plot is returned
@@ -24,6 +26,6 @@ A plot is returned
 Plots cells proportions as barplots.
 }
 \examples{
-p_cells <- calculate_cell_proportions(SPIAT::simulated_image) 
+p_cells <- calculate_cell_proportions(SPIAT::simulated_image)
 plot_cell_percentages(p_cells)
 }

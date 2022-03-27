@@ -4,7 +4,7 @@
 #'   level of specified markers.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param num_splits Integer specifying the number of splits on the image,
 #'   higher splits equal to higher resolution. Recommendation: 10-100.
 #' @param markers_to_plot Vector of marker names for plotting.

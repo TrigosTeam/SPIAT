@@ -3,7 +3,7 @@
 #' @description Returns the distance of the closest cell of a specific type from
 #'   each reference cell.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param cell_types_of_interest String Vector of marker combinations to
 #'   consider is FALSE.
 #' @param feature_colname String of the feature column of cells to choose the

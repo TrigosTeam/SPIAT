@@ -1,9 +1,9 @@
 #' calculate_minimum_distances_between_cell_types
 #'
-#' @description Returns the mean, median and stardard deviation of the minimum
+#' @description Returns the mean, median and standard deviation of the minimum
 #'   distances between phenotypes.
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param all_combinations Boolean. If TRUE, the distances between all possible
 #'   combinations of cell types will be calculated.
 #' @param cell_types_of_interest String Vector of cell types to consider if
