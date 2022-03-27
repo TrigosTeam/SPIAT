@@ -1,14 +1,16 @@
 #' plot_cell_percentages
 #'
 #' @description Plots cells proportions as barplots.
-#' @param cell_proportions Data Frame. Output from `calculate_cell_proportions`.
+#' @param cell_proportions Data Frame. Output from
+#'   \code{\link{calculate_cell_proportions}}.
 #' @param cells_to_exclude String Vector. Markers to exclude.
-#' @param cellprop_colname Column to use for y axis names. Default is "Proportion_name".
+#' @param cellprop_colname String. Column to use for y axis names. Default is
+#'   "Proportion_name".
 #' @import ggplot2
 #' @import dplyr
 #' @return A plot is returned
 #' @examples
-#' p_cells <- calculate_cell_proportions(SPIAT::simulated_image) 
+#' p_cells <- calculate_cell_proportions(SPIAT::simulated_image)
 #' plot_cell_percentages(p_cells)
 #' @export
 plot_cell_percentages <- function(cell_proportions, cells_to_exclude =NULL, 

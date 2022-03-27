@@ -7,7 +7,7 @@
 #'   but not a vector of metrics for each cell. 
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param reference_marker String specifying the marker that is used for
 #'   reference cells.
 #' @param target_marker String specifying the marker to calculate its average

@@ -13,7 +13,7 @@ plot_marker_level_heatmap(sce_object, num_splits, marker)
 \item{num_splits}{Integer specifying the blurring level (number of splits)
 for the image. Higher numbers result in higher resolution.}
 
-\item{marker}{Marker to plot}
+\item{marker}{String. Marker to plot.}
 }
 \value{
 A plot is returned
