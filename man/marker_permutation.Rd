@@ -7,8 +7,8 @@
 marker_permutation(sce_object, num_iter)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of output from
-format_image_to_sce.}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
 \item{num_iter}{Integer specifying the number of iterations for bootstrapping.}
 }
@@ -17,7 +17,7 @@ A plot is returned
 }
 \description{
 Creates random combinations of phenotypes by shuffling markers.
-  and calculates the enrichment and depletion p values. -- p values based on what hypothesis? Does this need an explanation of what context you would use this in?
+  and calculates the enrichment and depletion p values. -- p values based on what hypothesis? Does this need an explanation of what context you would use this in?(?)
 }
 \examples{
 sig <- marker_permutation(SPIAT::simulated_image, num_iter = 100)
