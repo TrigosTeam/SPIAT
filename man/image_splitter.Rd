@@ -55,7 +55,7 @@ A list of data.frames is returned. Each data frame represents an
 \description{
 Takes in a SingleCellExperiment object from format_image_to_sce,
   splits the image into specified sections and plots the different
-  combinations of markers within the image segments.
+  combinations of markers within the image segments. -- plots the different combinations of markers? Does this just mean it plots a subsection of the original image exactly as it was?
 }
 \examples{
 split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)

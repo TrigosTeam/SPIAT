@@ -31,7 +31,7 @@ A plot is returned
 }
 \description{
 Produces a scatter plot of the cells in the tissue. Cells are coloured
-categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey"
+categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey" -- a scatter plot of their x-y positions?
 }
 \examples{
 categories_of_interest <- c("Tumour", "Immune1","Immune2","Immune3")

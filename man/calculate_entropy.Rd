@@ -16,7 +16,7 @@ calculate_entropy(
 format_image_to_sce.}
 
 \item{cell_types_of_interest}{String Vector. Cell types of interest, the
-first cell type is considered as reference cell type.}
+first cell type is considered as reference cell type. -- need to describe what a reference cell type is}
 
 \item{feature_colname}{String specifying the column the cell types are from.}
 
@@ -28,7 +28,7 @@ A dataframe or a number depending on the argument radius
 }
 \description{
 Returns a dataframe of entropies for all reference cells or an
-  entropy number for the whole image if a radius is not supplied.
+  entropy number for the whole image if a radius is not supplied. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 }
 \examples{
 calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"), 

@@ -26,10 +26,10 @@ cell where the entropy is computed on.}
 A list of the gradient of entropy and the peak
 }
 \description{
-This function first calculates the entropy of interested cell
-  types within a circle of each reference cell at each radii. Then at each
+This function first calculates the entropy of cell types of interest
+  within a circle of each reference cell at each radii. Then at each
   radii, the entropies of all circles are aggregated into one number. At the
-  end, the function returns the aggregated entropy at all radii.
+  end, the function returns the aggregated entropy at all radii. --probably needs better explanation that you are 'sweeping' over a vector of radii values
 }
 \examples{
 gradient_pos <- seq(50, 500, 50)

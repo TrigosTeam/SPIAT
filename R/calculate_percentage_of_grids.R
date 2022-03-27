@@ -1,10 +1,11 @@
 #' calculate_percentage_of_grids
 #'
-#' @description Calculate the percentage of the grid squares that have a certain
-#'   pattern.
+#' @description  Takes the result of \code{\link{grid_metrics}} (a RasterLayer
+#'   object) and calculates the percentage of the grid squares whose values are
+#'   above or below a specified threshold.
 #'
-#' @param raster_obj Raster object in the form of the output of `grid_metrics`
-#'   function.
+#' @param raster_obj Raster object in the form of the output of
+#'   \code{\link{grid_metrics}}.
 #' @param threshold Numeric. The threshold for defining the pattern.
 #' @param above Boolean. Indicating whether the pattern is above (TRUE) or below
 #'   (FALSE) the threshold.

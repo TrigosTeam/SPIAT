@@ -1,10 +1,10 @@
 #' calculate_cross_functions
 #'
 #' @description Compute and plot the cross functions between two specified cell
-#'   types.
+#'   types. This function implements the cross functions from [spatstat] package.
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
-#'   format_image_to_sce.
+#'   \code{\link{format_image_to_sce}}.
 #' @param method String that is the method for dependence calculation. Options:
 #'   "Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is
 #'   "Kcross".

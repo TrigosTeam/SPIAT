@@ -34,7 +34,7 @@ cross functions.}
 }
 \description{
 Compute and plot the cross functions between two specified cell
-  types.
+  types. -- include a reference to the metrics and/or mathematical notation of how they are computed?
 }
 \examples{
 df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",

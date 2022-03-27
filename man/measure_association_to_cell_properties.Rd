@@ -37,7 +37,7 @@ With method "box" or "density a plot is returned. With method "t" or
 }
 \description{
 Plots the density or boxplot of a property of two cell
-  celltypes or compares using t test/wilcoxon rank sum test.
+  celltypes or compares using t test/wilcoxon rank sum test. -- should maybe be split into two functions, one for the plots and one for the tests?
 }
 \examples{
 measure_association_to_cell_properties(image_no_markers,
