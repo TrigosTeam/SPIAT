@@ -18,5 +18,5 @@ Various plots of log2(mixing score) vs log2(number of target cells) for each ref
 Plots mixing scores against target cells from the input mixing_score_summary data.frame.
 It produces multiple scatterplots for each reference cell observed, with line of best fit. 
 It gives a Rho statistic with p-value based off Spearman's correlation.
-It produces different sets of plots based off mixing scores and normalised mixing scores.
+It produces different sets of plots based off mixing scores and normalised mixing scores. -- do you mean it makes the same plots for both metrics?
 }

@@ -14,24 +14,28 @@ plot_cell_categories(
 )
 }
 \arguments{
-\item{sce_object}{Singlecellexperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{Singlecellexperiment object in the form of the output of
+format_image_to_sce.}
 
 \item{categories_of_interest}{Vector of cell categories to be coloured}
 
 \item{colour_vector}{Vector specifying the colours of each cell phenotype}
 
-\item{feature_colname}{String specifying the column the cell categories belong to}
+\item{feature_colname}{String specifying the column the cell categories
+belong to}
 
 \item{cex}{Numeric. The size of the plot points. Default is 1.}
 
-\item{layered}{Boolean. Whether to plot the cells layer by layer (cell categories). By default is FALSE.}
+\item{layered}{Boolean. Whether to plot the cells layer by layer (cell
+categories). By default is FALSE.}
 }
 \value{
 A plot is returned
 }
 \description{
-Produces a scatter plot of the cells in the tissue. Cells are coloured
-categorically by phenotype. Cells not part of the phenotypes of interest will be coloured "lightgrey" -- a scatter plot of their x-y positions?
+Produces a scatter plot of the cells of their x-y positions in
+  the tissue. Cells are coloured categorically by phenotype. Cells not part
+  of the phenotypes of interest will be coloured "lightgrey".
 }
 \examples{
 categories_of_interest <- c("Tumour", "Immune1","Immune2","Immune3")

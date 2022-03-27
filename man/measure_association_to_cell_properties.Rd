@@ -16,28 +16,29 @@ measure_association_to_cell_properties(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{property}{String that is the name of the column of interest.}
 
-\item{celltypes}{Vector of celltypes of interest.}
+\item{celltypes}{String Vector of celltypes of interest.}
 
 \item{feature_colname}{String that speficies the column of the cell types.}
 
-\item{method}{the analysis to do on the selected cell types and property.
-Options are "density", "box", "t", "wilcox".}
+\item{method}{String. The analysis to perform on the selected cell types and
+property. Options are "density", "box", "t", "wilcox".}
 
-\item{Nucleus.Ratio}{Boolean when the ratio of the nucleus size is of interest.}
+\item{Nucleus.Ratio}{Boolean whether the ratio of the nucleus size is of
+interest.}
 
-\item{log.scale}{Boolean if log the data.}
+\item{log.scale}{Boolean whether to log the data.}
 }
 \value{
 With method "box" or "density a plot is returned. With method "t" or
   "wilcox", the text output from the test are returned.
 }
 \description{
-Plots the density or boxplot of a property of two cell
-  celltypes or compares using t test/wilcoxon rank sum test. -- should maybe be split into two functions, one for the plots and one for the tests?
+Plots the density or boxplot of a property of two cell celltypes
+  or compares using t test/wilcoxon rank sum test.
 }
 \examples{
 measure_association_to_cell_properties(image_no_markers,

@@ -7,11 +7,13 @@
 compute_gradient(sce_object, radii, FUN, ...)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{radii}{Vector specifying the range of radii for the metrics to be calculated}
+\item{radii}{Numeric Vector specifying the range of radii for the metrics to
+be calculated.}
 
-\item{FUN}{Variable name specifying the metric}
+\item{FUN}{Variable name specifying the metric.}
 
 \item{...}{Arguments of FUN}
 }
@@ -19,11 +21,16 @@ compute_gradient(sce_object, radii, FUN, ...)
 A list of the metrics under all radii
 }
 \description{
-Calculate the metrics over all of the specified radii -- should clarify which metrics will work with this. Also, is this function supposed to be accessed by the user or is it a :::method?
+The function sweeps over circles of a range of radii surrounding
+  reference cells and calculates the metrics at the radii. Metrics used with
+  function need two conditions: 1) have a `radius` parameter. 2) return a
+  single number. For metrics that do not return a single number, users can
+  wrap them in a new function that returns a number and then pass the new
+  function to `compute_gradient()`.
 }
 \examples{
 gradient_positions <- c(30, 50, 100)
-gradient_entropy <- compute_gradient(SPIAT::defined_image, radii = gradient_positions, 
+gradient_entropy <- compute_gradient(SPIAT::defined_image, radii = gradient_positions,
 FUN = calculate_entropy,  cell_types_of_interest = c("Immune1","Immune2"),
 feature_colname = "Cell.Type")
 }

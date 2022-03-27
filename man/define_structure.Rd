@@ -12,22 +12,30 @@ define_structure(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{names_of_immune_cells}{Vector indicating the names of potential immune cells}
+\item{names_of_immune_cells}{String Vector of the names of immune cells.}
 
-\item{feature_colname}{String Specifying which column the names of immune cells are under}
+\item{feature_colname}{String Specifying the column that contains the names
+of the immune cells.}
 
-\item{n_margin_layers}{Integer Specifying the number of layers of cells that compose the internal/external margins}
+\item{n_margin_layers}{Integer. The number of layers of cells that compose
+the internal/external tumour margins.}
 }
 \description{
-Identify the cells that compose the invasive front, the infiltration and the exclusion -- elaborate on what these mean? Or cite your paper for definitions?
+After identifying the bordering cells of tumour regions and
+  calculating the distances of each cell to the tumour bordering cells, this
+  function further identifies the cells that are located in the inside and
+  outside of the tumour regions, and in the internal and external tumour
+  margins. It also identifies the immune cells that are infiltrated, stromal,
+  internal margin or external margin immune cells.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image, 
+sce_border <- identify_bordering_cells(SPIAT::defined_image,
 reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
 sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-sce_structure <- define_structure(sce_dist, 
+sce_structure <- define_structure(sce_dist,
 names_of_immune_cells = c("Immune1","Immune2","Immune3"),
 feature_colname = "Cell.Type", n_margin_layers = 5)
 plot_cell_categories(sce_structure, feature_colname = "Structure")

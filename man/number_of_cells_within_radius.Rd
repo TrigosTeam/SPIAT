@@ -30,11 +30,11 @@ A list of dataframes with the number of target cells of each of the
   reference cells
 }
 \description{
-Calculates the number of cells positive for a target celltype
-  within a pre-defined radius around cells positive for a reference celltype --what is meant by a celltype? Is it a slot in the input object?
+Calculates the number of cells of a target cell type
+  within a pre-defined radius around cells of a reference cell type.
 }
 \examples{
-n_in_radius <- number_of_cells_within_radius(SPIAT::defined_image, 
-reference_celltype = "Tumour", target_celltype="Immune1", radius = 50, 
+n_in_radius <- number_of_cells_within_radius(SPIAT::defined_image,
+reference_celltype = "Tumour", target_celltype="Immune1", radius = 50,
 feature_colname = "Cell.Type")
 }
