@@ -13,7 +13,7 @@ average_nearest_neighbor_index(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{reference_cell}{String. Cells of this type are used as reference cells.}
 
@@ -29,8 +29,16 @@ A list with the pattern type and a p value
 \description{
 Calculate the the average nearest neighbor (ANN) index of a
   specified type of cells. The index indicates the clustering effect of a
-  point pattern. The pattern can be clustering, random or dispersion. Details
-  of this metric see \doi{https://doi.org/10.2307/1931034}.
+  point pattern. The pattern can be clustering, random or dispersion.
+}
+\details{
+ANN index is a statistical test to test for the presence of clusters
+  of cells, (Clark and Evans, 1954). The ANN index evaluates the spatial
+  aggregation or dispersion effect of objects based on the average distances
+  between pairs of the nearest objects and can be used to test for the
+  clustering of specific cell types (e.g. immune or tumor cells). Next, the z
+  score and p-value of the ANN index is calculated to validate the
+  significance of the pattern.
 }
 \examples{
 average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")

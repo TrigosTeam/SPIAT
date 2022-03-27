@@ -7,19 +7,23 @@
 grid_metrics(sce_object, FUN, n_split, ...)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of format_image_to_sce}
+\item{sce_object}{SingleCellExperiment object in the form of the output of
+\code{\link{format_image_to_sce}}.}
 
-\item{FUN}{Variable name specifying the metric to be calculated}
+\item{FUN}{Variable name specifying the metric to be calculated.}
 
-\item{n_split}{Integer specifying the number of splits for the calculation of metrics}
+\item{n_split}{Integer specifying the number of splits for the calculation of
+metrics. This number is the splits on each side (e.g. `n_split` = 3 means
+the image will be split into 9 tiles.)}
 
-\item{...}{arguments of FUN}
+\item{...}{Arguments of FUN}
 }
 \value{
-a list of the metrics of all grids
+A list of the metrics of all grid tiles
 }
 \description{
-Calculate a specified metric for each grid tile in the image and plot the metrics for the grids
+Calculates a specified metric for each grid tile in the image
+  and plots the metrics for the grid tiles.
 }
 \examples{
 grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,

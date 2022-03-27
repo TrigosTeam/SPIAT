@@ -12,7 +12,7 @@ calculate_proportions_of_cells_in_structure(
 }
 \arguments{
 \item{sce_object}{SingleCellExperiment object in the form of the output of
-format_image_to_sce.}
+\code{\link{format_image_to_sce}}.}
 
 \item{cell_types_of_interest}{String Vector of immune cells to consider.}
 
@@ -25,7 +25,7 @@ A data.frame
 \description{
 Calculate the proportion of cells of interest in each defined
   tumour structure relative to all cells in each structure and relative to the
-  same cell type in the whole image. -- or -> and because it always does both?
+  same cell type in the whole image.
 }
 \examples{
 sce_border <- identify_bordering_cells(SPIAT::defined_image, 
