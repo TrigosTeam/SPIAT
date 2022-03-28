@@ -92,10 +92,12 @@ test_that("calculate_entropy() works", {
 test_that("calculate_minimum_distances_between_cell_types() works", {
     res <- data.frame(row.names = c(2L, 3L),
                       Reference = c("Immune1", "Tumour"),
-                      Nearest = c("Tumour", "Immune1"),
+                      Target = c("Tumour", "Immune1"),
                       Mean = c(85.84773, 187.52474), 
                       Std.Dev = c(40.72454, 75.13630),
                       Median = c(80.80592, 191.09109),
+                      Min = c(13.59204, 13.59204),
+                      Max = c(223.1581, 352.3900),
                       stringsAsFactors = FALSE)
     out <- calculate_minimum_distances_between_cell_types(defined_image,
                                                          feature_colname = "Cell.Type", 
