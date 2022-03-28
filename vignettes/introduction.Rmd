@@ -1,6 +1,6 @@
 ---
 title: "Overview of the SPIAT package"
-author: "Anna Trigos, Yuzhou Feng, Tom Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle"
+author: "Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle"
 date: "`r BiocStyle::doc_date()`"
 package: SPIAT
 output:
@@ -22,18 +22,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools [@yang2020spiat]. SPIAT is directly compatible with Opal multiplex immunohistochemistry images analysed through the HALO and InForm analysis software, but its intuitive implementation allows use with a diversity of platforms.
+SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools. SPIAT is compatible with data generated from single-cell spatial proteomics platforms (e.g. OPAL, CODEX, MIBI). SPIAT reads spatial data in the form of X and Y coordinates of cells, marker intensities and cell phenotypes. 
 
-The Opal multiplex immunohistochemistry staining protocol enables 6-8 tissue markers to be used simultaneously on a single slide. It is suitable for use with formalin fixed paraffin embedded (FFPE) tissue sections, so it is also of relevance for clinical practice. The fluorescence of each marker is measured through imaging, and each cell is assigned an X,Y coordinate of its location. In effect this provides single-cell resolution. The fluorescence intensity of individual markers are then combined to identify the phenotype of the cells in the tissue.
+SPIAT includes six analysis modules that allow visualization, calculation of cell colocalization, categorization of the immune microenvironment relative to tumor areas, analysis of cellular neighborhoods, and the quantification of spatial heterogeneity, providing a comprehensive toolkit for spatial data analysis.
 
-SPIAT includes novel algorithms for the identification of cell clusters, cell margins and cell gradients, the calculation of neighbourhood proportions, and algorithms for the prediction of cell phenotypes in tissue images. SPIAT also includes speedy implementations of the calculation of cell distances and detection of cell communities. An overview of the functions available is shown in the figure below. 
-
+An overview of the functions available is shown in the figure below. 
 
 ```{r echo=FALSE, fig.align="center"}
 knitr::include_graphics("../inst/vignettes/package_diagram_2021.png")
 ```
 
-# Setting up the data
+#Reading in data and basic data formatting in SPIAT
 
 First we load the SPIAT library.
 
@@ -41,22 +40,69 @@ First we load the SPIAT library.
 library(SPIAT)
 ```
 
+`format_image_to_sce` is the main function to read in data to SPIAT.`format_image_to_sce` creates a SingleCellExperiment object which is used in all subsequent functions. The key data points of interest for SPIAT are cell coordinates, marker intesities and cell phenotypes for each cell.
 
-We can use `format_image_to_sce` to read in and format raw data for SPIAT.`format_image_to_sce` creates a SingleCellExperiment object. It requires at least 4 arguments:
+`format_image_to_sce` has specific options to read in data generated from InForm, HALO, Visium 10X Genomics, CODEX and cell profiler. However, we advice pre-formatting the data before input to SPIAT to that accepted by the 'general' option (shown below). This is due to often inconsistencies in the column names or data formats across different versions or as a result of different user options when using the other platforms.
 
-- `format`: "INFORM", "HALO", "Visium", "CODEX" "cellprolifer, or "general"
-- `image`: path to the raw InForm or HALO image data file
+
+## Reading in data through the 'general' option (RECOMMENDED)
+Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, which should be in the same order in which they appear in the intensity_matrix. They should be of the form of marker combinations (e.g. "CD3,CD8"), as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. You also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix. If you have Xmin, Xmax, Ymin and Ymax columns,  we advise calculating the average to obtain a single X and Y coordinate, which you can then use as input to `coord_x` and `coord_y`. 
+
+```{r}
+# Construct a dummy marker intensity matrix
+## rows are markers, columns are cells
+intensity_matrix <- matrix(c(14.557, 0.169, 1.655, 0.054,
+                             17.588, 0.229, 1.188, 2.074, 
+                             21.262, 4.206,  5.924, 0.021), nrow = 4, ncol = 3)
+rownames(intensity_matrix) <- c("DAPI", "CD3", "CD4", "AMACR")
+colnames(intensity_matrix) <- c("Cell_1", "Cell_2", "Cell_3")
+
+# construct a dummy metadata
+## the order of the elements in these vectors correspond to the cells, 
+## should be the same as the cells in `intensity_matrix`
+phenotypes <- c("OTHER",  "AMACR", "CD3,CD4")
+coord_x <- c(82, 171, 184)
+coord_y <- c(30, 22, 38)
+
+general_format_image <- 
+  format_image_to_sce(format = "general", intensity_matrix = intensity_matrix,
+                    phenotypes = phenotypes, coord_x = coord_x, coord_y = coord_y)
+```
+The formatted image now contains phenotype, location and marker intensity information of 3 cells.
+
+Use the following codes to inspect the information.
+```{r}
+# metadata
+data.frame(colData(general_format_image))
+```
+```{r}
+# marker intensities
+general_format_image@assays@data@listData[["counts"]]
+```
+
+## Reading in data pre-formatted by other software
+SPIAT is compatible with data generated from INFORM", "HALO", "Visium", "CODEX" and "cellprofiler", and these can be specified as options in `format_image_to_sce`.
+
+For  "Visium", "CODEX" or "cellprofiler see the help (`?format_image_to_sce`). 
+
+
+###Reading in data from InForm
+To read in data from InForm, you need the table file generated by InForm, the list of markers of interest, and their location in the cell. `format_image_to_sce` uses the Cell X Position and Cell Y Position columns and the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3", or a combination of markers, such as "CD3,CD4". As a convention, SPIAT assumes that cells marked as "OTHER" refer to cells positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3,CD4), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function. The following cell properties columns are also required to be present in the InForm input file: Entire Cell Area (pixels), Nucleus Area (pixels), Nucleus Compactness, Nucleus Axis Ratio, and Entire Cell Axis Ratio. If not present in the users' data, these can be columns with NAs.
+
+To read in InForm data, you need to specify the following parameters:
+
+- `format`: "INFORM"
+- `path`: path to the raw InForm image data file
 - `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for InForm must match the marker name used in the input file. One of the markers must be DAPI.
-- `locations`: locations of the markers, either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. Alternatively, the column names can be specified, see below for more information.
+- `locations`: locations of the markers in cells, either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. 
 
-## Simple import
-
-The simplest way to read in both InForm and HALO files, is to specify the locations of the markers as shown below. This will automatically detect the appropriate intensity (and dye) columns to use. Here we use a tiny InForm file that's part of the SPIAT package for `raw_inform_data` but you would replace `system.file` with `/path/to/your/input/file`. The tiny file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we load a larger preformatted dataset. For information on the InForm and HALO formats see below. For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, cell phenotypes in the same order in which they appear in intensity_matrix. They should be of the form "CD3,CD8", as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. For general format, you also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix. If you have Xmin and Xmax columns (and Ymin, Ymax) you can calculate the average and input that. 
+A small example InForm input is included in SPIAT (see below) containing dummy marker intensity values and all the other required columns. This example file is just for demonstrating importing a raw data file, later in the [Example data](#example-data) section we will load a larger preformatted dataset. Users are also welcome to use this formatting option if it is closer to the format of their files
 
 ```{r message=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
+head(raw_inform_data)
 markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
-locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm")
+locations <- c("Nucleus", "Cytoplasm", "Membrane", "Cytoplasm", "Cytoplasm", "Cytoplasm") #maybe you no longer need this if we are using the general format?
 formatted_image <- format_image_to_sce(
                           format="INFORM",
                           path=raw_inform_data,
@@ -64,15 +110,12 @@ formatted_image <- format_image_to_sce(
                           locations=locations)
 ```
 
-## InForm input
 
-#### Intensity columns
-
-If for some reason you don't want to specify the `locations`, you can specify the intensity columns with `intensity_columns_interest` as shown below. This will give the same result as specifying the locations above. 
+Alternatively, rather than specifying the `locations`, you can also specify the specific intensity columns with `intensity_columns_interest` as shown below. 
 
 ```{r message=FALSE, eval=FALSE}
 raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
-markers <- c("DAPI", "CD3", "PDL-1", "CD4", "CD8", "AMACR")
+markers <- c("DAPI", "CD3", "PD-L1", "CD4", "CD8", "AMACR")
 intensity_columns_interest <- c(
   "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
   "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
@@ -88,28 +131,22 @@ formatted_image <- format_image_to_sce(
                     intensity_columns_interest=intensity_columns_interest)
 ```
 
-#### X and Y location columns
 
-`format_image_to_sce` uses the Cell X Position and Cell Y Position columns in the InForm raw data.
+###Reading in data from HALO
+To read in data from HALO, you need the table file generated by HALO, which lists marker intensities. The biggest difference between InForm and HALO formats is the coding of the cell phenotypes. While InForm encodes phenotypes as the combination of positive markers (e.g. "CD3,CD4"), HALO uses a binary system of 1 if the cell is positive for the marker and 0 otherwise. 
 
-#### Phenotype column
+`format_image_to_sce` collapses HALO encoded phenotypes into an INFORM-like format to create the Phenotype column. For example, if HALO has assigned a cell a marker status of 1 for CD3 and 1 for CD4, SPIAT will give it the Phenotype "CD3,CD4". Cells that have a marker status of 1 for DAPI and no other marker, are given the phenotype "OTHER".
 
-`format_image_to_sce` uses the Phenotype column in the InForm raw data. The phenotype of a cell can be a single marker, for example, "CD3" (T cell), or a combination of markers, such as "CD3,CD4" (helper T cell). "OTHER" means a cell was positive for DAPI but no other marker. The phenotypes must be based on the markers (e.g. CD3,CD4), rather than names of cells (e.g. cytotoxic T cells). The names of the cells can be added later using the `define_celltypes` function.
+`format_image_to_sce` takes the average of the HALO X min and X max columns for each cell to create the Cell.X.Position column. It takes the average of the Y min and Y max to create the Cell.Y.Position column.
 
-#### Cell properties columns
+To read in HALO data, you need to specify the following parameters:
 
-The following cell properties columns are required to be present in the InForm input file: Entire Cell Area (pixels), Nucleus Area (pixels), Nucleus Compactness, Nucleus Axis Ratio, and Entire Cell Axis Ratio. 
+- `format`: "HALO"
+- `path`: path to the raw HALO image data file
+- `markers`: names of markers used in the OPAL staining. These must be in the same order as the marker columns in the input file, and for HALO must match the marker name used in the input file. One of the markers must be DAPI.
+- `locations`: locations of the markers in cells, either Nucleus, Cytoplasm or Membrane. These must be in the order of the markers. The locations are used to auto-detect the intensity (and dye) columns. 
 
-
-## HALO input
-
-#### Intensity columns
-
-For HALO you can also just specify the `locations` to auto-detect the columns as shown above. But if you want to specify the columns instead, you can do so with `intensity_columns_interest`, as shown in the example below. Note that then you also must specify the `dye_columns_interest`.
-
-#### Dye columns
-
-`format_image_to_sce` requires the HALO dye columns to assign the phenotype. If not using `locations` to auto-detect, these can be specified with `dye_columns_interest`. These columns have the marker status (1 or 0 for whether the cell is positive or negative for the marker) and these are used to create the phenotype column. For example, if HALO has assigned a cell a marker status of 1 for CD3 and 1 for CD4, SPIAT will give it the Phenotype "CD3,CD4". Cells that have a marker status of 1 for DAPI and no other marker, are given the phenotype "OTHER".
+Users can specify the `locations` to auto-detect the columns as shown above for INFORM. Alternatively, if users want to specify the columns instead, you can do so with `intensity_columns_interest`, as shown in the example below. Note that then you also must specify the `dye_columns_interest`. The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area. 
 
 ```{r message=FALSE, eval=FALSE}
 raw_halo_data <- "path/to/halo/file"
@@ -135,28 +172,7 @@ formatted_image <- format_image_to_sce(
                           )
 ```
 
-#### X and Y location columns
-
-`format_image_to_sce` takes the average of the HALO X min and X max columns for each cell to create the Cell.X.Position column. It takes the average of the Y min and Y max to create the Cell.Y.Position column.
-
-#### Phenotype column
-
-`format_image_to_sce` creates the Phenotype column from the dye columns as described under the Dye columns section above.
-
-#### Cell properties columns
-
-The following cell properties columns are required to be present in the HALO input file: Cell Area, Nucleus Area, Cytoplasm Area. 
-
-
-## Splitting images
-
-In the case of large images, or images where there are two independent tissue sections, it is recommended to split images into sections defined by the user. This can be performed with `image_splitter` after `format_image_to_sce`. It can also plot the different combinations of markers within the image segments.
-
-```{r}
-split_image <- image_splitter(formatted_image, number_of_splits=3, plot = FALSE)
-```
-
-## Example data {#example-data}
+## Structure of a SPIAT SingleCellExperiment object {#example-data}
 
 In this vignette we will use an InForm data file that's already been formatted for SPIAT with `format_image_to_sce`, which we can load with `data`.
 ```{r}
@@ -169,7 +185,7 @@ This is *SingleCellExperiment* format.
 class(simulated_image)
 ```
 
-This example data has 6 markers and 8419 cells.
+This example data has 5 markers and 4951 cells.
 
 ```{r}
 dim(simulated_image)
@@ -197,18 +213,34 @@ print_feature(simulated_image, feature_colname = "Phenotype")
 
 The phenotypes in this example data can be interpreted as follows: 
 
-* Tumour_marker = cancer cells  
-* Immune_marker1,Immune_marker2 = immune cells 1
-* Immune_marker1,Immune_marker3 = immune cells 2
-* Immune_marker1,Immune_marker2,Immune_marker4 = immune cells 3
-* OTHER = other cell types
+Tumour_marker = cancer cells
+Immune_marker1,Immune_marker2 = immune cell type 1
+Immune_marker1,Immune_marker3 = immune cell type 2
+Immune_marker1,Immune_marker2,Immune_marker4 = immune cell type 3
+OTHER = other cell types
 
-Tumour_marker identifies which cells in the image are prostate cancer cells. The combination of Immune_marker1, Immune_marker2, Immune_marker3, and Immune_marker4 determine which types of T cells (immune cells) are present.
+##Nomenclature
+In SPIAT We define as **markers** as proteins whose levels where queried by OPAL, CODEX or another platform.
+
+Examples of markers are "AMACR" for prostate cancer cells, "panCK" for epithelial tumor cells, "CD3" for T cells or "CD20" for B cells.
+
+The combination of markers results in a specific **cell phenotype**. For example, a cell positive for both "CD3" and "CD4" markers has the "CD3,CD4" **cell phenotype**.
+
+Finally, we define a **cell type** as a name assigned by the user to a cell phenotype. For example, a user can name "CD3,CD4" cells as "helper T cells". We would refer to "helper T cells" therefore as a **cell type**.
 
 
-# Predicting cell phenotypes
+## Splitting images
+In the case of large images, or images where there are two independent tissue sections, it is recommended to split images into sections defined by the user. This can be performed with `image_splitter` after `format_image_to_sce`. 
 
-SPIAT can predict cell phenotypes using the marker intensity levels with `predict_phenotypes`. This can be used to check the phenotypes that have been assigned by InForm and HALO. It can also potentially be used to automate the manual phenotypying performed with InForm/HALO. `predict_phenotypes` produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the phenotypes predicted by SPIAT and the actual phenotypes from InForm/HALO. This can help show if we need to go back to Inform or HALO to refine the phenotyping. If you don't have a `tumour_marker` you can use a marker that is present in many cells, that has at least one peak more than the main marker peak, a background peak, required by the algorithm. Of note, this algorithm does not take into account cell shape or size, so if these are required for phenotyping, manual phenotyping with HALO or InForm is recommended.
+```{r}
+split_image <- image_splitter(simulated_image, number_of_splits=3, plot = FALSE)
+```
+
+
+## Predicting cell phenotypes
+SPIAT can predict cell phenotypes using marker intensity levels with `predict_phenotypes`. This can be used to check the phenotypes that have been assigned by InForm and HALO. It can also potentially be used to automate the manual phenotypying performed with InForm/HALO. The underlying algorithm is based on the density distribution of marker intensities. We have found this algorithm to perform best in OPAL data, as well as for identifying clearly distinct cell types from MIBI and CODEX datasets. This algorithm does not take into account cell shape or size, so if these are required for phenotyping, using HALO or InForm or a machine-learning best method is recommended.
+
+`predict_phenotypes` produces a density plot that shows the cutoff for calling a cell positive for a marker. It also prints to the console the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN). It returns a table containing the phenotypes predicted by SPIAT and the actual phenotypes from InForm/HALO (if available).  
 
 ```{r}
 predicted_image <- predict_phenotypes(sce_object = simulated_image,
@@ -231,7 +263,9 @@ Similar plots are generated for other markers. For example, the following plots 
 ```{r}
 marker_prediction_plot(predicted_image, marker="Tumour_marker")
 ```
-Use the predicted phenotypes to replace the original ones.
+
+The next example shows how to replace the original phenotypes with the predicted ones. Note that for this tutorial, we still use the original phenotypes.
+
 ```{r}
 predicted_image2 <- predict_phenotypes(sce_object = simulated_image,
                                       thresholds = NULL,
@@ -240,23 +274,8 @@ predicted_image2 <- predict_phenotypes(sce_object = simulated_image,
                                       reference_phenotypes = FALSE)
 ```
 
-Define the predicted image and apply tSNE dimensionality reduction plot for the predicted image. 
-```{r}
-predicted_image2 <- define_celltypes(predicted_image2, 
-                                    categories = c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3", 
-                                                   "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), 
-                                    category_colname = "Phenotype",
-                                    names = c("Tumour", "Immune1", "Immune2", 
-                                              "Immune3", "Others"),
-                                    new_colname = "Cell.Type")
-dimensionality_reduction_plot(predicted_image2, plot_type = "TSNE", feature_colname = "Cell.Type")
-```
-
-
-
 ## Specifying cell types
-
-Specifying each Phenotype can be tedious if the Phenotype consists of multiple markers. To make it easier, SPIAT `define_celltypes` can be used to add a column indicating the cell type. By default the column is called Cell.Type. The difference between Phenotype and Cell.Type is that phenotype represents all the markers present on the cell but Cell.Type is the identity of the cell.
+SPIAT can define cell types with the `define_celltypes` function. By default the column is called Cell.Type. Note that this needs to be specified by the user.
 
 ```{r}
 formatted_image <- define_celltypes(simulated_image, 
@@ -268,54 +287,43 @@ formatted_image <- define_celltypes(simulated_image,
                                     new_colname = "Cell.Type")
 ```
 
+
 # Quality control
+Here we present some quality control steps implemented in SPIAT to check for the quality of phenotyping, help detect uneven staining, and other potential technical artefacts.
 
+## Boxplots of marker intensities
 
-## Boxplots of marker intensity
-
-Incorrect or unreliable phenotyping of cells may also be identified through comparing the marker level for cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
-
+Phenotyping of cells can be verified comparing marker intensities of cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
 ```{r}
 marker_intensity_boxplot(formatted_image, "Immune_marker1")
 ```
 
-Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc.
-.
+Note that some negative cells will have high marker intensity, and vice versa. This is because HALO and InForm use machine learning to determine positive cells, and not a strict threshold, and also take into account properties such as cell shape, nucleus size etc. In general, a limited overlap of whiskers or outlier points is tolerated. However, overlapping boxplots suggests unreliable phenotyping.
 
-## Scatter plots of marker level
 
-Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the intensity of a marker in each cell. Cells that were not phenotyped as being positive for the particular marker are excluded.
+## Scatter plots of marker levels
+
+Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the intensity of a marker in each cell. This should be relatively even across the image and all phenotyped cells. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
 ```{r}
 plot_cell_marker_levels(formatted_image, "Immune_marker1")
 ```
 
-## Heatmaps of marker level
+## Heatmaps of marker levels
 
 For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the `num_splits` parameter.
 
 ```{r}
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "Tumour_marker")
 ```
+
 ## Identifying incorrect phenotypes
+We may see biologically implausible present in the input data when using `print_feature`. For example, cells might be incorrectly typed as positive for two markers that known to not co-occur in a single cell type. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
 
-We may see incorrect phenotypes present in the input data. For example, cells might be incorrectly assigned a phenotype such as "Tumour_marker,Immune_marker1", both a tumour cell (Tumour_marker) and an immune cell phenotype (Immune_marker1), which is biologically implausible. Incorrect cell phenotypes may be present due to low cell segmentation quality, antibody ‘bleeding’ from one cell to another or inadequate marker thresholding.
+If the number of incorrectly phenotyped cells is small (<5%), we advise simply removing these cells (see below). If it is a higher proportion, we recommend checking the cell segmentation and phenotyping methods, as a more systematic problem might be present.
 
-We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. A low P value for Depletion.p suggests the phenotype is unreliable. However, it is not absolute and it is recommended to review the results.
-
-```{r}
-# permute marker labels of cells
-sig <- marker_permutation(formatted_image, num_iter = 100)
-
-# sort by Observed_cell_number
-sig.sorted <- sig[order(-sig$Observed_cell_number), ]
-
-# take a look
-head(sig.sorted)
-```
-
-## Removing incorrect phenotypes
+### Removing incorrect phenotypes
 
 If you identify incorrect phenotypes or have any you want to exclude you can do that with `select_phenotypes`. 
 
@@ -329,8 +337,70 @@ print_feature(data_subset, feature_colname = "Phenotype")
 
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
+###Marker permutation
+We can use `marker_permutation` to help identify if incorrect cell phenotypes are present. This permutes the marker labels of cells to create a null distribution, and then calculates the empirical p-value of whether an image is enriched or depleted in a particular combination of markers. A low P value for Depletion.p suggests the phenotype might unreliable. Note, however, that this approach does not replace a priori known biological knowledge and should be interpreted in conjuction with expert biologists.
 
-# Cell percentages
+```{r}
+# permute marker labels of cells
+sig <- marker_permutation(formatted_image, num_iter = 100)
+
+# sort by Observed_cell_number
+sig.sorted <- sig[order(-sig$Observed_cell_number), ]
+
+# take a look
+head(sig.sorted)
+
+```
+
+###Dimensionality reduction to identify missclassified cells
+We can also check for specific missclassified cells using dimensionality reduction. SPIAT offers tSNE and UMAPs based on marker intensities to visualize cells. Cells of distinct types should be forming clearly different clusters. 
+
+The generated dimensionality reduction plots are interactive, and users can hover over each cell and obtain the cell ID. Users can then remove specific missclassified cells. 
+
+```{r}
+predicted_image2 <- define_celltypes(predicted_image2, 
+                                    categories = c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3", 
+                                                   "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), 
+                                    category_colname = "Phenotype",
+                                    names = c("Tumour", "Immune1", "Immune2", 
+                                              "Immune3", "Others"),
+                                    new_colname = "Cell.Type")
+dimensionality_reduction_plot(predicted_image2, plot_type = "TSNE", feature_colname = "Cell.Type")
+```
+
+# Visualizing tissues
+In addition to the marker level tissue plots for QC, SPIAT has other methods for visualizing markers and phenotypes in tissues.
+
+## Categorical dot plot
+We can see the location of all cell types (or any column in the data) in the tissue with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the cell types of interest will be put in the category "OTHER" and coloured lightgrey.
+
+```{r}
+my_colors <- c("red", "blue", "darkcyan", "darkgreen")
+  
+plot_cell_categories(formatted_image, c("Tumour", "Immune1", "Immune2", "Immune3"), 
+                     my_colors, "Cell.Type")
+```
+
+## 3D surface plot
+We can visualize a selected marker in 3D with `marker_surface_plot`. The image is blurred based on the `num_splits` parameter.
+
+```{r}
+marker_surface_plot(formatted_image, num_splits=15, marker="Immune_marker1")
+```
+
+## 3D stacked surface plot
+To  visualize multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
+
+```{r}
+marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("Tumour_marker", "Immune_marker1"))
+```
+
+The stacked surface plots of the Tumour_marker (tumour cell) and Immune_marker1 (T cell) markers in this prostate tissue shows how Tumour_marker and Immune_marker1 are mutually exclusive as the peaks and valleys are opposite.
+
+
+#Basic analyses
+
+##Cell percentages
 
 We can obtain the number and proportion of each cell type with `calculate_cell_proportions`. We can use `reference_celltypes` to specify cell types to use as the reference. For example, "Total" will calculate the proportion of each cell type against all cells. We can exclude any cell types that are not of interest e.g. "Undefined" with `celltypes_to_exclude`.
 
@@ -343,66 +413,30 @@ p_cells <- calculate_cell_proportions(formatted_image,
 p_cells
 ```
 
-To visualize the cell type proportions as barplots we can use `plot_cell_percentages`. (This one doesn't work)
+Alternatively, we can also visualize cell type proportions as barplots using `plot_cell_percentages`. 
 
 ```{r, fig.height=2, fig.width=6}
 plot_cell_percentages(cell_proportions = p_cells, 
                       cells_to_exclude = "Tumour", cellprop_colname="Proportion_name")
+
 ```
 
-# Visualizing tissues
+##Cell distances
 
-In addition to the marker level tissue plots for QC, SPIAT has other methods for  visualizing markers and phenotypes in tissues.
-
-
-## 3D surface plot
-
-We can visualize a selected marker in 3D with `marker_surface_plot`. The image is blurred based on the `num_splits` parameter.
-
-```{r}
-marker_surface_plot(formatted_image, num_splits=15, marker="Immune_marker1")
-```
-
-## 3D stacked surface plot
-
-To  visualize multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
-
-```{r}
-marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("Tumour_marker", "Immune_marker1"))
-```
-
-The stacked surface plots of the Tumour_marker (tumour cell) and Immune_marker1 (T cell) markers in this prostate tissue shows how Tumour_marker and Immune_marker1 are mutually exclusive as the peaks and valleys are opposite.
-
-## Categorical dot plot
-
-We can see the location of all cell types (or any column in the data) in the tissue with `plot_cell_basic`. Each dot in the plot corresponds to a cell and cells are coloured by cell type. Any cell types present in the data but not in the cell types of interest will be put in the category "OTHER" and coloured lightgrey.
-
-```{r}
-my_colors <- c("red", "blue", "darkcyan", "darkgreen")
-  
-plot_cell_categories(formatted_image, c("Tumour", "Immune1", "Immune2", "Immune3"), 
-                     my_colors, "Cell.Type")
-```
-
-# Cell distances
-
-We can calculate the distances between two cell types (cell type A and cell type B) by identifying the closest cell of cell type B to each of the cells of cell type A with `calculate_distances_between_cell_types`.
+We can calculate the pairwise distances between two cell types (cell type A and cell type B) with `calculate_distances_between_cell_types`. This function returns a data.frame that contains all the pairwise distances between each cell of cell type A and cell type B.
 
 ```{r}
 distances <- calculate_distances_between_cell_types(formatted_image, 
-                                                    cell_types_of_interest = c("Tumour", "Immune3"),
+                                                    cell_types_of_interest = c("Tumour", "Immune1", "Immune3"),
                                                     feature_colname = "Cell.Type")
 ```
 
-This creates a distribution of minimum distances between phenotypes A and B, which can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of phenotypes. 
-
+The pairwise distances can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of cell types.
 ```{r}
 plot_cell_distances_violin(distances)
 ```
 
-From this plot we can see that T_helper cells seem to be more closely interacting with each other, as there are shorter distances between those cells, than between T_cyto cells or between T_helper and T_cyto cells.
-
-We can also calculate summary statistics for the distances between each combination of cell types, the mean, median and standard deviation, with `calculate_summary_distances_between_cell_types`.
+We can also calculate summary statistics for the distances between each combination of cell types, the mean, median, min, max and standard deviation, with `calculate_summary_distances_between_cell_types`.
 
 ```{r}
 summary_distances <- calculate_summary_distances_between_cell_types(formatted_image, 
@@ -410,41 +444,31 @@ summary_distances <- calculate_summary_distances_between_cell_types(formatted_im
                                                                     feature_colname = "Cell.Type")
 ```
 
-These cell distances can then be visualized as a heatmap with `plot_distance_heatmap`.
+These pair-wise cell distances can then be visualized as a heatmap with `plot_distance_heatmap`. This example shows the average pairwise distances between cell types.
 
 ```{r}
-plot_distance_heatmap(summary_distances)
+plot_distance_heatmap(summary_distances, metric = "mean")
 ```
 
-This plot shows that Tumour cells are interacting most closely with Immune3 cells.
+This plot shows that Tumour cells are interacting most closely with Tumour cells and Immune3 cells.
 
-# Cell colocalisation
-
-With SPIAT we can quantify how much two cell types are mixing, and thus potentially interacting, through a variety of ways.
-
-## Cells within radius
-
-To determine whether two cell types are interacting with another, or if there is repulsion between them, SPIAT uses the concept of gradients. The assumption is that, if marker A intensity is high close to cells of marker B, and this value decreases as the distance from B increases, it suggests the cells are close and interacting. Conversely, if we see that marker A intensity is low when close to cells of marker B but increases with distance, it suggests there is repulsion between the two cell types. 
-
-`plot_average_intensity` calculates the average intensity of a target marker for a number of user-supplied radii values. It plots the intensity level at each specified radius as a line graph. The radius unit is pixels.
-
+We can also summarise the minimum distances between cell types with `calculate_minimum_distances_between_cell_types`. Note here the function does not return all the minimum distances. Instead it returns the summary statistics.
 ```{r}
-plot_average_intensity(formatted_image, reference_marker="Immune_marker3", target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
+min_summary_dist <- calculate_minimum_distances_between_cell_types(formatted_image, 
+                                                    all_combinations = TRUE,
+                                                    feature_colname = "Cell.Type")
 ```
 
-This plot shows that high levels of Immune_marker3 were observed in cells near Immune_marker2 cells and these levels decreased at larger radii. This suggests Immune_marker2 and Immune_marker3 cells may be closely interacting in this tissue.
-
-We can use `average_marker_intensity_within_radius` to calculate the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius, but do not correspond to metrics for each cell. This function can also be used to help identify radii values for `plot_average_intensity`.
-
+Similarly, the summary statistics of the minimum distances can also be visualised by a heatmap. This example shows the average minimum distance between cell types.
 ```{r}
-average_marker_intensity_within_radius(formatted_image,
-                                        reference_marker ="Immune_marker3",
-                                        target_marker = "Immune_marker2",
-                                        radius=30)
+plot_distance_heatmap(min_summary_dist, metric = "mean")
 ```
 
+# Cell colocalization
+With SPIAT we can quantify cell colozalization, which refers to how much two cell types are colocalizing and thus potentially interacting. 
 
-We can calculate the average percentage of cells of one cell type (target) within a radius of another cell type (reference).
+## Cells In Neighbourhood (CIN)
+We can calculate the average percentage of cells of one cell type (target) within a radius of another cell type (reference) using `average_percentage_of_cells_within_radius`.
 
 ```{r}
 average_percentage_of_cells_within_radius(formatted_image, 
@@ -453,37 +477,29 @@ average_percentage_of_cells_within_radius(formatted_image,
                                           radius=100, feature_colname="Cell.Type")
 ```
 
-## Average minimum distance (AMD)
-Distance-based metrics can also indicate the relationship between two cell types. AMD calculates the average minimum distance between two cell types. 
+Alternatively, this analysis can also be performed based on marker intensities rather than cell types. Here, we use `average_marker_intensity_within_radius` to calculate the average intensity of the target_marker within a radius from the cells positive for the reference marker. Note that it pools all cells with the target marker that are within the specific radius of any reference cell. Results represent the average intensities within a radius. 
+
 ```{r}
-min_d_df <- calculate_minimum_distances_between_cell_types(
-              formatted_image,
-              feature_colname = "Cell.Type",
-              all_combinations = FALSE,
-              cell_types_of_interest = c("Tumour","Immune1")
-            )
-min_d_df$Mean
+average_marker_intensity_within_radius(formatted_image,
+                                        reference_marker ="Immune_marker3",
+                                        target_marker = "Immune_marker2",
+                                        radius=30)
 ```
 
+To help identify suitable radii for `average_percentage_of_cells_within_radius` and `average_marker_intensity_within_radius` users can use `plot_average_intensity`. This function calculates the average intensity of a target marker for a number of user-supplied radii values, and plots the intensity level at each specified radius as a line graph. The radius unit is pixels.
 
-
-## Average pairwise distance (APD)
-APD calculates the average pairwise distance between two cell types. 
 ```{r}
-d_df <- calculate_summary_distances_between_cell_types(
-          formatted_image,
-          feature_colname = "Cell.Type",
-          all_combinations = FALSE,
-          cell_types_of_interest = c("Tumour","Immune1")
-        )
-d_df$Mean
+plot_average_intensity(formatted_image, reference_marker="Immune_marker3", 
+                       target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
+This plot shows that high levels of Immune_marker3 were observed in cells near Immune_marker2 cells and these levels decreased at larger radii. This suggests Immune_marker2 and Immune_marker3 cells may be closely interacting in this tissue.
 
-## (Normalised) mixing score
+****would it be possible to have a similar function but for the percentage of cells?
 
-This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method to allow calculation of any two cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types. The normalised score is normalised for the number of target and reference cells in the image.
+## Mixing Score (MS) and Normalized Mixing Score (NMS)
 
+This score was originally defined as the number of immune-tumor interactions divided by the number of immune-immune interactions [@keren2018structured]. SPIAT generalizes this method for any user-defined  pair of cell types. `mixing_score_summary` returns the mixing score between a reference cell type and a target cell type. This mixing score is defined as the number of target-reference interactions/number of reference-reference interactions within a specified radius. The higher the score the greater the mixing of the two cell types. The normalized score is normalized for the number of target and reference cells in the image.
 
 ```{r}
 mixing_score_summary(formatted_image, reference_celltype = "Immune1", 
@@ -492,18 +508,18 @@ mixing_score_summary(formatted_image, reference_celltype = "Immune1",
 
 ## Cross K function
 
-Cross K function is similar to mixing score, but calculates the score across all possible distances. It also compares the behaviour of the image with an image that has randomly distributed points of the same number. There are 4 patterns that can be distinguished from  K-cross function, as illustrated in the plots below (generated [ here](https://blog.jlevente.com/understanding-the-cross-k-function/)). 
+Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are 4 patterns that can be distinguished from  K-cross function, as illustrated in the plots below.
 
 ```{r, echo=FALSE}
 knitr::include_graphics("../inst/vignettes/cross-k-function.png")
 ```
 
-Here, the black line represents our image, the red line represents a randomly distibuted point pattern. 
+Here, the black line represents the input image, the red line represents a randomly distributed point pattern. 
 
-* 1st plot: The red line and black line are close to each other, it means the two types of points are randomly independently distributed.  
-* 2nd plot: The red line is under the black line, and in the middle the difference is dramatic, it means the points are mixed and split into clusters.  
-* 3rd plot: With the increase of radius, the black line diverges further from the red line, it means that there is one mixed cluster of two types of points.  
-* 4th plot: The red line is above the black line, it means that the two types of points form separated clusters.
+* 1st plot: The red line and black line are close to each other, meaning the two types of points are randomly independently distributed.  
+* 2nd plot: The red line is under the black line, with a large difference in the middle of the plot, meaning the points are mixed and split into clusters.  
+* 3rd plot: With the increase of radius, the black line diverges further from the red line, meaning that there is one mixed cluster of two types of points.  
+* 4th plot: The red line is above the black line, meaning that the two types of points form separated clusters.
 
 We can calculate the cross K-function using SPIAT.
 
@@ -513,20 +529,11 @@ df_cross <- calculate_cross_functions(formatted_image, method = "Kcross",
                                       feature_colname ="Cell.Type",
                                       dist = 100)
 ```
-There is another pattern in cross K curve which is not identified previously, that is when there is a "ring" of one cell type surrounding the area of another cell type. For this pattern, the observed and expected curves in cross K function has a crossing. We observed crossing in many example images where rings exist. However, crossing is not exclusively present in ring images. When separate clusters of two cell types are very close, the crossing can also happen at a low distance. In images with infiltration, crossing may also happen at an extremely low distance due to randomness. To use crossing as a metric indicating the ring pattern, we need to choose a reasonable distance for cross K function (generally a quarter to half of image size, but should also consider the cluster size), and filter out the extremely low crossing distance. 
 
-```{r}
-crossing_of_crossK(df_cross)
-```
+We can calculate the area under the curve (AUC) of the cross K-function. In general, this tells us the two types of cells are:
 
-The result shows that the crossing happens at 50% of the specified distance (100) of the cross K function, which is very close to the edge of the tumour cluster. This means that the crossing is not due to the randomness in cell distribution, nor due to two close located immune and tumour clusters. This result aligns with the observation that there is an immune ring surrounding the tumour cluster.
-
-
-We can calculate the area under the curve (AUC) of the cross K-function. This tells us the two types of cells are:  
-
-* separate clusters - the more negative it is
-* independent/immune ring - the closer it is to zero
-* mixed - the more positive it is
+* negative values: separate clusters
+* positive values: mixing of cell types
 
 ```{r}
 AUC_of_cross_function(df_cross)
@@ -535,23 +542,30 @@ AUC_of_cross_function(df_cross)
 The AUC score is close to zero so this tells us that the two types of cells either do not have a relationship or they form a ring surrounding a cluster.
 
 
-# Localised entropy and spatial heterogeneity
+## Cross-K Intersection (CKI)
+There is another pattern in cross K curve which has not been previously appreciated, which is when there is a "ring" of one cell type surrounding the area of another cell type. For this pattern, the observed and expected curves in cross K function cross or intersect. We observed crossing in many example images where rings exist. However, crossing is not exclusively present in ring images. When separate clusters of two cell types are very close, the crossing can also happen at a low distance. In images with infiltration, crossing may also happen at an extremely low distance due to randomness. To use crossing as a metric indicating the ring pattern, we need to choose a reasonable distance for cross K function (generally a quarter to half of image size, but should also consider the cluster size), and filter out the extremely low crossing distance. 
 
-## Entropy
 
-We can calculate the entropy of the cells.
+```{r}
+crossing_of_crossK(df_cross)
+```
+
+The result shows that the crossing happens at 50% of the specified distance (100) of the cross K function, which is very close to the edge of the tumour cluster. This means that the crossing is not due to the randomness in cell distribution, nor due to two close located immune and tumour clusters. This result aligns with the observation that there is an immune ring surrounding the tumour cluster.
+
+# Spatial heterogeneity
+Cell colocalization metrics allow capturing a dominant spatial pattern in an image. However, patterns are unlikely to be distributed evenly in an tissue, but rather there will be spatial heterogeneity of patterns. To measure this, SPIAT splits the image into smaller images (either using a grid or concentric circles around a reference cell population), followed by calculation of a spatial metric of a pattern of interest  (e.g. cell colocalization, entropy), and then measures the Prevalance and Distinctiveness of the pattern.
+
+## Localized Entropy
+Entropy in spatial analysis refers to the balance in the number of cells of distinct populations. An entropy score can be obtained for an entire image. However, the entropy of one image does not provide us spatial information of the image. 
 
 ```{r}
 calculate_entropy(formatted_image, cell_types_of_interest = c("Immune1","Immune2"), 
                   feature_colname = "Cell.Type")
 ```
 
-However, the entropy of one image does not provide us spatial information of the image. We propose the concept of localised entropy, which is calculating an entropy score for a predefined local region. There are two ways to calculate localised entropy. First is a "fish net" approach where the image is split into grid squares and for each square an entropy score is calculated. The other one is a gradient approach where an increasing circle of each reference cell is drawn and a score is calculated for cells within each circle.
+We therefore propose the concept of Localised Entropy, which calculates an entropy score for a predefined local region. These local regions can be calculated as defined in the next two sections.
 
-Please note that the localised metrics do not only include entropy. Other numeric metrics can also be calculated this way.
-
-## Fish net grid - spatial heterogeneity
-
+## Fish net grid
 One approach to calculate localised metric is to split the image into "fish-net" grid squares. For each grid square, `grid_metrics` calculate the metric for that square and visualise the raster image. Users can choose any metric as the localised metric. Here we use entropy as an example.
 
 ```{r}
@@ -559,24 +573,36 @@ grid <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 20,
                      cell_types_of_interest=c("Tumour","Immune3"), 
                      feature_colname = "Cell.Type")
 ```
-After calculating the localised entropy, we can apply metrics like percentages of grid squares with patterns (prevalence) and moran's I (distinctiveness).
+After calculating the localised entropy, we can apply metrics like percentages of grid squares with patterns (Prevalence) and Moran's I (Distinctiveness).
+
+The selection of threshold depends on the pattern and metric the user chooses to find the localised pattern. We chose 0.75 for entropy because 0.75 is roughly the entropy of two cell types when their ratio is 1:5 or 5:1.
 
 ```{r}
 calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
 ```
 ```{r}
-calculate_spatial_autocorrelation(grid, metric = "globalmoran")
+calculate_spatial_autocorrelaiton(grid, metric = "globalmoran")
 ```
 
-The selection of threshold depends on the pattern and metric the user chooses to find the localised pattern.
-We chose 0.75 for entropy because 0.75 is roughly the entropy of two cell types when their ratio is 1:5 or 5:1.
 
-## Gradients
-
-We can use the `gradient` function to calculate metrics (entropy, mixing score, percentage of cells within radius, marker intensity) for a range of radii. We specify the metric we want to calculate with `FUN=`. Specifically, we integragted the use of entropy as the metric for graident computation into another function - `entropy_gradient_aggregated`.
+##Gradients (based on concentric circles)
+We can use the `gradient` function to calculate metrics (entropy, mixing score, percentage of cells within radius, marker intensity) for a range of radii from reference cells. Here, an increasing circle of each reference cell is drawn and a score is calculated for cells within each circle.
 
 ```{r}
-gradient_pos <- seq(50, 500, 50)
+gradient_positions <- c(30, 50, 100)
+gradient_entropy <- 
+  compute_gradient(defined_image, radii = gradient_positions, 
+                   FUN = calculate_entropy,  cell_types_of_interest = c("Immune1","Immune2"),
+                   feature_colname = "Cell.Type")
+length(gradient_entropy)
+head(gradient_entropy[[1]])
+```
+The result from `gradient` function shows a list of data.frames at the specified radii. In each data.frame, the rows represent the cells that are of the cell type in the first position of `cell_types_of_interest` arg - the reference cells. The reference cells are the cells that the circles were drawn upon. The last column of the data.frame is the entropy calculated for cells in the circle of the reference cell.
+
+We specify the metric we want to calculate with `FUN=`. However, we integrated the use of entropy as the metric for gradient computation into its own function - `entropy_gradient_aggregated`. In this function, instead of resulting in data frames with metrics for each circle (reference cell), the result contains an overall entropy score aggregating all entropy from all reference cells.
+
+```{r}
+gradient_pos <- seq(50, 500, 50) ##radii
 gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, cell_types_of_interest = c("Immune3","Tumour"),
                                                 feature_colname = "Cell.Type", radii = gradient_pos)
 # plot the results
@@ -584,19 +610,20 @@ plot(1:10,gradient_results$gradient_df[1, 3:12])
 ```
 
 
-# Tissue structures
+# Characterizing the immune microenvironment relative to the tumor margin
+In certain analysis the focus is understanding the spatial distribution of immune populations relative to the tumor margin. SPIAT includes methods to determine whether there is a clear tumor margin, to automatically identify the tumor margin, and finally to quantify the proportion of immune populations relative to the margin.
 
-If the image contains tumour, it may be a clear tumour structure or unclear (dispersed). The function `average_nearest_neighbor_index` can inform us whether there is a clear tumour structure (clustered) or unclear (dispersed), along with a P value for the estimate.
+## Determining whether there is a clear tumor margin
+In some instances tumor cells are distributed in such a way that there are no clear tumor margins. While this can be derived intuitively in most cases, SPIAT offers a way of quantifying the 'quality' of the margin for downstream analyses. This is meant to be used to help flag images with relatively poor margins, and therefore we do not offer a cutoff value.
 
+To determine if there is a clear tumour margin, SPIAT can calculate the ratio of tumour bordering cells to tumour total cells (R-BT). This ratio is high when there is a disproportional high number of tumor mangin cells compared to internal tumor cells.
 ```{r}
-average_nearest_neighbor_index(formatted_image, reference_cell="Tumour", 
-                               feature_colname="Cell.Type", p.val = 5e-6)
+R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
 ```
-
-When there is a clear tumour region in the image, we define four tumour structures: "Inside", "Outside", "Infiltration front" and "Invasive front", as shown in the figure below. Why are we interested in defining such structure? For some types of cancer, there can be small clusters of tumour cells, like globes. We may be interested in not only whether immune cells infiltrate into the whole tumour region but also whether the immune cells infiltrate into the small globes. The identification of the tumour structure can be achieved by calculating the distance from each cell to the tumour boundary, after the identification of bordering cells. 
-
+The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`. This low value means there are relatively low number of bordering cells compared to total tumor cells, meaning that this image has clear tumor margins.
 
 Another way to determine if there is a clear tumour clsuter is using the ratio of tumour bordering cells to tumour total cells. The bordering cells are found by the SPIAT function to be introduced later. If this ratio is high, it means there are too many bordering cells, indicating a not clear tumour cells. And vice versa.
+
 ```{r}
 R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
 ```
@@ -606,7 +633,8 @@ The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.T
 knitr::include_graphics("../inst/vignettes/tumour_structure.png")
 ```
 
-We can identify borders with `identify_bordering_cells`. This uses the alpha hull method [@alphahull] via the [hull2spatial](https://github.com/babichmorrowc/hull2spatial) package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.
+## Automatic identification of the tumor margin
+We can identify borders with `identify_bordering_cells`. This uses the alpha hull method [@alphahull] via the alphahull package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.
 
 ```{r}
 formatted_border <- identify_bordering_cells(formatted_image, 
@@ -614,13 +642,16 @@ formatted_border <- identify_bordering_cells(formatted_image,
                                              feature_colname="Cell.Type")
 ```
 
-We then calculate the distance of each cell to the borders.
+## Classification of cells relative to their location to the margin
+We can then define four locations relative to the margin based on distances: "Internal margin", "External margin", "Outside" and "Inside". Specifically, we define the area within a specified distance to the margin as either "Internal margin" (bordering the margin, inside the tumor area) and "External margin" (bordering the margin, surrounding the tumor area). The areas located further away than the specified distance from the margin are defined as "Inside" (i.e. the tumor area) and "Outside" (i.e. the tumor area).
+
+First, we calculate the distance of cells to the tumor margin.
 
 ```{r}
 formatted_distance <- calculate_distance_to_tumour_margin(formatted_border)
 ```
 
-We define the area within a 5-cell distance to the boundary as "infiltration front" (inside) and "invasive front" (outside). The areas located more than a 5 cell-distance away from the boundary are defined as "in" (inside) and "out" (outside).
+Next, we classify cells based on their location. As a distance cutoff, we use a distance of 5 cells from the tumor margin. The function first calculates the average minimum distance between all pairs of nearest cells and then multiple this number by 5. Users can change the number of cell layers to increase/decrease the margin width.
 
 ```{r}
 names_of_immune_cells <- c("Immune1", "Immune2","Immune3")
@@ -639,7 +670,7 @@ We can plot and colour these structure categories.
 plot_cell_categories(formatted_structure, feature_colname = "Structure")
 ```
 
-We can calculate the proportion of immune cells in the tumour structure.
+We can also calculate the proportion of immune cells in each of the locations.
 
 ```{r}
 immune_proportions <- calculate_proportions_of_cells_in_structure(formatted_structure, cell_types_of_interest = names_of_immune_cells, feature_colname ="Cell.Type")
@@ -647,7 +678,7 @@ immune_proportions <- calculate_proportions_of_cells_in_structure(formatted_stru
 immune_proportions
 ```
 
-We can calculate summaries of the distances for immune cells in the tumour structure.
+Finally, we can calculate summaries of the distances for immune cells in the tumour structure.
 
 ```{r}
 immune_distances <- calculate_summary_distances_of_cells_to_borders(formatted_structure, cell_types_of_interest = names_of_immune_cells, "Cell.Type")
@@ -655,8 +686,20 @@ immune_distances <- calculate_summary_distances_of_cells_to_borders(formatted_st
 immune_distances
 ```
 
-# Clusters and communities
-The image `image_no_markers` is simulated from package `spaSim`. This image contains "Tumour", "Immune", "Immune1" and "Immune2" cells without marker intensities. 
+# Cellular neighbourhoods
+The aggregation of cells can result in 'cellular neighbourhoods'. A neighbourhood is defined as a group of cells that cluster together. These can be homotypic, containing cells of a single class (e.g. immune cells), or heterotypic (containing tumor and immune cells). 
+
+SPIAT can identify cellular neighbourhoods with `identify_neighborhoods`. Users can select subset of cell types of interest if desired. SPIAT include three algorithms for the detection of neighbourhoods. 
+
+- *Hierarchical Clustering algorithm*: Euclidean distances between cells are calculated, and pairs of cells with a distance less than a specified raidus are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. Larger radii will result in the merging of individual clusters. 
+- *dbscan*
+- *Rphenograph*.
+
+For *Hierarchical Clustering algorithm* and *dbscan*, users need to define a radius that defines the distance for an interaction. We suggest users to test different radii and select the one that generates intuitive clusters upon visualization. Cells not assigned to clusters are assigned to Cluster_NA in the output table. The argument `min_neighborhood_size` specifies the threshold of a neighborhood size to be considered as a neighborhood. 
+
+*Rphenograph* uses the number of nearest neighbours to detect clusters. This number should be specified by `min_neighborhood_size` argument. We also suggest users to test different values of this number.
+
+For this part of the tutorial, we will use the image `image_no_markers` simulated with the `spaSim` package. This image contains "Tumor", "Immune", "Immune1" and "Immune2" cells without marker intensities. 
 ```{r}
 data("image_no_markers")
 
@@ -664,9 +707,13 @@ plot_cell_categories(image_no_markers, c("Tumour", "Immune","Immune1","Immune2",
                      c("red","blue","darkgreen", "brown","lightgray"),"Cell.Type")
 ```
 
-We can determine if there are aggregates (or a lack of aggregates) of a particular phenotype or combination of cell types. SPIAT can be used to identify two types of cell aggregates, clusters and communities. 
+Users are recommended to test out different radii and then visualize the clustering results. To aid in this process, users can use the `average_minimum_distance` function, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.
 
-Clusters are cell aggregates composed of non-tumour cells, often by immune cells. For the detection of clusters, `identify_cell_clusters` only considers cell types of interest defined by the user. Euclidean distances between cells are calculated, and pairs of cells with a distance less than a threshold are considered to be ‘interacting’, with the rest being ‘non-interacting’. Hierarchical clustering is then used to separate the clusters. We need to specify a radius. The radius corresponds to how lenient we are in defining clusters. A bigger radius would mean we are more likely to merge individual clusters. The radius is chosen based on what looks ‘reasonable’. Cells not assigned to clusters ("free" cells) are assigned to Cluster_NA in the output table. The argument `min_neighborhood_size` specifies the threshold of a neighborhood size to be considered as a neighborhood. Other clustering methods include *dbscan* and *Rphenograph*.
+```{r}
+average_minimum_distance(image_no_markers)
+```
+
+We then identify the cellular neighbourhoods using our heirarchical algorithm with a radius of 50, and with a minimum neighbourhood size of 100. Cells assigned to neighbourhoods smaller than 100 will be assigned to the "Cluster_NA" neighbourhood.
 
 ```{r}
 clusters <- identify_neighborhoods(image_no_markers, 
@@ -678,26 +725,21 @@ clusters <- identify_neighborhoods(image_no_markers,
 
 This plot shows clusters of Immune, Immune1 and Immune2 cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells. 
 
-Users are recommended to test out different radius and then visualize the clustering results. But SPIAT also has `average_minimum_distance`, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.
+We can visualize the cell composition of neighborhoods. To do this, we can use `composition_of_neighborhoods` to obtain the percentages of cells with a specific marker within each neighborhood and the number of cells in the neighborhood.
 
-```{r}
-average_minimum_distance(formatted_image)
-```
-
-We can visualize the cell composition of neighborhoods. This allows us to determine whether there are regions where cells of different types are interacting, or whether there is little mixing between celltypes. To do this, we can use `composition_of_neighborhoods` to obtain the percentages of cells with a specific marker within each neighborhood and the number of cells in the neighborhood.
-
+In this example we select cellular neighbourhoods with at least 5 cells.
 ```{r}
 neighorhoods_vis <- composition_of_neighborhoods(clusters, feature_colname = "Cell.Type")
 neighorhoods_vis <- neighorhoods_vis[neighorhoods_vis$Total_number_of_cells >=5,]
 ```
 
-Then we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster.
+Finally, we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster, which can be used to classify the derived neighbourhoods.
 
 ```{r}
 plot_composition_heatmap(neighorhoods_vis, feature_colname="Cell.Type")
 ```
 
-This plot shows that Cluster_1 and CLuster_2 contain all three types of immune cells. Cluster_3 does not have Immune1. Cluster_1 and Cluster_2 are more similar to the free cells in their composition.
+This plot shows that Cluster_1 and Cluster_2 contain all three types of immune cells. Cluster_3 does not have Immune1 cells. Cluster_1 and Cluster_2 are more similar to the free cells in their composition than Cluster_3.
 
 # Reproducibility
 
@@ -706,6 +748,7 @@ sessionInfo()
 ```
 
 # Author Contributions
-AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD and YF wrote the vignette. AT designed the package.
+AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD and YF wrote the vignette. AT and YF designed the package.
 
 # References
+
