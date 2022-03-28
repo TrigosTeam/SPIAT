@@ -18,8 +18,6 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# MATERIAL UNDER DEVELOPMENT
-
 # Introduction
 
 SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R package with a suite of data processing, quality control, visualization, data handling and data analysis tools. SPIAT is compatible with data generated from single-cell spatial proteomics platforms (e.g. OPAL, CODEX, MIBI). SPIAT reads spatial data in the form of X and Y coordinates of cells, marker intensities and cell phenotypes. 
@@ -32,7 +30,7 @@ An overview of the functions available is shown in the figure below.
 knitr::include_graphics("../inst/vignettes/package_diagram_2021.png")
 ```
 
-#Reading in data and basic data formatting in SPIAT
+# Reading in data and basic data formatting in SPIAT
 
 First we load the SPIAT library.
 
