@@ -46,15 +46,44 @@ library(SPIAT)
 
 
 ## Reading in data through the 'general' option (RECOMMENDED)
-Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, which should be in the same order in which they appear in the intensity_matrix. They should be of the form "CD3,CD8", as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. You also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix. If you have Xmin, Xmax, Ymin and Ymax columns,  we advise calculating the average to obtain a single X and Y coordinate, which you can then use as input to `coord_x` and `coord_y`. 
+Format "general" allows you to input a matrix of intensities (`intensity_matrix`), and a vector of `phenotypes`, which should be in the same order in which they appear in the intensity_matrix. They should be of the form of marker combinations (e.g. "CD3,CD8"), as opposed to cell names (e.g. "cytotoxic T cells"), as it does some matching with the marker names. If no phenotypes are available, then a vector of NA can be used as input. You also need to provide a vector with the X coordinates of the cells and one with the Y (`coord_x` and `coord_y`). The cells must be in the same order as in the intensity_matrix. If you have Xmin, Xmax, Ymin and Ymax columns,  we advise calculating the average to obtain a single X and Y coordinate, which you can then use as input to `coord_x` and `coord_y`. 
 
-******let's show an example with a general format rather than inform. Many people complain that reading in the data is very hard. Let's make it simpler and show good examples using the general formating option.
+```{r}
+# Construct a dummy marker intensity matrix
+## rows are markers, columns are cells
+intensity_matrix <- matrix(c(14.557, 0.169, 1.655, 0.054,
+                             17.588, 0.229, 1.188, 2.074, 
+                             21.262, 4.206,  5.924, 0.021), nrow = 4, ncol = 3)
+rownames(intensity_matrix) <- c("DAPI", "CD3", "CD4", "AMACR")
+colnames(intensity_matrix) <- c("Cell_1", "Cell_2", "Cell_3")
 
+# construct a dummy metadata
+## the order of the elements in these vectors correspond to the cells, 
+## should be the same as the cells in `intensity_matrix`
+phenotypes <- c("OTHER",  "AMACR", "CD3,CD4")
+coord_x <- c(82, 171, 184)
+coord_y <- c(30, 22, 38)
+
+general_format_image <- 
+  format_image_to_sce(format = "general", intensity_matrix = intensity_matrix,
+                    phenotypes = phenotypes, coord_x = coord_x, coord_y = coord_y)
+```
+The formatted image now contains phenotype, location and marker intensity information of 3 cells.
+
+Use the following codes to inspect the information.
+```{r}
+# metadata
+data.frame(colData(general_format_image))
+```
+```{r}
+# marker intensities
+general_format_image@assays@data@listData[["counts"]]
+```
 
 ## Reading in data pre-formatted by other software
-SPIAT is compatible with data generated from INFORM", "HALO", "Visium", "CODEX" and "cellprolifer", and these can be specified as options in `format_image_to_sce`.
+SPIAT is compatible with data generated from INFORM", "HALO", "Visium", "CODEX" and "cellprofiler", and these can be specified as options in `format_image_to_sce`.
 
-For  "Visium", "CODEX" or "cellprolifer see the help (`?format_image_to_sce`). 
+For  "Visium", "CODEX" or "cellprofiler see the help (`?format_image_to_sce`). 
 
 
 ###Reading in data from InForm
@@ -157,7 +186,6 @@ class(simulated_image)
 ```
 
 This example data has 5 markers and 4951 cells.
-****The numbers don't match the output.
 
 ```{r}
 dim(simulated_image)
@@ -327,7 +355,6 @@ head(sig.sorted)
 We can also check for specific missclassified cells using dimensionality reduction. SPIAT offers tSNE and UMAPs based on marker intensities to visualize cells. Cells of distinct types should be forming clearly different clusters. 
 
 The generated dimensionality reduction plots are interactive, and users can hover over each cell and obtain the cell ID. Users can then remove specific missclassified cells. 
-****can you show and example of removing a missclassified cell based on the ID?
 
 ```{r}
 predicted_image2 <- define_celltypes(predicted_image2, 
@@ -396,23 +423,20 @@ plot_cell_percentages(cell_proportions = p_cells,
 
 ##Cell distances
 
-We can calculate the distances between two cell types (cell type A and cell type B) by identifying the closest cell of cell type B to each of the cells of cell type A with `calculate_distances_between_cell_types`.
-
-****I think in the paper we have average minimum distance and then pairwise average distance. Can you please also update this section? Do we have 2 functions now, or is it the same function with different settings?
+We can calculate the pairwise distances between two cell types (cell type A and cell type B) with `calculate_distances_between_cell_types`. This function returns a data.frame that contains all the pairwise distances between each cell of cell type A and cell type B.
 
 ```{r}
 distances <- calculate_distances_between_cell_types(formatted_image, 
-                                                    cell_types_of_interest = c("Tumour", "Immune3"),
+                                                    cell_types_of_interest = c("Tumour", "Immune1", "Immune3"),
                                                     feature_colname = "Cell.Type")
 ```
 
-This creates a distribution of minimum distances between phenotypes A and B, which can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of phenotypes. 
-
+The pairwise distances can be visualized as a violin plot with `plot_cell_distances_violin`. Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of cell types.
 ```{r}
 plot_cell_distances_violin(distances)
 ```
 
-We can also calculate summary statistics for the distances between each combination of cell types, the mean, median and standard deviation, with `calculate_summary_distances_between_cell_types`.
+We can also calculate summary statistics for the distances between each combination of cell types, the mean, median, min, max and standard deviation, with `calculate_summary_distances_between_cell_types`.
 
 ```{r}
 summary_distances <- calculate_summary_distances_between_cell_types(formatted_image, 
@@ -420,17 +444,31 @@ summary_distances <- calculate_summary_distances_between_cell_types(formatted_im
                                                                     feature_colname = "Cell.Type")
 ```
 
-These cell distances can then be visualized as a heatmap with `plot_distance_heatmap`.
+These pair-wise cell distances can then be visualized as a heatmap with `plot_distance_heatmap`. This example shows the average pairwise distances between cell types.
 
 ```{r}
-plot_distance_heatmap(summary_distances)
+plot_distance_heatmap(summary_distances, metric = "mean")
 ```
 
-This plot shows that Tumour cells are interacting most closely with Immune3 cells.
+This plot shows that Tumour cells are interacting most closely with Tumour cells and Immune3 cells.
+
+We can also summarise the minimum distances between cell types with `calculate_minimum_distances_between_cell_types`. Note here the function does not return all the minimum distances. Instead it returns the summary statistics.
+```{r}
+min_summary_dist <- calculate_minimum_distances_between_cell_types(formatted_image, 
+                                                    all_combinations = TRUE,
+                                                    feature_colname = "Cell.Type")
+```
+
+Similarly, the summary statistics of the minimum distances can also be visualised by a heatmap. This example shows the average minimum distance between cell types.
+```{r}
+plot_distance_heatmap(min_summary_dist, metric = "mean")
+```
+
+
 
 
 # Cell colocalization
-With SPIAT we can quantify cell colozalization, which refers to how much two cell types are mixing and thus potentially interacting. 
+With SPIAT we can quantify cell colozalization, which refers to how much two cell types are colocalizing and thus potentially interacting. 
 
 ## Cells In Neighbourhood (CIN)
 We can calculate the average percentage of cells of one cell type (target) within a radius of another cell type (reference) using `average_percentage_of_cells_within_radius`.
@@ -454,7 +492,8 @@ average_marker_intensity_within_radius(formatted_image,
 To help identify suitable radii for `average_percentage_of_cells_within_radius` and `average_marker_intensity_within_radius` users can use `plot_average_intensity`. This function calculates the average intensity of a target marker for a number of user-supplied radii values, and plots the intensity level at each specified radius as a line graph. The radius unit is pixels.
 
 ```{r}
-plot_average_intensity(formatted_image, reference_marker="Immune_marker3", target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
+plot_average_intensity(formatted_image, reference_marker="Immune_marker3", 
+                       target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
 ```
 
 This plot shows that high levels of Immune_marker3 were observed in cells near Immune_marker2 cells and these levels decreased at larger radii. This suggests Immune_marker2 and Immune_marker3 cells may be closely interacting in this tissue.
@@ -473,9 +512,8 @@ mixing_score_summary(formatted_image, reference_celltype = "Immune1",
 
 ## Cross K function
 
-Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are 4 patterns that can be distinguished from  K-cross function, as illustrated in the plots below (taken from [ here](https://blog.jlevente.com/understanding-the-cross-k-function/)). 
+Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are 4 patterns that can be distinguished from  K-cross function, as illustrated in the plots below.
 
-*** this link does not work. I don't know if it is problem with markdown or the site. You can just reference the site
 
 ```{r, echo=FALSE}
 knitr::include_graphics("../inst/vignettes/cross-k-function.png")
@@ -553,9 +591,19 @@ calculate_spatial_autocorrelaiton(grid, metric = "globalmoran")
 ##Gradients (based on concentric circles)
 We can use the `gradient` function to calculate metrics (entropy, mixing score, percentage of cells within radius, marker intensity) for a range of radii from reference cells. Here, an increasing circle of each reference cell is drawn and a score is calculated for cells within each circle.
 
-We specify the metric we want to calculate with `FUN=`. However, we integrated the use of entropy as the metric for gradient computation into its own function - `entropy_gradient_aggregated`.
+```{r}
+gradient_positions <- c(30, 50, 100)
+gradient_entropy <- 
+  compute_gradient(defined_image, radii = gradient_positions, 
+                   FUN = calculate_entropy,  cell_types_of_interest = c("Immune1","Immune2"),
+                   feature_colname = "Cell.Type")
+length(gradient_entropy)
+head(gradient_entropy[[1]])
+```
+The result from `gradient` function shows a list of data.frames at the specified radii. In each data.frame, the rows represent the cells that are of the cell type in the first position of `cell_types_of_interest` arg - the reference cells. The reference cells are the cells that the circles were drawn upon. The last column of the data.frame is the entropy calculated for cells in the circle of the reference cell.
 
-***I think we would need to include an example of the grandient function alone
+We specify the metric we want to calculate with `FUN=`. However, we integrated the use of entropy as the metric for gradient computation into its own function - `entropy_gradient_aggregated`. In this function, instead of resulting in data frames with metrics for each circle (reference cell), the result contains an overall entropy score aggregating all entropy from all reference cells.
+
 ```{r}
 gradient_pos <- seq(50, 500, 50) ##radii
 gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, cell_types_of_interest = c("Immune3","Tumour"),
@@ -582,7 +630,7 @@ knitr::include_graphics("../inst/vignettes/tumour_structure.png")
 ```
 
 ## Automatic identification of the tumor margin
-We can identify borders with `identify_bordering_cells`. This uses the alpha hull method [@alphahull] via the [hull2spatial](https://github.com/babichmorrowc/hull2spatial) package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.
+We can identify borders with `identify_bordering_cells`. This uses the alpha hull method [@alphahull] via the alphahull package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.
 
 ```{r}
 formatted_border <- identify_bordering_cells(formatted_image, 
@@ -599,8 +647,7 @@ First, we calculate the distance of cells to the tumor margin.
 formatted_distance <- calculate_distance_to_tumour_margin(formatted_border)
 ```
 
-Next, we classify cells based on their location. As a distance cutoff, we use a distance of 5 cells from the tumor margin. 
-****From memory, do we calculate the average minimum distance between cells, and then multiply it by 5? We should include a sentence explaining how this is done.
+Next, we classify cells based on their location. As a distance cutoff, we use a distance of 5 cells from the tumor margin. The function first calculates the average minimum distance between all pairs of nearest cells and then multiple this number by 5. Users can change the number of cell layers to increase/decrease the margin width.
 
 ```{r}
 names_of_immune_cells <- c("Immune1", "Immune2","Immune3")
@@ -645,10 +692,9 @@ SPIAT can identify cellular neighbourhoods with `identify_neighborhoods`. Users 
 - *dbscan*
 - *Rphenograph*.
 
-For these algorithms users need to define a radius that defined the distance for an interation. We suggest users to test different radii and select the one that generates intuitive clusters upon visualization. 
-***I think this was different for one of them, can you please add?
+For *Hierarchical Clustering algorithm* and *dbscan* users need to define a radius that defines the distance for an interaction. We suggest users to test different radii and select the one that generates intuitive clusters upon visualization. Cells not assigned to clusters are assigned to Cluster_NA in the output table. The argument `min_neighborhood_size` specifies the threshold of a neighborhood size to be considered as a neighborhood. 
 
-Cells not assigned to clusters are assigned to Cluster_NA in the output table. The argument `min_neighborhood_size` specifies the threshold of a neighborhood size to be considered as a neighborhood. 
+*Rphenograph* uses the number of nearest neighbours to detect clusters. This number should be specified by `min_neighborhood_size` argument. We also suggest users to test different values of this number.
 
 For this part of the tutorial, we will use the image `image_no_markers` simulated with the `spaSim` package. This image contains "Tumor", "Immune", "Immune1" and "Immune2" cells without marker intensities. 
 ```{r}
