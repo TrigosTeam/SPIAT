@@ -581,7 +581,7 @@ The selection of threshold depends on the pattern and metric the user chooses to
 calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
 ```
 ```{r}
-calculate_spatial_autocorrelaiton(grid, metric = "globalmoran")
+calculate_spatial_autocorrelation(grid, metric = "globalmoran")
 ```
 
 
@@ -621,13 +621,6 @@ To determine if there is a clear tumour margin, SPIAT can calculate the ratio of
 R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
 ```
 The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`. This low value means there are relatively low number of bordering cells compared to total tumor cells, meaning that this image has clear tumor margins.
-
-Another way to determine if there is a clear tumour clsuter is using the ratio of tumour bordering cells to tumour total cells. The bordering cells are found by the SPIAT function to be introduced later. If this ratio is high, it means there are too many bordering cells, indicating a not clear tumour cells. And vice versa.
-
-```{r}
-R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
-```
-The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`. It is a low value which means there are relatively low number of bordering cells compared to total tumour cells. This means the image has clear tumour clusters.
 
 ```{r, echo=FALSE}
 knitr::include_graphics("../inst/vignettes/tumour_structure.png")
