@@ -1,6 +1,6 @@
-#' calculate_distances_between_cell_types
+#' calculate_pairwise_distances_between_celltypes
 #'
-#' @description Returns the distances between cells of different types. If none
+#' @description Returns the pairwise distances between cells of different types. If none
 #'   of the cell types are found, it will print an error message and return a
 #'   vector of NAs.
 #' @param sce_object SingleCellExperiment object in the form of the output of
@@ -12,11 +12,11 @@
 #' @import dplyr
 #' @return A data.frame is returned.
 #' @examples
-#' calculate_distances_between_cell_types(SPIAT::defined_image, 
+#' calculate_pairwise_distances_between_celltypes(SPIAT::defined_image, 
 #' cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
 #' @export
 
-calculate_distances_between_cell_types <- function(sce_object, 
+calculate_pairwise_distances_between_celltypes <- function(sce_object, 
                                                    cell_types_of_interest = NULL, 
                                                    feature_colname){
 
@@ -72,5 +72,6 @@ calculate_distances_between_cell_types <- function(sce_object,
     cell_to_cell_dist_all <- cell_to_cell_dist_all[stats::complete.cases(cell_to_cell_dist_all),]
     colnames(cell_to_cell_dist_all)[1:2] <- c("Cell1", "Cell2")
   }
+  
   return(cell_to_cell_dist_all)
 }

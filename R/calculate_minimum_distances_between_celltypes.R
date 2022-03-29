@@ -1,4 +1,4 @@
-#' calculate_minimum_distances
+#' calculate_minimum_distances_between_celltypes
 #'
 #' @description Returns the distance of the closest cell of a specific type from
 #'   each reference cell.
@@ -11,13 +11,13 @@
 #' @import dplyr
 #' @return A data.frame is returned
 #' @examples
-#' min_dists <- calculate_minimum_distances(SPIAT::defined_image, 
+#' min_dists <- calculate_minimum_distances_between_celltypes(SPIAT::defined_image, 
 #' feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
 #' @export
 
-calculate_minimum_distances <- function(sce_object, feature_colname,
+calculate_minimum_distances_between_celltypes <- function(sce_object, feature_colname,
                                         cell_types_of_interest = NULL) {
-  
+  Pair <- Distance <- NULL
   formatted_data <- get_colData(sce_object)
   
   formatted_data <- formatted_data[,c("Cell.ID","Cell.X.Position", "Cell.Y.Position", feature_colname)]
@@ -57,7 +57,7 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
                                     RefType = name1,
                                     NearestCell = NA,
                                     NearestType = name2,
-                                    Dist = NA)
+                                    Distance = NA)
     } else {
       #vector to store all mins
       local_dist_min <- vector()
@@ -76,13 +76,14 @@ calculate_minimum_distances <- function(sce_object, feature_colname,
                                     RefType = name1,
                                     NearestCell = all_celltype2_cord2$Cell.ID[as.vector(all_closest$nn.idx)],
                                     NearestType = name2,
-                                    Dist = local_dist_mins)
+                                    Distance = local_dist_mins)
     }
     result <- rbind(result, local_dist_mins)
   }
   
   # remove NAs e.g. for distance of cell against itself
   result <- result[stats::complete.cases(result),]
+  result$Pair <- paste(result$RefType, result$NearestType,sep = "_")
   
   return(result)
 }
