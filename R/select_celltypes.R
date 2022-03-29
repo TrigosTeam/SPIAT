@@ -7,12 +7,14 @@
 #'   \code{\link{format_image_to_sce}}.
 #' @param celltypes String Vector of celltypes of keep or exclude.
 #' @param feature_colname String. The column that has the interested cell types.
+#'   If the cells of interest are specified in the rownames, use "rowname" for
+#'   this arg.
 #' @param keep Boolean. TRUE if vector of `celltypes` are the cells that are
 #'   going to be kept, FALSE if they are to be removed.
 #' @return A SingleCellExperiment object is returned. The original image size
 #'   and cell count can be accessed by `attr(slim_sce, "original_cell_number")`
 #'   and `attr(slim_sce, "range_of_coords")`.
-#'   
+#'
 #' @examples
 #' data_subset <- select_celltypes(SPIAT::simulated_image,
 #' celltypes = c("Tumour_marker","Immune_marker1","Immune_marker2","Immune_marker3","Immune_marker4"),
@@ -24,6 +26,13 @@
 select_celltypes <- function(sce_object, celltypes, 
                              feature_colname = "Phenotype", keep = TRUE){
   data <- data.frame(SummarizedExperiment::colData(sce_object))
+  
+  # if rownames have the cell types of interest, make rownames as a column
+  if (feature_colname == "rowname"){
+    data <- tibble::rownames_to_column(data)
+    colData(sce_object)$rowname <- data$rowname
+  }
+  
   # remember the total number of cells
   n_cells <- dim(data)[1]
   # remember the range of the cell coordinates
@@ -32,9 +41,12 @@ select_celltypes <- function(sce_object, celltypes,
   ymax <- max(data$Cell.Y.Position)
   ymin <- min(data$Cell.Y.Position)
   
-  # delete the cell rows (not sure if this affects anything)
+  # delete the cell rows
   if (keep) slim_sce <- sce_object[, (sce_object[[feature_colname]] %in% celltypes)]
   else slim_sce <- sce_object[, !(sce_object[[feature_colname]] %in% celltypes)]
+  
+  # delete the rownames from the sce_object 
+  colData(sce_object)$rownames <- NULL
   
   # save the original image info in the slim attr
   attr(slim_sce, "original_cell_number") <- n_cells
