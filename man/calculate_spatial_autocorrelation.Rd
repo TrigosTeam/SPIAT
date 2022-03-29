@@ -13,6 +13,9 @@ calculate_spatial_autocorrelation(raster_obj, metric = "globalmoran")
 \item{metric}{String. The method for calculating spatial autocorrelation.
 Choose from "globalmoran" and "GearyC".}
 }
+\value{
+A number is returned
+}
 \description{
 Takes the result of \code{\link{grid_metrics}} (a RasterLayer
   object) and calculate its spatial autocorrelation.

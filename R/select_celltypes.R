@@ -30,7 +30,7 @@ select_celltypes <- function(sce_object, celltypes,
   # if rownames have the cell types of interest, make rownames as a column
   if (feature_colname == "rowname"){
     data <- tibble::rownames_to_column(data)
-    colData(sce_object)$rowname <- data$rowname
+    SummarizedExperiment::colData(sce_object)$rowname <- data$rowname
   }
   
   # remember the total number of cells
@@ -46,7 +46,7 @@ select_celltypes <- function(sce_object, celltypes,
   else slim_sce <- sce_object[, !(sce_object[[feature_colname]] %in% celltypes)]
   
   # delete the rownames from the sce_object 
-  colData(sce_object)$rownames <- NULL
+  SummarizedExperiment::colData(sce_object)$rownames <- NULL
   
   # save the original image info in the slim attr
   attr(slim_sce, "original_cell_number") <- n_cells

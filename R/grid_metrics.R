@@ -18,13 +18,13 @@
 grid_metrics <- function(sce_object, FUN, n_split, ...){
   split <- image_splitter(sce_object,n_split)
   list.metric <- list()
-  for (i in 1:length(split)){
+  for (i in seq_len(length(split))){
     if(nrow(split[[i]]) > 0){
       sce <- try(quiet_basic(format_colData_to_sce(split[[i]])))
     }else{
       sce <- NULL
     }
-    if (class(sce) == "SingleCellExperiment" || class(sce) == "SummarizedExperiment"){
+    if (methods::is(sce,"SingleCellExperiment")){
       metric <-  quiet_basic(FUN(sce, ...))
       if (length(metric)==0){
         metric <- 0.0

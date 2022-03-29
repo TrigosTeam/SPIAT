@@ -25,6 +25,7 @@
 #' @param print_names (Optional) Boolean if the user wants the original and new
 #'   names printed. Default is FALSE.
 #' @export
+#' @return An new SCE object is returned
 #' @examples
 #' # the selected column is:
 #' category_colname = "Phenotype"
@@ -41,7 +42,7 @@
 
 define_celltypes <- function(sce_object,categories = NULL, 
                              category_colname = "Phenotype", names = NULL, 
-                             new_colname = "Cell.Type", print_names = F){
+                             new_colname = "Cell.Type", print_names = FALSE){
   
   # CHECK
   if (length(categories) != length(names)){
@@ -73,7 +74,7 @@ define_celltypes <- function(sce_object,categories = NULL,
   sce_object[[new_colname]] <- ""
   names<- c(names,rep("Undefined",length(all_categories[!(all_categories %in% categories)])))
   categories <- c(categories,all_categories[!(all_categories %in% categories)])
-  for (i in 1:length(categories)){
+  for (i in seq_len(length(categories))){
     sce_object[,sce_object[[category_colname]] == categories[i]][[new_colname]] <- names[i]
   }
   
