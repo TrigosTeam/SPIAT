@@ -62,7 +62,8 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
       markers <- markers_to_phenotype
       if (sum(markers %in% rownames(intensity_matrix)) != length(markers)) {
         missing <- markers[!(markers %in% rownames(intensity_matrix))]
-        stop(paste("There are no intensity values for", missing, "in your input dataset. Please check markers\n"))
+        stop(sprintf("There are no intensity values for %s in your input dataset. Please check markers\n", 
+                     missing))
       }
       intensity_matrix <- intensity_matrix[markers,]
     }
@@ -295,10 +296,10 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
           
           if (!is.null(selected_valley_xcord[[marker]])) {
             p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
-            print(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+            sprintf("%s threshold intensity: %s", marker, as.character(selected_valley_xcord[[marker]]))
           } else {
             p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-            print(paste(marker, " threshold intensity: ", marker_threshold))
+            sprintf("%s threshold intensity: %.2f", marker, marker_threshold)
           }
           
           p <- p + theme_bw()
