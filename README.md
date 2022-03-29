@@ -12,7 +12,7 @@ R package for the analysis of OPAL multiplex immunohistochemistry images.
 
 ```r
 # install.packages('devtools')
-devtools::install_github("cancer-evolution/SPIAT")
+devtools::install_github("TrigosTeam/SPIAT")
 ```
 
 ## Vignette 
