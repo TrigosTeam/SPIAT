@@ -46,14 +46,14 @@ test_that("calculate_cell_proportions() works", {
     expect_equal(p_cells, res)
 })
 
-test_that("calculate_distances_between_cell_types() works", {
+test_that("calculate_pairwise_distances_between_celltypes() works", {
     res <- data.frame(row.names = c(2L, 3L, 4L),
                       Cell1 = c("Cell_25", "Cell_30", "Cell_48"), 
                       Cell2 = c("Cell_15", "Cell_15", "Cell_15"),
                       Distance = c(119.3982738563,  61.7785923437, 279.8494352805), 
                       Pair = rep("Immune1_Immune1", 3))
     
-    dists <- calculate_distances_between_cell_types(defined_image, 
+    dists <- calculate_pairwise_distances_between_celltypes(defined_image, 
                                                     cell_types_of_interest = c("Tumour","Immune1"), 
                                                     feature_colname = "Cell.Type")
     out <- dists[1:3, ]
@@ -62,7 +62,7 @@ test_that("calculate_distances_between_cell_types() works", {
     expect_equal(out, res, tolerance = 1e-6)
 })
 
-test_that("calculate_summary_distances_between_cell_types() works", {
+test_that("calculate_summary_distances_between_celltypes() works", {
     
     res <- data.frame(row.names = c(1L, 2L),
                       Pair = c("Immune1_Immune1", "Immune1_Tumour"),
@@ -75,9 +75,10 @@ test_that("calculate_summary_distances_between_cell_types() works", {
                       Target = c("Immune1", "Tumour"),
                       stringsAsFactors = FALSE)
     
-    summary_distances <- calculate_summary_distances_between_cell_types(SPIAT::defined_image,
-                            feature_colname = "Cell.Type", all_combinations = FALSE,
-                            cell_types_of_interest = c("Tumour","Immune1"))
+    dists <- calculate_pairwise_distances_between_celltypes(defined_image, 
+                                                            cell_types_of_interest = c("Tumour","Immune1"), 
+                                                            feature_colname = "Cell.Type")
+    summary_distances <- calculate_summary_distances_between_celltypes(dists)
     out <- summary_distances[c(1,2),]
     
     expect_equal(out, res, tolerance=1e-4)
@@ -90,31 +91,19 @@ test_that("calculate_entropy() works", {
 })
 
 test_that("calculate_minimum_distances_between_cell_types() works", {
-    res <- data.frame(row.names = c(2L, 3L),
-                      Reference = c("Immune1", "Tumour"),
-                      Target = c("Tumour", "Immune1"),
-                      Mean = c(85.84773, 187.52474), 
-                      Std.Dev = c(40.72454, 75.13630),
-                      Median = c(80.80592, 191.09109),
-                      Min = c(13.59204, 13.59204),
-                      Max = c(223.1581, 352.3900),
-                      stringsAsFactors = FALSE)
-    out <- calculate_minimum_distances_between_cell_types(defined_image,
-                                                         feature_colname = "Cell.Type", 
-                                                         cell_types_of_interest = c("Tumour","Immune1"))
-    expect_equal(res, out, tolerance=1e-4)
-})
 
-test_that("calculate_minimum_distances() works", {
     res <- data.frame(row.names = c(2L, 3L, 4L),
                       RefCell = c("Cell_15", "Cell_25", "Cell_30"),
                       RefType = c("Immune1", "Immune1", "Immune1"),
                       NearestCell = c("Cell_32", "Cell_27", "Cell_32"),
                       NearestType = c("Tumour", "Tumour", "Tumour"),
-                      Dist = c(17.18740, 44.79503, 78.52918))
-    min_dists <- calculate_minimum_distances(defined_image, 
-                                             cell_types_of_interest = c("Tumour","Immune1"),
-                                             feature_colname = "Cell.Type")
+                      Distance = c(17.18740, 44.79503, 78.52918),
+                      Pair = c("Immune1_Tumour", "Immune1_Tumour",
+                               "Immune1_Tumour"))
+        
+    min_dists <- calculate_minimum_distances_between_celltypes(defined_image,
+                                                         feature_colname = "Cell.Type", 
+                                                         cell_types_of_interest = c("Tumour","Immune1"))
     out <- min_dists[1:3,]
     expect_equal(res, out, tolerance=1e-4)
 })

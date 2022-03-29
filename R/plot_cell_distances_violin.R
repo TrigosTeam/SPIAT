@@ -2,8 +2,10 @@
 #'
 #' @description Plots distances between cells as a violin plot
 #'
-#' @param cell_to_cell_dist Data.frame. Output from
-#'   \code{\link{calculate_all_distances_between_phenotypes}}.
+#' @param cell_to_cell_dist Data.frame containing the distance output between cell types. The
+#'  functions that generate the distances can be
+#'  \code{\link{calculate_minimum_distances_between_celltypes}} and
+#'  \code{\link{calculate_pairwise_distances_between_celltypes}}.
 #' @import ggplot2
 #' @examples
 #' distances <- calculate_distances_between_cell_types(SPIAT::defined_image,

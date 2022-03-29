@@ -7,8 +7,10 @@
 plot_cell_distances_violin(cell_to_cell_dist)
 }
 \arguments{
-\item{cell_to_cell_dist}{Data.frame. Output from
-\code{\link{calculate_all_distances_between_phenotypes}}.}
+\item{cell_to_cell_dist}{Data.frame containing the distance output between cell types. The
+functions that generate the distances can be
+\code{\link{calculate_minimum_distances_between_celltypes}} and
+\code{\link{calculate_pairwise_distances_between_celltypes}}.}
 }
 \value{
 A plot is returned

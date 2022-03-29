@@ -20,9 +20,10 @@ test_that("plot_cell_categories() creates a plot", {
 
 test_that("plot_cell_distances_violin() creates a plot", {
     
-    distances <- calculate_distances_between_cell_types(defined_image,
-                                                    cell_types_of_interest = c("Immune1", "Immune2"), feature_colname="Cell.Type")
-    p <- plot_cell_distances_violin(distances)
+    pairwise_dist <- calculate_pairwise_distances_between_celltypes(
+        defined_image, 
+        cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
+    p <- plot_cell_distances_violin(pairwise_dist)
     
     expect_is(p, "ggplot")
 })
@@ -52,9 +53,10 @@ test_that("plot_marker_level_heatmap() creates a plot", {
 })
 
 test_that("plot_distance_heatmap() creates a plot", {
+    pairwise_dist <- calculate_pairwise_distances_between_celltypes(defined_image, 
+        cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
     
-    summary_distances <- calculate_summary_distances_between_cell_types(defined_image,
-                                                                        feature_colname = "Cell.Type", all_combinations = FALSE, cell_types_of_interest = c("Tumour","Immune1"))
+    summary_distances <- calculate_summary_distances_between_celltypes(pairwise_dist)
     p <- plot_distance_heatmap(summary_distances)
     
     expect_is(p, "ggplot")
