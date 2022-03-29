@@ -21,6 +21,7 @@
 #'@export
 
 calculate_summary_distances_between_celltypes <- function(df) {
+  Pair <- Distance <- NULL
   # summarise the results
   summarised_dists <- df %>% 
     group_by(Pair) %>%

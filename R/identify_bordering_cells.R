@@ -27,7 +27,7 @@
 #' feature_colname = "Cell.Type", n_to_exclude = 10)
 
 identify_bordering_cells <- function(sce_object, reference_cell, feature_colname = "Cell.Type",
-                                     ahull_alpha = NULL, n_of_polygons = 1, draw = F,  
+                                     ahull_alpha = NULL, n_of_polygons = 1, draw = FALSE,  
                                      n_to_exclude = 10){
   # CHECK
   if (is.null(SummarizedExperiment::colData(sce_object)[,feature_colname])){
@@ -58,7 +58,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   }
   else{
     l <- list()
-    for (i in 1:n_of_polygons){
+    for (i in seq_len(n_of_polygons)){
       draw.polys <- xROI::drawPolygon()
       poly <- sp::Polygon(draw.polys, hole = FALSE)
       l[[i]] <- poly
@@ -72,7 +72,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   data <- data.frame(SummarizedExperiment::colData(sce_object))
   data[,"Region"] <- "Outside"
   
-  for (i in 1:n_of_polygons){
+  for (i in seq_len(n_of_polygons)){
     # get the coords
     buffered_polygon = methods::slot(sp_obj@polygons[[1]]@Polygons[[i]],"coords")
     
@@ -114,7 +114,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
     
     # identify the cells that compose the ahull
     border_ids <- c()
-    for (i in c(1:length(ahull_polygon))){
+    for (i in c(seq_len(length(ahull_polygon)))){
       p <- data.frame(ahull_polygon[[i]])
       colnames(p) <- c("Cell.X.Position","Cell.Y.Position")
       
@@ -126,7 +126,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
     
     # identify the cells that are in the ahull
     points_in_polygon <- data.frame()
-    for (i in c(1:length(ahull_polygon))){
+    for (i in c(seq_len(length(ahull_polygon)))){
       p <- ahull_polygon[[i]]
       in_p <- sp::point.in.polygon(allcells_in_polygon$Cell.X.Position, allcells_in_polygon$Cell.Y.Position, p[,1], p[,2])
       points_in_polygon <- unique(rbind(points_in_polygon,
