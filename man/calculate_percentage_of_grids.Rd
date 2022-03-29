@@ -15,6 +15,9 @@ calculate_percentage_of_grids(raster_obj, threshold, above)
 \item{above}{Boolean. Indicating whether the pattern is above (TRUE) or below
 (FALSE) the threshold.}
 }
+\value{
+A number is returned
+}
 \description{
 Takes the result of \code{\link{grid_metrics}} (a RasterLayer
   object) and calculates the percentage of the grid squares whose values are

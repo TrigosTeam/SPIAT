@@ -10,7 +10,7 @@ define_celltypes(
   category_colname = "Phenotype",
   names = NULL,
   new_colname = "Cell.Type",
-  print_names = F
+  print_names = FALSE
 )
 }
 \arguments{
@@ -32,6 +32,9 @@ added, by default "Cell.Type".}
 
 \item{print_names}{(Optional) Boolean if the user wants the original and new
 names printed. Default is FALSE.}
+}
+\value{
+An new SCE object is returned
 }
 \description{
 Define new cell types based on the existing cell types

@@ -72,7 +72,6 @@ Imports:
     xROI,
     Seurat,
     Rphenograph,
-    divo,
     elsa,
     Rtsne,
     umap,

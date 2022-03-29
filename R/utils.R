@@ -98,7 +98,7 @@ get_polygon <- function(xahull, arc, n_to_exclude){
     df_list <- list()
     n <- 0
     s <- 1
-    for (i in 1: (dim(arc)[1]-1)){
+    for (i in seq_len(dim(arc)[1]-1)){
         if (arc[i,8] != arc[i+1,7]){
             if (i-s > 4){
                 n <- n+1
@@ -110,7 +110,7 @@ get_polygon <- function(xahull, arc, n_to_exclude){
     if (length(df_list) == 0) df_list[[1]] <- arc
     poly_list <- list()
     c <- 0 
-    for (j in c(1:length(df_list))){
+    for (j in c(seq_len(length(df_list)))){
         df <- df_list[[j]]
         # eliminate the small tumour clusters (add later)
         if (dim(df)[1] <= n_to_exclude){
@@ -120,7 +120,7 @@ get_polygon <- function(xahull, arc, n_to_exclude){
             c <- c+1
             cell_ID = c()
             locs <- c()
-            for (i in 1:(dim(df)[1])){
+            for (i in seq_len(dim(df)[1])){
                 cell_ID = df[i,7]
                 locs <- rbind(locs,xahull[cell_ID,c(1,2)])
             }
