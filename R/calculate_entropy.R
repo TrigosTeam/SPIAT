@@ -69,10 +69,10 @@ calculate_entropy <- function(sce_object, cell_types_of_interest,
           }
         }
         return(entropy_all)
-      }
-    }	
-  }else{
-    print("Cell type not found!")
-    return(NA)
+        }
+      }	
+    }else{
+      print("Cell type not found!")
+      return(NA)
+    }
   }
-}

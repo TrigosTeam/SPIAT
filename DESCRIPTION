@@ -5,12 +5,12 @@ Version: 0.99.0
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
-           role=c("aut", "cre"),
+           role=c("aut"),
            email="anna.trigos@petermac.org"),
     person(given = "Yuzhou",
            family = " Feng",
-           role="aut",
-           email="yuzhou0610@gmail.com"),
+           role=c("aut", "cre"),
+           email="yuzhou.feng@petermac.org"),
     person(given = "Tom",
            family = " Yang",
            role="aut",
@@ -41,7 +41,7 @@ Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data proces
 License: GPL-3
 Encoding: UTF-8
 Depends: 
-    R (>= 4.0),
+    R (>= 4.1.0),
     SingleCellExperiment (>= 1.4.1),
     SummarizedExperiment
 Imports: 
@@ -71,7 +71,6 @@ Imports:
     sp,
     xROI,
     Seurat,
-    Rphenograph,
     elsa,
     Rtsne,
     umap,
@@ -83,9 +82,7 @@ Suggests:
     rmarkdown,
     pkgdown,
     testthat
-Remotes:
-    JinmiaoChenLab/Rphenograph
-biocViews: BiomedicalInformatics, CellBiology, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
+biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
 RoxygenNote: 7.1.2

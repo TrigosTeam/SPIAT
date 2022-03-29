@@ -36,6 +36,9 @@ Default is False.}
 \item{n_to_exclude}{Integer. Clusters with cell count under this number will
 be deleted.}
 }
+\value{
+A new SCE object is returned
+}
 \description{
 Identify the cells bordering a group of cells of a particular
   phenotype.
