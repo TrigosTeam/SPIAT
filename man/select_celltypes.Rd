@@ -17,7 +17,9 @@ select_celltypes(
 
 \item{celltypes}{String Vector of celltypes of keep or exclude.}
 
-\item{feature_colname}{String. The column that has the interested cell types.}
+\item{feature_colname}{String. The column that has the interested cell types.
+If the cells of interest are specified in the rownames, use "rowname" for
+this arg.}
 
 \item{keep}{Boolean. TRUE if vector of `celltypes` are the cells that are
 going to be kept, FALSE if they are to be removed.}
