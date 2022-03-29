@@ -585,7 +585,7 @@ mixing_score_summary(formatted_image, reference_celltype = "Immune1",
 Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are 4 patterns that can be distinguished from  K-cross function, as illustrated in the plots below. (taken from [ here](https://blog.jlevente.com/understanding-the-cross-k-function/) in April 2021).
 
 ```{r, echo=FALSE}
-knitr::include_graphics("../inst/vignettes/cross-k-function.png")
+knitr::include_graphics("../vignettes/figs/cross-k-function.png")
 ```
 
 Here, the black line represents the input image, the red line represents a randomly distributed point pattern. 
