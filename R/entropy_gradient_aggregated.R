@@ -47,7 +47,7 @@ entropy_gradient_aggregated <- function(sce_object,
           
           gradient_local_aggregated <- vector()
           # aggregate all tumour and immune counts and calculate new aggragated "entropy"
-          for(j in 1:length(gradient_local)){
+          for(j in seq_len(length(gradient_local))){
             temp <- gradient_local[[j]]
             total_reference <- sum(temp[[pheno1]][[pheno1]])
             total_target <- sum(temp[[pheno1]][[pheno2]])
@@ -84,7 +84,7 @@ entropy_gradient_aggregated <- function(sce_object,
   temp$Celltype1 <- NULL
   temp$Celltype2 <- NULL
   temp <- as.numeric(temp)
-  peak <- which(temp == max(temp, na.rm = T))
+  peak <- which(temp == max(temp, na.rm = TRUE))
   
   return(list(gradient_df = gradient_aggregated, peak = peak))
 }

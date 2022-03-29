@@ -10,7 +10,7 @@ identify_bordering_cells(
   feature_colname = "Cell.Type",
   ahull_alpha = NULL,
   n_of_polygons = 1,
-  draw = F,
+  draw = FALSE,
   n_to_exclude = 10
 )
 }

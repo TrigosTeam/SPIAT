@@ -39,7 +39,7 @@ calculate_minimum_distances_between_celltypes <- function(sce_object, feature_co
   print(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
-  permu = gtools::permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = T)
+  permu = gtools::permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = TRUE)
   unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
   result = vector()
   

@@ -10,6 +10,7 @@
 #' @param above Boolean. Indicating whether the pattern is above (TRUE) or below
 #'   (FALSE) the threshold.
 #' @export
+#' @return A number is returned
 #' @examples
 #' grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,
 #' cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")

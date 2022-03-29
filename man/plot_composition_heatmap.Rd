@@ -13,7 +13,7 @@ plot_composition_heatmap(
 }
 \arguments{
 \item{composition}{Data.frame. Output from
-\code{\link{cluster_percent_composition}}.}
+\code{\link{composition_of_neighborhoods}}.}
 
 \item{pheno_to_exclude}{String Vector of phenotype to exclude.}
 

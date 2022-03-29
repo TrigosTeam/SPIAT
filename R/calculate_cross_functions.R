@@ -17,6 +17,7 @@
 #'   cross functions.
 #' @importFrom spatstat.core Gcross Kcross.inhom Lcross Jcross Kcross
 #' @importFrom spatstat.geom ppp
+#' @return An object of class "fv" defined in `spatstat` package.
 #' @export
 #' @examples
 #' df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
@@ -25,7 +26,7 @@
 
 calculate_cross_functions <- function(sce_object, method = "Kcross", 
                                       cell_types_of_interest, feature_colname, 
-                                      plot_results = T, dist = NULL) {
+                                      plot_results = TRUE, dist = NULL) {
   #CHECK
   formatted_data <- data.frame(colData(sce_object))
   if (!all(cell_types_of_interest %in% formatted_data[[feature_colname]])) {

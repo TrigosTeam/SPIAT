@@ -3,7 +3,7 @@
 #' @description Produces a heatmap showing the marker percentages within each
 #'   cluster and the cluster sizes.
 #' @param composition Data.frame. Output from
-#'   \code{\link{cluster_percent_composition}}.
+#'   \code{\link{composition_of_neighborhoods}}.
 #' @param pheno_to_exclude String Vector of phenotype to exclude.
 #' @param log_values Boolean. TRUE if the percentages should be logged (base
 #'   10).

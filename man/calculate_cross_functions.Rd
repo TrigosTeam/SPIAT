@@ -9,7 +9,7 @@ calculate_cross_functions(
   method = "Kcross",
   cell_types_of_interest,
   feature_colname,
-  plot_results = T,
+  plot_results = TRUE,
   dist = NULL
 )
 }
@@ -31,6 +31,9 @@ either case, an object with the results is returned}
 \item{dist}{Number (OPTIONAL) The largest distance between two cell types at
 which K function is evaluated. If NULL, use the default distances set by
 cross functions.}
+}
+\value{
+An object of class "fv" defined in `spatstat` package.
 }
 \description{
 Compute and plot the cross functions between two specified cell
