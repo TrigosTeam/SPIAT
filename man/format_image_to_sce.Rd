@@ -81,3 +81,6 @@ Formats inForm, HALO, Visum, CODEX, cellprofiler outputs into a
   Nucleus.Area and Cytoplasm.Area. -- do you need to list the other output
   formats?
 }
+\examples{
+# Please refer to the vignette for detailed examples
+}

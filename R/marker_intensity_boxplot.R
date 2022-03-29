@@ -30,13 +30,13 @@ marker_intensity_boxplot <- function(sce_object, marker){
     if (nrow(intensity_true) != 0) {
         intensity_true$intensity <- "P"
     } else{
-        stop(paste("There are no cells positive for ", marker, sep=""))
+        stop(sprintf("There are no cells positive for %s", marker))
     }
 
     if (nrow(intensity_false) != 0){
         intensity_false$intensity <- "N"
     } else{
-        stop(paste("There are no cells negative for ", marker, sep=""))
+        stop(sprintf("There are no cells negative for %s", marker))
     }
 
     #bind the 2 dataframes together

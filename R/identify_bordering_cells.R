@@ -22,6 +22,7 @@
 #' @param n_to_exclude Integer. Clusters with cell count under this number will
 #'   be deleted.
 #' @export
+#' @return A new SCE object is returned
 #' @examples
 #' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
 #' feature_colname = "Cell.Type", n_to_exclude = 10)
