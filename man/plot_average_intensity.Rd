@@ -15,7 +15,7 @@ plot_average_intensity(sce_object, reference_marker, target_marker, radii)
 \item{target_marker}{String specifying the marker to calculate its average
 intensity.}
 
-\item{radii}{Vector of integers specifying the search radius around reference
+\item{radii}{Numeric Vector specifying the search radius around reference
 cells.}
 }
 \value{

@@ -24,6 +24,9 @@ of the immune cells.}
 \item{n_margin_layers}{Integer. The number of layers of cells that compose
 the internal/external tumour margins.}
 }
+\value{
+A new sce object is returned
+}
 \description{
 After identifying the bordering cells of tumour regions and
   calculating the distances of each cell to the tumour bordering cells, this

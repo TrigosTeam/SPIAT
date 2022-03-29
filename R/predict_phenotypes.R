@@ -123,7 +123,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         if (!is.null(thresholds) && !is.na(thresholds[match(marker,markers)])) {
             #there is a threshold value specified for the marker, use the threshold
             marker_threshold <- thresholds[match(marker,markers)]
-            print(paste("(", marker, " has threshold specified: ", as.character(marker_threshold), ")", sep=""))
+            sprintf("(%s has threshold specified: %s)", marker, as.character(marker_threshold))
             selected_valley_xcord[[marker]] <- NULL
 
             #get the threshold predictions
@@ -186,7 +186,7 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
     if (!is.null(thresholds)) {
       #there is a threshold value specified for the marker, use the threshold
       marker_threshold <- thresholds[match(tumour_marker,markers)]
-      print(paste("(", tumour_marker, " has threshold specified: ", as.character(marker_threshold), ")", sep=""))
+      sprintf("(%s has threshold specified: %s)", tumour_marker, as.character(marker_threshold))
       selected_valley_xcord[[marker]] <- NULL
 
       #get the threshold predictions
@@ -285,8 +285,8 @@ predict_phenotypes <- function(sce_object, thresholds = NULL, tumour_marker,
         TN_count <- nrow(level_and_accuracy[level_and_accuracy$status == "TN", ])
         FP_count <- nrow(level_and_accuracy[level_and_accuracy$status == "FP", ])
         FN_count <- nrow(level_and_accuracy[level_and_accuracy$status == "FN", ])
-        print(paste("For ", marker, ":", sep=""))
-        print(paste("TP:", TP_count, " TN:", TN_count, " FP:", FP_count, " FN:", FN_count, sep=""))
+        sprintf("For %s:", marker)
+        sprintf("TP:%i TN:%i FP:%i FN:%i", TP_count, TN_count, FP_count, FN_count)
 
         if(plot_distribution){
           p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()

@@ -17,6 +17,7 @@
 #'   of the immune cells.
 #' @import dplyr
 #' @export
+#' @return A new sce object is returned
 #' @examples
 #' sce_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
@@ -33,12 +34,12 @@ define_structure <- function(sce_object, names_of_immune_cells,
   # calculate the width of internal/external margin
   min_dist <- average_minimum_distance(sce_object)
   margin_dist <- n_margin_layers * min_dist
-  print(paste("How many layers of cells in the external/internal margin:", n_margin_layers))
-  print(paste("The width of internal/external margin:", margin_dist))
+  sprintf("How many layers of cells in the external/internal margin: %i", n_margin_layers)
+  sprintf("The width of internal/external margin: %f", margin_dist)
   
   #CHECK if the distance to bordering cells is calculated
   if (is.null(sce_object$Distance.To.Border)){
-    stop(paste("Distance.To.Border not calculated yet for", deparse(substitute(sce_object))))
+    stop(sprintf("Distance.To.Border not calculated yet for %i", deparse(substitute(sce_object))))
   }
   
   data <- data.frame(SummarizedExperiment::colData(sce_object))

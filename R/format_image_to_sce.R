@@ -48,6 +48,8 @@
 #'   must be in the same order as in the intensity_matrix.
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @return A SingleCellExperiment object is returned
+#' @examples 
+#' # Please refer to the vignette for detailed examples
 
 format_image_to_sce <- function(format = "INFORM", 
                                 path = NULL, 

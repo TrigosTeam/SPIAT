@@ -9,7 +9,7 @@
 #' @param reference_marker String specifying the reference marker.
 #' @param target_marker String specifying the marker to calculate its average
 #'   intensity.
-#' @param radii Vector of integers specifying the search radius around reference
+#' @param radii Numeric Vector specifying the search radius around reference
 #'   cells.
 #' @import ggplot2
 #' @return A plot is returned
@@ -26,7 +26,7 @@ plot_average_intensity <- function(sce_object, reference_marker, target_marker, 
         result <- average_marker_intensity_within_radius(sce_object, reference_marker, target_marker, radius = radius)
         #check
         if(!is.numeric(result)) {
-            stop(paste("Cannot calculate average intensity for radius = ", radius, sep = ""))
+            stop(sprintf("Cannot calculate average intensity for radius = %.2f", radius))
         }
         average_intensity_result <- c(average_intensity_result, result)
     }
