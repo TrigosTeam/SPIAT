@@ -34,10 +34,10 @@ calculate_distance_to_tumour_margin <- function(sce_object){
                                  names = c("Non-border","Non-border","Border"), 
                                  new_colname = "region2")
   
-  dist_matrix <- calculate_minimum_distances(sce_object, 
+  dist_matrix <- calculate_minimum_distances_between_celltypes(sce_object, 
                                              cell_types_of_interest = c("Non-border","Border"), 
                                              feature_colname ="region2")
-  dist_matrix[dist_matrix$RefType == "Border", "Dist"] <- 0
+  dist_matrix[dist_matrix$RefType == "Border", "Distance"] <- 0
   dist_matrix$Order <- as.numeric(substr(dist_matrix$RefCell,
                                          start = 6, stop = 30))
   dist_matrix <- dist_matrix[order(dist_matrix$Order),]
