@@ -29,7 +29,7 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 An overview of the functions available is shown in the figure below. 
 
 ```{r echo=FALSE, fig.align="center"}
-knitr::include_graphics("../inst/vignettes/SPIAT-overview.png")
+knitr::include_graphics("SPIAT-overview.png")
 ```
 
 ## Install `SPIAT`
