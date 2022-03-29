@@ -91,3 +91,4 @@ BugReports: https://github.com/cancer-evolution/SPIAT/issues
 LazyData: true
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
+URL: https://trigosteam.github.io/SPIAT/
