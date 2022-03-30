@@ -9,3 +9,4 @@ SPIAT.Rproj
 *.DS_Store
 .Rprofile
 docs
+inst/doc/
