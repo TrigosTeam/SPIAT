@@ -38,7 +38,7 @@ Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data proces
     of cell phenotypes in tissue images. SPIAT also includes speedy 
     implementations of the calculation of cell distances and detection of cell 
     communities.
-License: GPL-3
+License: Artistic-2.0
 Encoding: UTF-8
 Depends: 
     R (>= 4.1.0),
