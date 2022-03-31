@@ -118,7 +118,7 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
   }
   else if (method == "rphenograph"){
     cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-    Rphenograph_out <- Rphenograph(cell_cords, k = k)
+    Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
     formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
   }
   else {
