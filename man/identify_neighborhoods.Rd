@@ -38,7 +38,8 @@ cluster. Need to specify when `method` is "hierarchical" or "dbscan".}
 (e.g. "None", "Other")}
 }
 \value{
-A data.frame and a plot is returned
+An sce object and a plot is returned. The sce object contains
+  information of the defined neighborhood
 }
 \description{
 Uses Euclidean distances to identify neighborhoods of cells.

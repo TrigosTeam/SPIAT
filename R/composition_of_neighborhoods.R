@@ -3,7 +3,7 @@
 #' @description Returns a data.frame which contains the percentages of cells with
 #'   a specific marker within each neighborhood. and the number of cells in the
 #'   neighborhood.
-#' @param neighborhoods_df Data.frame that is the output of
+#' @param neighborhoods_df sce_object that is the output of
 #'   \code{\link{identify_neighborhoods}}.
 #' @param feature_colname String. Column with cell types.
 #' @return A data.frame is returned
@@ -14,15 +14,21 @@
 #' neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
 #' @export
 
-composition_of_neighborhoods <- function(neighborhoods_df, feature_colname) {
-    number_of_clusters <- length(unique(neighborhoods_df[,"Cluster"]))
+composition_of_neighborhoods <- function(sce_object, feature_colname) {
+    
+    neighborhoods_df <- get_colData(sce_object)
+    print(dim(neighborhoods_df))
+    neighborhoods_df <- neighborhoods_df[stats::complete.cases(neighborhoods_df),]
+    print(dim(neighborhoods_df))
+    
+    number_of_clusters <- length(unique(neighborhoods_df[,"Neighborhood"]))
 
     colnames(neighborhoods_df)[colnames(neighborhoods_df) == feature_colname] <- "Temp_pheno"
     
-    composition <- stats::aggregate(Cell.ID ~ Temp_pheno + Cluster, neighborhoods_df, length)
+    composition <- stats::aggregate(Cell.ID ~ Temp_pheno + Neighborhood, neighborhoods_df, length)
     colnames(composition)[3] <- "Number_of_cells"
-    cluster_size <- table(neighborhoods_df$Cluster)
-    composition$Total_number_of_cells <- as.vector(cluster_size[match(composition$Cluster, names(cluster_size))])
+    cluster_size <- table(neighborhoods_df$Neighborhood)
+    composition$Total_number_of_cells <- as.vector(cluster_size[match(composition$Neighborhood, names(cluster_size))])
 
     composition$Percentage <- (composition$Number_of_cells/composition$Total_number_of_cells)*100
     colnames(composition)[colnames(composition) == "Temp_pheno"] <- feature_colname

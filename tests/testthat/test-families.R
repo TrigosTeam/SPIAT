@@ -121,20 +121,13 @@ test_that("functions in spatial heterogeneity family work", {
 test_that("functions in identify neighborhood family work", {
     
     ## identify_neighborhoods()
-    res <- data.frame(row.names = c("Cell_15", "Cell_22", "Cell_23", "Cell_25"),
-                      Cell.ID = c("Cell_15", "Cell_22", "Cell_23", "Cell_25"), 
-                      Cell.X.Position = c(109.670273, 142.033630, 46.017590, 153.227951), 
-                      Cell.Y.Position = c(17.129564, 32.068722, 4.760143, 128.299149),
-                      Cell.Type = c("Immune1", "Immune", "Immune2", "Immune1"), 
-                      Cell.Size = c(10.913455, 9.853069, 9.315296, 10.547904),
-                      Cluster = rep("Free_cell",4))
-    
     neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
                                             min_neighborhood_size = 100, 
                                             cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
                                             radius = 50, feature_colname = "Cell.Type")
     
-    expect_equal(neighborhoods[1:4, ], res, tolerance = 1e-1)
+    # test if the data strcure is "SingleCellExperiment"
+    expect_s4_class(neighborhoods, "SingleCellExperiment") 
     
     ## composition_of_neighborhoods()
     res <- data.frame(row.names = c(1L, 2L, 3L),

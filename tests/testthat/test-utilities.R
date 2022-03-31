@@ -3,11 +3,11 @@ context("utilities")
 test_that("format_image_to_sce() works for inForm data", {
   
   raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
-  markers <- c("DAPI","CD3","PDL-1","CD4","CD8","AMACR")
+  markers <- c("DAPI","CD3","PD-L1","CD4","CD8","AMACR")
   intensity_columns_interest <- c(
     "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
-    "Membrane PDL-1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
+    "Membrane PD-L1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
     "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"

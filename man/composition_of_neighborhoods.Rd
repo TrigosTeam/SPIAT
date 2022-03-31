@@ -4,13 +4,13 @@
 \alias{composition_of_neighborhoods}
 \title{composition_of_neighborhoods}
 \usage{
-composition_of_neighborhoods(neighborhoods_df, feature_colname)
+composition_of_neighborhoods(sce_object, feature_colname)
 }
 \arguments{
-\item{neighborhoods_df}{Data.frame that is the output of
-\code{\link{identify_neighborhoods}}.}
-
 \item{feature_colname}{String. Column with cell types.}
+
+\item{neighborhoods_df}{sce_object that is the output of
+\code{\link{identify_neighborhoods}}.}
 }
 \value{
 A data.frame is returned

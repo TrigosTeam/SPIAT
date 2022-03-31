@@ -19,7 +19,9 @@
 #'   (e.g. "None", "Other")
 #' @import dplyr
 #' @import ggplot2
-#' @return A data.frame and a plot is returned
+#' @import SummarizedExperiment
+#' @return An sce object and a plot is returned. The sce object contains
+#'   information of the defined neighborhood
 #' @examples
 #' neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
 #' min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
@@ -169,6 +171,11 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
   formatted_data_with_clusters <- formatted_data
   formatted_data_with_clusters$Cluster <- paste0("Cluster_", formatted_data_with_clusters$Cluster)
   formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
+  colData(sce_object) <- as(merge(data.frame(colData(sce_object)), formatted_data_with_clusters[,c("Cell.ID","Cluster")], 
+               by.x = "row.names", by.y = "Cell.ID", all.x = TRUE), "DFrame")
+  rownames(colData(sce_object)) <- colData(sce_object)$Row.names
+  colData(sce_object)$Row.names <- NULL
+  colnames(colData(sce_object))[colnames(colData(sce_object)) == "Cluster"] <- "Neighborhood"
   
-  return(formatted_data_with_clusters)
+  return(sce_object)
 }
