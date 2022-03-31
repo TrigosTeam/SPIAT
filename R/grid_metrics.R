@@ -39,8 +39,8 @@ grid_metrics <- function(sce_object, FUN, n_split, ...){
               ymx=max(sce_object$Cell.Y.Position))
   raster::values(x) <- unlist(list.metric)
   y <- raster::flip(x, direction='y')
-  raster::plot(y, main = paste("Plot ",as.character(substitute(FUN)), " of ", 
-                       attr(sce_object, "name"), sep = ""))
+  raster::plot(y, main = paste("Plot ",attr(sce_object, "name"), " ",as.character(substitute(FUN)), 
+                       sep = ""))
   
   return(y)
 }
