@@ -3,7 +3,7 @@
 #' @description Calculate the the average nearest neighbor (ANN) index of a
 #'   specified type of cells. The index indicates the clustering effect of a
 #'   point pattern. The pattern can be clustering, random or dispersion.
-#'   
+#'
 #' @details ANN index is a statistical test to test for the presence of clusters
 #'   of cells, (Clark and Evans, 1954). The ANN index evaluates the spatial
 #'   aggregation or dispersion effect of objects based on the average distances
@@ -14,24 +14,26 @@
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   \code{\link{format_image_to_sce}}.
-#' @param reference_cell String. Cells of this type are used as reference cells.
+#' @param reference_celltypes String Vector. Cells with these cell types will be
+#'   used for ANNI calculation.
 #' @param feature_colname String. Specify the selected column for
-#'   `reference_cell`.
+#'   `reference_celltypes`.
 #' @param p_val Numeric. The p value threshold to determine the significance of
 #'   a pattern.
 #' @export
 #' @return A list with the pattern type and a p value
 #' @examples
-#' average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")
+#' average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes = 
+#' "Tumour", feature_colname = "Cell.Type")
 
-average_nearest_neighbor_index <- function(sce_object, reference_cell, 
+average_nearest_neighbor_index <- function(sce_object, reference_celltypes, 
                                            feature_colname, p_val = 5e-6){
   
   ppp <- format_sce_to_ppp(sce_object)
   formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
   
   data <- formatted_data[,c(feature_colname,"Cell.X.Position","Cell.Y.Position")]
-  data <- data[which(data[,feature_colname] == reference_cell),
+  data <- data[which(data[,feature_colname] %in% reference_celltypes),
                c("Cell.X.Position","Cell.Y.Position") ]
   
   if(nrow(data) == 0){

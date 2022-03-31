@@ -6,7 +6,7 @@
 \usage{
 average_nearest_neighbor_index(
   sce_object,
-  reference_cell,
+  reference_celltypes,
   feature_colname,
   p_val = 5e-06
 )
@@ -15,10 +15,11 @@ average_nearest_neighbor_index(
 \item{sce_object}{SingleCellExperiment object in the form of the output of
 \code{\link{format_image_to_sce}}.}
 
-\item{reference_cell}{String. Cells of this type are used as reference cells.}
+\item{reference_celltypes}{String Vector. Cells with these cell types will be
+used for ANNI calculation.}
 
 \item{feature_colname}{String. Specify the selected column for
-`reference_cell`.}
+`reference_celltypes`.}
 
 \item{p_val}{Numeric. The p value threshold to determine the significance of
 a pattern.}
@@ -41,5 +42,6 @@ ANN index is a statistical test to test for the presence of clusters
   significance of the pattern.
 }
 \examples{
-average_nearest_neighbor_index(SPIAT::defined_image, "Tumour", "Cell.Type")
+average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes = 
+"Tumour", feature_colname = "Cell.Type")
 }
