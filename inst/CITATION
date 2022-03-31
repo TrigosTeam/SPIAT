@@ -9,7 +9,7 @@ bibentry(
     person("Mabel" , "Li"),
     person("John", "Zhu"),
     person("Volkan", "Ozcoban"),
-    Person("Maria", "Doyle")
+    person("Maria", "Doyle")
   ),
   note = "R package version 0.99.0",
   year = "2022",
