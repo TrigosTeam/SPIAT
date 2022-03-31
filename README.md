@@ -7,6 +7,18 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 
 ## Installation
 
+To install this package, start R and enter:
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
+BiocManager::install("GenomicRanges")
+```
+
+Or access the development version here:
 ```r
 # install.packages('devtools')
 devtools::install_github("TrigosTeam/SPIAT")
