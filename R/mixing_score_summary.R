@@ -79,7 +79,7 @@ mixing_score_summary <- function(sce_object, reference_celltype, target_celltype
             }, error=function(e){})
         }
     }
-    df[,3:8] <- sapply(df[,3:8],as.numeric)
+    df[,3:8] <- vapply(df[,3:8],as.numeric,numeric(nrow(df[,3:8])))
     df <- df[-1,]
     return(df)
 }
