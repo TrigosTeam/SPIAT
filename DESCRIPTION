@@ -11,7 +11,7 @@ Authors@R: c(
            family = " Feng",
            role=c("aut", "cre"),
            email="yuzhou.feng@petermac.org"),
-    person(given = "Tom",
+    person(given = "Tianpei",
            family = " Yang",
            role="aut",
            email="yangtp3344@gmail.com"),
