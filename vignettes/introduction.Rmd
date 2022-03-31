@@ -677,6 +677,7 @@ One approach to calculate localised metric is to split the image into "fish-net"
 For cases where the localised metric is not symmetrical (requires specifying a target and reference cell type), the first iten in the vector used for `cell_types_of_interest` marks the reference cells and the second item the target cells. Here we are using Entropy, which is not symmetrical, so we can use any order of cell types in the input.
 
 ```{r}
+data("defined_image")
 grid <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 20,
                      cell_types_of_interest=c("Tumour","Immune3"), 
                      feature_colname = "Cell.Type")
