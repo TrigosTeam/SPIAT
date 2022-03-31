@@ -119,9 +119,13 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
     formatted_data$Cluster <- factor(db$cluster + 1)
   }
   else if (method == "rphenograph"){
-    cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-    Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
-    formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
+    if (requireNamespace("Rphenograph", quietly = TRUE)) {
+      cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+      Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
+      formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
+    } else {
+      stop("Please install Rphenograph (https://github.com/JinmiaoChenLab/Rphenograph)")
+    }
   }
   else {
     stop("Please select a valid clustering method, current options: dbscan")
