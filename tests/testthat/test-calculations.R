@@ -108,21 +108,21 @@ test_that("calculate_minimum_distances_between_cell_types() works", {
     expect_equal(res, out, tolerance=1e-4)
 })
 
-test_that("marker_permutation() works", {
-    
-    res <- data.frame(row.names = c("Tumour_marker", "Immune_marker1", "Immune_marker2"),
-                      Observed_cell_number = c(819, 0, 0),
-                      Percentage_of_iterations_where_present = c(100, 100, 100),
-                      Average_bootstrap_cell_number = c(425.40, 649.27, 521.84),
-                      Enrichment.p = c(0.01, 1.00, 1.00), 
-                      Depletion.p = c(1.00, 0.01, 0.01))
-    set.seed(610)
-    sig <- marker_permutation(simulated_image, num_iter = 100)
-    out <- sig[1:3,]
-    
-    expect_equal(out, res, tolerance=1e-2)
-    
-})
+# test_that("marker_permutation() works", {
+#     
+#     res <- data.frame(row.names = c("Tumour_marker", "Immune_marker1", "Immune_marker2"),
+#                       Observed_cell_number = c(819, 0, 0),
+#                       Percentage_of_iterations_where_present = c(100, 100, 100),
+#                       Average_bootstrap_cell_number = c(425.40, 649.27, 521.84),
+#                       Enrichment.p = c(0.01, 1.00, 1.00), 
+#                       Depletion.p = c(1.00, 0.01, 0.01))
+#     set.seed(610)
+#     sig <- marker_permutation(simulated_image, num_iter = 100)
+#     out <- sig[1:3,]
+#     
+#     expect_equal(out, res, tolerance=1e-2)
+#     
+# })
 
 test_that("mixing_score_summary() works", {
     
