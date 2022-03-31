@@ -2,12 +2,13 @@
 #'
 #' @description Uses Euclidean distances to identify neighborhoods of cells.
 #'   Three clustering methods are available, including hierarchical clustering,
-#'   dbscan, and Rphenograph.
+#'   dbscan, and (Rphenograph).
 #'
 #' @param sce_object SingleCellExperiment object in the form of the output of
 #'   \code{\link{format_image_to_sce}}.
 #' @param method String. The clustering method. Choose from "hierarchical",
-#'   "dbscan" and "Rphenograph".
+#'   "dbscan" and "Rphenograph". (Note Rphenograph function is not available for
+#'   this version yet).
 #' @param cell_types_of_interest String Vector of phenotypes to consider.
 #' @param radius Numeric specifying the radius of search. Need to specify when
 #'   `method` is "hierarchical" or "dbscan".
@@ -119,13 +120,12 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
     formatted_data$Cluster <- factor(db$cluster + 1)
   }
   else if (method == "rphenograph"){
-    if (requireNamespace("Rphenograph", quietly = TRUE)) {
-      cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-      Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
-      formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
-    } else {
-      stop("Please install Rphenograph (https://github.com/JinmiaoChenLab/Rphenograph)")
-    }
+    # if (requireNamespace("Rphenograph", quietly = TRUE)) {
+    #   cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+    #   Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
+    #   formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
+    # } 
+    stop("This option is not available for this version yet! Check dev version for this function!")
   }
   else {
     stop("Please select a valid clustering method, current options: dbscan")

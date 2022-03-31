@@ -20,7 +20,8 @@ identify_neighborhoods(
 \code{\link{format_image_to_sce}}.}
 
 \item{method}{String. The clustering method. Choose from "hierarchical",
-"dbscan" and "Rphenograph".}
+"dbscan" and "Rphenograph". (Note Rphenograph function is not available for
+this version yet).}
 
 \item{cell_types_of_interest}{String Vector of phenotypes to consider.}
 
@@ -44,7 +45,7 @@ An sce object and a plot is returned. The sce object contains
 \description{
 Uses Euclidean distances to identify neighborhoods of cells.
   Three clustering methods are available, including hierarchical clustering,
-  dbscan, and Rphenograph.
+  dbscan, and (Rphenograph).
 }
 \examples{
 neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
