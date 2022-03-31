@@ -77,7 +77,6 @@ Imports:
     igraph,
     rlang
 Suggests:
-    Rphenograph,
     BiocStyle,
     knitr,
     rmarkdown,
