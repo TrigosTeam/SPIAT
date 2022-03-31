@@ -18,7 +18,6 @@
 #' @export
 
 plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, feature_colname) {
-
     cluster_size <- unique(data.frame(Neighborhood = composition$Neighborhood,
                                       Total_cells = composition$Total_number_of_cells))
     rownames(cluster_size) <- cluster_size$Neighborhood
@@ -26,7 +25,6 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
 
     composition2 <- composition[,c(feature_colname, "Neighborhood", "Percentage")]
     composition2 <- reshape2::dcast(composition2, paste(feature_colname, "~", "Neighborhood"), value.var="Percentage")
-
 
   rownames(composition2) <- composition2[,feature_colname]
   composition2[,feature_colname] <- NULL

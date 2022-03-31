@@ -80,6 +80,7 @@ mixing_score_summary <- function(sce_object, reference_celltype, target_celltype
         }
     }
     df[,3:8] <- vapply(df[,3:8],as.numeric,numeric(nrow(df[,3:8])))
+
     df <- df[-1,]
     return(df)
 }

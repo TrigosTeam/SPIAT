@@ -26,7 +26,7 @@ Authors@R: c(
            role="aut",
            email = "volkanozcoban1@gmail.com"),
     person(given = "Maria",
-           family=" Doyle",
+           family= "Doyle",
            role="aut",
            email = "maria.doyle@petermac.org"))
 Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data processing, 

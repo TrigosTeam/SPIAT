@@ -29,7 +29,7 @@ devtools::install_github("TrigosTeam/SPIAT")
 The vignette with an overview of the package can be accessed by clicking [here](https://trigosteam.github.io/SPIAT/articles/introduction.html)
 
 ## Authors of the package
-Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and desgining the package. Anna Trigos conceived, supervised the work, developed algorithms and desgined the package.
+Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and desgined the package. 
 
 ## Paper reference
 Our latest paper will be submitted shortly! However, you can have a look at our previous SPIAT pre-print here:

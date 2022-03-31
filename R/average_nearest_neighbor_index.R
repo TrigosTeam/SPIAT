@@ -3,7 +3,6 @@
 #' @description Calculate the the average nearest neighbor (ANN) index of a
 #'   specified type of cells. The index indicates the clustering effect of a
 #'   point pattern. The pattern can be clustering, random or dispersion.
-#'
 #' @details ANN index is a statistical test to test for the presence of clusters
 #'   of cells, (Clark and Evans, 1954). The ANN index evaluates the spatial
 #'   aggregation or dispersion effect of objects based on the average distances
