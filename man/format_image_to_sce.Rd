@@ -71,16 +71,37 @@ must be in the same order as in the intensity_matrix.}
 A SingleCellExperiment object is returned
 }
 \description{
-Formats inForm, HALO, Visum, CODEX, cellprofiler outputs into a
-  SingleCellExperiment class. Users can also input a generic format. The
-  count assay stores the intensity level of every marker (rows) for every
-  cell (columns). Cell phenotype, x and y coordinates and other cell
-  properties are stored under colData. If INFORM format, the cell properties
-  are Cell.Area, Nucleus.Area, Nucleus.Compactness, Nucleus.Axis.Ratio, and
-  Cell.Axis.Ratio. If HALO format, the cell properties are Cell.Area,
-  Nucleus.Area and Cytoplasm.Area. -- do you need to list the other output
-  formats?
+Reads in spatial data in the form of cell coordinates, cell
+  phenotypes (if available), and marker intensities and transforms to a
+  SingleCellExperiment object. Users can input data in a general format
+  (recommended), or data generated from inForm, HALO, Visum, CODEX,
+  cellprofiler. The count assay stores the intensity level of every marker
+  (rows) for every cell (columns). Cell phenotype, x and y coordinates and
+  other cell properties are stored under colData. For the INFORM format, the
+  cell properties needed to be included are Cell.Area, Nucleus.Area,
+  Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. For the HALO
+  format, the cell properties to be included are Cell.Area, Nucleus.Area and
+  Cytoplasm.Area. Note that if the data does not include these parameters, we
+  recommend adding it to the output from inForm or HALO with NAs in columns,
+  or alternatively using the ‘generic formatting’ option.
 }
 \examples{
-# Please refer to the vignette for detailed examples
+# This is an example for general format
+# Construct a dummy marker intensity matrix (rows are markers, columns are cells)
+intensity_matrix <- matrix(c(14.557, 0.169, 1.655, 0.054, 17.588, 0.229, 1.188,
+2.074, 21.262, 4.206,  5.924, 0.021), nrow = 4, ncol = 3)
+# define marker names as rownames
+rownames(intensity_matrix) <- c("DAPI", "CD3", "CD4", "AMACR")
+# define cell IDs as colnames
+colnames(intensity_matrix) <- c("Cell_1", "Cell_2", "Cell_3")
+# Construct a dummy metadata (phenotypes, x/y coordinates)
+# the order of the elements in these vectors correspond to the cell order
+# in `intensity matrix`
+phenotypes <- c("OTHER",  "AMACR", "CD3,CD4")
+coord_x <- c(82, 171, 184)
+coord_y <- c(30, 22, 38)
+
+general_format_image <- format_image_to_sce(format = "general",
+intensity_matrix = intensity_matrix,phenotypes = phenotypes, coord_x = coord_x,
+coord_y = coord_y)
 }
