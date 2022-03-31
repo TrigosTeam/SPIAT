@@ -12,6 +12,8 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 devtools::install_github("TrigosTeam/SPIAT")
 ```
 
+Test
+
 ## Vignette 
 
 The vignette with an overview of the package can be accessed by clicking [here](https://trigosteam.github.io/SPIAT/articles/introduction.html)
