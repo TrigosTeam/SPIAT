@@ -7,10 +7,10 @@
 composition_of_neighborhoods(sce_object, feature_colname)
 }
 \arguments{
-\item{feature_colname}{String. Column with cell types.}
-
-\item{neighborhoods_df}{sce_object that is the output of
+\item{sce_object}{sce_object that is the output of
 \code{\link{identify_neighborhoods}}.}
+
+\item{feature_colname}{String. Column with cell types.}
 }
 \value{
 A data.frame is returned

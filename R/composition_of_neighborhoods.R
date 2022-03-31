@@ -3,7 +3,7 @@
 #' @description Returns a data.frame which contains the percentages of cells with
 #'   a specific marker within each neighborhood. and the number of cells in the
 #'   neighborhood.
-#' @param neighborhoods_df sce_object that is the output of
+#' @param sce_object sce_object that is the output of
 #'   \code{\link{identify_neighborhoods}}.
 #' @param feature_colname String. Column with cell types.
 #' @return A data.frame is returned
@@ -17,9 +17,7 @@
 composition_of_neighborhoods <- function(sce_object, feature_colname) {
     
     neighborhoods_df <- get_colData(sce_object)
-    print(dim(neighborhoods_df))
     neighborhoods_df <- neighborhoods_df[stats::complete.cases(neighborhoods_df),]
-    print(dim(neighborhoods_df))
     
     number_of_clusters <- length(unique(neighborhoods_df[,"Neighborhood"]))
 

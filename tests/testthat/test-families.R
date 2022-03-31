@@ -132,7 +132,7 @@ test_that("functions in identify neighborhood family work", {
     ## composition_of_neighborhoods()
     res <- data.frame(row.names = c(1L, 2L, 3L),
                       Cell.Type = c("Immune", "Immune1", "Immune2"), 
-                      Cluster = rep("Cluster_1",3),
+                      Neighborhood = rep("Cluster_1",3),
                       Number_of_cells = c(98, 143, 54),
                       Total_number_of_cells = rep(295,3),
                       Percentage = c(33.220339, 48.474576, 18.305085))
