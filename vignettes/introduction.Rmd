@@ -715,7 +715,7 @@ An alternative approach is to combine the results of all the circles (rather tha
 
 ```{r}
 gradient_pos <- seq(50, 500, 50) ##radii
-gradient_results <- entropy_gradient_aggregated(SPIAT::defined_image, cell_types_of_interest = c("Immune3","Tumour"),
+gradient_results <- entropy_gradient_aggregated(defined_image, cell_types_of_interest = c("Immune3","Tumour"),
                                                 feature_colname = "Cell.Type", radii = gradient_pos)
 # plot the results
 plot(1:10,gradient_results$gradient_df[1, 3:12])
