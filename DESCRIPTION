@@ -85,7 +85,6 @@ Suggests:
     testthat
 biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/trigosteam/SPIAT/issues
-LazyData: true
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 URL: https://trigosteam.github.io/SPIAT/
