@@ -28,7 +28,7 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 
 An overview of the functions available is shown in the figure below. 
 
-```{r, echo=FALSE, fig.height=7, fig.width=4.8, fig.align='centre'}
+```{r, echo=FALSE, fig.height=5, fig.width=3, fig.align='centre'}
 knitr::include_graphics("SPIAT-overview.png")
 ```
 
@@ -598,7 +598,7 @@ mixing_score_summary(formatted_image, reference_celltype = "Immune1",
 
 Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are four patterns that can be distinguished from  K-cross function, as illustrated in the plots below. (taken from [ here](https://blog.jlevente.com/understanding-the-cross-k-function/) in April 2021).
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width = 4, fig.height = 2}
 knitr::include_graphics("cross-k-function.png")
 ```
 
@@ -746,7 +746,7 @@ formatted_border <- identify_bordering_cells(formatted_image,
 ### Classification of cells relative to their location to the margin
 We can then define four locations relative to the margin based on distances: "Internal margin", "External margin", "Outside" and "Inside". Specifically, we define the area within a specified distance to the margin as either "Internal margin" (bordering the margin, inside the tumor area) and "External margin" (bordering the margin, surrounding the tumor area). The areas located further away than the specified distance from the margin are defined as "Inside" (i.e. the tumor area) and "Outside" (i.e. the tumor area).
 
-```{r, echo=FALSE, fig.height=4, fig.width=4}
+```{r, echo=FALSE, fig.height=3, fig.width=3}
 knitr::include_graphics("tumour-structure.png")
 ```
 
