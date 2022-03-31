@@ -15,13 +15,13 @@ if (!require("BiocManager", quietly = TRUE))
 # The following initializes usage of Bioc devel
 BiocManager::install(version='devel')
 
-BiocManager::install("GenomicRanges")
+BiocManager::install("SPIAT")
 ```
 
 Or access the development version here:
 ```r
 # install.packages('devtools')
-devtools::install_github("TrigosTeam/SPIAT")
+devtools::install_github("TrigosTeam/SPIAT", ref = "dev")
 ```
 
 ## Vignette 
