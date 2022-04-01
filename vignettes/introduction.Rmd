@@ -7,6 +7,8 @@ output:
   BiocStyle::html_document:
     toc_float: true
     toc_depth: 4
+fig.width: 3
+fig.height: 3
 bibliography: "`r file.path(system.file(package='SPIAT', 'vignettes'), 'introduction.bib')`"    
 vignette: >
   %\VignetteIndexEntry{Overview of the SPIAT package}
