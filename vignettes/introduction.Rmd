@@ -2,13 +2,13 @@
 title: "Overview of the SPIAT package"
 author: "Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle"
 date: "`r BiocStyle::doc_date()`"
-package: SPIAT
 output:
   BiocStyle::html_document:
+    self_contained: yes
     toc_float: true
     toc_depth: 4
-fig.width: 3
-fig.height: 3
+dpi: 50
+package: "`r pkg_ver('SPIAT')`"
 bibliography: "`r file.path(system.file(package='SPIAT', 'vignettes'), 'introduction.bib')`"    
 vignette: >
   %\VignetteIndexEntry{Overview of the SPIAT package}
@@ -17,7 +17,11 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  crop = NULL,
+  echo = TRUE, fig.width = 3, fig.height = 2, dpi = 50)
 ```
 
 # Basics
@@ -30,7 +34,7 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 
 An overview of the functions available is shown in the figure below. 
 
-```{r, echo=FALSE, fig.height=5, fig.width=3, fig.align='centre'}
+```{r, echo=FALSE, fig.height=4.5, fig.width=2.8, fig.align='centre'}
 knitr::include_graphics("SPIAT-overview.png")
 ```
 
@@ -294,18 +298,12 @@ predicted_image <- predict_phenotypes(sce_object = simulated_image,
 
 We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. 
 
-```{r}
+```{r, fig.width = 4, fig.height=2}
 marker_prediction_plot(predicted_image, marker="Immune_marker1")
 ```
 
 The plot shows Immune_marker1+ cells in the tissue. On the left are the Immune_marker1+ cells defined by InForm and on the right are the Immune_marker1+ cells predicted using SPIAT.
 If this is simulated data, then there are no cells defined by InForm. We can say that on the left we have the phenotypes we had pre-defined and leave it at that.
-
-Similar plots are generated for other markers. For example, the following plots are for Tumour_marker.
-
-```{r}
-marker_prediction_plot(predicted_image, marker="Tumour_marker")
-```
 
 The next example shows how to replace the original phenotypes with the predicted ones. Note that for this tutorial, we still use the original phenotypes.
 
@@ -385,7 +383,7 @@ We can also check for specific missclassified cells using dimensionality reducti
 
 The generated dimensionality reduction plots are interactive, and users can hover over each cell and obtain the cell ID. Users can then remove specific missclassified cells. 
 
-```{r}
+```{r, fig.width = 4, fig.height=3.8}
 predicted_image2 <- 
   define_celltypes(predicted_image2, 
                    categories = c("Tumour_marker", "Immune_marker1,Immune_marker2",
@@ -417,7 +415,7 @@ predicted_image2 <- select_celltypes(predicted_image2, c("Cell_3302", "Cell_4917
 
 Then plot the TSNE again. This time we see there are fewer missclassified cells.
 
-```{r}
+```{r, fig.width = 4, fig.height=3.8}
 # TSNE plot
 g <- dimensionality_reduction_plot(predicted_image2, plot_type = "TSNE", feature_colname = "Cell.Type")
 
