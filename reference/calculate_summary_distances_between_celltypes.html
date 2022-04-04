@@ -86,7 +86,7 @@ functions that generate the distances can be
 <span class="r-in"><span class="co"># for minimum dist</span></span>
 <span class="r-in"><span class="va">min_dists</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_minimum_distances_between_celltypes.html">calculate_minimum_distances_between_celltypes</a></span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>,</span>
 <span class="r-in">cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune1"</span><span class="op">)</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Markers had been selected in pair-wise distance calculation: "</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Markers had been selected in minimum distance calculation: "</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune1" "Tumour" </span>
 <span class="r-in"><span class="va">summary_distances</span> <span class="op">&lt;-</span> <span class="fu">calculate_summary_distances_between_celltypes</span><span class="op">(</span><span class="va">min_dists</span><span class="op">)</span></span>
 </code></pre></div>

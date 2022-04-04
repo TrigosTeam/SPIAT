@@ -91,7 +91,7 @@ types are from.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The alpha of Polygon is: 63.24375"</span>
 <span class="r-plt img"><img src="calculate_summary_distances_of_cells_to_borders-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">sce_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_distance_to_tumour_margin.html">calculate_distance_to_tumour_margin</a></span><span class="op">(</span><span class="va">sce_border</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Markers had been selected in pair-wise distance calculation: "</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Markers had been selected in minimum distance calculation: "</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Non-border" "Border"    </span>
 <span class="r-in"><span class="va">sce_structure</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_structure.html">define_structure</a></span><span class="op">(</span><span class="va">sce_dist</span>, names_of_immune_cells <span class="op">=</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>,<span class="st">"Immune2"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span>,</span>
