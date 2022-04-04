@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   crop = NULL,
-  echo = TRUE, fig.width = 3.5, fig.height = 3.5, dpi = 30, out.width = "40%")
+  echo = TRUE, fig.width = 3.8, fig.height = 3.8, dpi = 72, out.width = "60%")
 ```
 
 # Basics
@@ -33,7 +33,7 @@ SPIAT includes six analysis modules that allow visualization, calculation of cel
 
 An overview of the functions available is shown in the figure below. 
 
-```{r, echo=FALSE, fig.height=4, fig.width=2.5, fig.align='centre', out.width = "75%"}
+```{r, echo=FALSE, fig.height=4.2, fig.width=2.6, fig.align='centre', out.width = "85%"}
 knitr::include_graphics("SPIAT-overview.jpg")
 ```
 
@@ -297,7 +297,7 @@ predicted_image <- predict_phenotypes(sce_object = simulated_image,
 
 We can use `marker_prediction_plot` to plot the predicted cell phenotypes and the ones obtained using HALO or InForm, for comparison. 
 
-```{r, fig.width = 8, fig.height=2, out.width="100%"}
+```{r, fig.width = 9, fig.height=2, out.width="100%"}
 marker_prediction_plot(predicted_image, marker="Immune_marker1")
 ```
 
@@ -343,7 +343,7 @@ Here we present some quality control steps implemented in SPIAT to check for the
 
 Phenotyping of cells can be verified comparing marker intensities of cells labelled positive and negative for a marker. Cells positive for a marker should have high levels of the marker. An unclear separation of marker intensities between positive and negative cells would suggest phenotypes have not been accurately assigned. We can use `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as being positive or negative for a marker.
 
-```{r, fig.height = 1.8, fig.with = 2}
+```{r, fig.height = 1.5, fig.width = 2}
 marker_intensity_boxplot(formatted_image, "Immune_marker1")
 ```
 
@@ -354,7 +354,7 @@ Note that if phenotypes were obtained from software that uses machine learning t
 
 Uneven marker staining or high background intensity can be identified with `plot_cell_marker_levels`. This produces a scatter plot of the intensity of a marker in each cell. This should be relatively even across the image and all phenotyped cells. Cells that were not phenotyped as being positive for the particular marker are excluded.
 
-```{r, fig.height=1.8, fig.width =4, out.width="100%"}
+```{r, fig.height=1.6, dpi = 72, out.width="100%"}
 plot_cell_marker_levels(formatted_image, "Immune_marker1")
 ```
 
@@ -362,7 +362,7 @@ plot_cell_marker_levels(formatted_image, "Immune_marker1")
 
 For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the `num_splits` parameter.
 
-```{r, fig.height = 2, out.width="75%"}
+```{r, fig.height = 2.2, out.width="75%"}
 plot_marker_level_heatmap(formatted_image, num_splits = 100, "Tumour_marker")
 ```
 
@@ -385,12 +385,12 @@ print_feature(data_subset, feature_colname = "Phenotype")
 
 In this vignette we will work with all the original phenotypes present in `formatted_image`.
 
-### Dimensionality reduction to identify missclassified cells
-We can also check for specific missclassified cells using dimensionality reduction. SPIAT offers tSNE and UMAPs based on marker intensities to visualize cells. Cells of distinct types should be forming clearly different clusters. 
+### Dimensionality reduction to identify mi-sclassified cells
+We can also check for specific misclassified cells using dimensionality reduction. SPIAT offers tSNE and UMAPs based on marker intensities to visualize cells. Cells of distinct types should be forming clearly different clusters. 
 
-The generated dimensionality reduction plots are interactive, and users can hover over each cell and obtain the cell ID. Users can then remove specific missclassified cells. 
+The generated dimensionality reduction plots are interactive, and users can hover over each cell and obtain the cell ID. Users can then remove specific misclassified cells. 
 
-```{r,, fig.width = 2, fig.height=5, out.width = "75%"}
+```{r}
 predicted_image2 <- 
   define_celltypes(predicted_image2, 
                    categories = c("Tumour_marker", "Immune_marker1,Immune_marker2",
@@ -406,29 +406,35 @@ predicted_image2 <- select_celltypes(predicted_image2, "Undefined",
 
 # TSNE plot
 g <- dimensionality_reduction_plot(predicted_image2, plot_type = "TSNE", feature_colname = "Cell.Type")
-
-plotly::ggplotly(g)
 ```
 
-Note that `dimensionality_reduction_plot` only prints a statis version of the UMAP or tSNE plot. If the user wants to interac with this plot, they can pass the result to the `ggplotly` function from the `plotly` package.
+Note that `dimensionality_reduction_plot` only prints a static version of the UMAP or tSNE plot. If the user wants to interact with this plot, they can pass the result to the `ggplotly` function from the `plotly` package. Due to the file size restriction, we only show a screenshot of the interactive tSNE plot.
 
-The plot shows that there are four clear clusters based on marker intensities. This is consistent with the cell definition from the marker combinations from the "Phenotype" column. The interactive TSNE plot allows users to hover the cursor on the misclassified cells and see their cell IDs. In this example, Cell_3302, Cell_4917, Cell_2297, Cell_488, Cell_4362, Cell_4801, Cell_2220, Cell_3431, Cell_533, Cell_4925, Cell_4719, Cell_469, Cell_1929, Cell_310, Cell_2536, Cell_321, and Cell_4195 are obviously misclassified according to this plot.
+```{r, echo=TRUE, fig.width = 4, fig.height = 4, out.width = "70%"}
+#plotly::ggplotly(g) # uncomment this code to generate the interactive plot
+knitr::include_graphics("tSNE1.jpg")
+```
+
+The plot shows that there are four clear clusters based on marker intensities. This is consistent with the cell definition from the marker combinations from the "Phenotype" column. (The interactive TSNE plot would allow users to hover the cursor on the misclassified cells and see their cell IDs.) In this example, Cell_3302, Cell_4917, Cell_2297, Cell_488, Cell_4362, Cell_4801, Cell_2220, Cell_3431, Cell_533, Cell_4925, Cell_4719, Cell_469, Cell_1929, Cell_310, Cell_2536, Cell_321, and Cell_4195 are obviously misclassified according to this plot.
 
 We can use `select_celltypes` to delete the misclassified cells.
 
-```{r}
+```{r, eval=FALSE}
 predicted_image2 <- select_celltypes(predicted_image2, c("Cell_3302", "Cell_4917", "Cell_2297", "Cell_488", "Cell_4362", "Cell_4801", "Cell_2220", "Cell_3431", "Cell_533", "Cell_4925", "Cell_4719", "Cell_469", "Cell_1929", "Cell_310", "Cell_2536", "Cell_321", "Cell_4195"), feature_colname = "rowname", keep = FALSE)
 ```
 
-Then plot the TSNE again. This time we see there are fewer missclassified cells.
+Then plot the TSNE again (not interactive). This time we see there are fewer mis-classified cells.
 
-```{r, fig.width = 3.5, fig.height=2.8, pdi = 72, out.width = "80%"}
+```{r, eval=FALSE}
 # TSNE plot
 g <- dimensionality_reduction_plot(predicted_image2, plot_type = "TSNE", feature_colname = "Cell.Type")
 
-plotly::ggplotly(g)
+# plotly::ggplotly(g) # uncomment this code to interact with the plot
 ```
 
+```{r, echo=FALSE, fig.width = 4, fig.height = 4, out.width = "70%"}
+knitr::include_graphics("tSNE2.jpg")
+```
 
 ## Visualizing tissues
 In addition to the marker level tissue plots for QC, SPIAT has other methods for visualizing markers and phenotypes in tissues.
@@ -446,19 +452,27 @@ plot_cell_categories(formatted_image, c("Tumour", "Immune1", "Immune2", "Immune3
 ### 3D surface plot
 We can visualize a selected marker in 3D with `marker_surface_plot`. The image is blurred based on the `num_splits` parameter.
 
-```{r, fig.width = 2, fig.height = 5, dpi = 50, out.width="90%"}
+```{r, eval=FALSE}
 marker_surface_plot(formatted_image, num_splits=15, marker="Immune_marker1")
 ```
-You can interactively move the plot around to obtain a better view.
+Due to the restriction of the file size, we have disabled the interactive plot in this vignette. Here only shows a screen shot. (You can interactively move the plot around to obtain a better view with the same code).
+
+```{r, echo=FALSE, out.width = "75%"}
+knitr::include_graphics("marker_surface1.jpg")
+```
 
 ### 3D stacked surface plot
 To  visualize multiple markers in 3D in a single plot we can use `marker_surface_plot_stack`. This shows normalized intensity level of specified markers and enables the identification of co-occurring and mutually exclusive markers. 
 
-```{r, fig.width = 2, fig.height = 5, dpi = 50, out.width="90%"}
+```{r, eval=FALSE}
 marker_surface_plot_stack(formatted_image, num_splits=15, markers=c("Tumour_marker", "Immune_marker1"))
 ```
 
-The stacked surface plots of the Tumour_marker and Immune_marker1 cells in this example shows how Tumour_marker and Immune_marker1 are mutually exclusive as the peaks and valleys are opposite. You can interactively move the plot around to obtain a better view.
+```{r, echo=FALSE, out.width = "75%"}
+knitr::include_graphics("marker_surface2.jpg")
+```
+
+The stacked surface plots of the Tumour_marker and Immune_marker1 cells in this example shows how Tumour_marker and Immune_marker1 are mutually exclusive as the peaks and valleys are opposite. Similar to the previous plot, we have disabled the interactive plot in the vignette. (You can interactively move the plot around to obtain a better view with the same code.)
 
 
 ## Basic analyses
@@ -502,7 +516,7 @@ distances <- calculate_pairwise_distances_between_celltypes(formatted_image,
 ```
 
 The pairwise distances can be visualized as a violin plot with `plot_cell_distances_violin`. 
-```{r, fig.height = 2.5}
+```{r, fig.height = 4, fig.width=6, out.width="75%"}
 plot_cell_distances_violin(distances)
 ```
 
@@ -518,7 +532,7 @@ An example of the interpretation of this result is: 'average pairwise distance b
 
 These pairwise cell distances can then be visualized as a heatmap with `plot_distance_heatmap`. This example shows the average pairwise distances between cell types. Note that the pairwise distances are symmetrical (the average distance between cell type A and cell type B is the same as the average distance between cell Type B and cell Type A).
 
-```{r, fig.height = 2.5}
+```{r, fig.height = 2.5, out.width = "75%"}
 plot_distance_heatmap(summary_distances, metric = "mean")
 ```
 
@@ -537,7 +551,7 @@ min_dist <- calculate_minimum_distances_between_celltypes(
 The minimum distances can be visualized as a violin plot with `plot_cell_distances_violin`. 
 Visualization of this distribution often reveals whether pairs of cells are evenly spaced across the image, or whether there are clusters of pairs of cell types.
 
-```{r, fig.height = 2.5}
+```{r, fig.height = 5, fig.width=8, out.width="75%"}
 plot_cell_distances_violin(min_dist)
 ```
 
@@ -556,7 +570,7 @@ An example of the interpretation of this result is: 'average minimum distance be
 
 Similarly, the summary statistics of the minimum distances can also be visualised by a heatmap. This example shows the average minimum distance between cell types.
 
-```{r, fig.height = 2.5}
+```{r, fig.height = 2.5, out.width = "75%"}
 plot_distance_heatmap(min_summary_dist, metric = "mean")
 ```
 
@@ -618,7 +632,7 @@ Here, the black line represents the input image, the red line represents a rando
 
 We can calculate the cross K-function using SPIAT. Here, we need to define which are the cell types of interest. In this example, we are using Tumour cells as the reference population, and Immune3 cells as the target population.
 
-```{r,fig.width = 3}
+```{r,fig.width = 4.2}
 df_cross <- calculate_cross_functions(formatted_image, method = "Kcross", 
                                       cell_types_of_interest = c("Tumour","Immune2"), 
                                       feature_colname ="Cell.Type",
@@ -653,7 +667,7 @@ plot_cell_categories(formatted_image, c("Tumour", "Immune1", "Immune2", "Immune3
 
 Compute the cross K function between "Tumour" and "Immune3":
 
-```{r}
+```{r, fig.width = 4}
 df_cross <- calculate_cross_functions(formatted_image, method = "Kcross", 
                                       cell_types_of_interest = c("Tumour","Immune3"), 
                                       feature_colname ="Cell.Type",
@@ -662,7 +676,7 @@ df_cross <- calculate_cross_functions(formatted_image, method = "Kcross",
 
 Then find the intersection of the observed and expected cross K curves.
 
-```{r, fig.width = 2.5}
+```{r}
 crossing_of_crossK(df_cross)
 ```
 
@@ -686,7 +700,7 @@ One approach to calculate localised metric is to split the image into "fish-net"
 
 For cases where the localised metric is not symmetrical (requires specifying a target and reference cell type), the first iten in the vector used for `cell_types_of_interest` marks the reference cells and the second item the target cells. Here we are using Entropy, which is not symmetrical, so we can use any order of cell types in the input.
 
-```{r, out.width = "75%"}
+```{r, out.width = "70%"}
 data("defined_image")
 grid <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 20,
                      cell_types_of_interest=c("Tumour","Immune3"), 
@@ -723,7 +737,7 @@ The `compute_gradient` function outputs the numbers cells within each radii for 
 
 An alternative approach is to combine the results of all the circles (rather than have one for each individual reference cell). Here, for each radii, we simultaneously identify all the cells in the circles surrounding each reference cell, and calculate a single entropy score. We have created a specific function for this - `entropy_gradient_aggregated`. The output of this function is an overall entropy score for each radii.
 
-```{r, fig.width = 3}
+```{r}
 gradient_pos <- seq(50, 500, 50) ##radii
 gradient_results <- entropy_gradient_aggregated(defined_image, cell_types_of_interest = c("Immune3","Tumour"),
                                                 feature_colname = "Cell.Type", radii = gradient_pos)
@@ -739,7 +753,7 @@ In certain analysis the focus is understanding the spatial distribution of immun
 In some instances tumor cells are distributed in such a way that there are no clear tumor margins. While this can be derived intuitively in most cases, SPIAT offers a way of quantifying the 'quality' of the margin for downstream analyses. This is meant to be used to help flag images with relatively poor margins, and therefore we do not offer a cutoff value.
 
 To determine if there is a clear tumour margin, SPIAT can calculate the ratio of tumour bordering cells to tumour total cells (R-BT). This ratio is high when there is a disproportional high number of tumor mangin cells compared to internal tumor cells.
-```{r, fig.width = 2.5, fig.height = 3}
+```{r, fig.width = 2.7, fig.height = 3}
 R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
 ```
 The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`. This low value means there are relatively low number of bordering cells compared to total tumor cells, meaning that this image has clear tumor margins.
@@ -747,7 +761,7 @@ The result is `r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.T
 ### Automatic identification of the tumor margin
 We can identify margins with `identify_bordering_cells`. This function leverages off the alpha hull method [@alphahull] from the alphahull package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.
 
-```{r, fig.width = 2.5, fig.height = 3}
+```{r, fig.width = 2.7, fig.height = 3}
 formatted_border <- identify_bordering_cells(formatted_image, 
                                              reference_cell = "Tumour", 
                                              feature_colname="Cell.Type")
@@ -756,7 +770,7 @@ formatted_border <- identify_bordering_cells(formatted_image,
 ### Classification of cells relative to their location to the margin
 We can then define four locations relative to the margin based on distances: "Internal margin", "External margin", "Outside" and "Inside". Specifically, we define the area within a specified distance to the margin as either "Internal margin" (bordering the margin, inside the tumor area) and "External margin" (bordering the margin, surrounding the tumor area). The areas located further away than the specified distance from the margin are defined as "Inside" (i.e. the tumor area) and "Outside" (i.e. the tumor area).
 
-```{r, echo=FALSE, fig.height=2, fig.width=2}
+```{r, echo=FALSE, fig.height=2, fig.width=2, out.width="75%"}
 knitr::include_graphics("tumour-structure.jpg")
 ```
 
@@ -782,7 +796,7 @@ categories <- print_feature(formatted_structure, "Structure")
 
 We can plot and colour these structure categories.
 
-```{r, fig.height = 2, out.width = "90%"}
+```{r, fig.height = 3, fig.width = 5.8 , out.width = "90%"}
 plot_cell_categories(formatted_structure, feature_colname = "Structure")
 ```
 
@@ -853,7 +867,7 @@ neighorhoods_vis <- neighorhoods_vis[neighorhoods_vis$Total_number_of_cells >=5,
 
 Finally, we can use `plot_composition_heatmap` to produce a heatmap showing the marker percentages within each cluster, which can be used to classify the derived neighbourhoods.
 
-```{r, fig.width = 3, fig.height = 3.2,out.width = "75%"}
+```{r, fig.width = 3, fig.height = 3, out.width = "70%"}
 plot_composition_heatmap(neighorhoods_vis, feature_colname="Cell.Type")
 ```
 
