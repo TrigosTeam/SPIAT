@@ -35,7 +35,7 @@ calculate_minimum_distances_between_celltypes <- function(sce_object, feature_co
   if (nrow(formatted_data) == 0){
       stop("No cells belong to the specified marker combinations of interest")
     }
-  print("Markers had been selected in pair-wise distance calculation: ")
+  print("Markers had been selected in minimum distance calculation: ")
   print(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
