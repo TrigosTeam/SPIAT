@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">4 April 2022</h4>
+            <h4 data-toc-skip class="date">11 April 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -924,9 +924,9 @@
 <span class="co">#&gt;                    Cell.Type       Area    Min_d    Max_d    Mean_d  Median_d</span>
 <span class="co">#&gt; 1 All_cell_types_of_interest Tumor_area 10.93225 192.4094  86.20042  88.23299</span>
 <span class="co">#&gt; 2 All_cell_types_of_interest     Stroma 10.02387 984.0509 218.11106 133.18220</span>
-<span class="co">#&gt; 3                    Immune1 Tumor_area      Inf     -Inf       NaN        NA</span>
+<span class="co">#&gt; 3                    Immune1 Tumor_area       NA       NA        NA        NA</span>
 <span class="co">#&gt; 4                    Immune1     Stroma 84.20018 970.7749 346.14096 301.01535</span>
-<span class="co">#&gt; 5                    Immune2 Tumor_area      Inf     -Inf       NaN        NA</span>
+<span class="co">#&gt; 5                    Immune2 Tumor_area       NA       NA        NA        NA</span>
 <span class="co">#&gt; 6                    Immune2     Stroma 79.42753 984.0509 333.26374 284.09062</span>
 <span class="co">#&gt; 7                    Immune3 Tumor_area 10.93225 192.4094  86.20042  88.23299</span>
 <span class="co">#&gt; 8                    Immune3     Stroma 10.02387 971.5638 102.79227  68.19218</span>
@@ -939,7 +939,7 @@
 <span class="co">#&gt; 6 185.67518</span>
 <span class="co">#&gt; 7  45.27414</span>
 <span class="co">#&gt; 8 131.32714</span></code></pre></div>
-<p>Why are some Inf or NA. Please add an explanation.</p>
+<p>Note that for cell types that are not present in a tumour structure, there should be NAs in the results.</p>
 </div>
 </div>
 <div class="section level3">
@@ -1052,7 +1052,7 @@
 <span class="co">#&gt;  [22] R.utils_2.11.0         vroom_1.5.7            pkgdown_2.0.2         </span>
 <span class="co">#&gt;  [25] spatstat.sparse_2.1-0  colorspace_2.0-3       ggrepel_0.9.1         </span>
 <span class="co">#&gt;  [28] textshaping_0.3.6      xfun_0.30              dplyr_1.0.8           </span>
-<span class="co">#&gt;  [31] rgdal_1.5-29           crayon_1.5.1           RCurl_1.98-1.6        </span>
+<span class="co">#&gt;  [31] rgdal_1.5-30           crayon_1.5.1           RCurl_1.98-1.6        </span>
 <span class="co">#&gt;  [34] jsonlite_1.8.0         spatstat.data_2.1-4    iterators_1.0.14      </span>
 <span class="co">#&gt;  [37] glue_1.6.2             polyclip_1.10-0        gtable_0.3.0          </span>
 <span class="co">#&gt;  [40] zlibbioc_1.40.0        XVector_0.34.0         GetoptLong_1.0.5      </span>
