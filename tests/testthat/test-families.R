@@ -84,9 +84,9 @@ test_that("functions in tumour structure family work", {
     ## summarise the distances from cells to the tumour border
     res <- data.frame(Cell.Type = c("All_cell_types_of_interest", "All_cell_types_of_interest", "Immune1", "Immune1", "Immune3", "Immune3"),
                       Area = c("Tumor_area", "Stroma", "Tumor_area", "Stroma", "Tumor_area", "Stroma"),
-                      Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", Inf, "84.2001833941197", "10.9322494547641", "10.0238703579346")),
-                      Max_d = as.numeric(c("192.409359800297", "971.56383420638", -Inf, "970.774932660564", "192.409359800297", "971.56383420638")),
-                      Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NaN, "346.140958983386", "86.200421492396", "102.79227480847")),
+                      Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", NA, "84.2001833941197", "10.9322494547641", "10.0238703579346")),
+                      Max_d = as.numeric(c("192.409359800297", "971.56383420638", NA, "970.774932660564", "192.409359800297", "971.56383420638")),
+                      Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NA, "346.140958983386", "86.200421492396", "102.79227480847")),
                       Median_d=as.numeric(c("88.2329866304885", "101.951127102521", NA, "301.015350157948", "88.2329866304885", "68.192180252124")),
                       St.dev_d=as.numeric(c("45.27413945602", "194.685066632607",NA, "187.042468626624", "45.27413945602", "131.327138494673")))
     out <- calculate_summary_distances_of_cells_to_borders(sce_structure, 
