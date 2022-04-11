@@ -34,13 +34,28 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object,
   
   # CHECK input
   if (is.null(cell_types_of_interest)){
-    stop("Please indicate the celltypes!")
+    stop("Please indicate the cell types!")
   }
   if (is.null(feature_colname)){
-    stop("Please indicate the columns of the interest!")
+    stop("Please indicate the column name of the cell types!")
   }
   
   data <- data.frame(colData(sce_object))
+  
+  # define a function to get the statistics of the distances
+  summarise_dist <- function(data){
+    if (dim(data)[1] == 0){
+      min_d <- max_d <- mean_d <- median_d <- st.dev_d <- NA
+    } 
+    else {
+      min_d <- min(data$Distance.To.Border, na.rm = TRUE)
+      max_d <- max(data$Distance.To.Border, na.rm = TRUE)
+      mean_d <- mean(data$Distance.To.Border, na.rm = TRUE)
+      median_d <- stats::median(data$Distance.To.Border, na.rm = TRUE)
+      st.dev_d <- stats::sd(data$Distance.To.Border, na.rm = TRUE)
+    }
+    return(c(min_d, max_d, mean_d, median_d, st.dev_d))
+  }
   ##### data in #####
   data_of_interest_in <- data[which((data[[feature_colname]] %in% cell_types_of_interest) 
                                     & (data$Region == "Inside")),]
@@ -49,44 +64,50 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object,
                "Median", "St.dev")
   df <- vector()
   
-  min_d <- suppressWarnings(min(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
-  max_d <- suppressWarnings(max(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
-  mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
-  median_d <- stats::median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
-  st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  sum_d <- summarise_dist(data_of_interest_in)
   
-  df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
+  # min_d <- suppressWarnings(min(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
+  # max_d <- suppressWarnings(max(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
+  # mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  # median_d <- stats::median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  # st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+  
+  df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", sum_d))
   ##### data out #####
   data_of_interest_out <- data[which((data[[feature_colname]] %in% cell_types_of_interest) 
                                      & (data$Region == "Outside")),]
   
-  min_d <- suppressWarnings(min(data_of_interest_out$Distance.To.Border,na.rm = TRUE))
-  max_d <- suppressWarnings(max(data_of_interest_out$Distance.To.Border,na.rm = TRUE))
-  mean_d <- mean(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
-  median_d <- stats::median(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
-  st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
+  sum_d <- summarise_dist(data_of_interest_out)
   
-  df <-  rbind(df, c("All_cell_types_of_interest", "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
+  # min_d <- suppressWarnings(min(data_of_interest_out$Distance.To.Border,na.rm = TRUE))
+  # max_d <- suppressWarnings(max(data_of_interest_out$Distance.To.Border,na.rm = TRUE))
+  # mean_d <- mean(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
+  # median_d <- stats::median(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
+  # st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border,na.rm = TRUE)
+  
+  df <-  rbind(df, c("All_cell_types_of_interest", "Stroma", sum_d))
   
   for(type in cell_types_of_interest){
     data_of_interest_in <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Inside")),]
-    min_d <- suppressWarnings(min(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
-    max_d <- suppressWarnings(max(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
-    mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
-    median_d <- stats::median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
-    st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    sum_d <- summarise_dist(data_of_interest_in)
     
-    df <-  rbind(df, c(type, "Tumor_area", min_d, max_d, mean_d, median_d, st.dev_d))
+    # min_d <- suppressWarnings(min(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
+    # max_d <- suppressWarnings(max(data_of_interest_in$Distance.To.Border, na.rm = TRUE))
+    # mean_d <- mean(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    # median_d <- stats::median(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    # st.dev_d <- stats::sd(data_of_interest_in$Distance.To.Border, na.rm = TRUE)
+    
+    df <-  rbind(df, c(type, "Tumor_area", sum_d))
     ##### data out #####
     data_of_interest_out <- data[which((data[[feature_colname]] %in% type) & (data$Region == "Outside")),]
+    sum_d <- summarise_dist(data_of_interest_out)
+    # min_d <- suppressWarnings(min(data_of_interest_out$Distance.To.Border, na.rm = TRUE))
+    # max_d <- suppressWarnings(max(data_of_interest_out$Distance.To.Border, na.rm = TRUE))
+    # mean_d <- mean(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    # median_d <- stats::median(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
+    # st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
     
-    min_d <- suppressWarnings(min(data_of_interest_out$Distance.To.Border, na.rm = TRUE))
-    max_d <- suppressWarnings(max(data_of_interest_out$Distance.To.Border, na.rm = TRUE))
-    mean_d <- mean(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
-    median_d <- stats::median(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
-    st.dev_d <- stats::sd(data_of_interest_out$Distance.To.Border, na.rm = TRUE)
-    
-    df <-  rbind(df, c(type, "Stroma", min_d, max_d, mean_d, median_d, st.dev_d))
+    df <-  rbind(df, c(type, "Stroma", sum_d))
   }
   colnames(df) <- c("Cell.Type", "Area", "Min_d", "Max_d", "Mean_d", "Median_d", "St.dev_d")
   df <- as.data.frame(df)
