@@ -816,7 +816,7 @@ immune_distances <- calculate_summary_distances_of_cells_to_borders(formatted_st
 immune_distances
 ```
 
-Why are some Inf or NA. Please add an explanation.
+Note that for cell types that are not present in a tumour structure, there should be NAs in the results.
 
 ## Cellular neighbourhoods
 The aggregation of cells can result in 'cellular neighbourhoods'. A neighbourhood is defined as a group of cells that cluster together. These can be homotypic, containing cells of a single class (e.g. immune cells), or heterotypic (e.g. containing a mixture of tumour and immune cells). 
