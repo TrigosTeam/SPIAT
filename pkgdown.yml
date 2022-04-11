@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2022-04-11T04:58Z
+last_built: 2022-04-11T05:27Z
 urls:
   reference: https://trigosteam.github.io/SPIAT/reference
   article: https://trigosteam.github.io/SPIAT/articles
