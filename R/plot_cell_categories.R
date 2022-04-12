@@ -90,12 +90,26 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
     all_colours <- colour_vector
   }
   
-  p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) +
-    geom_point(aes_string(colour = feature_colname), size = 1)
-  p <- p +
-    guides(alpha = "none") +
-    ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
-    scale_color_manual(breaks = all_categories, values=all_colours)
-  
+  if (layered){
+    p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) 
+    for (type in categories_of_interest){
+      p <- p +
+        geom_point(data = formatted_data[which(formatted_data[[feature_colname]] == type),],
+                   color = colour_vector[match(type, categories_of_interest)],
+                   size = cex) 
+    }
+    p <- p +
+      guides(alpha = "none") +
+      ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
+      scale_color_manual(breaks = all_categories, values=all_colours)
+  }
+  else{
+    p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) +
+      geom_point(aes_string(colour = feature_colname), size = cex)
+    p <- p +
+      guides(alpha = "none") +
+      ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
+      scale_color_manual(breaks = all_categories, values=all_colours)
+  }
   print(p)
 }
