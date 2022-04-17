@@ -31,7 +31,7 @@ calculate_pairwise_distances_between_celltypes <- function(sce_object,
   #CHECK
   if (nrow(dat) == 0) {
     print("There are no cells or no cells of specified cell types")
-    cell_to_cell_dist_all <- c(Cell1 = NA, Cell2 = NA, Distance = NA, Pair = NA) 
+    cell_to_cell_dist_all <- c(Cell1 = NA, Cell2 = NA, Distance = NA, Pair = NA, Type1 = NA, Type2 = NA) 
   }else{
     dat <- dat[,c("Cell.ID", feature_colname, "Cell.X.Position", "Cell.Y.Position")]
     
@@ -58,7 +58,9 @@ calculate_pairwise_distances_between_celltypes <- function(sce_object,
           cell_to_cell <- dist_all[cell_id_vector %in% cell_ids1, cell_id_vector %in% cell_ids2]
           #Melts dist_all to produce dataframe of target and nearest cell ID's columns and distance column
           cell_to_cell_dist <- reshape2::melt(cell_to_cell)
-          cell_to_cell_dist$Pair <- paste(cell_name1,cell_name2,sep="_")
+          cell_to_cell_dist$Type1 <- cell_name1
+          cell_to_cell_dist$Type2 <- cell_name2
+          cell_to_cell_dist$Pair <- paste(cell_name1,cell_name2,sep="/")
           
           if(cell_name1 == cell_name2){
             cell_to_cell_dist$value[cell_to_cell_dist$value == 0] <- NA

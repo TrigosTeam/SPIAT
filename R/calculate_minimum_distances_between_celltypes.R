@@ -83,7 +83,7 @@ calculate_minimum_distances_between_celltypes <- function(sce_object, feature_co
   
   # remove NAs e.g. for distance of cell against itself
   result <- result[stats::complete.cases(result),]
-  result$Pair <- paste(result$RefType, result$NearestType,sep = "_")
+  result$Pair <- paste(result$RefType, result$NearestType,sep = "/")
   
   return(result)
 }

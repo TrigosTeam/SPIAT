@@ -51,7 +51,9 @@ test_that("calculate_pairwise_distances_between_celltypes() works", {
                       Cell1 = c("Cell_25", "Cell_30", "Cell_48"), 
                       Cell2 = c("Cell_15", "Cell_15", "Cell_15"),
                       Distance = c(119.3982738563,  61.7785923437, 279.8494352805), 
-                      Pair = rep("Immune1_Immune1", 3))
+                      Type1 = rep("Immune1", 3),
+                      Type2 = rep("Immune1", 3),
+                      Pair = rep("Immune1/Immune1", 3))
     
     dists <- calculate_pairwise_distances_between_celltypes(defined_image, 
                                                     cell_types_of_interest = c("Tumour","Immune1"), 
@@ -65,7 +67,7 @@ test_that("calculate_pairwise_distances_between_celltypes() works", {
 test_that("calculate_summary_distances_between_celltypes() works", {
     
     res <- data.frame(row.names = c(1L, 2L),
-                      Pair = c("Immune1_Immune1", "Immune1_Tumour"),
+                      Pair = c("Immune1/Immune1", "Immune1/Tumour"),
                       Mean = c(1164.7096, 1013.3697), 
                       Min = c(10.84056, 13.59204),
                       Max = c(2729.120, 2708.343),
@@ -98,8 +100,8 @@ test_that("calculate_minimum_distances_between_cell_types() works", {
                       NearestCell = c("Cell_32", "Cell_27", "Cell_32"),
                       NearestType = c("Tumour", "Tumour", "Tumour"),
                       Distance = c(17.18740, 44.79503, 78.52918),
-                      Pair = c("Immune1_Tumour", "Immune1_Tumour",
-                               "Immune1_Tumour"))
+                      Pair = c("Immune1/Tumour", "Immune1/Tumour",
+                               "Immune1/Tumour"))
         
     min_dists <- calculate_minimum_distances_between_celltypes(defined_image,
                                                          feature_colname = "Cell.Type", 
