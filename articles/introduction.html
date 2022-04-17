@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">11 April 2022</h4>
+            <h4 data-toc-skip class="date">17 April 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -580,15 +580,15 @@
 
 <span class="va">summary_distances</span>
 <span class="co">#&gt;              Pair      Mean      Min      Max    Median  Std.Dev Reference</span>
-<span class="co">#&gt; 1 Immune1_Immune1 1164.7096 10.84056 2729.120 1191.3645 552.0154   Immune1</span>
-<span class="co">#&gt; 2 Immune1_Immune3 1034.4960 10.23688 2691.514 1026.4414 442.2515   Immune1</span>
-<span class="co">#&gt; 3  Immune1_Tumour 1013.3697 13.59204 2708.343 1004.6579 413.7815   Immune1</span>
-<span class="co">#&gt; 4 Immune3_Immune1 1034.4960 10.23688 2691.514 1026.4414 442.2515   Immune3</span>
-<span class="co">#&gt; 5 Immune3_Immune3  794.7765 10.17353 2645.302  769.9948 397.8863   Immune3</span>
-<span class="co">#&gt; 6  Immune3_Tumour  758.2732 10.02387 2670.861  733.4501 380.7703   Immune3</span>
-<span class="co">#&gt; 7  Tumour_Immune1 1013.3697 13.59204 2708.343 1004.6579 413.7815    Tumour</span>
-<span class="co">#&gt; 8  Tumour_Immune3  758.2732 10.02387 2670.861  733.4501 380.7703    Tumour</span>
-<span class="co">#&gt; 9   Tumour_Tumour  711.2657 10.00348 2556.332  703.9096 380.3293    Tumour</span>
+<span class="co">#&gt; 1 Immune1/Immune1 1164.7096 10.84056 2729.120 1191.3645 552.0154   Immune1</span>
+<span class="co">#&gt; 2 Immune1/Immune3 1034.4960 10.23688 2691.514 1026.4414 442.2515   Immune1</span>
+<span class="co">#&gt; 3  Immune1/Tumour 1013.3697 13.59204 2708.343 1004.6579 413.7815   Immune1</span>
+<span class="co">#&gt; 4 Immune3/Immune1 1034.4960 10.23688 2691.514 1026.4414 442.2515   Immune3</span>
+<span class="co">#&gt; 5 Immune3/Immune3  794.7765 10.17353 2645.302  769.9948 397.8863   Immune3</span>
+<span class="co">#&gt; 6  Immune3/Tumour  758.2732 10.02387 2670.861  733.4501 380.7703   Immune3</span>
+<span class="co">#&gt; 7  Tumour/Immune1 1013.3697 13.59204 2708.343 1004.6579 413.7815    Tumour</span>
+<span class="co">#&gt; 8  Tumour/Immune3  758.2732 10.02387 2670.861  733.4501 380.7703    Tumour</span>
+<span class="co">#&gt; 9   Tumour/Tumour  711.2657 10.00348 2556.332  703.9096 380.3293    Tumour</span>
 <span class="co">#&gt;    Target</span>
 <span class="co">#&gt; 1 Immune1</span>
 <span class="co">#&gt; 2 Immune3</span>
@@ -628,11 +628,11 @@
 <span class="co"># show the first five rows</span>
 <span class="va">min_summary_dist</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,<span class="op">]</span>
 <span class="co">#&gt;              Pair     Mean      Min       Max   Median  Std.Dev Reference</span>
-<span class="co">#&gt; 1 Immune1_Immune2 63.65211 10.33652 158.80504 59.01846 32.58482   Immune1</span>
-<span class="co">#&gt; 2 Immune1_Immune3 88.46152 10.23688 256.30328 77.21765 53.73164   Immune1</span>
-<span class="co">#&gt; 3  Immune1_Others 19.24038 10.05203  49.86409 17.49196  7.19293   Immune1</span>
-<span class="co">#&gt; 4  Immune1_Tumour 85.84773 13.59204 223.15809 80.80592 40.72454   Immune1</span>
-<span class="co">#&gt; 5 Immune2_Immune1 48.45885 10.33652 132.31086 43.71936 27.43245   Immune2</span>
+<span class="co">#&gt; 1 Immune1/Immune2 63.65211 10.33652 158.80504 59.01846 32.58482   Immune1</span>
+<span class="co">#&gt; 2 Immune1/Immune3 88.46152 10.23688 256.30328 77.21765 53.73164   Immune1</span>
+<span class="co">#&gt; 3  Immune1/Others 19.24038 10.05203  49.86409 17.49196  7.19293   Immune1</span>
+<span class="co">#&gt; 4  Immune1/Tumour 85.84773 13.59204 223.15809 80.80592 40.72454   Immune1</span>
+<span class="co">#&gt; 5 Immune2/Immune1 48.45885 10.33652 132.31086 43.71936 27.43245   Immune2</span>
 <span class="co">#&gt;    Target</span>
 <span class="co">#&gt; 1 Immune2</span>
 <span class="co">#&gt; 2 Immune3</span>
@@ -1057,7 +1057,7 @@
 <span class="co">#&gt;  [37] glue_1.6.2             polyclip_1.10-0        gtable_0.3.0          </span>
 <span class="co">#&gt;  [40] zlibbioc_1.40.0        XVector_0.34.0         GetoptLong_1.0.5      </span>
 <span class="co">#&gt;  [43] DelayedArray_0.20.0    shape_1.4.6            apcluster_1.4.9       </span>
-<span class="co">#&gt;  [46] abind_1.4-5            scales_1.1.1           sgeostat_1.0-27       </span>
+<span class="co">#&gt;  [46] abind_1.4-5            scales_1.2.0           sgeostat_1.0-27       </span>
 <span class="co">#&gt;  [49] pheatmap_1.0.12        spatstat.random_2.2-0  Rcpp_1.0.8.3          </span>
 <span class="co">#&gt;  [52] viridisLite_0.4.0      clue_0.3-60            spatstat.core_2.4-2   </span>
 <span class="co">#&gt;  [55] bit_4.0.4              dittoSeq_1.6.0         htmlwidgets_1.5.4     </span>
@@ -1077,11 +1077,11 @@
 <span class="co">#&gt;  [97] png_0.1-7              spatstat.utils_2.3-0   tibble_3.1.6          </span>
 <span class="co">#&gt; [100] bslib_0.3.1            stringi_1.7.6          highr_0.9             </span>
 <span class="co">#&gt; [103] desc_1.4.1             lattice_0.20-45        Matrix_1.4-1          </span>
-<span class="co">#&gt; [106] vctrs_0.4.0            pillar_1.7.0           lifecycle_1.0.1       </span>
+<span class="co">#&gt; [106] vctrs_0.4.1            pillar_1.7.0           lifecycle_1.0.1       </span>
 <span class="co">#&gt; [109] BiocManager_1.30.16    spatstat.geom_2.4-0    jquerylib_0.1.4       </span>
 <span class="co">#&gt; [112] GlobalOptions_0.1.2    data.table_1.14.2      cowplot_1.1.1         </span>
 <span class="co">#&gt; [115] bitops_1.0-7           raster_3.5-15          R6_2.5.1              </span>
-<span class="co">#&gt; [118] bookdown_0.25          gridExtra_2.3          codetools_0.2-18      </span>
+<span class="co">#&gt; [118] bookdown_0.26          gridExtra_2.3          codetools_0.2-18      </span>
 <span class="co">#&gt; [121] gtools_3.9.2           rjson_0.2.21           rprojroot_2.0.3       </span>
 <span class="co">#&gt; [124] GenomeInfoDbData_1.2.7 mgcv_1.8-40            parallel_4.1.3        </span>
 <span class="co">#&gt; [127] terra_1.5-21           grid_4.1.3             rpart_4.1.16          </span>
