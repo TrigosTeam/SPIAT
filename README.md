@@ -24,6 +24,8 @@ Or access the development version here:
 devtools::install_github("TrigosTeam/SPIAT", ref = "dev")
 ```
 
+The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.
+
 ## Vignette 
 
 The vignette with an overview of the package can be accessed from the top Menu under Articles or by clicking [here](https://trigosteam.github.io/SPIAT/articles/introduction.html).
