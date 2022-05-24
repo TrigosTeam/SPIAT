@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">17 April 2022</h4>
+            <h4 data-toc-skip class="date">24 May 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -95,7 +95,7 @@
 <div class="section level3">
 <h3 id="installing-spiat">Installing <code>SPIAT</code><a class="anchor" aria-label="anchor" href="#installing-spiat"></a>
 </h3>
-<p><em><a href="https://bioconductor.org/packages/3.14/SPIAT" class="external-link">SPIAT</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org" class="external-link">Bioconductor</a> repository for packages. You can install the lasted development version from Github. You can install SPIAT using the following commands in your <code>R</code> session:</p>
+<p><em><a href="https://bioconductor.org/packages/3.15/SPIAT" class="external-link">SPIAT</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org" class="external-link">Bioconductor</a> repository for packages. You can install the lasted development version from Github. You can install SPIAT using the following commands in your <code>R</code> session:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Check that you have a valid Bioconductor installation</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html" class="external-link">valid</a></span><span class="op">(</span><span class="op">)</span>
@@ -112,20 +112,22 @@
 <div class="section level3">
 <h3 id="citing-spiat">Citing <code>SPIAT</code><a class="anchor" aria-label="anchor" href="#citing-spiat"></a>
 </h3>
-<p>We hope that <em><a href="https://bioconductor.org/packages/3.14/SPIAT" class="external-link">SPIAT</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
+<p>We hope that <em><a href="https://bioconductor.org/packages/3.15/SPIAT" class="external-link">SPIAT</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Citation info</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"SPIAT"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Trigos A, Feng Y, Yang T, Li M, Zhu J, Ozcoban V, Doyle M (2022).</span>
-<span class="co">#&gt; _SPIAT: Spatial Image Analysis of Cells in Tissues_. R package version</span>
-<span class="co">#&gt; 0.99.0, &lt;URL: https://trigosteam.github.io/SPIAT/&gt;.</span>
+<span class="co">#&gt; To cite package 'SPIAT' in publications use:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Yang T, Ozcoban V, Pasam A, Kocovski N, Pizzolla A, Huang Y, Bass G,</span>
-<span class="co">#&gt; Keam S, Neeson P, Sandhu S, Goode D, Trigos A (2020). "SPIAT: An R</span>
-<span class="co">#&gt; package for the Spatial Image Analysis of Cells in Tissues." _bioRxiv_.</span>
-<span class="co">#&gt; doi: 10.1101/2020.05.28.122614 (URL:</span>
-<span class="co">#&gt; https://doi.org/10.1101/2020.05.28.122614).</span>
+<span class="co">#&gt;   Trigos A, Feng Y, Yang T, Li M, Zhu J, Ozcoban V, Doyle M (2022).</span>
+<span class="co">#&gt;   _SPIAT: Spatial Image Analysis of Cells in Tissues_. R package</span>
+<span class="co">#&gt;   version 0.99.0, &lt;https://trigosteam.github.io/SPIAT/&gt;.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Yang T, Ozcoban V, Pasam A, Kocovski N, Pizzolla A, Huang Y, Bass G,</span>
+<span class="co">#&gt;   Keam S, Neeson P, Sandhu S, Goode D, Trigos A (2020). "SPIAT: An R</span>
+<span class="co">#&gt;   package for the Spatial Image Analysis of Cells in Tissues."</span>
+<span class="co">#&gt;   _bioRxiv_. doi:10.1101/2020.05.28.122614</span>
+<span class="co">#&gt;   &lt;https://doi.org/10.1101/2020.05.28.122614&gt;.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; To see these entries in BibTeX format, use 'print(&lt;citation&gt;,</span>
 <span class="co">#&gt; bibtex=TRUE)', 'toBibtex(.)', or set</span>
@@ -1015,7 +1017,7 @@
 </h2>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R version 4.1.3 (2022-03-10)</span>
+<span class="co">#&gt; R version 4.2.0 (2022-04-22)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">#&gt; Running under: Ubuntu 20.04.4 LTS</span>
 <span class="co">#&gt; </span>
@@ -1034,58 +1036,58 @@
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] SPIAT_0.99.0                SingleCellExperiment_1.16.0</span>
-<span class="co">#&gt;  [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             </span>
-<span class="co">#&gt;  [5] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        </span>
-<span class="co">#&gt;  [7] IRanges_2.28.0              S4Vectors_0.32.4           </span>
-<span class="co">#&gt;  [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       </span>
-<span class="co">#&gt; [11] matrixStats_0.61.0          BiocStyle_2.22.0           </span>
+<span class="co">#&gt;  [1] SPIAT_0.99.0                SingleCellExperiment_1.18.0</span>
+<span class="co">#&gt;  [3] SummarizedExperiment_1.26.1 Biobase_2.56.0             </span>
+<span class="co">#&gt;  [5] GenomicRanges_1.48.0        GenomeInfoDb_1.32.2        </span>
+<span class="co">#&gt;  [7] IRanges_2.30.0              S4Vectors_0.34.0           </span>
+<span class="co">#&gt;  [9] BiocGenerics_0.42.0         MatrixGenerics_1.8.0       </span>
+<span class="co">#&gt; [11] matrixStats_0.62.0          BiocStyle_2.24.0           </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;   [1] circlize_0.4.14        systemfonts_1.0.4      plyr_1.8.7            </span>
-<span class="co">#&gt;   [4] lazyeval_0.2.2         sp_1.4-6               splines_4.1.3         </span>
-<span class="co">#&gt;   [7] crosstalk_1.2.0        ggplot2_3.3.5          elsa_1.1-28           </span>
+<span class="co">#&gt;   [1] circlize_0.4.15        systemfonts_1.0.4      plyr_1.8.7            </span>
+<span class="co">#&gt;   [4] lazyeval_0.2.2         sp_1.4-7               splines_4.2.0         </span>
+<span class="co">#&gt;   [7] crosstalk_1.2.0        ggplot2_3.3.6          elsa_1.1-28           </span>
 <span class="co">#&gt;  [10] digest_0.6.29          foreach_1.5.2          htmltools_0.5.2       </span>
 <span class="co">#&gt;  [13] fansi_1.0.3            magrittr_2.0.3         memoise_2.0.1         </span>
 <span class="co">#&gt;  [16] cluster_2.1.3          tensor_1.5             doParallel_1.0.17     </span>
-<span class="co">#&gt;  [19] tzdb_0.3.0             tripack_1.3-9.1        ComplexHeatmap_2.10.0 </span>
-<span class="co">#&gt;  [22] R.utils_2.11.0         vroom_1.5.7            pkgdown_2.0.2         </span>
-<span class="co">#&gt;  [25] spatstat.sparse_2.1-0  colorspace_2.0-3       ggrepel_0.9.1         </span>
-<span class="co">#&gt;  [28] textshaping_0.3.6      xfun_0.30              dplyr_1.0.8           </span>
-<span class="co">#&gt;  [31] rgdal_1.5-30           crayon_1.5.1           RCurl_1.98-1.6        </span>
-<span class="co">#&gt;  [34] jsonlite_1.8.0         spatstat.data_2.1-4    iterators_1.0.14      </span>
+<span class="co">#&gt;  [19] tzdb_0.3.0             tripack_1.3-9.1        ComplexHeatmap_2.12.0 </span>
+<span class="co">#&gt;  [22] R.utils_2.11.0         vroom_1.5.7            pkgdown_2.0.3         </span>
+<span class="co">#&gt;  [25] spatstat.sparse_2.1-1  colorspace_2.0-3       ggrepel_0.9.1         </span>
+<span class="co">#&gt;  [28] textshaping_0.3.6      xfun_0.31              dplyr_1.0.9           </span>
+<span class="co">#&gt;  [31] rgdal_1.5-32           crayon_1.5.1           RCurl_1.98-1.6        </span>
+<span class="co">#&gt;  [34] jsonlite_1.8.0         spatstat.data_2.2-0    iterators_1.0.14      </span>
 <span class="co">#&gt;  [37] glue_1.6.2             polyclip_1.10-0        gtable_0.3.0          </span>
-<span class="co">#&gt;  [40] zlibbioc_1.40.0        XVector_0.34.0         GetoptLong_1.0.5      </span>
-<span class="co">#&gt;  [43] DelayedArray_0.20.0    shape_1.4.6            apcluster_1.4.9       </span>
+<span class="co">#&gt;  [40] zlibbioc_1.42.0        XVector_0.36.0         GetoptLong_1.0.5      </span>
+<span class="co">#&gt;  [43] DelayedArray_0.22.0    shape_1.4.6            apcluster_1.4.9       </span>
 <span class="co">#&gt;  [46] abind_1.4-5            scales_1.2.0           sgeostat_1.0-27       </span>
 <span class="co">#&gt;  [49] pheatmap_1.0.12        spatstat.random_2.2-0  Rcpp_1.0.8.3          </span>
-<span class="co">#&gt;  [52] viridisLite_0.4.0      clue_0.3-60            spatstat.core_2.4-2   </span>
-<span class="co">#&gt;  [55] bit_4.0.4              dittoSeq_1.6.0         htmlwidgets_1.5.4     </span>
-<span class="co">#&gt;  [58] httr_1.4.2             RColorBrewer_1.1-3     ellipsis_0.3.2        </span>
+<span class="co">#&gt;  [52] viridisLite_0.4.0      clue_0.3-60            spatstat.core_2.4-4   </span>
+<span class="co">#&gt;  [55] bit_4.0.4              dittoSeq_1.8.0         htmlwidgets_1.5.4     </span>
+<span class="co">#&gt;  [58] httr_1.4.3             RColorBrewer_1.1-3     ellipsis_0.3.2        </span>
 <span class="co">#&gt;  [61] pkgconfig_2.0.3        R.methodsS3_1.8.1      farver_2.1.0          </span>
 <span class="co">#&gt;  [64] sass_0.4.1             deldir_1.0-6           alphahull_2.4         </span>
 <span class="co">#&gt;  [67] utf8_1.2.2             tidyselect_1.1.2       labeling_0.4.2        </span>
 <span class="co">#&gt;  [70] rlang_1.0.2            reshape2_1.4.4         munsell_0.5.0         </span>
-<span class="co">#&gt;  [73] tools_4.1.3            cachem_1.0.6           cli_3.2.0             </span>
-<span class="co">#&gt;  [76] dbscan_1.1-10          generics_0.1.2         splancs_2.01-42       </span>
+<span class="co">#&gt;  [73] tools_4.2.0            cachem_1.0.6           cli_3.3.0             </span>
+<span class="co">#&gt;  [76] dbscan_1.1-10          generics_0.1.2         splancs_2.01-43       </span>
 <span class="co">#&gt;  [79] mmand_1.6.1            ggridges_0.5.3         evaluate_0.15         </span>
 <span class="co">#&gt;  [82] stringr_1.4.0          fastmap_1.1.0          yaml_2.3.5            </span>
-<span class="co">#&gt;  [85] ragg_1.2.2             goftest_1.2-3          knitr_1.38            </span>
+<span class="co">#&gt;  [85] ragg_1.2.2             goftest_1.2-3          knitr_1.39            </span>
 <span class="co">#&gt;  [88] bit64_4.0.5            fs_1.5.2               purrr_0.3.4           </span>
 <span class="co">#&gt;  [91] RANN_2.6.1             nlme_3.1-157           R.oo_1.24.0           </span>
-<span class="co">#&gt;  [94] pracma_2.3.8           compiler_4.1.3         plotly_4.10.0         </span>
-<span class="co">#&gt;  [97] png_0.1-7              spatstat.utils_2.3-0   tibble_3.1.6          </span>
+<span class="co">#&gt;  [94] pracma_2.3.8           compiler_4.2.0         plotly_4.10.0         </span>
+<span class="co">#&gt;  [97] png_0.1-7              spatstat.utils_2.3-1   tibble_3.1.7          </span>
 <span class="co">#&gt; [100] bslib_0.3.1            stringi_1.7.6          highr_0.9             </span>
 <span class="co">#&gt; [103] desc_1.4.1             lattice_0.20-45        Matrix_1.4-1          </span>
 <span class="co">#&gt; [106] vctrs_0.4.1            pillar_1.7.0           lifecycle_1.0.1       </span>
-<span class="co">#&gt; [109] BiocManager_1.30.16    spatstat.geom_2.4-0    jquerylib_0.1.4       </span>
+<span class="co">#&gt; [109] BiocManager_1.30.18    spatstat.geom_2.4-0    jquerylib_0.1.4       </span>
 <span class="co">#&gt; [112] GlobalOptions_0.1.2    data.table_1.14.2      cowplot_1.1.1         </span>
 <span class="co">#&gt; [115] bitops_1.0-7           raster_3.5-15          R6_2.5.1              </span>
 <span class="co">#&gt; [118] bookdown_0.26          gridExtra_2.3          codetools_0.2-18      </span>
-<span class="co">#&gt; [121] gtools_3.9.2           rjson_0.2.21           rprojroot_2.0.3       </span>
-<span class="co">#&gt; [124] GenomeInfoDbData_1.2.7 mgcv_1.8-40            parallel_4.1.3        </span>
-<span class="co">#&gt; [127] terra_1.5-21           grid_4.1.3             rpart_4.1.16          </span>
-<span class="co">#&gt; [130] tidyr_1.2.0            rmarkdown_2.13         Rtsne_0.15</span></code></pre></div>
+<span class="co">#&gt; [121] gtools_3.9.2.1         rjson_0.2.21           rprojroot_2.0.3       </span>
+<span class="co">#&gt; [124] GenomeInfoDbData_1.2.8 mgcv_1.8-40            parallel_4.2.0        </span>
+<span class="co">#&gt; [127] terra_1.5-21           grid_4.2.0             rpart_4.1.16          </span>
+<span class="co">#&gt; [130] tidyr_1.2.0            rmarkdown_2.14         Rtsne_0.16</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author Contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
@@ -1117,7 +1119,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
