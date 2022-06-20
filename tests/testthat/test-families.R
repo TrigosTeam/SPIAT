@@ -30,43 +30,41 @@ test_that("functions in cross K family work", {
 test_that("functions in tumour structure family work", {
     ## identify_bordering_cells()
     res <- c("Inside", "Inside", "Border", "Inside")
-    sce_border <- identify_bordering_cells(defined_image, reference_cell = "Tumour",
+    spe_border <- identify_bordering_cells(defined_image, reference_cell = "Tumour",
                                            feature_colname = "Cell.Type", n_to_exclude = 10)
-    # test if the data strcure is "SingleCellExperiment"
-    expect_s4_class(sce_border, "SingleCellExperiment") 
+    # test if the data strcure is "SpatialExperiment"
+    expect_s4_class(spe_border, "SpatialExperiment") 
     
-    out <- sce_border$Region[3776:3779]
+    out <- spe_border$Region[3776:3779]
     expect_equal(res, out) # test if the results are the same
     
     ## R_BT()
     # test if R_BT returns a number
     n <- R_BT(defined_image, cell_type_of_interest = "Tumour", "Cell.Type")
-    
     expect_is(n, "numeric")
     
     ## calculate_distance_to_tumour_margin()
     res <- c(83.54843614991348488275, 63.04062766766428183018, 
              0.00000000000000000000, 29.59984593965495847101)
     res1 <- c("Non-border", "Non-border", "Border", "Non-border")
-    sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-    # test if the data strcure is "SingleCellExperiment"
-    expect_s4_class(sce_dist, "SingleCellExperiment") 
-    
-    out <- sce_dist$Distance.To.Border[3776:3779]
-    out1 <- sce_dist$region2[3776:3779]
+    spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+    # test if the data strcure is "SpatialExperiment"
+    expect_s4_class(spe_dist, "SpatialExperiment") 
+    out <- spe_dist$Distance.To.Border[3776:3779]
+    out1 <- spe_dist$region2[3776:3779]
     # test if the results are the same
     expect_equal(res, out) 
     expect_equal(res1, out1)
     
     ## define_structure()
     res <- c("Internal.margin", "Internal.margin", "Border", "Internal.margin")
-    sce_structure <- define_structure(sce_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
+    spe_structure <- define_structure(spe_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
                                       feature_colname = "Cell.Type", n_margin_layers = 5)
     
-    # test if the data strcure is "SingleCellExperiment"
-    expect_s4_class(sce_structure, "SingleCellExperiment") 
+    # test if the data strcure is "SpatialExperiment"
+    expect_s4_class(spe_structure, "SpatialExperiment") 
     
-    out <- sce_structure$Structure[3776:3779]
+    out <- spe_structure$Structure[3776:3779]
     expect_equal(res, out)  # test if the results are the same
     
     ## summarise the cell proportions in each tumour structure
@@ -76,7 +74,7 @@ test_that("functions in tumour structure family work", {
                       P.Internal.Margin.Immune = as.numeric(c("0", "0.0878048780487805", "0", "1", "0", "0.0571428571428571", "0.0878048780487805")),
                       P.External.Margin.Immune = as.numeric(c("0.00549450549450549", "2.15934065934066", "0.00253807106598985", "0.99746192893401", "0.0029585798816568", "0.623809523809524", "2.17032967032967")),
                       P.Stromal.Immune=as.numeric(c("0.119715808170515", "0.0568383658969805", "0.678068410462777", "0.321931589537223", "0.997041420118343", "0.253968253968254", "0.23943161634103")))
-    out <- calculate_proportions_of_cells_in_structure(sce_structure, 
+    out <- calculate_proportions_of_cells_in_structure(spe_structure, 
                                                 cell_types_of_interest = c("Immune1","Immune3"),
                                                 feature_colname = "Cell.Type")
     expect_equal(res, out) 
@@ -89,7 +87,7 @@ test_that("functions in tumour structure family work", {
                       Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NA, "346.140958983386", "86.200421492396", "102.79227480847")),
                       Median_d=as.numeric(c("88.2329866304885", "101.951127102521", NA, "301.015350157948", "88.2329866304885", "68.192180252124")),
                       St.dev_d=as.numeric(c("45.27413945602", "194.685066632607",NA, "187.042468626624", "45.27413945602", "131.327138494673")))
-    out <- calculate_summary_distances_of_cells_to_borders(sce_structure, 
+    out <- calculate_summary_distances_of_cells_to_borders(spe_structure, 
                                                            cell_types_of_interest = c("Immune1","Immune3"),
                                                            feature_colname = "Cell.Type")
     expect_equal(res, out) 
@@ -126,8 +124,8 @@ test_that("functions in identify neighborhood family work", {
                                             cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
                                             radius = 50, feature_colname = "Cell.Type")
     
-    # test if the data strcure is "SingleCellExperiment"
-    expect_s4_class(neighborhoods, "SingleCellExperiment") 
+    # test if the data strcure is "SpatialExperiment"
+    expect_s4_class(neighborhoods, "SpatialExperiment") 
     
     ## composition_of_neighborhoods()
     res <- data.frame(row.names = c(1L, 2L, 3L),

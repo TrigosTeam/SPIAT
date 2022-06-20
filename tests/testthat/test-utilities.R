@@ -1,61 +1,62 @@
 context("utilities")
 
-test_that("format_image_to_sce() works for inForm data", {
-  
-  raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", package = "SPIAT")
+test_that("format_inform_to_spe() works", {
+
+  raw_inform_data <- system.file("extdata", "tiny_inform.txt.gz", 
+                                 package = "SPIAT")
   markers <- c("DAPI","CD3","PD-L1","CD4","CD8","AMACR")
   intensity_columns_interest <- c(
     "Nucleus DAPI (DAPI) Mean (Normalized Counts, Total Weighting)",
-    "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)", 
+    "Cytoplasm CD3 (Opal 520) Mean (Normalized Counts, Total Weighting)",
     "Membrane PD-L1 (Opal 540) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm CD4 (Opal 620) Mean (Normalized Counts, Total Weighting)",
-    "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)", 
+    "Cytoplasm CD8 (Opal 650) Mean (Normalized Counts, Total Weighting)",
     "Cytoplasm AMACR (Opal 690) Mean (Normalized Counts, Total Weighting)"
   )
-  sce <- format_image_to_sce(
-    format="INFORM",
+  spe <- format_inform_to_spe(
     path=raw_inform_data,
     markers=markers,
-    intensity_columns_interest=intensity_columns_interest,
-    dye_columns_interest=NULL
-  )
-  
-  expect_is(sce, "SingleCellExperiment")
-  expect_equal(dim(sce), c(6L, 9L))
+    intensity_columns_interest=intensity_columns_interest)
+
+  expect_is(spe, "SpatialExperiment")
+  expect_equal(dim(spe), c(6L, 9L))
 })
 
-test_that("format_sce_to_ppp() wroks", {
+test_that("format_image_to_spe() works as general format", {
   
-  ppp_object <- format_sce_to_ppp(defined_image, feature_colname = "Cell.Type")
+  #Construct a marker intensity matrix (rows are markers, columns are cells)
+  intensity_matrix <- matrix(c(14.557, 0.169, 1.655, 0.054, 17.588, 0.229,
+                               1.188, 2.074, 21.262, 4.206,  5.924, 0.021), 
+                             nrow = 4, ncol = 3)
+  # define marker names as rownames
+  rownames(intensity_matrix) <- c("DAPI", "CD3", "CD4", "AMACR")
+  # define cell IDs as colnames
+  colnames(intensity_matrix) <- c("Cell_1", "Cell_2", "Cell_3")
+  # Construct a dummy metadata (phenotypes, x/y coordinates)
+  # the order of the elements in these vectors correspond to the cell order
+  # in `intensity matrix`
+  phenotypes <- c("OTHER",  "AMACR", "CD3,CD4")
+  coord_x <- c(82, 171, 184)
+  coord_y <- c(30, 22, 38)
+
+  formatted_image <- format_image_to_spe(intensity_matrix = intensity_matrix,
+                                         phenotypes = phenotypes, 
+                                         coord_x = coord_x, coord_y = coord_y)
+  
+  expect_is(formatted_image, "SpatialExperiment")
+  expect_equal(dim(formatted_image), c(4L, 3L))
+})
+
+
+test_that("format_spe_to_ppp() works", {
+  
+  ppp_object <- format_spe_to_ppp(defined_image, feature_colname = "Cell.Type")
   
   expect_is(ppp_object, "ppp")
   expect_equal(ppp_object$x[1], 139.8, tolerance = 0.1)
   expect_equal(ppp_object$y[1], 86.7, tolerance = 0.1)
   expect_equal(ppp_object$marks[1], "Others")
   
-})
-
-test_that("format_colData_to_sce() wroks", {
-  
-  df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), 
-                   Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
-  sce <- format_colData_to_sce(df)
-  
-  out <- data.frame(SummarizedExperiment::colData(sce))
-  
-  expect_s4_class(sce, "SingleCellExperiment")
-  expect_equal(dim(sce)[1], 1)
-  expect_equal(dim(out)[2], 4)
-})
-
-test_that("print_feature works", {
-    
-    res <- c("OTHER","Immune_marker1,Immune_marker2", "Tumour_marker" , 
-             "Immune_marker1,Immune_marker2,Immune_marker4", "Immune_marker1,Immune_marker3"   )
-    
-    phenotypes <- print_feature(simulated_image, "Phenotype")
-  
-    expect_equal(phenotypes, res)
 })
 
 test_that("select_phenotypes works", {
@@ -74,19 +75,20 @@ test_that("define_celltypes works", {
   
   celltypes_defined <- c("Others", "Immune1", "Tumour", "Immune3", "Immune2")
   
-  defined_sce <- define_celltypes(simulated_image, 
+  defined_spe <- define_celltypes(simulated_image, 
                                   categories = c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3", 
                                                  "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), category_colname = "Phenotype",
                                   names = c("Tumour", "Immune1", "Immune2","Immune3", "Others"), new_colname = "Cell.Type")
-  celltypes <- unique(colData(defined_sce)$Cell.Type)
+  celltypes <- unique(colData(defined_spe)$Cell.Type)
   
   expect_equal(celltypes, celltypes_defined)
 })
 
 test_that("image_splitter works", {
 
-   res <-    data.frame(
-     row.names = c("Cell_1", "Cell_2", "Cell_3", "Cell_4"),
+   res <- data.frame(
+     row.names = c(1L, 2L, 3L, 4L),
+     Cell.ID = c("Cell_1", "Cell_2", "Cell_3", "Cell_4"),
      Phenotype = c("OTHER", "OTHER", "OTHER", "OTHER"),
      Cell.X.Position = c(139.77484, 77.86721, 84.44626, 110.19857),
      Cell.Y.Position = c(86.704079, 80.096527, 19.238638, 5.656004))
@@ -117,7 +119,7 @@ test_that("predict_phenotypes works", {
     Immune_marker4_predicted_phenotype = c(0,0),
     Tumour_marker_predicted_phenotype = c(1,0))
   
-  predicted_result <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+  predicted_result <- predict_phenotypes(spe_object = simulated_image, thresholds = NULL,
                                          tumour_marker = "Tumour_marker",
                                          baseline_markers = c("Immune_marker1", "Immune_marker2", 
                                                               "Immune_marker3", "Immune_marker4"), 
@@ -130,13 +132,13 @@ test_that("predict_phenotypes works", {
   expect_equal(out, res)
   
   # test it works when reference_phenotypes = FALSE
-  predicted_sce_image <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+  predicted_spe_image <- predict_phenotypes(spe_object = simulated_image, thresholds = NULL,
                                             tumour_marker = "Tumour_marker",
                                             baseline_markers = c("Immune_marker1", "Immune_marker2", 
                                                                  "Immune_marker3", "Immune_marker4"), 
                                             reference_phenotypes = FALSE)
   
-  predicted_phenotypes <- unique(predicted_sce_image$Phenotype)
+  predicted_phenotypes <- unique(predicted_spe_image$Phenotype)
   
   expect_length(predicted_phenotypes, 27)
 })

@@ -41,7 +41,7 @@ test_that("calculate_cell_proportions() works", {
                           Proportion_name = rep("/Total", 5),
                           stringsAsFactors = FALSE)
     
-    p_cells <- calculate_cell_proportions(sce_object = simulated_image)
+    p_cells <- calculate_cell_proportions(spe_object = simulated_image)
     
     expect_equal(p_cells, res)
 })
@@ -55,7 +55,7 @@ test_that("calculate_pairwise_distances_between_celltypes() works", {
                       Type2 = rep("Immune1", 3),
                       Pair = rep("Immune1/Immune1", 3))
     
-    dists <- calculate_pairwise_distances_between_celltypes(defined_image, 
+    dists <- calculate_pairwise_distances_between_celltypes(SPIAT::defined_image, 
                                                     cell_types_of_interest = c("Tumour","Immune1"), 
                                                     feature_colname = "Cell.Type")
     out <- dists[1:3, ]
