@@ -1,18 +1,15 @@
-#' Format an image into a SpatialExperiment object
+#' Format a cellprofiler image into a SpatialExperiment object
 #'
 #' @description Reads in spatial data in the form of cell coordinates, cell
 #'   phenotypes (if available), and marker intensities and transforms to a
-#'   SingleCellExperiment object. Users can input data in a general format
-#'   (recommended), or data generated from inForm, HALO, Visum, CODEX,
-#'   cellprofiler. The count assay stores the intensity level of every marker
-#'   (rows) for every cell (columns). Cell phenotype, x and y coordinates and
-#'   other cell properties are stored under colData. For the INFORM format, the
-#'   cell properties needed to be included are Cell.Area, Nucleus.Area,
-#'   Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. For the HALO
-#'   format, the cell properties to be included are Cell.Area, Nucleus.Area and
-#'   Cytoplasm.Area. Note that if the data does not include these parameters, we
-#'   recommend adding it to the output from inForm or HALO with NAs in columns,
-#'   or alternatively using the ‘generic formatting’ option.
+#'   SpatialExperiment object. The assay stores the intensity level of every
+#'   marker (rows) for every cell (columns). Cell phenotype is stored under
+#'   `colData()`. Cell x and y coordinates are stored under `spatialCoords()`
+#'   Note that if the data does not include these parameters, we recommend
+#'   adding it to the output from cellprofiler with NAs in columns.
+#' @details Note when specifying `markers`, please use "DAPI" to replace "DNA"
+#'   due to implementation. The output data will include "DAPI" instead of
+#'   "DNA".
 #'
 #' @export
 #' @param path String of the path location cellprofiler csv file.
@@ -21,18 +18,23 @@
 #'   with the level of each marker. Column names must match the order of the
 #'   'markers' parameter.
 #' @return A SingleCellExperiment object is returned
-
+#' @examples
+#' path <- system.file("extdata", "tiny_cellprofiler.txt.gz", package = "SPIAT")
+#' markers <- c("Marker1", "Marker2", "Marker3", "Marker4", "Marker5", "DAPI", 
+#' "Marker6")
+#' intensity_columns_interest <- c("Intensity_MeanIntensity_Marker1_rs",
+#' "Intensity_MeanIntensity_Marker2_rs", "Intensity_MeanIntensity_Marker3_rs",
+#' "Intensity_MeanIntensity_Marker4_rs", "Intensity_MeanIntensity_Marker5_rs",
+#' "Intensity_MeanIntensity_DAPI_rs", "Intensity_MeanIntensity_Marker6_rs")
+#' formatted_cellprofiler <- format_cellprofiler_to_spe(path = path,
+#' markers = markers, intensity_columns_interest = intensity_columns_interest)
 format_cellprofiler_to_spe <- function(path = NULL, 
                                 markers = NULL,  
                                 intensity_columns_interest = NULL){
-    
-    Object.Id <- Cell.ID <- ObjectNumber <- NULL
-
-    # Due to the implementation, rename DNA to DAPI before usage. 
-    if (substr(path, nchar(path)-3+1, nchar(path)) != "csv"){
-        stop("Please convert your file from a cpout to a csv format") }
     # read in the image
     image <- utils::read.csv(path)
+    # change "DNA" to "DAPI"
+    colnames(image) <- sub("_DNA_", "_DAPI_", colnames(image))
     
     # CHECK 
     # if image contains all the columns specified and vectors of same length

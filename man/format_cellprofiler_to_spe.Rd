@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_cellprofiler_to_spe.R
 \name{format_cellprofiler_to_spe}
 \alias{format_cellprofiler_to_spe}
-\title{Format an image into a SpatialExperiment object}
+\title{Format a cellprofiler image into a SpatialExperiment object}
 \usage{
 format_cellprofiler_to_spe(
   path = NULL,
@@ -25,15 +25,25 @@ A SingleCellExperiment object is returned
 \description{
 Reads in spatial data in the form of cell coordinates, cell
   phenotypes (if available), and marker intensities and transforms to a
-  SingleCellExperiment object. Users can input data in a general format
-  (recommended), or data generated from inForm, HALO, Visum, CODEX,
-  cellprofiler. The count assay stores the intensity level of every marker
-  (rows) for every cell (columns). Cell phenotype, x and y coordinates and
-  other cell properties are stored under colData. For the INFORM format, the
-  cell properties needed to be included are Cell.Area, Nucleus.Area,
-  Nucleus.Compactness, Nucleus.Axis.Ratio, and Cell.Axis.Ratio. For the HALO
-  format, the cell properties to be included are Cell.Area, Nucleus.Area and
-  Cytoplasm.Area. Note that if the data does not include these parameters, we
-  recommend adding it to the output from inForm or HALO with NAs in columns,
-  or alternatively using the ‘generic formatting’ option.
+  SpatialExperiment object. The assay stores the intensity level of every
+  marker (rows) for every cell (columns). Cell phenotype is stored under
+  `colData()`. Cell x and y coordinates are stored under `spatialCoords()`
+  Note that if the data does not include these parameters, we recommend
+  adding it to the output from cellprofiler with NAs in columns.
+}
+\details{
+Note when specifying `markers`, please use "DAPI" to replace "DNA"
+  due to implementation. The output data will include "DAPI" instead of
+  "DNA".
+}
+\examples{
+path <- system.file("extdata", "tiny_cellprofiler.txt.gz", package = "SPIAT")
+markers <- c("Marker1", "Marker2", "Marker3", "Marker4", "Marker5", "DAPI", 
+"Marker6")
+intensity_columns_interest <- c("Intensity_MeanIntensity_Marker1_rs",
+"Intensity_MeanIntensity_Marker2_rs", "Intensity_MeanIntensity_Marker3_rs",
+"Intensity_MeanIntensity_Marker4_rs", "Intensity_MeanIntensity_Marker5_rs",
+"Intensity_MeanIntensity_DAPI_rs", "Intensity_MeanIntensity_Marker6_rs")
+formatted_cellprofiler <- format_cellprofiler_to_spe(path = path,
+markers = markers, intensity_columns_interest = intensity_columns_interest)
 }
