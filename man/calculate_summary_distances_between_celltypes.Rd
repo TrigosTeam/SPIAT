@@ -13,7 +13,7 @@ functions that generate the distances can be
 \code{\link{calculate_pairwise_distances_between_celltypes}}.}
 }
 \value{
-A data.frame is returned
+A data frame is returned
 }
 \description{
 Returns the mean, median and standard deviation of the

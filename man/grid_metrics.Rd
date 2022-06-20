@@ -2,13 +2,13 @@
 % Please edit documentation in R/grid_metrics.R
 \name{grid_metrics}
 \alias{grid_metrics}
-\title{grid_metrics}
+\title{Split an image into grid and calculates a metric for each grid square}
 \usage{
-grid_metrics(sce_object, FUN, n_split, ...)
+grid_metrics(spe_object, FUN, n_split, ...)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{FUN}{Variable name specifying the metric to be calculated.}
 

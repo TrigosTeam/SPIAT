@@ -4,11 +4,11 @@
 \alias{plot_marker_level_heatmap}
 \title{plot_marker_level_heatmap}
 \usage{
-plot_marker_level_heatmap(sce_object, num_splits, marker)
+plot_marker_level_heatmap(spe_object, num_splits, marker)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{num_splits}{Integer specifying the blurring level (number of splits)
 for the image. Higher numbers result in higher resolution.}

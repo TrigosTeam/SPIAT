@@ -4,11 +4,11 @@
 \alias{plot_average_intensity}
 \title{plot_average_intensity}
 \usage{
-plot_average_intensity(sce_object, reference_marker, target_marker, radii)
+plot_average_intensity(spe_object, reference_marker, target_marker, radii)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_marker}{String specifying the reference marker.}
 

@@ -5,15 +5,15 @@
 \title{Average nearest neighbor index for point pattern (clustering or dispersion)}
 \usage{
 average_nearest_neighbor_index(
-  sce_object,
+  spe_object,
   reference_celltypes,
   feature_colname,
   p_val = 5e-06
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_celltypes}{String Vector. Cells with these cell types will be
 used for ANNI calculation.}

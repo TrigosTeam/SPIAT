@@ -6,15 +6,15 @@
 \title{calculate_summary_distances_of_cells_to_borders}
 \usage{
 calculate_summary_distances_of_cells_to_borders(
-  sce_object,
+  spe_object,
   cell_types_of_interest,
   feature_colname = "Cell.Type"
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object whose metadata contains the
-information of tumour structure and cell distances to tumour border (has
-column "Region" and "Distance.To.Border").}
+\item{spe_object}{SpatialExperiment object. It should contain information of
+tumour structure and cell distances to tumour border (`colData()` has
+`Region` and `Distance.To.Border` columns).}
 
 \item{cell_types_of_interest}{String Vector of cell types to consider.}
 
@@ -29,12 +29,12 @@ Returns the mean, median and standard deviation of the distances
   between a specified cell type to the border.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image,
+spe_border <- identify_bordering_cells(SPIAT::defined_image,
 reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-sce_structure <- define_structure(sce_dist, names_of_immune_cells =
+spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+spe_structure <- define_structure(spe_dist, names_of_immune_cells =
 c("Immune1","Immune2","Immune3"), feature_colname = "Cell.Type",
 n_margin_layers = 5)
-calculate_summary_distances_of_cells_to_borders(sce_structure,
+calculate_summary_distances_of_cells_to_borders(spe_structure,
 cell_types_of_interest = c("Immune1","Immune3"),feature_colname = "Cell.Type")
 }

@@ -2,8 +2,8 @@
 #'
 #' @description Calculates the number and proportion of each cell type.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_celltypes String Vector specifying reference cell types. If
 #'   NULL (default), then the proportion of each cell type against all cells is
 #'   returned. Alternatively, a custom vector of cell types can be used as
@@ -23,14 +23,13 @@
 #' celltypes_to_exclude = "Others", feature_colname="Cell.Type", plot.image = FALSE)
 #' @export
 
-calculate_cell_proportions <- function(sce_object,  reference_celltypes = NULL, 
+calculate_cell_proportions <- function(spe_object,  reference_celltypes = NULL, 
                                        celltypes_to_exclude = NULL, 
                                        feature_colname="Phenotype",plot.image = TRUE){
 
     Cell_type <- Percentage <- NULL
     #Reads the image file and deletes cell rows with NA positions
-    cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
-    cell_loc <- cell_loc[stats::complete.cases(cell_loc),]
+    cell_loc <- get_colData(spe_object)
     
     #CHECK
     if (nrow(cell_loc) == 0) {
@@ -80,7 +79,7 @@ calculate_cell_proportions <- function(sce_object,  reference_celltypes = NULL,
         g <- ggplot(cell_proportions, aes(x=Cell_type, y=Percentage)) +
             geom_bar(stat='identity') +
             theme_bw()
-        print(g)
+        show(g)
     }
     
     return(cell_proportions)

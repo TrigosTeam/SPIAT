@@ -2,9 +2,9 @@
 #'
 #' @description Generates the dimensionality reduction plots (UMAP or tSNE)
 #'   based on marker intensities. Cells are grouped by the categories under the
-#'   selected column. -- have you tried doing PCA on the matrix and then doing the UMAP/tSNE? Does it help? scRNAseq workflows do this. (?)
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#'   selected column. 
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param plot_type String. Choose from "UMAP" and "TSNE".
 #' @param scale Boolean. Whether scale the marker intensities.
 #' @param feature_colname String. Specify the column name to group the cells.
@@ -14,13 +14,13 @@
 #' @examples 
 #' dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 
 #' feature_colname = "Phenotype")
-dimensionality_reduction_plot <- function(sce_object, plot_type = "UMAP", 
+dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP", 
                                           scale=TRUE, feature_colname){
     
     Cell_ID <- X_coord <- Y_coord <- Label <- NULL
-    formatted_data <- get_colData(sce_object)
+    formatted_data <- get_colData(spe_object)
     
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(spe_object)
     intensity_matrix_no_DAPI <- intensity_matrix[rownames(intensity_matrix) != "DAPI",]
     
     if(scale){
@@ -43,7 +43,7 @@ dimensionality_reduction_plot <- function(sce_object, plot_type = "UMAP",
         intensity_DR_layout$Label <- formatted_data[[feature_colname]][match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else{
-        print("Print select UMAP or TSNE as plot type")
+        show("Print select UMAP or TSNE as plot type")
     }
     
     intensity_DR_layout$Cell_ID <- rownames(intensity_DR_layout)

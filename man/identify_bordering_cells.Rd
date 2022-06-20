@@ -5,7 +5,7 @@
 \title{identify_bordering_cells}
 \usage{
 identify_bordering_cells(
-  sce_object,
+  spe_object,
   reference_cell,
   feature_colname = "Cell.Type",
   ahull_alpha = NULL,
@@ -15,8 +15,8 @@ identify_bordering_cells(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_cell}{String. Cells of this cell type will be used for border
 detection.}
@@ -37,7 +37,7 @@ Default is False.}
 be deleted.}
 }
 \value{
-A new SCE object is returned
+A new SPE object is returned
 }
 \description{
 Identify the cells bordering a group of cells of a particular
@@ -50,6 +50,6 @@ The bordering cell detection algorithm is based on computing an
   identified as the bordering cells.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+spe_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
 feature_colname = "Cell.Type", n_to_exclude = 10)
 }

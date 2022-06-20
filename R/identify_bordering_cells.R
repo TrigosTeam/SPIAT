@@ -7,8 +7,8 @@
 #'   and Silverman, 1979). The cells detected to be on the alpha hull are
 #'   identified as the bordering cells.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_cell String. Cells of this cell type will be used for border
 #'   detection.
 #' @param feature_colname String that speficies the column of `reference_cell`.
@@ -22,38 +22,41 @@
 #' @param n_to_exclude Integer. Clusters with cell count under this number will
 #'   be deleted.
 #' @export
-#' @return A new SCE object is returned
+#' @return A new SPE object is returned
 #' @examples
-#' sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
 #' feature_colname = "Cell.Type", n_to_exclude = 10)
 
-identify_bordering_cells <- function(sce_object, reference_cell, feature_colname = "Cell.Type",
-                                     ahull_alpha = NULL, n_of_polygons = 1, draw = FALSE,  
-                                     n_to_exclude = 10){
+identify_bordering_cells <- function(spe_object, reference_cell, 
+                                     feature_colname = "Cell.Type",
+                                     ahull_alpha = NULL, n_of_polygons = 1, 
+                                     draw = FALSE, n_to_exclude = 10){
   # CHECK
-  if (is.null(SummarizedExperiment::colData(sce_object)[,feature_colname])){
-    stop("Please define the cell types!")
+  if (is.null(SummarizedExperiment::colData(spe_object)[,feature_colname])){
+    stop("Undefined column name. Please check if input contains `feature_colname`!")
   }
-  if (!(reference_cell %in% SummarizedExperiment::colData(sce_object)[,feature_colname])){
+  if (!(reference_cell %in% SummarizedExperiment::colData(spe_object)[,feature_colname])){
     stop("Reference cell not found!")
   }
+  
+  coords_df <- data.frame(SpatialExperiment::spatialCoords(spe_object))
   
   ##### plot #####
   phenotypes_of_interest <- c(reference_cell)
   colour_vector <- c("green")
   if (draw){
     graphics::par(xpd=TRUE)
-    p <- plot_cell_basic(sce_object, phenotypes_of_interest, colour_vector, feature_colname)
+    p <- plot_cell_basic(spe_object, phenotypes_of_interest, colour_vector, feature_colname)
     graphics::par(xpd=FALSE)
   }
   
   ##### interactively draw boundaries ####
   if (n_of_polygons == 1 && !draw){
     l <- list()
-    draw.polys <- data.frame("x" = c(max(sce_object$Cell.X.Position), max(sce_object$Cell.X.Position),
-                                     min(sce_object$Cell.X.Position), min(sce_object$Cell.X.Position)),
-                             "y" = c(min(sce_object$Cell.Y.Position), max(sce_object$Cell.Y.Position),
-                                     max(sce_object$Cell.Y.Position), min(sce_object$Cell.Y.Position)))
+    draw.polys <- data.frame("x" = c(max(coords_df$Cell.X.Position), max(coords_df$Cell.X.Position),
+                                     min(coords_df$Cell.X.Position), min(coords_df$Cell.X.Position)),
+                             "y" = c(min(coords_df$Cell.Y.Position), max(coords_df$Cell.Y.Position),
+                                     max(coords_df$Cell.Y.Position), min(coords_df$Cell.Y.Position)))
     poly <- sp::Polygon(draw.polys, hole = FALSE)
     l[[1]] <- poly
   }
@@ -70,7 +73,8 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   sp_obj <- sp::SpatialPolygons(list(polys))
   
   ##### for loop, get the boundary cells and inside cells for each polygon #####
-  data <- data.frame(SummarizedExperiment::colData(sce_object))
+  data <- data.frame(SummarizedExperiment::colData(spe_object))
+  data <- cbind(data, data.frame(SpatialExperiment::spatialCoords(spe_object)))
   data[,"Region"] <- "Outside"
   
   for (i in seq_len(n_of_polygons)){
@@ -78,7 +82,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
     buffered_polygon = methods::slot(sp_obj@polygons[[1]]@Polygons[[i]],"coords")
     
     # identify the tumour cells in the drawn polygon
-    inpolygon = sp::point.in.polygon(sce_object$Cell.X.Position, sce_object$Cell.Y.Position,
+    inpolygon = sp::point.in.polygon(data$Cell.X.Position, data$Cell.Y.Position,
                                  buffered_polygon[, 1], buffered_polygon[, 2])
     allcells_in_polygon = data[which(inpolygon!= 0),c("Phenotype","Cell.X.Position",
                                                       "Cell.Y.Position",feature_colname)]
@@ -96,7 +100,7 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
       } else {
         alpha = (n_cells - 300)/160 + 60
       }
-      print(paste("The alpha of Polygon is:", alpha))
+      show(paste("The alpha of Polygon is:", alpha))
       ahull = alphahull::ahull(tumour_in_polygon$Cell.X.Position,
                     tumour_in_polygon$Cell.Y.Position, alpha = alpha)
     }
@@ -145,9 +149,9 @@ identify_bordering_cells <- function(sce_object, reference_cell, feature_colname
   }
   
   ##### plot and return #####
-  SummarizedExperiment::colData(sce_object)$Region <- data[,"Region"]
+  SummarizedExperiment::colData(spe_object)$Region <- data[,"Region"]
   plot(data[which(data$Region=="Border"), c("Cell.X.Position","Cell.Y.Position")], 
-       pch = 19, cex = 0.3, main = paste(attr(sce_object, "name"),"tumour bordering cells"))
+       pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),"tumour bordering cells"))
   
-  return(sce_object)
+  return(spe_object)
 }

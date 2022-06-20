@@ -3,8 +3,8 @@
 #' @description Generates a 3D surface plot of the level of the selected marker.
 #'   Note that the image is blurred based on the 'num_splits' parameter.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param num_splits Integer specifying the number of splits on the image,
 #'   higher splits equal to higher resolution. Recommendation: 10-100
 #' @param marker Marker to plot
@@ -22,17 +22,17 @@
 #' marker_surface_plot(SPIAT::simulated_image, num_splits=15, marker="Immune_marker1")
 #' @export
 
-marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
+marker_surface_plot <- function(spe_object, num_splits, marker, x_position_min = NULL, x_position_max = NULL,
                                 y_position_min = NULL, y_position_max = NULL){
     #CHECK
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(spe_object)
     markers <- rownames(intensity_matrix)
     
     if (is.element(marker, markers) == FALSE) {
         stop("Data does not contain marker specified")
     }
     
-    formatted_data <- bind_colData_intensity(sce_object)
+    formatted_data <- bind_info(spe_object)
     formatted_data$split.X <- 0
     formatted_data$split.Y <- 0
 
@@ -69,7 +69,6 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
     for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
-        #print(local_coor_y)
 
         #grab the cells in the range
         result <- formatted_data[min(local_coor_y) < formatted_data$Cell.Y.Position & formatted_data$Cell.Y.Position <= max(local_coor_y), ]
@@ -86,7 +85,6 @@ marker_surface_plot <- function(sce_object, num_splits, marker, x_position_min =
 
     for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
-        # print(local_coor_x)
 
         #grab the cells in the range
         result <- formatted_data[min(local_coor_x) < formatted_data$Cell.X.Position & formatted_data$Cell.X.Position <= max(local_coor_x), ]

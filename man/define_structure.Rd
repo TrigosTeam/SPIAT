@@ -5,16 +5,16 @@
 \title{define_structure}
 \usage{
 define_structure(
-  sce_object,
+  spe_object,
   names_of_immune_cells,
   feature_colname = "Cell.Type",
   n_margin_layers = 5
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object whose metadata has the
-information of tumour bordering cells and cell distances to tumour border
-(has columns "Region" and "Distance.To.Border").}
+\item{spe_object}{SpatialExperiment object that contains information of
+tumour bordering cells and cell distances to tumour border (`colData()` has
+`Region` and `Distance.To.Border` columns).}
 
 \item{names_of_immune_cells}{String Vector of the names of immune cells.}
 
@@ -25,7 +25,7 @@ of the immune cells.}
 the internal/external tumour margins.}
 }
 \value{
-A new sce object is returned
+A new spe object is returned
 }
 \description{
 After identifying the bordering cells of tumour regions and
@@ -36,11 +36,11 @@ After identifying the bordering cells of tumour regions and
   internal margin or external margin immune cells.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image,
+spe_border <- identify_bordering_cells(SPIAT::defined_image,
 reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-sce_structure <- define_structure(sce_dist,
+spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+spe_structure <- define_structure(spe_dist,
 names_of_immune_cells = c("Immune1","Immune2","Immune3"),
 feature_colname = "Cell.Type", n_margin_layers = 5)
-plot_cell_categories(sce_structure, feature_colname = "Structure")
+plot_cell_categories(spe_structure, feature_colname = "Structure")
 }

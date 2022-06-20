@@ -5,14 +5,14 @@
 \title{calculate_minimum_distances_between_celltypes}
 \usage{
 calculate_minimum_distances_between_celltypes(
-  sce_object,
+  spe_object,
   feature_colname,
   cell_types_of_interest = NULL
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{feature_colname}{String of the feature column of cells to choose the
 cell types from (e.g. Cell.Type, Cell.Type2, etc).}

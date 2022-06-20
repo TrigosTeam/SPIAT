@@ -4,11 +4,11 @@
 \alias{marker_intensity_boxplot}
 \title{marker_intensity_boxplot}
 \usage{
-marker_intensity_boxplot(sce_object, marker)
+marker_intensity_boxplot(spe_object, marker)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{marker}{String. Marker being queried.}
 }

@@ -31,7 +31,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
         scale_fill_viridis_c(limits = limit, direction = -1)
-      print(g)
+      show(g)
 
     }else if(metric == "std.dev"){
       limit <- range(unlist(phenotype_distances_result$Std.Dev), na.rm=TRUE)
@@ -40,7 +40,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
         scale_fill_viridis_c(limits = limit, direction = -1)
-      print(g)
+      show(g)
 
     }else if(metric == "median"){
       limit <- range(unlist(phenotype_distances_result$Median), na.rm=TRUE)
@@ -49,7 +49,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
         scale_fill_viridis_c(limits = limit, direction = -1)
-      print(g)
+      show(g)
     }else if(metric == "min"){
       limit <- range(unlist(phenotype_distances_result$Min), na.rm=TRUE)
       g <- ggplot(phenotype_distances_result, aes(x = Reference, y = Target, fill = Min)) + geom_tile() + 
@@ -57,7 +57,7 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
         scale_fill_viridis_c(limits = limit, direction = -1)
-      print(g)
+      show(g)
     }else if(metric == "max"){
       limit <- range(unlist(phenotype_distances_result$Max), na.rm=TRUE)
       g <- ggplot(phenotype_distances_result, aes(x = Reference, y = Target, fill = Max)) + geom_tile() + 
@@ -65,6 +65,6 @@ plot_distance_heatmap <- function(phenotype_distances_result, metric = "mean"){
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = "white"),
               axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
         scale_fill_viridis_c(limits = limit, direction = -1)
-      print(g)
+      show(g)
     }
 }

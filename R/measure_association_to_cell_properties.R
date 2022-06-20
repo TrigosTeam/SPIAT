@@ -2,8 +2,8 @@
 #'
 #' @description Plots the density or boxplot of a property of two cell celltypes
 #'   or compares using t test/wilcoxon rank sum test.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param property String that is the name of the column of interest.
 #' @param celltypes String Vector of celltypes of interest.
 #' @param feature_colname String that speficies the column of the cell types.
@@ -28,12 +28,12 @@
 #'                                       method = "t")
 #' @export
 
-measure_association_to_cell_properties <- function(sce_object, property = "Cell.Area", 
+measure_association_to_cell_properties <- function(spe_object, property = "Cell.Area", 
                                                    celltypes, feature_colname = "Cell.Type",
                                                    method = "density", Nucleus.Ratio = FALSE,
                                                    log.scale = FALSE) {
   
-  formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+  formatted_data <- get_colData(spe_object)
   
   #CHECK
   if (is.element(property, colnames(formatted_data)) == FALSE) {

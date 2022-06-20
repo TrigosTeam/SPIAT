@@ -5,7 +5,7 @@
 \title{Calculate the (normalised) mixing score for interested cell types}
 \usage{
 mixing_score_summary(
-  sce_object,
+  spe_object,
   reference_celltype,
   target_celltype,
   radius = 20,
@@ -13,8 +13,8 @@ mixing_score_summary(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_celltype}{String Vector. Cell types of the reference cells.}
 

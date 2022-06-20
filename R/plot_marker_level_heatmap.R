@@ -4,8 +4,8 @@
 #'   marker levels are then averaged within each square. All cells are
 #'   considered, regardless of phenotype status.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker to plot.
 #' @param num_splits Integer specifying the blurring level (number of splits)
 #'   for the image. Higher numbers result in higher resolution.
@@ -16,16 +16,14 @@
 #' plot_marker_level_heatmap(SPIAT::simulated_image, num_splits = 100, "Tumour_marker")
 #' @export
 
-plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
+plot_marker_level_heatmap <- function(spe_object, num_splits, marker){
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     xcord <- ycord <- NULL
 
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+    formatted_data <- get_colData(spe_object)
 
-    formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") #convert rowname to column
-
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(spe_object)
 
     markers <- rownames(intensity_matrix)
     
@@ -64,7 +62,6 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     #obtain the x and y coordinates on a heatmap for every cell based on number of splits
     for (y in seq_len(num_splits)){
         local_coor_y <- y_split[c(y+1, y)]
-        #print(local_coor_y)
 
         #grab the cells in the range
         result <- formatted_data[min(local_coor_y) < formatted_data$Cell.Y.Position & formatted_data$Cell.Y.Position <= max(local_coor_y), ]
@@ -81,7 +78,6 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
 
     for (x in seq_len(num_splits)){
         local_coor_x <- x_split[c(x+1, x)]
-       # print(local_coor_x)
 
         #grab the cells in the range
         result <- formatted_data[min(local_coor_x) < formatted_data$Cell.X.Position & formatted_data$Cell.X.Position <= max(local_coor_x), ]
@@ -108,5 +104,5 @@ plot_marker_level_heatmap <- function(sce_object, num_splits, marker){
     p <- p + theme(panel.background = element_rect(fill = "grey", colour = "grey", linetype = "solid"),
                    panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank())
-    print(p)
+    show(p)
 }

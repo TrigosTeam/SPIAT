@@ -5,7 +5,7 @@
 \title{identify_neighborhoods}
 \usage{
 identify_neighborhoods(
-  sce_object,
+  spe_object,
   method = "hierarchical",
   cell_types_of_interest,
   radius,
@@ -16,8 +16,8 @@ identify_neighborhoods(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{method}{String. The clustering method. Choose from "hierarchical",
 "dbscan" and "Rphenograph". (Note Rphenograph function is not available for
@@ -39,7 +39,7 @@ cluster. Need to specify when `method` is "hierarchical" or "dbscan".}
 (e.g. "None", "Other")}
 }
 \value{
-An sce object and a plot is returned. The sce object contains
+An spe object and a plot is returned. The spe object contains
   information of the defined neighborhood
 }
 \description{

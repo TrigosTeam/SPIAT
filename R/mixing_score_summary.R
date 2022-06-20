@@ -6,6 +6,7 @@
 #'   a radius. It derives the mixing score and the normalised mixing score.
 #'   Function returns NA if the mixing score is being calculated between cells
 #'   of the same type.
+
 #' @details The mixing score was originally defined as the number of
 #'   immune-tumour interactions divided by the number of immune-immune
 #'   interactions within a defined radius (Keren et al., 2018). The normalised
@@ -14,8 +15,8 @@
 #'   immune-immune interactions in the image, respectively. We have generalized
 #'   this score to allow calculation of any two cell phenotypes defined by the
 #'   user.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_celltype String Vector. Cell types of the reference cells.
 #' @param target_celltype String Vector. Cell types of the target cells.
 #' @param feature_colname String specifying the column with the desired cell
@@ -30,10 +31,10 @@
 #' mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",
 #' radius = 50, feature_colname = "Cell.Type")
 
-mixing_score_summary <- function(sce_object, reference_celltype, target_celltype, 
+mixing_score_summary <- function(spe_object, reference_celltype, target_celltype, 
                                  radius=20, feature_colname)
 {
-    formatted_data <- get_colData(sce_object)
+    formatted_data <- get_colData(spe_object)
     df.cols <- c("Reference", "Target", "Number_of_reference_cells",
                  "Number_of_target_cells", "Reference_target_interaction",
                  "Reference_reference_interaction", "Mixing_score", 
@@ -49,10 +50,10 @@ mixing_score_summary <- function(sce_object, reference_celltype, target_celltype
             tryCatch({
                 target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
                 if (nrow(reference_cells) == 0) {
-                    print(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
+                    show(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
                 }
                 if (nrow(target_cells) == 0) {
-                    print(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
+                    show(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
                 }
                 reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
                                                             "Cell.Y.Position")]
@@ -71,7 +72,7 @@ mixing_score_summary <- function(sce_object, reference_celltype, target_celltype
                     normalised_mixing_score <- 2 * mixing_score * (nrow(reference_cells)-1) / nrow(target_cells)
                 }else {
                     normalised_mixing_score <- mixing_score <- NA
-                    print(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
+                    show(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
                     #stop()
                 }
                 df <-  rbind(df[ ,df.cols], 

@@ -5,7 +5,7 @@
 \title{Split a large image into sub images}
 \usage{
 image_splitter(
-  sce_object,
+  spe_object,
   number_of_splits,
   plot = FALSE,
   cut_labels = TRUE,
@@ -18,8 +18,8 @@ image_splitter(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 =
 2x2, 3 = 3x3).}
@@ -53,7 +53,7 @@ A list of data.frames is returned. Each data frame represents an
   image without assay data.
 }
 \description{
-Takes in an image in SingleCellExperiment format, and splits the
+Takes in an image in SpatialExperiment format, and splits the
   image into specified sections. Users can choose to plot the cell positions
   in each sub image.
 }

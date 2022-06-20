@@ -2,11 +2,11 @@
 #'
 #' @description If arg `radius` is not specified, the function returns the
 #'   entropy of the cell types of interest for the whole image. If arg `radius`
-#'   is specified, the function returns a data.frame where each row is a
+#'   is specified, the function returns a data frame where each row is a
 #'   reference cell and the columns stores the entropy of the cell types of
 #'   interest in each circle of the reference cells.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param cell_types_of_interest String Vector. Cell types of interest. If arg
 #'   `radius` is not NULL, the first cell type is considered as reference cell
 #'   type. Circles of the specified radius will be drawn around the reference
@@ -22,15 +22,15 @@
 #' calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"),
 #' feature_colname = "Cell.Type")
 
-calculate_entropy <- function(sce_object, cell_types_of_interest, 
+calculate_entropy <- function(spe_object, cell_types_of_interest, 
                               feature_colname = "Phenotype", radius = NULL){
   
-  if((cell_types_of_interest[1] %in% colData(sce_object)[,feature_colname]) && 
-     any(cell_types_of_interest[-1] %in% colData(sce_object)[,feature_colname])){
+  if((cell_types_of_interest[1] %in% colData(spe_object)[,feature_colname]) && 
+     any(cell_types_of_interest[-1] %in% colData(spe_object)[,feature_colname])){
     if (!is.null(radius)){
       reference_marker <- cell_types_of_interest[1]
       target_marker<-cell_types_of_interest
-      n_cells <- number_of_cells_within_radius(sce_object, reference_celltype = reference_marker,
+      n_cells <- number_of_cells_within_radius(spe_object, reference_celltype = reference_marker,
                                                target_celltype = target_marker,radius = radius, feature_colname = feature_colname)
       n_cells.df <- n_cells[[reference_marker]]
       n_cells.df[,"total"] <- 0
@@ -52,7 +52,7 @@ calculate_entropy <- function(sce_object, cell_types_of_interest,
       return(n_cells.df)
     } else{
       entropy_all <- 0
-      data <- data.frame(colData(sce_object))
+      data <- data.frame(colData(spe_object))
       data <- data[which(data[,feature_colname] %in% cell_types_of_interest),]
       n_all <- dim(data)[1]
       
@@ -72,7 +72,7 @@ calculate_entropy <- function(sce_object, cell_types_of_interest,
         }
       }	
     }else{
-      print("Cell type not found!")
+      show("Cell type not found!")
       return(NA)
     }
   }

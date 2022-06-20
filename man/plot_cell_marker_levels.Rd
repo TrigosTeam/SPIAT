@@ -4,11 +4,11 @@
 \alias{plot_cell_marker_levels}
 \title{plot_cell_marker_levels}
 \usage{
-plot_cell_marker_levels(sce_object, marker)
+plot_cell_marker_levels(spe_object, marker)
 }
 \arguments{
-\item{sce_object}{Singlecellexperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{marker}{String. Marker to plot.}
 }

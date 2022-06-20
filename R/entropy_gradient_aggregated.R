@@ -6,8 +6,8 @@
 #'   sweeps over the specified radii and calculates the aggregated entropy under
 #'   each radius.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param cell_types_of_interest String Vector. The cell types that the entropy
 #'   is computed on. 
 #' @param feature_colname String. The column name of the interested cell types.
@@ -24,7 +24,7 @@
 #' cell_types_of_interest = c("Tumour","Immune3"),
 #' feature_colname = "Cell.Type", radii = gradient_pos)
 #' plot(1:10,gradient_results$gradient_df[1, 3:12])
-entropy_gradient_aggregated <- function(sce_object,
+entropy_gradient_aggregated <- function(spe_object,
                                        cell_types_of_interest,
                                        feature_colname,
                                        radii){
@@ -35,10 +35,10 @@ entropy_gradient_aggregated <- function(sce_object,
   for(pheno1 in cell_types_of_interest){
     for(pheno2 in cell_types_of_interest){
       if(pheno2 != pheno1){
-        unique_types <- unique(SummarizedExperiment::colData(sce_object)[,feature_colname])
+        unique_types <- unique(SummarizedExperiment::colData(spe_object)[,feature_colname])
         if((pheno1 %in% unique_types) && (pheno2 %in% unique_types)){
           # get the gradient
-          gradient_local <- compute_gradient(sce_object, radii = radii,
+          gradient_local <- compute_gradient(spe_object, radii = radii,
                                              number_of_cells_within_radius,
                                              reference_celltype = pheno1,
                                              target_celltype = c(pheno1, pheno2),

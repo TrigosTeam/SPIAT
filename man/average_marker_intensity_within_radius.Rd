@@ -5,15 +5,15 @@
 \title{average_marker_intensity_within_radius}
 \usage{
 average_marker_intensity_within_radius(
-  sce_object,
+  spe_object,
   reference_marker,
   target_marker,
   radius = 20
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_marker}{String specifying the marker that is used for
 reference cells.}

@@ -7,9 +7,9 @@
 #'   margins. It also identifies the immune cells that are infiltrated, stromal,
 #'   internal margin or external margin immune cells.
 #'
-#' @param sce_object SingleCellExperiment object whose metadata has the
-#'   information of tumour bordering cells and cell distances to tumour border
-#'   (has columns "Region" and "Distance.To.Border").
+#' @param spe_object SpatialExperiment object that contains information of
+#'   tumour bordering cells and cell distances to tumour border (`colData()` has
+#'   `Region` and `Distance.To.Border` columns).
 #' @param names_of_immune_cells String Vector of the names of immune cells.
 #' @param n_margin_layers Integer. The number of layers of cells that compose
 #'   the internal/external tumour margins.
@@ -17,32 +17,32 @@
 #'   of the immune cells.
 #' @import dplyr
 #' @export
-#' @return A new sce object is returned
+#' @return A new spe object is returned
 #' @examples
-#' sce_border <- identify_bordering_cells(SPIAT::defined_image,
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-#' sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-#' sce_structure <- define_structure(sce_dist,
+#' spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+#' spe_structure <- define_structure(spe_dist,
 #' names_of_immune_cells = c("Immune1","Immune2","Immune3"),
 #' feature_colname = "Cell.Type", n_margin_layers = 5)
-#' plot_cell_categories(sce_structure, feature_colname = "Structure")
+#' plot_cell_categories(spe_structure, feature_colname = "Structure")
 
-define_structure <- function(sce_object, names_of_immune_cells, 
+define_structure <- function(spe_object, names_of_immune_cells, 
                              feature_colname = "Cell.Type",
                              n_margin_layers = 5){
   
   # calculate the width of internal/external margin
-  min_dist <- average_minimum_distance(sce_object)
+  min_dist <- average_minimum_distance(spe_object)
   margin_dist <- n_margin_layers * min_dist
   sprintf("How many layers of cells in the external/internal margin: %i", n_margin_layers)
   sprintf("The width of internal/external margin: %f", margin_dist)
   
   #CHECK if the distance to bordering cells is calculated
-  if (is.null(sce_object$Distance.To.Border)){
-    stop(sprintf("Distance.To.Border not calculated yet for %i", deparse(substitute(sce_object))))
+  if (is.null(spe_object$Distance.To.Border)){
+    stop(sprintf("Distance.To.Border not calculated yet for %i", deparse(substitute(spe_object))))
   }
   
-  data <- data.frame(SummarizedExperiment::colData(sce_object))
+  data <- data.frame(SummarizedExperiment::colData(spe_object))
   data[,"Structure"] <- data$Region
   data[intersect(which(data$Region == "Inside"),which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "Infiltrated.immune"
   data[intersect(which(data$Region == "Outside"),which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "Stromal.immune"
@@ -51,7 +51,7 @@ define_structure <- function(sce_object, names_of_immune_cells,
   data[intersect(which(data$Distance.To.Border < margin_dist), which(data$Region == "Outside")), "Structure"] <- "External.margin"
   data[intersect(which(data$Structure == "External.margin"), which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "External.margin.immune"
   
-  SummarizedExperiment::colData(sce_object)$Structure <- data[,"Structure"]
+  SummarizedExperiment::colData(spe_object)$Structure <- data[,"Structure"]
   
-  return(sce_object)
+  return(spe_object)
 }

@@ -5,7 +5,7 @@
 \title{plot_cell_categories}
 \usage{
 plot_cell_categories(
-  sce_object,
+  spe_object,
   categories_of_interest = NULL,
   colour_vector = NULL,
   feature_colname = "Cell.Type",
@@ -14,8 +14,8 @@ plot_cell_categories(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{categories_of_interest}{Vector of cell categories to be coloured}
 

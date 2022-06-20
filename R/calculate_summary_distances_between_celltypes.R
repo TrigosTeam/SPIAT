@@ -2,12 +2,13 @@
 #'
 #'@description Returns the mean, median and standard deviation of the
 #'  minimum/pairwise distances between phenotypes.
+#'
 #'@param df Data.frame containing the distance output between cell types. The
 #'  functions that generate the distances can be
 #'  \code{\link{calculate_minimum_distances_between_celltypes}} and
 #'  \code{\link{calculate_pairwise_distances_between_celltypes}}.
 #' @import dplyr
-#' @return A data.frame is returned
+#' @return A data frame is returned
 #' @examples
 #' # for pairwise dist
 #' pairwise_dist <- calculate_pairwise_distances_between_celltypes(SPIAT::defined_image, 

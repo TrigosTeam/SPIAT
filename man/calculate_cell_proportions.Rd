@@ -5,7 +5,7 @@
 \title{calculate_cell_proportions}
 \usage{
 calculate_cell_proportions(
-  sce_object,
+  spe_object,
   reference_celltypes = NULL,
   celltypes_to_exclude = NULL,
   feature_colname = "Phenotype",
@@ -13,8 +13,8 @@ calculate_cell_proportions(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_celltypes}{String Vector specifying reference cell types. If
 NULL (default), then the proportion of each cell type against all cells is

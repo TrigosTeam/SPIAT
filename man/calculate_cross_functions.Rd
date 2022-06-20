@@ -5,7 +5,7 @@
 \title{calculate_cross_functions}
 \usage{
 calculate_cross_functions(
-  sce_object,
+  spe_object,
   method = "Kcross",
   cell_types_of_interest,
   feature_colname,
@@ -14,8 +14,8 @@ calculate_cross_functions(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{method}{String that is the method for dependence calculation. Options:
 "Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is

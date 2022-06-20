@@ -3,17 +3,17 @@
 #' @description Calculates the average minimum distance of all cells to their
 #'   nearest cells in the input image.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @import dplyr
 #' @return A single number is returned
 #' @examples
 #' average_minimum_distance(SPIAT::simulated_image)
 #' @export
 
-average_minimum_distance <- function(sce_object) {
+average_minimum_distance <- function(spe_object) {
 
-    formatted_data <- get_colData(sce_object)
+    formatted_data <- get_colData(spe_object)
 
     #extract the cell coordinates
     all_cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]

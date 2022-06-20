@@ -2,8 +2,8 @@
 #'
 #' @description Returns the distance of the closest cell of a specific type from
 #'   each reference cell.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param cell_types_of_interest String Vector of marker combinations to
 #'   consider is FALSE.
 #' @param feature_colname String of the feature column of cells to choose the
@@ -15,10 +15,10 @@
 #' feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
 #' @export
 
-calculate_minimum_distances_between_celltypes <- function(sce_object, feature_colname,
+calculate_minimum_distances_between_celltypes <- function(spe_object, feature_colname,
                                         cell_types_of_interest = NULL) {
   Pair <- Distance <- NULL
-  formatted_data <- get_colData(sce_object)
+  formatted_data <- get_colData(spe_object)
   
   formatted_data <- formatted_data[,c("Cell.ID","Cell.X.Position", "Cell.Y.Position", feature_colname)]
   formatted_data <- formatted_data[formatted_data[,feature_colname] != "",]
@@ -35,8 +35,8 @@ calculate_minimum_distances_between_celltypes <- function(sce_object, feature_co
   if (nrow(formatted_data) == 0){
       stop("No cells belong to the specified marker combinations of interest")
     }
-  print("Markers had been selected in minimum distance calculation: ")
-  print(unique(formatted_data[[feature_colname]]))
+  show("Markers had been selected in minimum distance calculation: ")
+  show(unique(formatted_data[[feature_colname]]))
   
   #different cell type combinations
   permu = gtools::permutations(length(unique(formatted_data[[feature_colname]])), 2, repeats.allowed = TRUE)

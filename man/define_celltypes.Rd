@@ -5,7 +5,7 @@
 \title{define_celltypes}
 \usage{
 define_celltypes(
-  sce_object,
+  spe_object,
   categories = NULL,
   category_colname = "Phenotype",
   names = NULL,
@@ -14,8 +14,8 @@ define_celltypes(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{categories}{Vector. Names of the old cell types to be defined; if NULL,
 the function will use predefined categories and names}
@@ -34,7 +34,7 @@ added, by default "Cell.Type".}
 names printed. Default is FALSE.}
 }
 \value{
-An new SCE object is returned
+An new SPE object is returned
 }
 \description{
 Define new cell types based on the existing cell types
@@ -60,6 +60,6 @@ names = c("Tumour", "Immune1", "Immune2","Immune3", "Others")
 # the new names are stored under this column:
 new_colname <- "Cell.Type"
 
-defined_sce <- define_celltypes(SPIAT::simulated_image, categories = categories,
+defined_spe <- define_celltypes(SPIAT::simulated_image, categories = categories,
 category_colname = category_colname, names = names, new_colname = new_colname)
 }

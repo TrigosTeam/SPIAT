@@ -5,15 +5,15 @@
 \title{calculate_entropy}
 \usage{
 calculate_entropy(
-  sce_object,
+  spe_object,
   cell_types_of_interest,
   feature_colname = "Phenotype",
   radius = NULL
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{cell_types_of_interest}{String Vector. Cell types of interest. If arg
 `radius` is not NULL, the first cell type is considered as reference cell
@@ -32,7 +32,7 @@ A dataframe or a number depending on the argument radius
 \description{
 If arg `radius` is not specified, the function returns the
   entropy of the cell types of interest for the whole image. If arg `radius`
-  is specified, the function returns a data.frame where each row is a
+  is specified, the function returns a data frame where each row is a
   reference cell and the columns stores the entropy of the cell types of
   interest in each circle of the reference cells.
 }

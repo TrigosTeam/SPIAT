@@ -5,8 +5,8 @@
 #'   if cells are phenotyped as being positive or negative for the particular
 #'   marker.
 #'
-#' @param sce_object Singlecellexperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker to plot.
 #' @import dplyr
 #' @import ggplot2
@@ -15,12 +15,12 @@
 #' plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
-plot_cell_marker_levels <- function(sce_object, marker) {
+plot_cell_marker_levels <- function(spe_object, marker) {
   
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
 
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(spe_object)
     markers <- rownames(intensity_matrix)
     
     #CHECK
@@ -28,7 +28,7 @@ plot_cell_marker_levels <- function(sce_object, marker) {
       stop("The marker specified is not in the data")
     }
     
-    formatted_data <- bind_colData_intensity(sce_object)
+    formatted_data <- bind_info(spe_object)
 
     #selecting cells that do not contain the marker
     rows <- formatted_data[formatted_data$Phenotype != marker, ] #for one entry that is not marker
@@ -45,7 +45,7 @@ plot_cell_marker_levels <- function(sce_object, marker) {
     intensity_by_marker <- formatted_data[rows_non_zero,]
         
     if (nrow(intensity_by_marker) == 0) {
-      print(paste("There are no true intensity for: ", marker, sep=""))
+      show(paste("There are no true intensity for: ", marker, sep=""))
     }
         
     #log the intensity to improve contrast

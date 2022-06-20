@@ -11,8 +11,8 @@
 #'   cell types. Any cell categories that are not specified in `categories` arg
 #'   but present in the image will be defined as "Undefined" in the new column.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param categories Vector. Names of the old cell types to be defined; if NULL,
 #'   the function will use predefined categories and names
 #' @param category_colname (Phenotype) String specifying the name of the column
@@ -25,7 +25,7 @@
 #' @param print_names (Optional) Boolean if the user wants the original and new
 #'   names printed. Default is FALSE.
 #' @export
-#' @return An new SCE object is returned
+#' @return An new SPE object is returned
 #' @examples
 #' # the selected column is:
 #' category_colname = "Phenotype"
@@ -37,16 +37,16 @@
 #' # the new names are stored under this column:
 #' new_colname <- "Cell.Type"
 #'
-#' defined_sce <- define_celltypes(SPIAT::simulated_image, categories = categories,
+#' defined_spe <- define_celltypes(SPIAT::simulated_image, categories = categories,
 #' category_colname = category_colname, names = names, new_colname = new_colname)
 
-define_celltypes <- function(sce_object,categories = NULL, 
+define_celltypes <- function(spe_object,categories = NULL, 
                              category_colname = "Phenotype", names = NULL, 
                              new_colname = "Cell.Type", print_names = FALSE){
   
   # CHECK
   if (length(categories) != length(names)){
-    print("`length(categories) != length(names)`")
+    show("`length(categories) != length(names)`")
     stop("The old and new cell type names should be of the same length!")
   }
   # default setting
@@ -60,24 +60,22 @@ define_celltypes <- function(sce_object,categories = NULL,
     pre_names <- names
   }
   
-  all_categories <- unique(colData(sce_object)[[category_colname]])
+  all_categories <- unique(colData(spe_object)[[category_colname]])
   categories <- intersect(all_categories, pre_categories)
   names <- pre_names[match(categories, pre_categories)]
   
   if (print_names){
-    print("Define new cell types basing on:")
-    print(categories)
-    print("The new cell types are:")
-    print(names)
+    show(paste("Define new cell types basing on:", categories))
+    show(paste("The new cell types are:",names))
   }
   
-  sce_object[[new_colname]] <- ""
+  spe_object[[new_colname]] <- ""
   names<- c(names,rep("Undefined",length(all_categories[!(all_categories %in% categories)])))
   categories <- c(categories,all_categories[!(all_categories %in% categories)])
   for (i in seq_len(length(categories))){
-    sce_object[,sce_object[[category_colname]] == categories[i]][[new_colname]] <- names[i]
+    spe_object[,spe_object[[category_colname]] == categories[i]][[new_colname]] <- names[i]
   }
   
-  return(sce_object)
+  return(spe_object)
 }
 

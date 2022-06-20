@@ -5,7 +5,7 @@
 \title{marker_surface_plot}
 \usage{
 marker_surface_plot(
-  sce_object,
+  spe_object,
   num_splits,
   marker,
   x_position_min = NULL,
@@ -15,8 +15,8 @@ marker_surface_plot(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{num_splits}{Integer specifying the number of splits on the image,
 higher splits equal to higher resolution. Recommendation: 10-100}

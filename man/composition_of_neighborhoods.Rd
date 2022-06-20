@@ -4,10 +4,10 @@
 \alias{composition_of_neighborhoods}
 \title{composition_of_neighborhoods}
 \usage{
-composition_of_neighborhoods(sce_object, feature_colname)
+composition_of_neighborhoods(spe_object, feature_colname)
 }
 \arguments{
-\item{sce_object}{sce_object that is the output of
+\item{spe_object}{SpatialExperiment that is the output of
 \code{\link{identify_neighborhoods}}.}
 
 \item{feature_colname}{String. Column with cell types.}

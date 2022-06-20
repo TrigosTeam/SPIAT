@@ -4,8 +4,8 @@
 #'   of a target marker using average_intensity function. It plots the intensity
 #'   level as a line graph.
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_marker String specifying the reference marker.
 #' @param target_marker String specifying the marker to calculate its average
 #'   intensity.
@@ -18,12 +18,12 @@
 #' target_marker="Immune_marker2", c(30, 35, 40, 45, 50, 75, 100))
 #' @export
 
-plot_average_intensity <- function(sce_object, reference_marker, target_marker, radii) {
+plot_average_intensity <- function(spe_object, reference_marker, target_marker, radii) {
 
     average_intensity_result <- vector()
 
     for (radius in radii) {
-        result <- average_marker_intensity_within_radius(sce_object, reference_marker, target_marker, radius = radius)
+        result <- average_marker_intensity_within_radius(spe_object, reference_marker, target_marker, radius = radius)
         #check
         if(!is.numeric(result)) {
             stop(sprintf("Cannot calculate average intensity for radius = %.2f", radius))

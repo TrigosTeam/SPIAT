@@ -5,15 +5,15 @@
 \title{Dimensionality reduction plot}
 \usage{
 dimensionality_reduction_plot(
-  sce_object,
+  spe_object,
   plot_type = "UMAP",
   scale = TRUE,
   feature_colname
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{plot_type}{String. Choose from "UMAP" and "TSNE".}
 
@@ -27,7 +27,7 @@ A plot
 \description{
 Generates the dimensionality reduction plots (UMAP or tSNE)
   based on marker intensities. Cells are grouped by the categories under the
-  selected column. -- have you tried doing PCA on the matrix and then doing the UMAP/tSNE? Does it help? scRNAseq workflows do this. (?)
+  selected column.
 }
 \examples{
 dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 

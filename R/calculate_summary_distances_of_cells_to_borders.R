@@ -2,33 +2,33 @@
 #'
 #' @description Returns the mean, median and standard deviation of the distances
 #'   between a specified cell type to the border.
-#' @param sce_object SingleCellExperiment object whose metadata contains the
-#'   information of tumour structure and cell distances to tumour border (has
-#'   column "Region" and "Distance.To.Border").
+#' @param spe_object SpatialExperiment object. It should contain information of
+#'   tumour structure and cell distances to tumour border (`colData()` has
+#'   `Region` and `Distance.To.Border` columns).
 #' @param cell_types_of_interest String Vector of cell types to consider.
 #' @param feature_colname String specifying which column the interested cell
 #'   types are from.
 #' @return A data.frame is returned
 #' @export
 #' @examples
-#' sce_border <- identify_bordering_cells(SPIAT::defined_image,
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-#' sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-#' sce_structure <- define_structure(sce_dist, names_of_immune_cells =
+#' spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+#' spe_structure <- define_structure(spe_dist, names_of_immune_cells =
 #' c("Immune1","Immune2","Immune3"), feature_colname = "Cell.Type",
 #' n_margin_layers = 5)
-#' calculate_summary_distances_of_cells_to_borders(sce_structure,
+#' calculate_summary_distances_of_cells_to_borders(spe_structure,
 #' cell_types_of_interest = c("Immune1","Immune3"),feature_colname = "Cell.Type")
 
-calculate_summary_distances_of_cells_to_borders <- function(sce_object, 
+calculate_summary_distances_of_cells_to_borders <- function(spe_object, 
                                                             cell_types_of_interest, 
                                                             feature_colname = "Cell.Type") {
   
   # CHECK if "Region" and "Distance.To.Border" columns exist
-  if (is.null(sce_object$Region)){
+  if (is.null(spe_object$Region)){
     stop("Find the bordering cells first! Use the function identifying_bordering_cells_interactive()")
   }
-  if (is.null(sce_object$Distance.To.Border)){
+  if (is.null(spe_object$Distance.To.Border)){
     stop("Find the min distances to the bordering cells first! Use the function calculate_min_distances_to_borders()")
   }
   
@@ -40,7 +40,7 @@ calculate_summary_distances_of_cells_to_borders <- function(sce_object,
     stop("Please indicate the column name of the cell types!")
   }
   
-  data <- data.frame(colData(sce_object))
+  data <- data.frame(colData(spe_object))
   
   # define a function to get the statistics of the distances
   summarise_dist <- function(data){

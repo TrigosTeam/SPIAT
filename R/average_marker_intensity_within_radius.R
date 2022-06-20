@@ -6,8 +6,8 @@
 #'   reference cell. Results represent the average intensities within a radius,
 #'   but not a vector of metrics for each cell. 
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_marker String specifying the marker that is used for
 #'   reference cells.
 #' @param target_marker String specifying the marker to calculate its average
@@ -23,11 +23,11 @@
 #'                                        radius=30)
 #' @export
 
-average_marker_intensity_within_radius <- function(sce_object, 
+average_marker_intensity_within_radius <- function(spe_object, 
                                                    reference_marker, 
                                                    target_marker, 
                                                    radius = 20){
-    formatted_data <- bind_colData_intensity(sce_object)
+    formatted_data <- bind_info(spe_object)
 
     #Select the cells that have the reference marker phenotype
     reference_cells <- formatted_data[grepl(reference_marker, 

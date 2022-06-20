@@ -1,9 +1,9 @@
-#' number_of_cells_within_radius
+#' Number of cells within a radius
 #'
 #' @description Calculates the number of cells of a target cell type
 #'   within a pre-defined radius around cells of a reference cell type.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_celltype String. Cell type to be used for reference cells.
 #' @param target_celltype String. Cell type to be used for target cells.
 #' @param radius Numeric. Radius around the reference cells.
@@ -18,11 +18,11 @@
 #' reference_celltype = "Tumour", target_celltype="Immune1", radius = 50,
 #' feature_colname = "Cell.Type")
 
-number_of_cells_within_radius <- function(sce_object, reference_celltype, 
+number_of_cells_within_radius <- function(spe_object, reference_celltype, 
                                            target_celltype, radius = 20, 
                                            feature_colname) 
 {
-    formatted_data <- get_colData(sce_object)
+    formatted_data <- get_colData(spe_object)
     
     all.df <- list()
     for (i in reference_celltype) {

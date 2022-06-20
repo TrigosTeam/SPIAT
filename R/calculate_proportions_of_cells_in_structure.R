@@ -3,27 +3,27 @@
 #' @description Calculate the proportion of cells of interest in each defined
 #'   tumour structure relative to all cells in each structure and relative to the
 #'   same cell type in the whole image.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param cell_types_of_interest String Vector of immune cells to consider.
 #' @param feature_colname String. The name of the column where the immune cell
 #'   types are under.
 #' @return A data.frame
 #' @export
 #' @examples 
-#' sce_border <- identify_bordering_cells(SPIAT::defined_image, 
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image, 
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-#' sce_dist <- calculate_distance_to_tumour_margin(sce_border)
-#' sce_structure <- define_structure(sce_dist, 
+#' spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+#' spe_structure <- define_structure(spe_dist, 
 #' names_of_immune_cells = c("Immune1","Immune2","Immune3"),
 #' feature_colname = "Cell.Type", n_margin_layers = 5)
-#' calculate_proportions_of_cells_in_structure(sce_structure, 
+#' calculate_proportions_of_cells_in_structure(spe_structure, 
 #' cell_types_of_interest = c("Immune1","Immune3"),feature_colname = "Cell.Type")
 
-calculate_proportions_of_cells_in_structure <- function(sce_object, 
+calculate_proportions_of_cells_in_structure <- function(spe_object, 
                                                         cell_types_of_interest, 
                                                         feature_colname){
-  data_local <- get_colData(sce_object)
+  data_local <- get_colData(spe_object)
   
   #Relative to all cells in each area
   proportions <- vector()

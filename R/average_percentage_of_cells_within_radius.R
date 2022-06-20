@@ -5,8 +5,8 @@
 #'   is done per reference cell, so runtime will depend on the number of
 #'   reference cells present. Output is a single value (the mean for the image).
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param reference_celltype String specifying the cell type of reference
 #'   cells.
 #' @param target_celltype String specifying the cell type for target cells
@@ -22,21 +22,23 @@
 #' "Immune3", radius = 100, "Cell.Type")
 #' @export
 
-average_percentage_of_cells_within_radius <- function(sce_object, 
+average_percentage_of_cells_within_radius <- function(spe_object, 
                                                       reference_celltype, 
                                                       target_celltype, 
                                                       radius = 100, 
                                                       feature_colname){
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   phenotype_names <- output_phenotype <- NULL
-  formatted_data <- get_colData(sce_object)
+  formatted_data <- get_colData(spe_object)
   #Select cells with the reference phenotype
-  reference_celltypes <- formatted_data[formatted_data[,feature_colname] == reference_celltype,]
-  target_celltypes <- formatted_data[formatted_data[,feature_colname] == target_celltype,]
+  reference_celltypes <- formatted_data[formatted_data[,feature_colname] 
+                                        == reference_celltype,]
+  target_celltypes <- formatted_data[formatted_data[,feature_colname] 
+                                     == target_celltype,]
   
   #CHECK
   if (nrow(reference_celltypes) == 0 || nrow(target_celltypes) == 0) {
-    print("There are no reference cells or no target cells")
+    show("There are no reference cells or no target cells")
     return(NA)
   }else{
     #get the coordinates to find neighbours
@@ -51,7 +53,7 @@ average_percentage_of_cells_within_radius <- function(sce_object,
     
     #CHECK
     if (length(rownums) == 0) {
-      print("There are no target cells within the radius")
+      show("There are no target cells within the radius")
       return(NA)
     } else {
       output_percentage <- vector()

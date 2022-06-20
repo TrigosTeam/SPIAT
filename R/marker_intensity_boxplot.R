@@ -2,8 +2,8 @@
 #'
 #' @description Produces boxplots of marker levels for cells phenotyped as being
 #'   positive for the marker, and those that where phenotyped as being negative.
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker being queried.
 #' @import dplyr
 #' @import ggplot2
@@ -12,13 +12,11 @@
 #' marker_intensity_boxplot(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
-marker_intensity_boxplot <- function(sce_object, marker){
-    
-    
+marker_intensity_boxplot <- function(spe_object, marker){
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     intensity <- NULL
 
-    formatted_data <- bind_colData_intensity(sce_object)
+    formatted_data <- bind_info(spe_object)
 
     #selecting cells that do express the marker
     intensity_true <- formatted_data[grepl(marker, formatted_data$Phenotype), ]
@@ -57,5 +55,5 @@ marker_intensity_boxplot <- function(sce_object, marker){
     p <- p + stat_summary(fun.data = give.n, geom = "text")
     p <- p + theme_bw()
 
-    print(p)
+    show(p)
 }

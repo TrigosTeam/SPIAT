@@ -2,10 +2,10 @@
 % Please edit documentation in R/number_of_cells_within_radius.R
 \name{number_of_cells_within_radius}
 \alias{number_of_cells_within_radius}
-\title{number_of_cells_within_radius}
+\title{Number of cells within a radius}
 \usage{
 number_of_cells_within_radius(
-  sce_object,
+  spe_object,
   reference_celltype,
   target_celltype,
   radius = 20,
@@ -13,8 +13,8 @@ number_of_cells_within_radius(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_celltype}{String. Cell type to be used for reference cells.}
 

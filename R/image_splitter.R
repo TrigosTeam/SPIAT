@@ -1,11 +1,11 @@
 #' Split a large image into sub images
 #'
-#' @description Takes in an image in SingleCellExperiment format, and splits the
+#' @description Takes in an image in SpatialExperiment format, and splits the
 #'   image into specified sections. Users can choose to plot the cell positions
 #'   in each sub image. 
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 =
 #'   2x2, 3 = 3x3).
 #' @param plot Boolean. Specifies whether the splitted images should be printed
@@ -31,7 +31,7 @@
 #' split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)
 #' @export
 
-image_splitter <- function(sce_object, number_of_splits, plot = FALSE, 
+image_splitter <- function(spe_object, number_of_splits, plot = FALSE, 
                            cut_labels = TRUE, colour_vector = NULL, 
                            x_position_min = NULL, x_position_max = NULL, 
                            y_position_min = NULL, y_position_max = NULL, 
@@ -40,12 +40,11 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE,
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell.X.Position <- Cell.Y.Position <- NULL
 
-    #turn the sce object name into string as a filename
-    image_filename <- deparse(substitute(sce_object))
+    #turn the spe object name into string as a filename
+    image_filename <- deparse(substitute(spe_object))
 
-    #Reads the image file and deletes cell rows with NA positions
-    cell_loc <- data.frame(SummarizedExperiment::colData(sce_object))
-    cell_loc <- cell_loc[stats::complete.cases(cell_loc),]
+    #Reads the image file
+    cell_loc <- get_colData(spe_object)
     
     #CHECK
     if (nrow(cell_loc) == 0) {
@@ -179,17 +178,14 @@ image_splitter <- function(sce_object, number_of_splits, plot = FALSE,
                           axis.title.y = element_blank(),
                           axis.text.y = element_blank(),
                           axis.ticks.y = element_blank())
-
-                print(split_plot)
-            }
-
+                show(split_plot)}
             divided_image_obj[[paste(image_filename,"r", x,"c", y, sep = "")]] <- divided_image
         }
     }
     if(isTRUE(plot)){
-        print(full_image)
+        show(full_image)
         grDevices::dev.off()
-        print("PDF saved successfully")
+        show("PDF saved successfully")
     }
     return(divided_image_obj)
 }

@@ -6,14 +6,14 @@
 \title{calculate_pairwise_distances_between_celltypes}
 \usage{
 calculate_pairwise_distances_between_celltypes(
-  sce_object,
+  spe_object,
   cell_types_of_interest = NULL,
   feature_colname
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{cell_types_of_interest}{String Vector containing cell types to be
 considered, if NULL, all cell type combinations will be calculated.}

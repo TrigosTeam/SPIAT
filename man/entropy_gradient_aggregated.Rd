@@ -5,15 +5,15 @@
 \title{The aggregated gradient of entropy and the peak of the gradient}
 \usage{
 entropy_gradient_aggregated(
-  sce_object,
+  spe_object,
   cell_types_of_interest,
   feature_colname,
   radii
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{cell_types_of_interest}{String Vector. The cell types that the entropy
 is computed on.}

@@ -4,8 +4,8 @@
 #'   Three clustering methods are available, including hierarchical clustering,
 #'   dbscan, and (Rphenograph).
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param method String. The clustering method. Choose from "hierarchical",
 #'   "dbscan" and "Rphenograph". (Note Rphenograph function is not available for
 #'   this version yet).
@@ -21,7 +21,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import SummarizedExperiment
-#' @return An sce object and a plot is returned. The sce object contains
+#' @return An spe object and a plot is returned. The spe object contains
 #'   information of the defined neighborhood
 #' @examples
 #' neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
@@ -29,7 +29,7 @@
 #' radius = 50, feature_colname = "Cell.Type")
 #' @export
 
-identify_neighborhoods <- function(sce_object, method = "hierarchical", 
+identify_neighborhoods <- function(spe_object, method = "hierarchical", 
                                    cell_types_of_interest, radius, 
                                    min_neighborhood_size = 10,
                                    k = 100,
@@ -37,7 +37,7 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
   
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Cluster <- Xpos <- Ypos <- NULL
-  formatted_data <- get_colData(sce_object)
+  formatted_data <- get_colData(spe_object)
   
   ######remove cells without a phenotype
   if(!is.null(no_pheno)){
@@ -170,16 +170,16 @@ identify_neighborhoods <- function(sce_object, method = "hierarchical",
     theme_bw() + 
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           legend.position = "none")
-  print(q)
+  show(q)
   
   formatted_data_with_clusters <- formatted_data
   formatted_data_with_clusters$Cluster <- paste0("Cluster_", formatted_data_with_clusters$Cluster)
   formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
-  colData(sce_object) <- methods::as(merge(data.frame(colData(sce_object)), formatted_data_with_clusters[,c("Cell.ID","Cluster")], 
+  colData(spe_object) <- methods::as(merge(data.frame(colData(spe_object)), formatted_data_with_clusters[,c("Cell.ID","Cluster")], 
                by.x = "row.names", by.y = "Cell.ID", all.x = TRUE), "DFrame")
-  rownames(colData(sce_object)) <- colData(sce_object)$Row.names
-  colData(sce_object)$Row.names <- NULL
-  colnames(colData(sce_object))[colnames(colData(sce_object)) == "Cluster"] <- "Neighborhood"
+  rownames(colData(spe_object)) <- colData(spe_object)$Row.names
+  colData(spe_object)$Row.names <- NULL
+  colnames(colData(spe_object))[colnames(colData(spe_object)) == "Cluster"] <- "Neighborhood"
   
-  return(sce_object)
+  return(spe_object)
 }

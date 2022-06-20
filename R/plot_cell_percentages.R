@@ -51,7 +51,7 @@ plot_cell_percentages <- function(cell_proportions, cells_to_exclude =NULL,
       xlab("Cell Type") + ylab("Proportion of cells") +
       geom_text(aes(label = Percentage_label), position = position_stack(vjust = 0.5), size = 2) +
       coord_flip()
-    print(cell_percentages_no_tumour_plot)
+    show(cell_percentages_no_tumour_plot)
   }
-  print(cell_percentages_full_plot)
+  show(cell_percentages_full_plot)
 }

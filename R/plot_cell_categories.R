@@ -4,8 +4,8 @@
 #'   the tissue. Cells are coloured categorically by phenotype. Cells not part
 #'   of the phenotypes of interest will be coloured "lightgrey".
 #'
-#' @param sce_object SingleCellExperiment object in the form of the output of
-#'   \code{\link{format_image_to_sce}}.
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
 #' @param categories_of_interest Vector of cell categories to be coloured
 #' @param colour_vector Vector specifying the colours of each cell phenotype
 #' @param feature_colname String specifying the column the cell categories
@@ -23,7 +23,7 @@
 #' feature_colname = "Cell.Type")
 #' @export
 
-plot_cell_categories <- function(sce_object, categories_of_interest = NULL, 
+plot_cell_categories <- function(spe_object, categories_of_interest = NULL, 
                                  colour_vector = NULL, feature_colname = "Cell.Type",
                                  cex = 1, layered = FALSE) {
   
@@ -45,10 +45,11 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
   
-  if (methods::is(sce_object, 'SingleCellExperiment')){
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+  if (methods::is(spe_object, 'SingleCellExperiment')){
+    # formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
+    formatted_data <- get_colData(spe_object)
   }
-  else formatted_data <- sce_object
+  else formatted_data <- spe_object
   
   #CHECK
   if (length(categories_of_interest) != length(colour_vector)) {
@@ -64,7 +65,7 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
       cat_idx <- match(category, categories_of_interest)
       categories_of_interest <- categories_of_interest[-cat_idx]
       colour_vector <- colour_vector[-cat_idx]
-      print(paste(category, "cells were not found and not plotted"), sep="")
+      show(paste(category, "cells were not found and not plotted"), sep="")
     }
   }
   
@@ -100,7 +101,7 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
     }
     p <- p +
       guides(alpha = "none") +
-      ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
+      ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
       scale_color_manual(breaks = all_categories, values=all_colours)
   }
   else{
@@ -108,8 +109,8 @@ plot_cell_categories <- function(sce_object, categories_of_interest = NULL,
       geom_point(aes_string(colour = feature_colname), size = cex)
     p <- p +
       guides(alpha = "none") +
-      ggtitle(paste("Plot", attr(sce_object, "name"), feature_colname, sep = " ")) +
+      ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
       scale_color_manual(breaks = all_categories, values=all_colours)
   }
-  print(p)
+  show(p)
 }

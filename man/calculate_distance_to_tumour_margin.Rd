@@ -2,23 +2,23 @@
 % Please edit documentation in R/calculate_distance_to_tumour_margin.R
 \name{calculate_distance_to_tumour_margin}
 \alias{calculate_distance_to_tumour_margin}
-\title{calculate_distance_to_tumour_margin}
+\title{calculate the distances of each cell to the tumour margin}
 \usage{
-calculate_distance_to_tumour_margin(sce_object)
+calculate_distance_to_tumour_margin(spe_object)
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object that has the information of the
-detected bordering cells (metadata has "Region" column).}
+\item{spe_object}{SpatialExperiment object. It should contain information of
+the detected bordering cells (`colData()` has `Region` column).}
 }
 \value{
-An sce_object is returned
+An spe_object is returned
 }
 \description{
-Returns a SCE object with the minimum distance from immune
-  cells to the identified tumour bordering cells.
+Returns a SPE object with the minimum distance from immune cells
+  to the identified tumour bordering cells.
 }
 \examples{
-sce_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
+spe_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
 feature_colname = "Cell.Type", n_to_exclude = 10)
-sce_dist <- calculate_distance_to_tumour_margin(sce_border)
+spe_dist <- calculate_distance_to_tumour_margin(spe_border)
 }

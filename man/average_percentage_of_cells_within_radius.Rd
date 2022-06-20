@@ -5,7 +5,7 @@
 \title{average_percentage_of_cells_within_radius}
 \usage{
 average_percentage_of_cells_within_radius(
-  sce_object,
+  spe_object,
   reference_celltype,
   target_celltype,
   radius = 100,
@@ -13,8 +13,8 @@ average_percentage_of_cells_within_radius(
 )
 }
 \arguments{
-\item{sce_object}{SingleCellExperiment object in the form of the output of
-\code{\link{format_image_to_sce}}.}
+\item{spe_object}{SpatialExperiment object in the form of the output of
+\code{\link{format_image_to_spe}}.}
 
 \item{reference_celltype}{String specifying the cell type of reference
 cells.}
