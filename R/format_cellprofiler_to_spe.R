@@ -22,7 +22,7 @@
 #'   'markers' parameter.
 #' @return A SingleCellExperiment object is returned
 
-format_image_to_spe <- function(path = NULL, 
+format_cellprofiler_to_spe <- function(path = NULL, 
                                 markers = NULL,  
                                 intensity_columns_interest = NULL){
     
