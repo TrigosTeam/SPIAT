@@ -1,24 +1,23 @@
-#' format_colData_to_sce
+#' format_colData_to_spe
 #'
 #' @description Format a dataframe of colData into a singlecellexperiment class
 #'   where the count assay is empty every cell (columns), and cell phenotype, x
 #'   and y coordinates are stored under colData for the purpose of passing
-#'   dataframe into a function requiring sce_object.
+#'   dataframe into a function requiring spe_object.
 #'
-#' @param df Dataframe that will be the colData of the sce object.
+#' @param df Dataframe that will be the colData of the spe object.
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @return An SingleCellExperiment object
 #' @examples
 #' df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), 
 #' Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
-#' sce <- format_colData_to_sce(df)
+#' spe <- format_colData_to_spe(df)
 #' @export
 
-format_colData_to_sce <- function(df) {
+format_colData_to_spe <- function(df) {
   
   #CHECK
   if (dim(df)[1]==0){
-    print(1)
     stop("No data in the dataframe")
   } 
   
@@ -32,14 +31,12 @@ format_colData_to_sce <- function(df) {
   rownames(assay_data_matrix) <- NULL
   assay_data_matrix_t <- t(assay_data_matrix)
   
-  sce <- SingleCellExperiment(assays = list(counts = assay_data_matrix_t))
+  spe <- SpatialExperiment::SpatialExperiment(
+    assays = assay_data_matrix_t, colData = df, 
+    spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
   
-  rownames(sce) <- assay_rownames
-  colnames(sce) <- assay_colnames
+  rownames(spe) <- assay_rownames
+  colnames(spe) <- assay_colnames
   
-  #Assign the columns
-  for (name in colnames(df)){
-    SummarizedExperiment::colData(sce)[[name]] <- df[,name]
-  }
-  return(sce)
+  return(spe)
 }
