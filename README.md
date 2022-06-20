@@ -34,5 +34,8 @@ The vignette with an overview of the package can be accessed from the top Menu u
 Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and desgined the package. 
 
 ## Paper reference
-Our latest paper will be submitted shortly! However, you can have a look at our previous SPIAT pre-print here:
+Our latest paper is currently under review! However, you can have a look at our previous SPIAT pre-print here:
 https://www.biorxiv.org/content/10.1101/2020.05.28.122614v1
+
+Note that the version used in the manuscript under review is v0.99.0. The release can be accessed [here](https://github.com/TrigosTeam/SPIAT/releases/tag/v0.99.0).
+
