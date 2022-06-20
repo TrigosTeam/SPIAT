@@ -3,17 +3,17 @@
 \docType{data}
 \name{simulated_image}
 \alias{simulated_image}
-\title{SCE object of a formatted image (simulated by `spaSim` package)}
+\title{SPE object of a formatted image (simulated by `spaSim` package)}
 \format{
-An sce object. Assay contains 5 rows (markers) and 4951 columns
-  (cells); colData contains 4951 rows (cells) and 3 columns (metadata).
+An SpatialExperiment object. Assay contains 5 rows (markers) and 4951
+  columns (cells); colData contains 4951 rows (cells) and 3 columns.
 }
 \usage{
 simulated_image
 }
 \description{
-A dataset that contains a formatted sce object with cell ids, cell positions,
-and phenotypes in metadata and marker intensities in assays.
+A dataset that contains a formatted spe object with cell ids and phenotypes
+in `colData()` and marker intensities in `assays()`.
 }
 \seealso{
 \code{\link{defined_image}} \code{\link{image_no_markers}}
