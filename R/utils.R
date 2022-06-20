@@ -8,14 +8,16 @@ remove_intensity_na <- function(intensity_columns) {
     return(intensity_columns)
 }
 
-# convert sce object to a dataframe with both colData and intensity matrix
-bind_colData_intensity <- function(sce_object){
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+# convert spe object to a data frame with both colData and intensity matrix
+bind_info <- function(spe_object){
+    formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
+    formatted_data <- cbind(formatted_data, 
+                            data.frame(SpatialExperiment::spatialCoords(spe_object)))
     #convert rowname to column
     formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") 
     
     # get the intensity matrix
-    intensity_matrix <- SummarizedExperiment::assay(sce_object)
+    intensity_matrix <- SummarizedExperiment::assay(spe_object)
     markers <- rownames(intensity_matrix)
     cell_ids <- colnames(intensity_matrix)
     rownames(intensity_matrix) <- NULL
@@ -26,13 +28,22 @@ bind_colData_intensity <- function(sce_object){
     # bind
     formatted_data <- cbind(formatted_data, intensity_t)
     
+    # delete column `sample_id`
+    formatted_data$sample_id <- NULL
+    
     return(formatted_data)
 }
 
-# convert sce object to a dataframe with only colData
-get_colData <- function(sce_object){
-    formatted_data <- data.frame(SummarizedExperiment::colData(sce_object))
+# convert spe object to a data frame with only colData
+get_colData <- function(spe_object){
+    formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
+    formatted_data <- cbind(formatted_data, 
+                            data.frame(SpatialExperiment::spatialCoords(spe_object)))
     formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID")
+    
+    # delete column `sample_id`
+    formatted_data$sample_id <- NULL
+    
     return(formatted_data)
 }
 
@@ -43,7 +54,7 @@ quiet_basic <- function(x) {
     invisible(force(x)) 
 } 
 
-# fix the bug in ahull function from alphahull package
+# fix the bug in `ahull` function from `alphahull` package
 fix_ahull <- function(ahull){ # the order of cells returned by ahull is messy
     # this function reorders the cells
     arc <- ahull$arcs
@@ -131,12 +142,17 @@ get_polygon <- function(xahull, arc, n_to_exclude){
 }
 
 # Produces a scatter plot of the cells in the tissue. Cells are coloured
-# categorically by specified column. Cells not part of the celltypes of interest will be coloured "lightgrey"
-plot_cell_basic <- function (sce_object, cell_types_of_interest, colour_vector, 
-                             feature_colname, cex = 0.4) {
+# categorically by specified column. Cells not part of the celltypes of interest
+# will be coloured "lightgrey"
+plot_cell_basic <- function(spe_object, cell_types_of_interest, colour_vector, 
+                             feature_colname, cex = 0.4, ...) {
     Cell.X.Position <- Cell.Y.Position <- NULL
     assign(feature_colname, NULL)
-    formatted_data <- data.frame(colData(sce_object))
+    formatted_data <- data.frame(colData(spe_object))
+    formatted_data <- cbind(formatted_data, 
+                            data.frame(SpatialExperiment::spatialCoords(spe_object)))
+    # delete column `sample_id`
+    formatted_data$sample_id <- NULL
     
     if (length(cell_types_of_interest) != length(colour_vector)) {
         stop("The colour vector is not the same length as the celltypes of interest")
@@ -145,7 +161,7 @@ plot_cell_basic <- function (sce_object, cell_types_of_interest, colour_vector,
     real_celltypes <- cell_types_of_interest
     for (phenotype in cell_types_of_interest) {
         if (!(phenotype %in% unique(formatted_data[[feature_colname]]))) {
-            print(paste(phenotype, "cells were not found"), sep = "")
+            show(paste(phenotype, "cells were not found"), sep = "")
             real_celltypes <- real_celltypes[real_celltypes != phenotype]
         }
     }
@@ -169,8 +185,8 @@ plot_cell_basic <- function (sce_object, cell_types_of_interest, colour_vector,
     
     if (any(formatted_data[[feature_colname]] == "OTHER")) {
         formatted_data[formatted_data[[feature_colname]] == "OTHER", ]$color <- "grey"
-        all_phenotypes <- c(cell_types_of_interest, "OTHER")
-        all_colours <- c(colour_vector, "grey")
+        all_phenotypes <- unique(c(cell_types_of_interest, "OTHER"))
+        all_colours <- c(colour_vector, "grey")[seq_len(length(all_phenotypes))]
     }
     
     else {
@@ -178,26 +194,28 @@ plot_cell_basic <- function (sce_object, cell_types_of_interest, colour_vector,
         all_colours <- colour_vector
     }
     
-    name_of_object <- attr(sce_object, "name")
+    name_of_object <- attr(spe_object, "name")
+    if (!is.null(name_of_object)) name_of_object <- paste("", name_of_object)
     
     plot(formatted_data$Cell.X.Position,formatted_data$Cell.Y.Position,
          pch = 19,cex = cex, col = formatted_data$color,
          xlab = "X Position", ylab = "Y Position",
-         main = paste("Plot", name_of_object, "by" ,feature_colname))
+         main = paste0("Plot", name_of_object, " by " ,feature_colname), ...)
     
-    x.max <- max(sce_object$Cell.X.Position)
-    y.max <- max(sce_object$Cell.Y.Position)
-    x <- x.max
+    x.max <- max(formatted_data$Cell.X.Position)
+    y.max <- max(formatted_data$Cell.Y.Position)
+    x <- x.max + 2
     y <- y.max/2
+    
     graphics::par(mar=c(5.1, 4.1, 4.1, 5.1), xpd=TRUE)
     graphics::legend(x,y, legend=all_phenotypes,
-           col=all_colours, cex=0.6, pch = 19,box.lty=0, bg='gray')
+           col=all_colours, cex=0.6, pch = 19, box.lty=0, bg='gray')
     
 }
 
 # define a function to get the number of certain name under a certain column
-count_category <- function(sce_object, cat, feature_colname){
-    data <- data.frame(SummarizedExperiment::colData(sce_object))
+count_category <- function(spe_object, cat, feature_colname){
+    data <- data.frame(SummarizedExperiment::colData(spe_object))
     count_table <- table(data[feature_colname])
     count <- unname(count_table[match(cat, names(count_table))])
     return(count)
