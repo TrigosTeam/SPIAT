@@ -15,7 +15,6 @@
 #' @param feature_colname String specifying the column the cell types are from.
 #' @param radius (OPTIONAL) Numeric. The maximum radius around a reference cell
 #'   for another cell to be considered an interaction.
-#' @importFrom SummarizedExperiment colData
 #' @return A dataframe or a number depending on the argument radius
 #' @export
 #' @examples
@@ -25,8 +24,8 @@
 calculate_entropy <- function(spe_object, cell_types_of_interest, 
                               feature_colname = "Phenotype", radius = NULL){
   
-  if((cell_types_of_interest[1] %in% colData(spe_object)[,feature_colname]) && 
-     any(cell_types_of_interest[-1] %in% colData(spe_object)[,feature_colname])){
+  if((cell_types_of_interest[1] %in% SummarizedExperiment::colData(spe_object)[,feature_colname]) && 
+     any(cell_types_of_interest[-1] %in% SummarizedExperiment::colData(spe_object)[,feature_colname])){
     if (!is.null(radius)){
       reference_marker <- cell_types_of_interest[1]
       target_marker<-cell_types_of_interest
@@ -52,7 +51,7 @@ calculate_entropy <- function(spe_object, cell_types_of_interest,
       return(n_cells.df)
     } else{
       entropy_all <- 0
-      data <- data.frame(colData(spe_object))
+      data <- data.frame(SummarizedExperiment::colData(spe_object))
       data <- data[which(data[,feature_colname] %in% cell_types_of_interest),]
       n_all <- dim(data)[1]
       

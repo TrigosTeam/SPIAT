@@ -20,7 +20,6 @@
 #'   (e.g. "None", "Other")
 #' @import dplyr
 #' @import ggplot2
-#' @import SummarizedExperiment
 #' @return An spe object and a plot is returned. The spe object contains
 #'   information of the defined neighborhood
 #' @examples
@@ -175,11 +174,12 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
   formatted_data_with_clusters <- formatted_data
   formatted_data_with_clusters$Cluster <- paste0("Cluster_", formatted_data_with_clusters$Cluster)
   formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
-  colData(spe_object) <- methods::as(merge(data.frame(colData(spe_object)), formatted_data_with_clusters[,c("Cell.ID","Cluster")], 
+  SummarizedExperiment::colData(spe_object) <- methods::as(merge(data.frame(SummarizedExperiment::colData(spe_object)), 
+                                                                 formatted_data_with_clusters[,c("Cell.ID","Cluster")], 
                by.x = "row.names", by.y = "Cell.ID", all.x = TRUE), "DFrame")
-  rownames(colData(spe_object)) <- colData(spe_object)$Row.names
-  colData(spe_object)$Row.names <- NULL
-  colnames(colData(spe_object))[colnames(colData(spe_object)) == "Cluster"] <- "Neighborhood"
+  rownames(SummarizedExperiment::colData(spe_object)) <- SummarizedExperiment::colData(spe_object)$Row.names
+  SummarizedExperiment::colData(spe_object)$Row.names <- NULL
+  colnames(SummarizedExperiment::colData(spe_object))[colnames(SummarizedExperiment::colData(spe_object)) == "Cluster"] <- "Neighborhood"
   
   return(spe_object)
 }
