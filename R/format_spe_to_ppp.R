@@ -1,15 +1,16 @@
 #' Format SPE object as a ppp object (`spatstat` package)
 #'
-#' @description Formats an spe object into a ppp object
-#' which has the x,y coordinates, phenotypes as markers 
-#' window specifies the range of x and y coordinates
+#' @description Formats an spe object into a ppp object which has the x,y
+#'   coordinates, phenotypes as markers window specifies the range of x and y
+#'   coordinates
 #'
 #' @export
-#' @param spe_object SingleCellExperiment object in the form of the output of format_image_to_spe
-#' @param window_pol Optional Boolean Specifying if the window is polygon
-#' @param feature_colname String specifying the feature column of interest
+#' @param spe_object SpatialExperiment object in the form of the output of
+#'   format_image_to_spe.
+#' @param window_pol Optional Boolean Specifying if the window is polygon.
+#' @param feature_colname String specifying the feature column of interest.
 #' @return A ppp object is returned (defined in `spatstat` package)
-#' @examples 
+#' @examples
 #' ppp_object<-format_sce_to_ppp(SPIAT::defined_image, feature_colname = "Cell.Type")
 
 format_spe_to_ppp <- function(spe_object, window_pol = FALSE, feature_colname="Phenotype") {

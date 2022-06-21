@@ -55,7 +55,7 @@ An updated spe object with cell phenotypes or a data.frame of
 \description{
 Predicts cell phenotypes based on marker intensity levels. If no
   prior cell phenotypes are available, it adds the phenotypes to the
-  SingleCellExperiment object used as input. If reference cell phenotypes are
+  SpaitalExperiment object used as input. If reference cell phenotypes are
   available, it produces a density plot showing predicted cutoff of a
   positive reading for marker intensity and it returns a dataframe containing
   the predicted intensity status for a particular marker.

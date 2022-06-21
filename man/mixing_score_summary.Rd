@@ -32,7 +32,7 @@ A data.frame of cell numbers, mixing scores, and normalised mixing
 }
 \description{
 Produces a data.frame with mixing scores of input reference and
-  target cells from a SingleCellExperiment object. It calculates
+  target cells from a SpatialExperiment object. It calculates
   reference-target interactions and reference-reference interactions based on
   a radius. It derives the mixing score and the normalised mixing score.
   Function returns NA if the mixing score is being calculated between cells

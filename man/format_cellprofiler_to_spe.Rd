@@ -20,7 +20,7 @@ with the level of each marker. Column names must match the order of the
 'markers' parameter.}
 }
 \value{
-A SingleCellExperiment object is returned
+A SpatialExperiment object is returned
 }
 \description{
 Reads in spatial data in the form of cell coordinates, cell

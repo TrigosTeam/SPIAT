@@ -45,7 +45,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
   # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
   Cell.X.Position <- Cell.Y.Position <- Category <- NULL
   
-  if (methods::is(spe_object, 'SingleCellExperiment')){
+  if (methods::is(spe_object, 'SpatialExperiment')){
     # formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
     formatted_data <- get_colData(spe_object)
   }

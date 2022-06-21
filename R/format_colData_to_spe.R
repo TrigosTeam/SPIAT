@@ -1,15 +1,13 @@
 #' format_colData_to_spe
 #'
-#' @description Format a dataframe of colData into a singlecellexperiment class
-#'   where the count assay is empty every cell (columns), and cell phenotype, x
-#'   and y coordinates are stored under colData for the purpose of passing
-#'   dataframe into a function requiring spe_object.
+#' @description Format a data frame into a SpatialExperiment class where the
+#'   count assay is empty every cell (columns), cell phenotypes are stored under
+#'   colData() and cell coordinates are stored under spatialCoords().
 #'
 #' @param df Dataframe that will be the colData of the spe object.
-#' @importFrom SingleCellExperiment SingleCellExperiment
-#' @return An SingleCellExperiment object
+#' @return An SpatialExperiment object
 #' @examples
-#' df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5), 
+#' df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5),
 #' Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
 #' spe <- format_colData_to_spe(df)
 #' @export

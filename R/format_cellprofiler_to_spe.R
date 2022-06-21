@@ -17,7 +17,7 @@
 #' @param intensity_columns_interest String Vector with the names of the columns
 #'   with the level of each marker. Column names must match the order of the
 #'   'markers' parameter.
-#' @return A SingleCellExperiment object is returned
+#' @return A SpatialExperiment object is returned
 #' @examples
 #' path <- system.file("extdata", "tiny_cellprofiler.txt.gz", package = "SPIAT")
 #' markers <- c("Marker1", "Marker2", "Marker3", "Marker4", "Marker5", "DAPI", 
