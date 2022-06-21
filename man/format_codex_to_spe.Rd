@@ -4,10 +4,12 @@
 \alias{format_codex_to_spe}
 \title{Format a CODEX image into a SpatialExperiment object}
 \usage{
-format_codex_to_spe(path = NULL, path_to_codex_cell_phenotypes = NULL)
+format_codex_to_spe(path = NULL, markers, path_to_codex_cell_phenotypes = NULL)
 }
 \arguments{
 \item{path}{String of the path location of CODEX csv file.}
+
+\item{markers}{String Vector containing the markers used for staining.}
 
 \item{path_to_codex_cell_phenotypes}{String of the path to
 the Cluster ID/Cell type file.}
@@ -21,4 +23,12 @@ Reads in spatial data in the form of cell coordinates, cell
   `SpatialExperiment` object. The assay stores the intensity level of every marker
   (rows) for every cell (columns). Cell phenotype is stored under colData. 
   Cell x and y coordinates are stored under `spatialCoords()` field.
+}
+\examples{
+path <- system.file("extdata", "tiny_codex.csv.gz", package = "SPIAT")
+path_to_codex_cell_phenotypes <- system.file("extdata", 
+"tiny_codex_phenotypes.txt.gz", package = "SPIAT")
+markers <- c("CD45", "Ly6C", "CD27", "CD5", "CD79b")
+formatted_codex <- format_codex_to_spe(path = path, markers = markers,
+path_to_codex_cell_phenotypes = path_to_codex_cell_phenotypes)
 }
