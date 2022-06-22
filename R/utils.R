@@ -220,3 +220,59 @@ count_category <- function(spe_object, cat, feature_colname){
     count <- unname(count_table[match(cat, names(count_table))])
     return(count)
 }
+
+#' Split a large image into sub images
+#' @description Takes in an image in SpatialExperiment format, splits the image
+#'   into specified sections and returns a list of SpatialExperiment objects.
+#'   Users can choose to plot the cell positions in each sub image. Note that 
+#'   this function does not split the assay.
+#'
+#' @param spe_object `SpatialExperiment` object in the form of the output of
+#'   \code{\link{format_image_to_spe}}.
+#' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 =
+#'   2x2, 3 = 3x3).
+#' @import ggplot2
+#' @return A list of data.frames is returned. Each data frame represents an
+#'   image without assay data.
+split_image <- function(spe_object, number_of_splits){
+    Cell.X.Position <- Cell.Y.Position <- NULL
+    #Reads the image file
+    cell_loc <- get_colData(spe_object)
+    #turn the spe object name into string
+    image_name <- deparse(substitute(spe_object))
+    #CHECK
+    if(nrow(cell_loc) == 0) stop("There are no cells in the data.")
+    #Selects x and y region to plot
+    minX <- min(cell_loc$Cell.X.Position, na.rm = TRUE)
+    maxX <- max(cell_loc$Cell.X.Position, na.rm = TRUE)
+    minY <- min(cell_loc$Cell.Y.Position, na.rm = TRUE)
+    maxY <- max(cell_loc$Cell.Y.Position, na.rm = TRUE)
+    #Splits the range of x and y coordinates into n + 1 evenly spaced out lengths
+    x_split <- seq(minX, maxX, length.out = number_of_splits + 1)
+    y_split <- seq(minY, maxY, length.out = number_of_splits + 1)
+    
+    divided_image_obj <- list()
+    for(y in seq_len(number_of_splits)){
+        local_coor_y <- y_split[c(y+1, y)]
+        #Round coordinates of cuts to nearest whole number for labeling
+        rounded_coor_y <- round(local_coor_y)
+        temp_cell_loc <- cell_loc
+        
+        for(x in seq_len(number_of_splits)){
+            local_coor_x <- x_split[c(x+1, x)]
+            #Rounds coordinates of cuts to nearest whole number for labeling
+            rounded_coor_x <- round(local_coor_x)
+            temp_cell_loc <- cell_loc
+
+            #Locates all points in the data file fitting the given min/max parameters to be plotted i.e. splitting up the image.
+            divided_image <- temp_cell_loc[min(local_coor_x) < temp_cell_loc$Cell.X.Position & 
+                                               temp_cell_loc$Cell.X.Position <= max(local_coor_x)
+                                           & min(local_coor_y) < temp_cell_loc$Cell.Y.Position & 
+                                               temp_cell_loc$Cell.Y.Position <= max(local_coor_y), ]
+
+            divided_image_obj[[paste(image_name,"r", x,"c", y, sep="")]] <- 
+                divided_image
+        }
+    }
+    return(divided_image_obj)
+}
