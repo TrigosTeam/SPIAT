@@ -17,8 +17,14 @@
 #' calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
 
 calculate_percentage_of_grids <- function(raster_obj, threshold, above){
-  raster_obj@data@values[is.na(raster_obj@data@values)] <- 0
-  if (above) p <- sum(raster_obj@data@values>=threshold)/length(raster_obj@data@values) * 100
-  else p <- sum(raster_obj@data@values<threshold)/length(raster_obj@data@values) * 100
-  return(p)
+    raster_obj@data@values[is.na(raster_obj@data@values)] <- 0
+    if (above) {
+        p <- sum(raster_obj@data@values>=threshold)/
+            length(raster_obj@data@values) * 100
+        }
+    else {
+        p <- sum(raster_obj@data@values<threshold)/
+            length(raster_obj@data@values) * 100
+        }
+    return(p)
 }

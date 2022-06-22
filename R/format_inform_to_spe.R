@@ -50,17 +50,21 @@ format_inform_to_spe <- function(path, markers, locations=NULL,
         names_to_match <- paste(locations, markers, sep=" ")
         
         # get all the mean intensity column names in the file
-        intensity_col_all <- colnames(image)[grepl("Mean \\(Normalized Counts, Total Weighting\\)", colnames(image))]
+        intensity_col_all <- 
+            colnames(image)[
+                grepl("Mean \\(Normalized Counts, Total Weighting\\)",
+                                  colnames(image))]
         
         # get the intensity column name for each marker
         intensity_columns_interest <- character(length(markers))
         i <- 1
         for (name in names_to_match) {
-            intensity_columns_interest[i] <- intensity_col_all[grepl(name, intensity_col_all)]
+            intensity_columns_interest[i] <- 
+                intensity_col_all[grepl(name, intensity_col_all)]
             i <- i + 1
         }
     } else {
-        #CHECK - if image contains all the columns specified and vectors of same length
+        #CHECK
         image_colnames <- colnames(image)
         if (!all(intensity_columns_interest %in% image_colnames)) {
             stop("One or more Intensity_columns_interest not found in image")
@@ -83,7 +87,8 @@ format_inform_to_spe <- function(path, markers, locations=NULL,
     
     # remove intensity NA rows from image
     image <- subset(image, `Cell.ID` %in% intensity_of_markers[, "Cell.ID"])
-    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Cell.ID")]
+    intensity_of_markers <- 
+        intensity_of_markers[ , !(colnames(intensity_of_markers) == "Cell.ID")]
     
     #extract the columns of interest and discard the rest
     colnames(image) <- make.names(colnames(image))
@@ -109,8 +114,10 @@ format_inform_to_spe <- function(path, markers, locations=NULL,
         
         marker_replacement <- paste0(marker,",", sep="")
         
-        image$Phenotype <- gsub(marker_positive, marker_replacement, image$Phenotype, fixed=TRUE)
-        image$Phenotype <- gsub(marker_negative, "", image$Phenotype, fixed=TRUE)
+        image$Phenotype <- gsub(marker_positive, marker_replacement, 
+                                image$Phenotype, fixed=TRUE)
+        image$Phenotype <- gsub(marker_negative, "", image$Phenotype, 
+                                fixed=TRUE)
     }
     
     #remove the comma at the end
@@ -129,9 +136,10 @@ format_inform_to_spe <- function(path, markers, locations=NULL,
     rownames(assay_data_matrix) <- NULL
     assay_data_matrix_t <- t(assay_data_matrix)
     
-    #Assign the phenotype, X and Y positions and cell property columns as the colData
+    #Assign the phenotype, X and Y positions and cell property columns
     metadata_columns <- formatted_data[,c("Phenotype", "Cell.X.Position", 
-                                          "Cell.Y.Position", cell_properties_cols)]
+                                          "Cell.Y.Position", 
+                                          cell_properties_cols)]
     
     spe <- SpatialExperiment::SpatialExperiment(
         assay = assay_data_matrix_t,

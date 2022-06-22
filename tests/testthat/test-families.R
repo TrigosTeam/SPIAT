@@ -3,18 +3,19 @@ context("families")
 test_that("functions in cross K family work", {
     ## calculate_cross_functions()
     res <- data.frame(row.names = c(10L, 11L, 12L),
-                      r = c(9.09090909090909171653, 10.10101010101010210462, 11.11111111111111249272), 
-                      theo = c(259.63575649502428177584, 320.53797098151147793033,387.85094488762888431665),
-                      border = c(0.00000000000000000000,7.75578194807568443991,77.55781948075684795185),
+                      r = c(9.09090909090, 10.10101010101, 11.11111), 
+                      theo = c(259.6357564950, 320.53797098151,387.850944887),
+                      border = c(0.0000000000,7.75578194807,77.5578194807),
                       stringsAsFactors = FALSE)
-    df_cross <- calculate_cross_functions(defined_image, method = "Kcross",
-                    cell_types_of_interest = c("Tumour","Immune3"),
-                    feature_colname ="Cell.Type", dist = 100, plot_results = FALSE)
+    df_cross <- calculate_cross_functions(
+        defined_image, method = "Kcross",
+        cell_types_of_interest = c("Tumour","Immune3"),
+        feature_colname ="Cell.Type", dist = 100, plot_results = FALSE)
      # test if the data strcure is "fv"
     expect_s3_class(df_cross, "fv")   
     
     out <- data.frame(df_cross[10:12,])
-    expect_equal(res, out) # test if the results are the same
+    expect_equal(res, out, tolerance = 1e-4) # test if the results are the same
     
     ## AUC_of_cross_function()
     res <- 0.07372796865617478601
@@ -30,8 +31,9 @@ test_that("functions in cross K family work", {
 test_that("functions in tumour structure family work", {
     ## identify_bordering_cells()
     res <- c("Inside", "Inside", "Border", "Inside")
-    spe_border <- identify_bordering_cells(defined_image, reference_cell = "Tumour",
-                                           feature_colname = "Cell.Type", n_to_exclude = 10)
+    spe_border <- identify_bordering_cells(
+        defined_image, reference_cell = "Tumour", feature_colname = "Cell.Type",
+        n_to_exclude = 10)
     # test if the data strcure is "SpatialExperiment"
     expect_s4_class(spe_border, "SpatialExperiment") 
     
@@ -58,8 +60,9 @@ test_that("functions in tumour structure family work", {
     
     ## define_structure()
     res <- c("Internal.margin", "Internal.margin", "Border", "Internal.margin")
-    spe_structure <- define_structure(spe_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
-                                      feature_colname = "Cell.Type", n_margin_layers = 5)
+    spe_structure <- define_structure(
+        spe_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
+        feature_colname = "Cell.Type", n_margin_layers = 5)
     
     # test if the data strcure is "SpatialExperiment"
     expect_s4_class(spe_structure, "SpatialExperiment") 
@@ -68,28 +71,57 @@ test_that("functions in tumour structure family work", {
     expect_equal(res, out)  # test if the results are the same
     
     ## summarise the cell proportions in each tumour structure
-    res <- data.frame(Cell.Type = c("Immune1", "Immune3", "Immune1", "Immune3", "Immune1", "Immune3", "All_cells_of_interest"),
-                      Relative_to = c("All_cells_in_the_structure", "All_cells_in_the_structure", "All_cells_of_interest_in_the_structure", "All_cells_of_interest_in_the_structure", "The_same_cell_type_in_the_whole_image", "The_same_cell_type_in_the_whole_image", "All_cells_in_the_structure"),
-                      P.Infiltrated.Immune=as.numeric(c("0", "0.143859649122807", "0", "1", "0", "0.0650793650793651", "0.143859649122807")),
-                      P.Internal.Margin.Immune = as.numeric(c("0", "0.0878048780487805", "0", "1", "0", "0.0571428571428571", "0.0878048780487805")),
-                      P.External.Margin.Immune = as.numeric(c("0.00549450549450549", "2.15934065934066", "0.00253807106598985", "0.99746192893401", "0.0029585798816568", "0.623809523809524", "2.17032967032967")),
-                      P.Stromal.Immune=as.numeric(c("0.119715808170515", "0.0568383658969805", "0.678068410462777", "0.321931589537223", "0.997041420118343", "0.253968253968254", "0.23943161634103")))
-    out <- calculate_proportions_of_cells_in_structure(spe_structure, 
-                                                cell_types_of_interest = c("Immune1","Immune3"),
-                                                feature_colname = "Cell.Type")
-    expect_equal(res, out) 
+    res <- data.frame(
+        Cell.Type = c("Immune1", "Immune3", "Immune1", "Immune3", 
+                      "Immune1", "Immune3", "All_cells_of_interest"),
+        Relative_to = c("All_cells_in_the_structure", 
+                        "All_cells_in_the_structure", 
+                        "All_cells_of_interest_in_the_structure", 
+                        "All_cells_of_interest_in_the_structure", 
+                        "The_same_cell_type_in_the_whole_image", 
+                        "The_same_cell_type_in_the_whole_image", 
+                        "All_cells_in_the_structure"),
+        P.Infiltrated.Immune=as.numeric(c("0", "0.143859649122807", "0", "1", 
+                                          "0", "0.06507936", "0.143859649")),
+        P.Internal.Margin.Immune = as.numeric(c("0", "0.08780487", "0", "1", 
+                                                "0", "0.0571428", "0.0878048")),
+        P.External.Margin.Immune = as.numeric(c("0.005494505",  "2.1593406593", 
+                                                "0.002538071", "0.997461928", 
+                                                "0.00295857", "0.6238095", 
+                                                "2.17032967")),
+        P.Stromal.Immune=as.numeric(c("0.119715", "0.05683836", "0.678068", 
+                                      "0.321931", "0.9970414201", "0.25396824", 
+                                      "0.239431616")))
+    out <- calculate_proportions_of_cells_in_structure(
+        spe_structure, cell_types_of_interest = c("Immune1","Immune3"),
+        feature_colname = "Cell.Type")
+    expect_equal(res, out, tolerance = 1e-4) 
     
     ## summarise the distances from cells to the tumour border
-    res <- data.frame(Cell.Type = c("All_cell_types_of_interest", "All_cell_types_of_interest", "Immune1", "Immune1", "Immune3", "Immune3"),
-                      Area = c("Tumor_area", "Stroma", "Tumor_area", "Stroma", "Tumor_area", "Stroma"),
-                      Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", NA, "84.2001833941197", "10.9322494547641", "10.0238703579346")),
-                      Max_d = as.numeric(c("192.409359800297", "971.56383420638", NA, "970.774932660564", "192.409359800297", "971.56383420638")),
-                      Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NA, "346.140958983386", "86.200421492396", "102.79227480847")),
-                      Median_d=as.numeric(c("88.2329866304885", "101.951127102521", NA, "301.015350157948", "88.2329866304885", "68.192180252124")),
-                      St.dev_d=as.numeric(c("45.27413945602", "194.685066632607",NA, "187.042468626624", "45.27413945602", "131.327138494673")))
-    out <- calculate_summary_distances_of_cells_to_borders(spe_structure, 
-                                                           cell_types_of_interest = c("Immune1","Immune3"),
-                                                           feature_colname = "Cell.Type")
+    res <- data.frame(
+        Cell.Type = c("All_cell_types_of_interest", 
+                      "All_cell_types_of_interest", 
+                      "Immune1", "Immune1", "Immune3", "Immune3"),
+        Area = c("Tumor_area", "Stroma", "Tumor_area", "Stroma", "Tumor_area", 
+                 "Stroma"),
+        Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", NA, 
+                           "84.2001833941197", "10.9322494547641", 
+                           "10.0238703579346")),
+        Max_d = as.numeric(c("192.409359800297", "971.56383420638", NA, 
+                             "970.774932660564", "192.409359800297", 
+                             "971.56383420638")),
+        Mean_d = as.numeric(c("86.200421492396", "195.106365999404", NA,
+                              "346.140958983386", "86.200421492396",
+                              "102.79227480847")),
+        Median_d=as.numeric(c("88.2329866304885", "101.951127102521", NA,
+                              "301.015350157948", "88.2329866304885", 
+                              "68.192180252124")),
+        St.dev_d=as.numeric(c("45.27413945602", "194.685066632607",NA,
+                              "187.042468626624", "45.27413945602", 
+                              "131.327138494673")))
+    out <- calculate_summary_distances_of_cells_to_borders(
+        spe_structure,  cell_types_of_interest = c("Immune1","Immune3"),
+        feature_colname = "Cell.Type")
     expect_equal(res, out) 
 })
 
@@ -98,7 +130,8 @@ test_that("functions in spatial heterogeneity family work", {
     res <- c(0.7793498, 0.9995910, 0.9612366, 0.9456603, 0.8812909,
              0.9915529, 0.7617327, 0.4586858, 0.9905577, 0.9798688)
     grid <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 5,
-                         cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")
+                         cell_types_of_interest=c("Tumour","Immune3"), 
+                         feature_colname = "Cell.Type")
     # test if the data strcure is "RasterLayer"
     expect_s4_class(grid, "RasterLayer")   
     
@@ -119,10 +152,10 @@ test_that("functions in spatial heterogeneity family work", {
 test_that("functions in identify neighborhood family work", {
     
     ## identify_neighborhoods()
-    neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-                                            min_neighborhood_size = 100, 
-                                            cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
-                                            radius = 50, feature_colname = "Cell.Type")
+    neighborhoods <- identify_neighborhoods(
+        image_no_markers, method = "hierarchical", min_neighborhood_size = 100,
+        cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
+        radius = 50, feature_colname = "Cell.Type")
     
     # test if the data strcure is "SpatialExperiment"
     expect_s4_class(neighborhoods, "SpatialExperiment") 
@@ -135,12 +168,14 @@ test_that("functions in identify neighborhood family work", {
                       Total_number_of_cells = rep(295,3),
                       Percentage = c(33.220339, 48.474576, 18.305085))
     
-    neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
+    neighborhoods_vis <- composition_of_neighborhoods(
+        neighborhoods, feature_colname="Cell.Type")
     
     expect_equal(neighborhoods_vis[1:3, ], res, tolerance = 1e-4)
     
     ## plot_composition_heatmap()
-    p <- plot_composition_heatmap(neighborhoods_vis, feature_colname="Cell.Type")
+    p <- plot_composition_heatmap(neighborhoods_vis, 
+                                  feature_colname="Cell.Type")
     
     expect_is(p, "Heatmap")
 })

@@ -30,52 +30,58 @@
 #' # the selected column is:
 #' category_colname = "Phenotype"
 #' # define the following marker combinations:
-#' categories <- c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3",
+#' categories <- c("Tumour_marker", "Immune_marker1,Immune_marker2", 
+#' "Immune_marker1,Immune_marker3",
 #' "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER")
 #' # the new defined cell names:
 #' names = c("Tumour", "Immune1", "Immune2","Immune3", "Others")
 #' # the new names are stored under this column:
 #' new_colname <- "Cell.Type"
 #'
-#' defined_spe <- define_celltypes(SPIAT::simulated_image, categories = categories,
-#' category_colname = category_colname, names = names, new_colname = new_colname)
+#' defined_spe <- define_celltypes(SPIAT::simulated_image, 
+#' categories = categories, category_colname = category_colname, names = names, 
+#' new_colname = new_colname)
 
 define_celltypes <- function(spe_object,categories = NULL, 
                              category_colname = "Phenotype", names = NULL, 
                              new_colname = "Cell.Type", print_names = FALSE){
-  
-  # CHECK
-  if (length(categories) != length(names)){
-    show("`length(categories) != length(names)`")
-    stop("The old and new cell type names should be of the same length!")
-  }
-  # default setting
-  if (is.null(categories) & is.null(names)){
-    pre_categories <- c("AMACR", "CD3,CD4", "CD3,CD8", "CD3", "AMACR,PDL-1","PDL-1")
-    pre_names <- c("Tumour","CD4","CD8","CD3","Tumour,PDL1","PDL1")
-  }
-  
-  else{
-    pre_categories <- categories
-    pre_names <- names
-  }
-  
-  all_categories <- unique(colData(spe_object)[[category_colname]])
-  categories <- intersect(all_categories, pre_categories)
-  names <- pre_names[match(categories, pre_categories)]
-  
-  if (print_names){
-    show(paste("Define new cell types basing on:", categories))
-    show(paste("The new cell types are:",names))
-  }
-  
-  spe_object[[new_colname]] <- ""
-  names<- c(names,rep("Undefined",length(all_categories[!(all_categories %in% categories)])))
-  categories <- c(categories,all_categories[!(all_categories %in% categories)])
-  for (i in seq_len(length(categories))){
-    spe_object[,spe_object[[category_colname]] == categories[i]][[new_colname]] <- names[i]
-  }
-  
-  return(spe_object)
+    
+    # CHECK
+    if (length(categories) != length(names)){
+        show("`length(categories) != length(names)`")
+        stop("The old and new cell type names should be of the same length!")
+    }
+    # default setting
+    if (is.null(categories) & is.null(names)){
+        pre_categories <- c("AMACR", "CD3,CD4", "CD3,CD8", "CD3", 
+                            "AMACR,PDL-1","PDL-1")
+        pre_names <- c("Tumour","CD4","CD8","CD3","Tumour,PDL1","PDL1")
+    }
+    
+    else{
+        pre_categories <- categories
+        pre_names <- names
+    }
+    
+    all_categories <- unique(colData(spe_object)[[category_colname]])
+    categories <- intersect(all_categories, pre_categories)
+    names <- pre_names[match(categories, pre_categories)]
+    
+    if (print_names){
+        show(paste("Define new cell types basing on:", categories))
+        show(paste("The new cell types are:",names))
+    }
+    
+    spe_object[[new_colname]] <- ""
+    names<- c(names,rep("Undefined",length(all_categories[
+        !(all_categories %in% categories)])))
+    categories <- c(categories,all_categories[
+        !(all_categories %in% categories)])
+    for (i in seq_len(length(categories))){
+        spe_object[,spe_object[[category_colname]] == 
+                       categories[i]][[new_colname]] <- names[i]
+    }
+    
+    return(spe_object)
 }
 

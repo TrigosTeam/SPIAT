@@ -21,7 +21,8 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
     formatted_data <- get_colData(spe_object)
     
     intensity_matrix <- SummarizedExperiment::assay(spe_object)
-    intensity_matrix_no_DAPI <- intensity_matrix[rownames(intensity_matrix) != "DAPI",]
+    intensity_matrix_no_DAPI <- 
+        intensity_matrix[rownames(intensity_matrix) != "DAPI",]
     
     if(scale){
         intensity_matrix_no_DAPI_scaled <- scale(t(intensity_matrix_no_DAPI))
@@ -33,14 +34,19 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
         intensity_DR <- umap::umap(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout <- as.data.frame(intensity_DR$data)
         colnames(intensity_DR_layout) <- c("X_coord", "Y_coord")
-        intensity_DR_layout$Label <- formatted_data[[feature_colname]][match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
+        intensity_DR_layout$Label <- 
+            formatted_data[[feature_colname]][
+                match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else if (plot_type == "TSNE"){
         intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout <- as.data.frame(intensity_DR$Y)
         colnames(intensity_DR_layout) <- c("X_coord", "Y_coord")
-        rownames(intensity_DR_layout) <- rownames(intensity_matrix_no_DAPI_scaled)
-        intensity_DR_layout$Label <- formatted_data[[feature_colname]][match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
+        rownames(intensity_DR_layout) <- 
+            rownames(intensity_matrix_no_DAPI_scaled)
+        intensity_DR_layout$Label <- 
+            formatted_data[[feature_colname]][
+                match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else{
         show("Print select UMAP or TSNE as plot type")

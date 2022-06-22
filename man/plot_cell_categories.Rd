@@ -17,12 +17,12 @@ plot_cell_categories(
 \item{spe_object}{SpatialExperiment object in the form of the output of
 \code{\link{format_image_to_spe}}.}
 
-\item{categories_of_interest}{Vector of cell categories to be coloured}
+\item{categories_of_interest}{Vector of cell categories to be coloured.}
 
-\item{colour_vector}{Vector specifying the colours of each cell phenotype}
+\item{colour_vector}{Vector specifying the colours of each cell phenotype.}
 
 \item{feature_colname}{String specifying the column the cell categories
-belong to}
+belong to.}
 
 \item{cex}{Numeric. The size of the plot points. Default is 1.}
 

@@ -105,4 +105,5 @@ plot_marker_level_heatmap <- function(spe_object, num_splits, marker){
                    panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank())
     show(p)
+    return(p)
 }

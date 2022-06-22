@@ -30,28 +30,42 @@
 define_structure <- function(spe_object, names_of_immune_cells, 
                              feature_colname = "Cell.Type",
                              n_margin_layers = 5){
-  
-  # calculate the width of internal/external margin
-  min_dist <- average_minimum_distance(spe_object)
-  margin_dist <- n_margin_layers * min_dist
-  sprintf("How many layers of cells in the external/internal margin: %i", n_margin_layers)
-  sprintf("The width of internal/external margin: %f", margin_dist)
-  
-  #CHECK if the distance to bordering cells is calculated
-  if (is.null(spe_object$Distance.To.Border)){
-    stop(sprintf("Distance.To.Border not calculated yet for %i", deparse(substitute(spe_object))))
-  }
-  
-  data <- data.frame(SummarizedExperiment::colData(spe_object))
-  data[,"Structure"] <- data$Region
-  data[intersect(which(data$Region == "Inside"),which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "Infiltrated.immune"
-  data[intersect(which(data$Region == "Outside"),which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "Stromal.immune"
-  data[intersect(which(data$Distance.To.Border < margin_dist), which(data$Region == "Inside")), "Structure"] <- "Internal.margin"
-  data[intersect(which(data$Structure == "Internal.margin"), which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "Internal.margin.immune"
-  data[intersect(which(data$Distance.To.Border < margin_dist), which(data$Region == "Outside")), "Structure"] <- "External.margin"
-  data[intersect(which(data$Structure == "External.margin"), which(data[[feature_colname]] %in% names_of_immune_cells)), "Structure"] <- "External.margin.immune"
-  
-  SummarizedExperiment::colData(spe_object)$Structure <- data[,"Structure"]
-  
-  return(spe_object)
+    
+    # calculate the width of internal/external margin
+    min_dist <- average_minimum_distance(spe_object)
+    margin_dist <- n_margin_layers * min_dist
+    sprintf("How many layers of cells in the external/internal margin: %i", 
+            n_margin_layers)
+    sprintf("The width of internal/external margin: %f", margin_dist)
+    
+    #CHECK if the distance to bordering cells is calculated
+    if (is.null(spe_object$Distance.To.Border)){
+        stop(sprintf("Distance.To.Border not calculated yet for %i", 
+                     deparse(substitute(spe_object))))
+    }
+    
+    data <- data.frame(SummarizedExperiment::colData(spe_object))
+    data[,"Structure"] <- data$Region
+    data[intersect(which(data$Region == "Inside"),
+                   which(data[[feature_colname]] %in% names_of_immune_cells)), 
+         "Structure"] <- "Infiltrated.immune"
+    data[intersect(which(data$Region == "Outside"),
+                   which(data[[feature_colname]] %in% names_of_immune_cells)), 
+         "Structure"] <- "Stromal.immune"
+    data[intersect(which(data$Distance.To.Border < margin_dist), 
+                   which(data$Region == "Inside")), 
+         "Structure"] <- "Internal.margin"
+    data[intersect(which(data$Structure == "Internal.margin"), 
+                   which(data[[feature_colname]] %in% names_of_immune_cells)), 
+         "Structure"] <- "Internal.margin.immune"
+    data[intersect(which(data$Distance.To.Border < margin_dist), 
+                   which(data$Region == "Outside")), 
+         "Structure"] <- "External.margin"
+    data[intersect(which(data$Structure == "External.margin"), 
+                   which(data[[feature_colname]] %in% names_of_immune_cells)), 
+         "Structure"] <- "External.margin.immune"
+    
+    SummarizedExperiment::colData(spe_object)$Structure <- data[,"Structure"]
+    
+    return(spe_object)
 }
