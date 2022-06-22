@@ -5,10 +5,19 @@
 #'   SpatialExperiment object. The assay stores the intensity level of every
 #'   marker (rows) for every cell (columns). Cell phenotype is stored under
 #'   `colData()`. Cell x and y coordinates are stored under `spatialCoords()`
-#'   field.
+#'   field. The function can read in data in general format (manually
+#'   constructed input), or data from other platforms including inForm, HALO,
+#'   CODEX and cellprofiler. Alternatively, users can use the specific function
+#'   for each format.
 #' @details Note for "cellprofiler" format, when specifying `markers`, please
 #'   use "DAPI" to replace "DNA" due to implementation. The output data will
 #'   include "DAPI" instead of "DNA".
+#'
+#'   The format of "Phenotype" column: For example, a cell positive for both
+#'   "CD3" and "CD4" markers has the "CD3,CD4" **cell phenotype**. The phenotype
+#'   has to be strictly formatted in such way where each positive marker has to
+#'   be separated by a coma, with no space in between, and the order of the
+#'   positive markers has to be the same as the order in the assay.
 #'
 #' @export
 #' @param format String specifying the format of the data source. Default is
@@ -49,6 +58,8 @@
 #'   the marker). Column names must match the order of the 'markers' parameter.
 #' @param path_to_codex_cell_phenotypes (Optional) For "CODEX".String of the
 #'   path to the Cluster ID/Cell type file.
+#' @seealso \code{\link{format_inform_to_sce}} \code{\link{format_halo_to_sce}}
+#'   \code{\link{format_codex_to_sce}} \code{\link{format_cellprofiler_to_sce}}
 #'
 #' @return A SpatialExperiment object is returned
 #' @examples
@@ -69,8 +80,12 @@
 #' formatted_image <- format_image_to_spe(intensity_matrix=intensity_matrix,
 #' phenotypes = phenotypes, coord_x = coord_x,coord_y = coord_y)
 
-format_image_to_spe <- function(intensity_matrix, phenotypes = NULL, coord_x, 
-                                coord_y){
+format_image_to_spe <- function(format = "general", intensity_matrix = NULL, 
+                                phenotypes = NULL, coord_x = NULL, 
+                                coord_y = NULL, path = NULL, markers = NULL, 
+                                locations = NULL,
+                                intensity_columns_interest = NULL, 
+                                dye_columns_interest = NULL){
     if (format == "general"){
         intensity_matrix <- remove_intensity_na(intensity_matrix)
         
