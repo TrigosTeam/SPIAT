@@ -19,11 +19,8 @@ grid_metrics <- function(spe_object, FUN, n_split, ...){
   split <- image_splitter(spe_object,n_split)
   list.metric <- list()
   for (i in seq_len(length(split))){
-    if(nrow(split[[i]]) > 0){
-      spe <- try(quiet_basic(format_colData_to_spe(split[[i]])))
-    }else{
-      spe <- NULL
-    }
+    spe <- split[[i]]
+    if(nrow(spe) == 0){spe <- NULL}
     if (methods::is(spe,"SpatialExperiment")){
       metric <-  quiet_basic(FUN(spe, ...))
       if (length(metric)==0){
