@@ -60,23 +60,31 @@ format_halo_to_spe <- function(path = NULL,
             
         for (loc in locations) {
             if (loc == "Nucleus") {
-                intensity_columns_interest[i] <- paste0("Dye.", i, ".Nucleus.Intensity")
-                dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Nucleus")
+                intensity_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Nucleus.Intensity")
+                dye_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Positive.Nucleus")
             } else if (loc == "Cytoplasm") {
-                intensity_columns_interest[i] <- paste0("Dye.", i, ".Cytoplasm.Intensity")
-                dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Cytoplasm")
+                intensity_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Cytoplasm.Intensity")
+                dye_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Positive.Cytoplasm")
             } else if (loc == "Membrane") {
-                intensity_columns_interest[i] <- paste0("Dye.", i, ".Membrane.Intensity")
-                dye_columns_interest[i] <- paste0("Dye.", i, ".Positive.Membrane")
+                intensity_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Membrane.Intensity")
+                dye_columns_interest[i] <- 
+                    paste0("Dye.", i, ".Positive.Membrane")
             } else {
-                stop('Location incorrectly specified. Must be either "Nucleus", "Cytoplasm" or "Membrane"')
+                stop('Location incorrectly specified. Must be either "Nucleus", 
+                     "Cytoplasm" or "Membrane"')
             }
             i <- i + 1}
             
     # if locations not used, get the intensity and dye columns from their specified names
     } else {
         #replace the spaces and non-alphanumeric characters as a '.' for column selection
-        intensity_columns_interest <- gsub("[^[:alnum:]]", ".", intensity_columns_interest)
+        intensity_columns_interest <- gsub("[^[:alnum:]]", ".", 
+                                           intensity_columns_interest)
         dye_columns_interest <- gsub("[^[:alnum:]]", ".", dye_columns_interest)
         
         #CHECK - if image contains all the columns specified and vectors of same length
@@ -116,15 +124,19 @@ format_halo_to_spe <- function(path = NULL,
         
     # remove intensity NA rows from image
     image <- subset(image, Object.Id %in% intensity_of_markers[, "Object.Id"])
-    intensity_of_markers <- intensity_of_markers[ , !(colnames(intensity_of_markers) == "Object.Id")]
+    intensity_of_markers <- 
+        intensity_of_markers[ , !(colnames(intensity_of_markers) == "Object.Id")]
     
     #get the intensity status columns
     intensity_status_cols <- image[,dye_columns_interest]
     colnames(intensity_status_cols) <- markers
     
     #grab relevant columns
-    cell_properties_cols <- colnames(image)[grep("Nucleus.Area|Cytoplasm.Area|Cell.Area", colnames(image))]
-    image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax", cell_properties_cols)]
+    cell_properties_cols <- 
+        colnames(image)[grep("Nucleus.Area|Cytoplasm.Area|Cell.Area", 
+                             colnames(image))]
+    image <- image[,c("Object.Id", "XMin", "XMax", "YMin", "YMax", 
+                      cell_properties_cols)]
     
     #rename Object.ID to Cell.ID
     colnames(image)[1] <- "Cell.ID"
@@ -146,16 +158,21 @@ format_halo_to_spe <- function(path = NULL,
         #get the row idx of the cells that express the specific marker, and paste the phenotype
         rows_true_exp <- which(intensity_status_cols[,marker] != 0)
         if (length(rows_true_exp) != 0) {
-            intensity_status_cols[rows_true_exp,]$Phenotype <- paste(intensity_status_cols[rows_true_exp,]$Phenotype, phenotype, sep="")
+            intensity_status_cols[rows_true_exp,]$Phenotype <- 
+                paste(intensity_status_cols[rows_true_exp,]$Phenotype, 
+                      phenotype, sep="")
         }}
         
     #now clean the phenotype column
     if (nrow(intensity_status_cols[intensity_status_cols$Phenotype == "OTHER,", ]) != 0) {
         intensity_status_cols[intensity_status_cols$Phenotype == "OTHER,", ]$Phenotype <- "OTHER"
     }
-    intensity_status_cols$Phenotype <- gsub("OTHER,", "", intensity_status_cols$Phenotype)
-    intensity_status_cols$Phenotype <- gsub(",OTHER", "", intensity_status_cols$Phenotype)
-    intensity_status_cols$Phenotype <- gsub(",$", "", intensity_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub("OTHER,", "", 
+                                            intensity_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub(",OTHER", "", 
+                                            intensity_status_cols$Phenotype)
+    intensity_status_cols$Phenotype <- gsub(",$", "", 
+                                            intensity_status_cols$Phenotype)
     
     #grab the phenotype column and cbind to image
     phenotype_column <- data.frame(intensity_status_cols$Phenotype)
@@ -163,7 +180,8 @@ format_halo_to_spe <- function(path = NULL,
     
     image <- cbind(image, phenotype_column)
     image$Phenotype <- as.character(image$Phenotype)
-    image <- image[,c("Cell.ID", "Phenotype", "Cell.X.Position", "Cell.Y.Position", cell_properties_cols)]
+    image <- image[,c("Cell.ID", "Phenotype", "Cell.X.Position", 
+                      "Cell.Y.Position", cell_properties_cols)]
     
     #create the formatted_data with intensity levels
     formatted_data <- cbind(image, intensity_of_markers)
