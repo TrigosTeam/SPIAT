@@ -10,15 +10,15 @@ image_splitter(
   plot = FALSE,
   cut_labels = TRUE,
   colour_vector = NULL,
-  x_position_min = NULL,
-  x_position_max = NULL,
-  y_position_min = NULL,
-  y_position_max = NULL,
-  feature_colname = "Cell.Type"
+  minX = NULL,
+  maxX = NULL,
+  minY = NULL,
+  maxY = NULL,
+  feature_colname = "Phenotype"
 )
 }
 \arguments{
-\item{spe_object}{SpatialExperiment object in the form of the output of
+\item{spe_object}{`SpatialExperiment` object in the form of the output of
 \code{\link{format_image_to_spe}}.}
 
 \item{number_of_splits}{Numeric. specifying the number of segments (e.g. 2 =
@@ -31,32 +31,34 @@ in a pdf.}
 segmented.}
 
 \item{colour_vector}{String Vector. If specified, the colours will be used
-for plotting. If NULL, colors will be generated automatically}
+for plotting. If NULL, colors will be generated automatically.}
 
-\item{x_position_min}{Integer used to specify the minimum x boundary to be
+\item{minX}{Integer used to specify the minimum x boundary to be
 splitted.}
 
-\item{x_position_max}{Integer used to specify the maximum x boundary to be
+\item{maxX}{Integer used to specify the maximum x boundary to be
 splitted.}
 
-\item{y_position_min}{Integer used to specify the minimum y boundary to be
+\item{minY}{Integer used to specify the minimum y boundary to be
 splitted.}
 
-\item{y_position_max}{Integer used to specify the maximum y boundary to be
+\item{maxY}{Integer used to specify the maximum y boundary to be
 splitted.}
 
 \item{feature_colname}{String specifying which column the colouring should be
-based on. Specify when plot is TRUE.}
+based on. Specify when `plot` is TRUE. Default is "Phenotype".}
 }
 \value{
-A list of data.frames is returned. Each data frame represents an
+A list of spe objects is returned. Each data frame represents an
   image without assay data.
 }
 \description{
-Takes in an image in SpatialExperiment format, and splits the
-  image into specified sections. Users can choose to plot the cell positions
-  in each sub image.
+Takes in an image in SpatialExperiment format, splits the image
+  into specified sections and returns a list of SpatialExperiment objects.
+  Users can choose to plot the cell positions in each sub image. Note that 
+  this function does not split the assay.
 }
 \examples{
-split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, plot = FALSE)
+split_image <- image_splitter(SPIAT::simulated_image, number_of_splits=3, 
+plot = FALSE)
 }
