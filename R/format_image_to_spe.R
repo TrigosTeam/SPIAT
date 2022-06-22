@@ -5,20 +5,51 @@
 #'   SpatialExperiment object. The assay stores the intensity level of every
 #'   marker (rows) for every cell (columns). Cell phenotype is stored under
 #'   `colData()`. Cell x and y coordinates are stored under `spatialCoords()`
-#'   field. 
+#'   field.
+#' @details Note for "cellprofiler" format, when specifying `markers`, please
+#'   use "DAPI" to replace "DNA" due to implementation. The output data will
+#'   include "DAPI" instead of "DNA".
 #'
 #' @export
-#' @param intensity_matrix A matrix of marker intensities or gene expression
-#'   where the column names are the Cell IDs, and the rownames the marker.
-#' @param phenotypes (Optional) String Vector of cell phenotypes in the same
-#'   order in which they appear in `intensity_matrix`. If no phenotypes
-#'   available, then a vector of NAs can be used as input. Note that the
-#'   combination of markers (e.g. CD3,CD4) needs to be used instead of the cell
-#'   type name (e.g. helper T cells).
-#' @param coord_x Numeric Vector with the X coordinates of the cells. The cells
-#'   must be in the same order as in the `intensity_matrix`.
-#' @param coord_y Numeric Vector with the Y coordinates of the cells. The cells
-#'   must be in the same order as in the `intensity_matrix`.
+#' @param format String specifying the format of the data source. Default is
+#'   "general" (RECOMMENDED), where the cell phenotypes, coordinates and marker
+#'   intensities are imported manually by the user. Other formats include
+#'   "inForm", "HALO", "cellprofiler" and "CODEX".
+#' @param intensity_matrix (Optional) For "general" format. A matrix of marker
+#'   intensities or gene expression where the column names are the Cell IDs, and
+#'   the rownames the marker.
+#' @param phenotypes (Optional) For "general" format. String Vector of cell
+#'   phenotypes in the same order in which they appear in `intensity_matrix`. If
+#'   no phenotypes available, then a vector of NAs can be used as input. Note
+#'   that the combination of markers (e.g. CD3,CD4) needs to be used instead of
+#'   the cell type name (e.g. helper T cells).
+#' @param coord_x (Optional) For "general" format. Numeric Vector with the X
+#'   coordinates of the cells. The cells must be in the same order as in the
+#'   `intensity_matrix`.
+#' @param coord_y (Optional) For "general" format. Numeric Vector with the Y
+#'   coordinates of the cells. The cells must be in the same order as in the
+#'   `intensity_matrix`.
+#' @param path (Optional) For formats other than "general". String of the path
+#'   location of the source file.
+#' @param markers For formats other than "general". String Vector containing the
+#'   markers used for staining. These must be in the same order as the marker
+#'   columns in the input file, and must match the marker names used in the
+#'   input file. One of the markers must be "DAPI".
+#' @param locations (Optional) For "inForm" and "HALO". String Vector containing
+#'   the locations of markers used for staining. Location can be either
+#'   "Nucleus", "Cytoplasm" or "Membrane". This is used to select the Intensity
+#'   column and can be used instead of `intensity_columns_interest`.
+#' @param intensity_columns_interest (Optional) For "inForm" and "HALO", use if
+#'   `locations` is not specified. For "cellprofiler", mandatory. Vector with
+#'   the names of the columns with the level of each marker. Column names must
+#'   match the order of the 'markers' parameter.
+#' @param dye_columns_interest (Optional) For "HALO". Use if locations is not
+#'   specified. Vector of names of the columns with the marker status (i.e.
+#'   those indicating 1 or 0 for whether the cell is positive or negative for
+#'   the marker). Column names must match the order of the 'markers' parameter.
+#' @param path_to_codex_cell_phenotypes (Optional) For "CODEX".String of the
+#'   path to the Cluster ID/Cell type file.
+#'
 #' @return A SpatialExperiment object is returned
 #' @examples
 #' #Construct a marker intensity matrix (rows are markers, columns are cells)
@@ -40,16 +71,33 @@
 
 format_image_to_spe <- function(intensity_matrix, phenotypes = NULL, coord_x, 
                                 coord_y){
-  
-  intensity_matrix <- remove_intensity_na(intensity_matrix)
-
-  metadata_columns <- data.frame(Phenotype = phenotypes,
-                                 Cell.X.Position = coord_x,
-                                 Cell.Y.Position = coord_y)
-  spe <- SpatialExperiment::SpatialExperiment(
-    assay = intensity_matrix,
-    colData = metadata_columns,
-    spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
-    
-  return(spe)
+    if (format == "general"){
+        intensity_matrix <- remove_intensity_na(intensity_matrix)
+        
+        metadata_columns <- data.frame(Phenotype = phenotypes,
+                                       Cell.X.Position = coord_x,
+                                       Cell.Y.Position = coord_y)
+        spe <- SpatialExperiment::SpatialExperiment(
+            assay = intensity_matrix,
+            colData = metadata_columns,
+            spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
+    } else if (format == "inForm") {
+       spe <- format_inform_to_spe(path = path, markers = markers,
+                                   locations = locations, 
+                                   intensity_columns_interest = 
+                                       intensity_columns_interest)
+    }else if (format == "HALO"){
+       spe <- format_halo_to_spe(path = path, markers = markers,
+                                 locations = locations, 
+                                 dye_columns_interest = dye_columns_interest,
+                                 intensity_columns_interest = 
+                                     intensity_columns_interest)
+    } else if(format == "CODEX"){
+       spe <- format_codex_to_spe(path = path, markers = markers, 
+                 path_to_codex_cell_phenotypes = path_to_codex_cell_phenotypes)
+    }else if(format == "cellprofiler") {
+       spe <- format_cellprofiler_to_spe(path = path, markers = markers, 
+                 intensity_columns_interest = intensity_columns_interest)
+    } else { show("Please entre a valid format!" )}
+    return(spe)
 }

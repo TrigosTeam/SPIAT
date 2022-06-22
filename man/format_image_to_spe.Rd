@@ -7,20 +7,54 @@
 format_image_to_spe(intensity_matrix, phenotypes = NULL, coord_x, coord_y)
 }
 \arguments{
-\item{intensity_matrix}{A matrix of marker intensities or gene expression
-where the column names are the Cell IDs, and the rownames the marker.}
+\item{intensity_matrix}{(Optional) For "general" format. A matrix of marker
+intensities or gene expression where the column names are the Cell IDs, and
+the rownames the marker.}
 
-\item{phenotypes}{(Optional) String Vector of cell phenotypes in the same
-order in which they appear in `intensity_matrix`. If no phenotypes
-available, then a vector of NAs can be used as input. Note that the
-combination of markers (e.g. CD3,CD4) needs to be used instead of the cell
-type name (e.g. helper T cells).}
+\item{phenotypes}{(Optional) For "general" format. String Vector of cell
+phenotypes in the same order in which they appear in `intensity_matrix`. If
+no phenotypes available, then a vector of NAs can be used as input. Note
+that the combination of markers (e.g. CD3,CD4) needs to be used instead of
+the cell type name (e.g. helper T cells).}
 
-\item{coord_x}{Numeric Vector with the X coordinates of the cells. The cells
-must be in the same order as in the `intensity_matrix`.}
+\item{coord_x}{(Optional) For "general" format. Numeric Vector with the X
+coordinates of the cells. The cells must be in the same order as in the
+`intensity_matrix`.}
 
-\item{coord_y}{Numeric Vector with the Y coordinates of the cells. The cells
-must be in the same order as in the `intensity_matrix`.}
+\item{coord_y}{(Optional) For "general" format. Numeric Vector with the Y
+coordinates of the cells. The cells must be in the same order as in the
+`intensity_matrix`.}
+
+\item{format}{String specifying the format of the data source. Default is
+"general" (RECOMMENDED), where the cell phenotypes, coordinates and marker
+intensities are imported manually by the user. Other formats include
+"inForm", "HALO", "cellprofiler" and "CODEX".}
+
+\item{path}{(Optional) For formats other than "general". String of the path
+location of the source file.}
+
+\item{markers}{For formats other than "general". String Vector containing the
+markers used for staining. These must be in the same order as the marker
+columns in the input file, and must match the marker names used in the
+input file. One of the markers must be "DAPI".}
+
+\item{locations}{(Optional) For "inForm" and "HALO". String Vector containing
+the locations of markers used for staining. Location can be either
+"Nucleus", "Cytoplasm" or "Membrane". This is used to select the Intensity
+column and can be used instead of `intensity_columns_interest`.}
+
+\item{intensity_columns_interest}{(Optional) For "inForm" and "HALO", use if
+`locations` is not specified. For "cellprofiler", mandatory. Vector with
+the names of the columns with the level of each marker. Column names must
+match the order of the 'markers' parameter.}
+
+\item{dye_columns_interest}{(Optional) For "HALO". Use if locations is not
+specified. Vector of names of the columns with the marker status (i.e.
+those indicating 1 or 0 for whether the cell is positive or negative for
+the marker). Column names must match the order of the 'markers' parameter.}
+
+\item{path_to_codex_cell_phenotypes}{(Optional) For "CODEX".String of the
+path to the Cluster ID/Cell type file.}
 }
 \value{
 A SpatialExperiment object is returned
@@ -32,6 +66,11 @@ Reads in spatial data in the form of cell coordinates, cell
   marker (rows) for every cell (columns). Cell phenotype is stored under
   `colData()`. Cell x and y coordinates are stored under `spatialCoords()`
   field.
+}
+\details{
+Note for "cellprofiler" format, when specifying `markers`, please
+  use "DAPI" to replace "DNA" due to implementation. The output data will
+  include "DAPI" instead of "DNA".
 }
 \examples{
 #Construct a marker intensity matrix (rows are markers, columns are cells)
