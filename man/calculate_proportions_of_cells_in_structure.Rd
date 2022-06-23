@@ -24,16 +24,16 @@ A data.frame
 }
 \description{
 Calculate the proportion of cells of interest in each defined
-  tumour structure relative to all cells in each structure and relative to the
-  same cell type in the whole image.
+  tumour structure relative to all cells in each structure and relative to
+  the same cell type in the whole image.
 }
 \examples{
-spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+spe_border <- identify_bordering_cells(SPIAT::defined_image,
 reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
 spe_dist <- calculate_distance_to_tumour_margin(spe_border)
-spe_structure <- define_structure(spe_dist, 
+spe_structure <- define_structure(spe_dist,
 names_of_immune_cells = c("Immune1","Immune2","Immune3"),
 feature_colname = "Cell.Type", n_margin_layers = 5)
-calculate_proportions_of_cells_in_structure(spe_structure, 
-cell_types_of_interest = c("Immune1","Immune3"),feature_colname = "Cell.Type")
+calculate_proportions_of_cells_in_structure(spe_structure,
+cell_types_of_interest = c("Immune1","Immune3"),feature_colname="Cell.Type")
 }

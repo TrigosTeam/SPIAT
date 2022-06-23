@@ -50,6 +50,6 @@ The bordering cell detection algorithm is based on computing an
   identified as the bordering cells.
 }
 \examples{
-spe_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
-feature_colname = "Cell.Type", n_to_exclude = 10)
+spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
 }

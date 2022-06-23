@@ -35,7 +35,8 @@ Select cell types to keep or exclude in the analysis. The output
 }
 \examples{
 data_subset <- select_celltypes(SPIAT::simulated_image,
-celltypes = c("Tumour_marker","Immune_marker1","Immune_marker2","Immune_marker3","Immune_marker4"),
+celltypes = c("Tumour_marker","Immune_marker1","Immune_marker2",
+"Immune_marker3","Immune_marker4"),
 feature_colname = "Phenotype", keep=TRUE)
 attr(data_subset, "original_cell_number") #cell number in the original image
 attr(data_subset, "range_of_coords")

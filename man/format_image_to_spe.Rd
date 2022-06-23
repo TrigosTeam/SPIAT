@@ -14,7 +14,8 @@ format_image_to_spe(
   markers = NULL,
   locations = NULL,
   intensity_columns_interest = NULL,
-  dye_columns_interest = NULL
+  dye_columns_interest = NULL,
+  path_to_codex_cell_phenotypes = NULL
 )
 }
 \arguments{

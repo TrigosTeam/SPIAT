@@ -17,14 +17,19 @@
 #' plot_composition_heatmap(neighborhoods_vis, feature_colname="Cell.Type")
 #' @export
 
-plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_values = FALSE, feature_colname) {
-    cluster_size <- unique(data.frame(Neighborhood = composition$Neighborhood,
-                                      Total_cells = composition$Total_number_of_cells))
+plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, 
+                                     log_values = FALSE, feature_colname) {
+    cluster_size <- unique(data.frame(
+        Neighborhood = composition$Neighborhood,
+        Total_cells = composition$Total_number_of_cells))
     rownames(cluster_size) <- cluster_size$Neighborhood
     cluster_size$Neighborhood <- NULL
     
-    composition2 <- composition[,c(feature_colname, "Neighborhood", "Percentage")]
-    composition2 <- reshape2::dcast(composition2, paste(feature_colname, "~", "Neighborhood"), value.var="Percentage")
+    composition2 <- composition[,c(feature_colname, 
+                                   "Neighborhood", "Percentage")]
+    composition2 <- reshape2::dcast(composition2, 
+                                    paste(feature_colname, "~", "Neighborhood"),
+                                    value.var="Percentage")
     
     rownames(composition2) <- composition2[,feature_colname]
     composition2[,feature_colname] <- NULL
@@ -32,12 +37,8 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
     composition2 <- as.matrix(composition2)
     
     if(!is.null(pheno_to_exclude)){
-        composition2 <- composition2[!(rownames(composition2) %in% pheno_to_exclude),]
-        ##Remove communities that are only zeros
-        #total_NA <- apply(composition2, 2, function(x){ sum(is.na(x))})
-        #max_NA <- nrow(composition2)
-        #com_to_remove <- names(total_NA)[total_NA == max_NA]
-        #composition2 <- composition2[,!(colnames(composition2) %in% com_to_remove)]
+        composition2 <- composition2[!(rownames(composition2) %in% 
+                                           pheno_to_exclude),]
     }
     
     if(log_values){
@@ -48,8 +49,9 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL, log_v
     
     #plot the heatmap
     map_cols <- grDevices::colorRampPalette(c("white", "red"))(1000)
-    ha = ComplexHeatmap::HeatmapAnnotation("size" = ComplexHeatmap::anno_barplot(cluster_size), 
-                                           show_annotation_name = FALSE)
+    ha <- ComplexHeatmap::HeatmapAnnotation(
+        "size" = ComplexHeatmap::anno_barplot(cluster_size), 
+        show_annotation_name = FALSE)
     ComplexHeatmap::Heatmap(as.matrix(composition2), name=" ",
                             cluster_columns=TRUE,
                             cluster_rows=TRUE,

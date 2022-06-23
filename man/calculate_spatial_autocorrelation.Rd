@@ -21,7 +21,8 @@ Takes the result of \code{\link{grid_metrics}} (a RasterLayer
   object) and calculate its spatial autocorrelation.
 }
 \examples{
-grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, n_split = 5,
-cell_types_of_interest=c("Tumour","Immune3"), feature_colname = "Cell.Type")
+grid <- grid_metrics(SPIAT::defined_image, FUN = calculate_entropy, 
+n_split = 5, cell_types_of_interest=c("Tumour","Immune3"), 
+feature_colname = "Cell.Type")
 calculate_spatial_autocorrelation(grid, metric = "globalmoran")
 }

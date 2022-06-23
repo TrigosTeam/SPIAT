@@ -28,6 +28,7 @@ Returns the distance of the closest cell of a specific type from
   each reference cell.
 }
 \examples{
-min_dists <- calculate_minimum_distances_between_celltypes(SPIAT::defined_image, 
-feature_colname = "Cell.Type", cell_types_of_interest = c("Tumour","Immune1"))
+min_dists <- calculate_minimum_distances_between_celltypes(
+SPIAT::defined_image, feature_colname = "Cell.Type", 
+cell_types_of_interest = c("Tumour","Immune1"))
 }

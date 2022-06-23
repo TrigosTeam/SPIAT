@@ -21,12 +21,14 @@ Returns the mean, median and standard deviation of the
 }
 \examples{
 # for pairwise dist
-pairwise_dist <- calculate_pairwise_distances_between_celltypes(SPIAT::defined_image, 
-cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
+pairwise_dist <- calculate_pairwise_distances_between_celltypes(
+SPIAT::defined_image, cell_types_of_interest = c("Tumour","Immune1"), 
+feature_colname = "Cell.Type")
 summary_distances <- calculate_summary_distances_between_celltypes(pairwise_dist)
 
 # for minimum dist
-min_dists <- calculate_minimum_distances_between_celltypes(SPIAT::defined_image,
-cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
+min_dists <- calculate_minimum_distances_between_celltypes(
+SPIAT::defined_image, cell_types_of_interest = c("Tumour","Immune1"), 
+feature_colname = "Cell.Type")
 summary_distances <- calculate_summary_distances_between_celltypes(min_dists)
 }

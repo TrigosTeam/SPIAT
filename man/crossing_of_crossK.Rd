@@ -21,7 +21,7 @@ Determine if there is a crossing in the cross K curves, to
   additional explanation/reference. Cite own paper?
 }
 \examples{
-df_cross <- calculate_cross_functions(SPIAT::defined_image, method = "Kcross",
+df_cross <- calculate_cross_functions(SPIAT::defined_image, method="Kcross",
               cell_types_of_interest = c("Tumour","Immune3"),
               feature_colname ="Cell.Type", dist = 100)
 crossing_of_crossK(df_cross)

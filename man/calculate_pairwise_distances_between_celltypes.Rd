@@ -25,11 +25,12 @@ types of interest to be considered.}
 A data.frame is returned.
 }
 \description{
-Returns the pairwise distances between cells of different types. If none
-  of the cell types are found, it will print an error message and return a
-  vector of NAs.
+Returns the pairwise distances between cells of different types.
+  If none of the cell types are found, it will print an error message and
+  return a vector of NAs.
 }
 \examples{
-calculate_pairwise_distances_between_celltypes(SPIAT::defined_image, 
-cell_types_of_interest = c("Tumour","Immune1"), feature_colname = "Cell.Type")
+calculate_pairwise_distances_between_celltypes(SPIAT::defined_image,
+cell_types_of_interest = c("Tumour","Immune1"), 
+feature_colname = "Cell.Type")
 }

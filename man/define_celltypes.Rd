@@ -53,13 +53,15 @@ Users need to specify the names of the old cell categories and under
 # the selected column is:
 category_colname = "Phenotype"
 # define the following marker combinations:
-categories <- c("Tumour_marker", "Immune_marker1,Immune_marker2", "Immune_marker1,Immune_marker3",
+categories <- c("Tumour_marker", "Immune_marker1,Immune_marker2", 
+"Immune_marker1,Immune_marker3",
 "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER")
 # the new defined cell names:
 names = c("Tumour", "Immune1", "Immune2","Immune3", "Others")
 # the new names are stored under this column:
 new_colname <- "Cell.Type"
 
-defined_spe <- define_celltypes(SPIAT::simulated_image, categories = categories,
-category_colname = category_colname, names = names, new_colname = new_colname)
+defined_spe <- define_celltypes(SPIAT::simulated_image, 
+categories = categories, category_colname = category_colname, names = names, 
+new_colname = new_colname)
 }

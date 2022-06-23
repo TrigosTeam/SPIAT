@@ -16,13 +16,15 @@ composition_of_neighborhoods(spe_object, feature_colname)
 A data.frame is returned
 }
 \description{
-Returns a data.frame which contains the percentages of cells with
-  a specific marker within each neighborhood. and the number of cells in the
-  neighborhood.
+Returns a data.frame which contains the percentages of cells
+  with a specific marker within each neighborhood. and the number of cells in
+  the neighborhood.
 }
 \examples{
-neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
-min_neighborhood_size = 100, cell_types_of_interest = c("Immune", "Immune1", "Immune2"),
-radius = 50, feature_colname = "Cell.Type")
-neighborhoods_vis <- composition_of_neighborhoods(neighborhoods, feature_colname="Cell.Type")
+neighborhoods <- identify_neighborhoods(image_no_markers,
+method = "hierarchical", min_neighborhood_size = 100,
+cell_types_of_interest = c("Immune", "Immune1", "Immune2"), radius = 50,
+feature_colname = "Cell.Type")
+neighborhoods_vis <- composition_of_neighborhoods(neighborhoods,
+feature_colname="Cell.Type")
 }

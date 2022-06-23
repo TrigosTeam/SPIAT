@@ -18,7 +18,7 @@ Returns a SPE object with the minimum distance from immune cells
   to the identified tumour bordering cells.
 }
 \examples{
-spe_border <- identify_bordering_cells(SPIAT::defined_image, reference_cell = "Tumour",
-feature_colname = "Cell.Type", n_to_exclude = 10)
+spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
 spe_dist <- calculate_distance_to_tumour_margin(spe_border)
 }

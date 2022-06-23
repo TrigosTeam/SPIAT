@@ -37,6 +37,7 @@ If arg `radius` is not specified, the function returns the
   interest in each circle of the reference cells.
 }
 \examples{
-calculate_entropy(SPIAT::defined_image, cell_types_of_interest = c("Immune1","Immune2"),
+calculate_entropy(SPIAT::defined_image, 
+cell_types_of_interest = c("Immune1","Immune2"),
 feature_colname = "Cell.Type")
 }
