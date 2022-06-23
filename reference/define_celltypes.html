@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">define_celltypes</span><span class="op">(</span>
-  <span class="va">sce_object</span>,
+  <span class="va">spe_object</span>,
   categories <span class="op">=</span> <span class="cn">NULL</span>,
   category_colname <span class="op">=</span> <span class="st">"Phenotype"</span>,
   names <span class="op">=</span> <span class="cn">NULL</span>,
@@ -78,29 +78,42 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>sce_object</dt>
-<dd><p>SingleCellExperiment object in the form of the output of
-<code><a href="format_image_to_sce.html">format_image_to_sce</a></code>.</p></dd>
+    <dl><dt>spe_object</dt>
+<dd><p>SpatialExperiment object in the form of the output of
+<code><a href="format_image_to_spe.html">format_image_to_spe</a></code>.</p></dd>
+
+
 <dt>categories</dt>
 <dd><p>Vector. Names of the old cell types to be defined; if NULL,
 the function will use predefined categories and names</p></dd>
+
+
 <dt>category_colname</dt>
 <dd><p>(Phenotype) String specifying the name of the column
 having the categories to be defined, by default "Phenotype".</p></dd>
+
+
 <dt>names</dt>
 <dd><p>Vector of new names assigned to the selected categories; if
 NULL, the function will use predefined categories and names. Should be of
 the same length of `categories`.</p></dd>
+
+
 <dt>new_colname</dt>
 <dd><p>(Optional) String specifying the name of the column to be
 added, by default "Cell.Type".</p></dd>
+
+
 <dt>print_names</dt>
 <dd><p>(Optional) Boolean if the user wants the original and new
 names printed. Default is FALSE.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An new SCE object is returned</p>
+    
+
+<p>An new SPE object is returned</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -116,15 +129,17 @@ names printed. Default is FALSE.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># the selected column is:</span></span>
 <span class="r-in"><span class="va">category_colname</span> <span class="op">=</span> <span class="st">"Phenotype"</span></span>
 <span class="r-in"><span class="co"># define the following marker combinations:</span></span>
-<span class="r-in"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour_marker"</span>, <span class="st">"Immune_marker1,Immune_marker2"</span>, <span class="st">"Immune_marker1,Immune_marker3"</span>,</span>
+<span class="r-in"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour_marker"</span>, <span class="st">"Immune_marker1,Immune_marker2"</span>, </span>
+<span class="r-in"><span class="st">"Immune_marker1,Immune_marker3"</span>,</span>
 <span class="r-in"><span class="st">"Immune_marker1,Immune_marker2,Immune_marker4"</span>, <span class="st">"OTHER"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># the new defined cell names:</span></span>
 <span class="r-in"><span class="va">names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Immune1"</span>, <span class="st">"Immune2"</span>,<span class="st">"Immune3"</span>, <span class="st">"Others"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># the new names are stored under this column:</span></span>
 <span class="r-in"><span class="va">new_colname</span> <span class="op">&lt;-</span> <span class="st">"Cell.Type"</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">defined_sce</span> <span class="op">&lt;-</span> <span class="fu">define_celltypes</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="simulated_image.html">simulated_image</a></span>, categories <span class="op">=</span> <span class="va">categories</span>,</span>
-<span class="r-in">category_colname <span class="op">=</span> <span class="va">category_colname</span>, names <span class="op">=</span> <span class="va">names</span>, new_colname <span class="op">=</span> <span class="va">new_colname</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">defined_spe</span> <span class="op">&lt;-</span> <span class="fu">define_celltypes</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="simulated_image.html">simulated_image</a></span>, </span>
+<span class="r-in">categories <span class="op">=</span> <span class="va">categories</span>, category_colname <span class="op">=</span> <span class="va">category_colname</span>, names <span class="op">=</span> <span class="va">names</span>, </span>
+<span class="r-in">new_colname <span class="op">=</span> <span class="va">new_colname</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -136,7 +151,7 @@ names printed. Default is FALSE.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

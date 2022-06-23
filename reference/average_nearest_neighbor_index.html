@@ -14,7 +14,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">average_nearest_neighbor_index</span><span class="op">(</span>
-  <span class="va">sce_object</span>,
+  <span class="va">spe_object</span>,
   <span class="va">reference_celltypes</span>,
   <span class="va">feature_colname</span>,
   p_val <span class="op">=</span> <span class="fl">5e-06</span>
@@ -73,22 +73,31 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>sce_object</dt>
-<dd><p>SingleCellExperiment object in the form of the output of
-<code><a href="format_image_to_sce.html">format_image_to_sce</a></code>.</p></dd>
+    <dl><dt>spe_object</dt>
+<dd><p>SpatialExperiment object in the form of the output of
+<code><a href="format_image_to_spe.html">format_image_to_spe</a></code>.</p></dd>
+
+
 <dt>reference_celltypes</dt>
 <dd><p>String Vector. Cells with these cell types will be
 used for ANNI calculation.</p></dd>
+
+
 <dt>feature_colname</dt>
 <dd><p>String. Specify the selected column for
 `reference_celltypes`.</p></dd>
+
+
 <dt>p_val</dt>
 <dd><p>Numeric. The p value threshold to determine the significance of
 a pattern.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with the pattern type and a p value</p>
+    
+
+<p>A list with the pattern type and a p value</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -122,7 +131,7 @@ a pattern.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

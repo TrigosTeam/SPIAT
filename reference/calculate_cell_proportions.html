@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calculate_cell_proportions</span><span class="op">(</span>
-  <span class="va">sce_object</span>,
+  <span class="va">spe_object</span>,
   reference_celltypes <span class="op">=</span> <span class="cn">NULL</span>,
   celltypes_to_exclude <span class="op">=</span> <span class="cn">NULL</span>,
   feature_colname <span class="op">=</span> <span class="st">"Phenotype"</span>,
@@ -68,29 +68,40 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>sce_object</dt>
-<dd><p>SingleCellExperiment object in the form of the output of
-<code><a href="format_image_to_sce.html">format_image_to_sce</a></code>.</p></dd>
+    <dl><dt>spe_object</dt>
+<dd><p>SpatialExperiment object in the form of the output of
+<code><a href="format_image_to_spe.html">format_image_to_spe</a></code>.</p></dd>
+
+
 <dt>reference_celltypes</dt>
 <dd><p>String Vector specifying reference cell types. If
 NULL (default), then the proportion of each cell type against all cells is
 returned. Alternatively, a custom vector of cell types can be used as
 input, and these will be used as the denominator in the calculation of the
 proportions.</p></dd>
+
+
 <dt>celltypes_to_exclude</dt>
 <dd><p>String Vector specifying cell types to exclude.
 For example "OTHER" will exclude that celltype from the Total. If NULL, all
 cell types are included.</p></dd>
+
+
 <dt>feature_colname</dt>
 <dd><p>String. Column of cells to choose the cell type from
 (e.g. Phenotype, Cell.Type, etc).</p></dd>
+
+
 <dt>plot.image</dt>
 <dd><p>Boolean. Whether to plot the barplot of the cell percentages.
 By default is TRUE.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data.frame is returned</p>
+    
+
+<p>A data.frame is returned</p>
     </div>
 
     <div class="section level2">
@@ -113,7 +124,7 @@ By default is TRUE.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

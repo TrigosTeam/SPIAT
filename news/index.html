@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,9 +51,38 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.99.1" id="spiat-0991">SPIAT 0.99.1<a class="anchor" aria-label="anchor" href="#spiat-0991"></a></h2>
+<p>SIGNIFICANT USER-VISIBLE CHANGES</p>
+<ul><li>Updated the main object class from <code>SingleCellExperiment</code> to <code>SpatialExperiment</code>.</li>
+<li>Replace “sce” with “spe” in function names.</li>
+<li>Deleted “Visium” format option in <code><a href="../reference/format_image_to_spe.html">format_image_to_spe()</a></code>.</li>
+<li>
+<code><a href="../reference/image_splitter.html">image_splitter()</a></code> now returns a list of spe objects.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.99.0" id="spiat-0990">SPIAT 0.99.0<a class="anchor" aria-label="anchor" href="#spiat-0990"></a></h2>
+<p>Version submitted to Nature Communications. Access the release v0.99.0 <a href="https://github.com/TrigosTeam/SPIAT/releases/tag/v0.99.0" class="external-link">here</a>.</p>
+<p>SIGNIFICANT USER-VISIBLE CHANGES</p>
+<ul><li>Systematically renamed parameter names. For example, the parameter for selecting a column of interest is changed from “column” to “feature_colname”.</li>
+<li>Added a function <code><a href="../reference/entropy_gradient_aggregated.html">entropy_gradient_aggregated()</a></code> for calculating cell colocalisation.</li>
+<li>Added a function <code><a href="../reference/dimensionality_reduction_plot.html">dimensionality_reduction_plot()</a></code> for visualisation and quality control.</li>
+<li>Added examples to documentation. The example datasets were simulated by <a href="https://github.com/TrigosTeam/spaSim/releases/tag/v0.99.1" class="external-link"><strong>spaSim</strong></a>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4" id="spiat-04">SPIAT 0.4<a class="anchor" aria-label="anchor" href="#spiat-04"></a></h2>
+<p>SIGNIFICANT USER-VISIBLE CHANGES</p>
+<ul><li>Added a new parameter “column” to most functions to select a column of interest.</li>
+<li>Users can define cell types based on certain marker combinations or cell properties.</li>
+<li>Improved tumour border detection (<code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>).</li>
+<li>Added functions to define tumour structure and characterise immune populations in different tissue regions.</li>
+<li>Added functions to characterise spatial heterogeneity.</li>
+<li>Added functions for cell colocalisation, including mixing score, normalised mixing score, cross K function.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2" id="spiat-02">SPIAT 0.2<a class="anchor" aria-label="anchor" href="#spiat-02"></a></h2>
-<ul><li>Version submitted to BioRxiv</li></ul></div>
-  </main></div>
+<ul><li>Version for the <a href="https://www.biorxiv.org/content/10.1101/2020.05.28.122614v1" class="external-link">paper</a> submitted to BioRxiv.</li></ul></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
@@ -61,7 +90,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

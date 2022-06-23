@@ -25,6 +25,9 @@
     <loc>https://trigosteam.github.io/SPIAT/reference/R_BT.html</loc>
   </url>
   <url>
+    <loc>https://trigosteam.github.io/SPIAT/reference/SPIAT.html</loc>
+  </url>
+  <url>
     <loc>https://trigosteam.github.io/SPIAT/reference/average_marker_intensity_within_radius.html</loc>
   </url>
   <url>
@@ -94,13 +97,25 @@
     <loc>https://trigosteam.github.io/SPIAT/reference/entropy_gradient_aggregated.html</loc>
   </url>
   <url>
-    <loc>https://trigosteam.github.io/SPIAT/reference/format_colData_to_sce.html</loc>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_cellprofiler_to_spe.html</loc>
   </url>
   <url>
-    <loc>https://trigosteam.github.io/SPIAT/reference/format_image_to_sce.html</loc>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_codex_to_spe.html</loc>
   </url>
   <url>
-    <loc>https://trigosteam.github.io/SPIAT/reference/format_sce_to_ppp.html</loc>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_colData_to_spe.html</loc>
+  </url>
+  <url>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_halo_to_spe.html</loc>
+  </url>
+  <url>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_image_to_spe.html</loc>
+  </url>
+  <url>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_inform_to_spe.html</loc>
+  </url>
+  <url>
+    <loc>https://trigosteam.github.io/SPIAT/reference/format_spe_to_ppp.html</loc>
   </url>
   <url>
     <loc>https://trigosteam.github.io/SPIAT/reference/grid_metrics.html</loc>
@@ -167,9 +182,6 @@
   </url>
   <url>
     <loc>https://trigosteam.github.io/SPIAT/reference/predict_phenotypes.html</loc>
-  </url>
-  <url>
-    <loc>https://trigosteam.github.io/SPIAT/reference/print_feature.html</loc>
   </url>
   <url>
     <loc>https://trigosteam.github.io/SPIAT/reference/select_celltypes.html</loc>

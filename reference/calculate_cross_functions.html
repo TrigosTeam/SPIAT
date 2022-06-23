@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calculate_cross_functions</span><span class="op">(</span>
-  <span class="va">sce_object</span>,
+  <span class="va">spe_object</span>,
   method <span class="op">=</span> <span class="st">"Kcross"</span>,
   <span class="va">cell_types_of_interest</span>,
   <span class="va">feature_colname</span>,
@@ -72,35 +72,48 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>sce_object</dt>
-<dd><p>SingleCellExperiment object in the form of the output of
-<code><a href="format_image_to_sce.html">format_image_to_sce</a></code>.</p></dd>
+    <dl><dt>spe_object</dt>
+<dd><p>SpatialExperiment object in the form of the output of
+<code><a href="format_image_to_spe.html">format_image_to_spe</a></code>.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>String that is the method for dependence calculation. Options:
 "Gcross", "Kcross", "Kcross.inhom", "Lcross", "Jcross". Default method is
 "Kcross".</p></dd>
+
+
 <dt>cell_types_of_interest</dt>
 <dd><p>String Vector. Cell types of interest.</p></dd>
+
+
 <dt>feature_colname</dt>
 <dd><p>String that is the name of the column of the types.</p></dd>
+
+
 <dt>plot_results</dt>
 <dd><p>Boolean. TRUE if result to be plotted, FALSE if not. In
 either case, an object with the results is returned</p></dd>
+
+
 <dt>dist</dt>
 <dd><p>Number (OPTIONAL) The largest distance between two cell types at
 which K function is evaluated. If NULL, use the default distances set by
 cross functions.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "fv" defined in `spatstat` package.</p>
+    
+
+<p>An object of class "fv" defined in `spatstat` package.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">df_cross</span> <span class="op">&lt;-</span> <span class="fu">calculate_cross_functions</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, method <span class="op">=</span> <span class="st">"Kcross"</span>,</span>
-<span class="r-in">              cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>,</span>
-<span class="r-in">              feature_colname <span class="op">=</span><span class="st">"Cell.Type"</span>, dist <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">df_cross</span> <span class="op">&lt;-</span> <span class="fu">calculate_cross_functions</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, </span>
+<span class="r-in">method <span class="op">=</span> <span class="st">"Kcross"</span>, cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>,</span>
+<span class="r-in">feature_colname <span class="op">=</span><span class="st">"Cell.Type"</span>, dist <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="calculate_cross_functions-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -113,7 +126,7 @@ cross functions.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

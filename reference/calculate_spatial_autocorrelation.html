@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,19 +68,25 @@
     <dl><dt>raster_obj</dt>
 <dd><p>Raster object in the form of the output of
 <code><a href="grid_metrics.html">grid_metrics</a></code>.</p></dd>
+
+
 <dt>metric</dt>
 <dd><p>String. The method for calculating spatial autocorrelation.
 Choose from "globalmoran" and "GearyC".</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A number is returned</p>
+    
+
+<p>A number is returned</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="grid_metrics.html">grid_metrics</a></span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, FUN <span class="op">=</span> <span class="va">calculate_entropy</span>, n_split <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">cell_types_of_interest<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="grid_metrics.html">grid_metrics</a></span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, FUN <span class="op">=</span> <span class="va">calculate_entropy</span>, </span>
+<span class="r-in">n_split <span class="op">=</span> <span class="fl">5</span>, cell_types_of_interest<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, </span>
+<span class="r-in">feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="calculate_spatial_autocorrelation-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">calculate_spatial_autocorrelation</span><span class="op">(</span><span class="va">grid</span>, metric <span class="op">=</span> <span class="st">"globalmoran"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1152657</span>
@@ -95,7 +101,7 @@ Choose from "globalmoran" and "GearyC".</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

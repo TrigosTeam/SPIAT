@@ -20,7 +20,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,32 +72,42 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">compute_gradient</span><span class="op">(</span><span class="va">sce_object</span>, <span class="va">radii</span>, <span class="va">FUN</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">compute_gradient</span><span class="op">(</span><span class="va">spe_object</span>, <span class="va">radii</span>, <span class="va">FUN</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>sce_object</dt>
-<dd><p>SingleCellExperiment object in the form of the output of
-<code><a href="format_image_to_sce.html">format_image_to_sce</a></code>.</p></dd>
+    <dl><dt>spe_object</dt>
+<dd><p>SpatialExperiment object in the form of the output of
+<code><a href="format_image_to_spe.html">format_image_to_spe</a></code>.</p></dd>
+
+
 <dt>radii</dt>
 <dd><p>Numeric Vector specifying the range of radii for the metrics to
 be calculated.</p></dd>
+
+
 <dt>FUN</dt>
 <dd><p>Variable name specifying the metric.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments of FUN</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of the metrics under all radii</p>
+    
+
+<p>A list of the metrics under all radii</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gradient_positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gradient_entropy</span> <span class="op">&lt;-</span> <span class="fu">compute_gradient</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, radii <span class="op">=</span> <span class="va">gradient_positions</span>,</span>
-<span class="r-in">FUN <span class="op">=</span> <span class="va">calculate_entropy</span>,  cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>,<span class="st">"Immune2"</span><span class="op">)</span>,</span>
+<span class="r-in"><span class="va">gradient_entropy</span> <span class="op">&lt;-</span> <span class="fu">compute_gradient</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, </span>
+<span class="r-in">radii <span class="op">=</span> <span class="va">gradient_positions</span>, FUN <span class="op">=</span> <span class="va">calculate_entropy</span>,  </span>
+<span class="r-in">cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>,<span class="st">"Immune2"</span><span class="op">)</span>, </span>
 <span class="r-in">feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
@@ -110,7 +120,7 @@ be calculated.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

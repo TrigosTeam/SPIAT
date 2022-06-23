@@ -14,7 +14,7 @@ predicted intensity for every marker."><!-- mathjax --><script src="https://cdnj
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,31 +70,32 @@ predicted intensity for every marker.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>predicted_data</dt>
 <dd><p>Output from <code><a href="predict_phenotypes.html">predict_phenotypes</a></code>.</p></dd>
+
+
 <dt>marker</dt>
 <dd><p>String. Marker to plot</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A plot is returned</p>
+    
+
+<p>A plot is returned</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">predicted_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_phenotypes.html">predict_phenotypes</a></span><span class="op">(</span>sce_object <span class="op">=</span> <span class="va">simulated_image</span>, thresholds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">predicted_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_phenotypes.html">predict_phenotypes</a></span><span class="op">(</span>spe_object <span class="op">=</span> <span class="va">simulated_image</span>, thresholds <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span class="r-in">tumour_marker <span class="op">=</span> <span class="st">"Tumour_marker"</span>,baseline_markers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune_marker1"</span>, <span class="st">"Immune_marker2"</span>, </span>
 <span class="r-in"><span class="st">"Immune_marker3"</span>, <span class="st">"Immune_marker4"</span><span class="op">)</span>, reference_phenotypes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Tumour_marker"</span>
-<span class="r-plt img"><img src="marker_prediction_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker1"</span>
-<span class="r-plt img"><img src="marker_prediction_plot-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker2"</span>
-<span class="r-plt img"><img src="marker_prediction_plot-3.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker3"</span>
-<span class="r-plt img"><img src="marker_prediction_plot-4.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker4"</span>
-<span class="r-plt img"><img src="marker_prediction_plot-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="marker_prediction_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">marker_prediction_plot</span><span class="op">(</span><span class="va">predicted_result</span>, marker <span class="op">=</span> <span class="st">"Tumour_marker"</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="marker_prediction_plot-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="marker_prediction_plot-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -106,7 +107,7 @@ predicted intensity for every marker.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
