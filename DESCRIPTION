@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -29,21 +29,21 @@ Authors@R: c(
            family= "Doyle",
            role="aut",
            email = "maria.doyle@petermac.org"))
-Description: SPIAT (Spatial Image Analysis of Tissues) is a suite of data processing, 
-    quality control, visualization, data handling and data analysis tools for 
-    multiplex immunohistochemistry. Converts INFORM or HALO images into a 
-    SingleCellExperiment class. SPIAT includes novel algorithms for the 
-    identification of cell clusters, cell margins and cell gradients, the 
-    calculation of neighbourhood proportions, and algorithms for the prediction 
-    of cell phenotypes in tissue images. SPIAT also includes speedy 
-    implementations of the calculation of cell distances and detection of cell 
-    communities.
+Description: SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R 
+    package with a suite of data processing, quality control, visualization and data 
+    analysis tools. SPIAT is compatible with data generated from single-cell spatial 
+    proteomics platforms (e.g. OPAL, CODEX, MIBI, cellprofiler). SPIAT reads spatial 
+    data in the form of X and Y coordinates of cells, marker intensities and cell 
+    phenotypes. SPIAT includes six analysis modules that allow visualization, 
+    calculation of cell colocalization, categorization of the immune 
+    microenvironment relative to tumor areas, analysis of cellular neighborhoods, 
+    and the quantification of spatial heterogeneity, providing a comprehensive 
+    toolkit for spatial data analysis.
 License: Artistic-2.0
 Encoding: UTF-8
 Depends: 
-    R (>= 4.1.0),
-    SingleCellExperiment (>= 1.4.1),
-    SummarizedExperiment
+    R (>= 4.2.0),
+    SpatialExperiment
 Imports: 
     apcluster (>= 1.4.7),
     ggplot2 (>= 3.2.1),
@@ -70,11 +70,12 @@ Imports:
     raster,
     sp,
     xROI,
-    Seurat,
     elsa,
     Rtsne,
     umap,
-    rlang
+    rlang,
+    graphics,
+    SummarizedExperiment
 Suggests:
     BiocStyle,
     knitr,
@@ -83,7 +84,7 @@ Suggests:
     testthat
 biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/trigosteam/SPIAT/issues
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 LazyData: true
 VignetteBuilder: knitr
 URL: https://trigosteam.github.io/SPIAT/
