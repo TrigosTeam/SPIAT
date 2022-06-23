@@ -184,8 +184,8 @@ test_that("image_splitter works", {
     
     split_image <- image_splitter(simulated_image, number_of_splits=3, 
                                   plot = FALSE)
-    out1 <- data.frame(SummarizedExperiment::colData(split_image[[1]])[1:4,])
-    out2 <- data.frame(SpatialExperiment::spatialCoords(split_image[[1]])[1:4,])
+    out1 <- data.frame(colData(split_image[[1]])[1:4,])
+    out2 <- data.frame(spatialCoords(split_image[[1]])[1:4,])
     out <- cbind(out1, out2)
     out$sample_id <- NULL
     rownames(out) <- c(1L, 2L, 3L, 4L)
