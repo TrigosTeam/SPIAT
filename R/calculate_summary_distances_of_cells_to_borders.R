@@ -39,7 +39,7 @@ calculate_summary_distances_of_cells_to_borders <- function(
         stop("Please indicate the column name of the cell types!")
     }
     
-    data <- data.frame(colData(spe_object))
+    data <- data.frame(SummarizedExperiment::colData(spe_object))
     
     # define a function to get the statistics of the distances
     summarise_dist <- function(data){

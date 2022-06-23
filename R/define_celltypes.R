@@ -63,7 +63,8 @@ define_celltypes <- function(spe_object,categories = NULL,
         pre_names <- names
     }
     
-    all_categories <- unique(colData(spe_object)[[category_colname]])
+    all_categories <- 
+        unique(SummarizedExperiment::colData(spe_object)[[category_colname]])
     categories <- intersect(all_categories, pre_categories)
     names <- pre_names[match(categories, pre_categories)]
     
