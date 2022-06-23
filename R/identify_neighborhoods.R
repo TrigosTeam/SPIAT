@@ -169,7 +169,7 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
     theme_bw() + 
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           legend.position = "none")
-  show(q)
+  methods::show(q)
   
   formatted_data_with_clusters <- formatted_data
   formatted_data_with_clusters$Cluster <- paste0("Cluster_", formatted_data_with_clusters$Cluster)

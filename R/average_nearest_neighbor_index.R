@@ -37,7 +37,7 @@ average_nearest_neighbor_index <- function(spe_object, reference_celltypes,
                  c("Cell.X.Position","Cell.Y.Position") ]
     
     if(nrow(data) == 0){
-        show("No reference cells found")
+        methods::show("No reference cells found")
         ANN_index <- list(pattern=NA,`p-value`=NA)
     }else{
         object<-format_colData_to_spe(data)
@@ -66,7 +66,5 @@ average_nearest_neighbor_index <- function(spe_object, reference_celltypes,
         ANN_index <- list(pattern, p)
         names(ANN_index) <- c("pattern" ,"p-value")
     }
-    
     return(ANN_index)
 }
-

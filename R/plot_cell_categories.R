@@ -64,7 +64,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
             cat_idx <- match(category, categories_of_interest)
             categories_of_interest <- categories_of_interest[-cat_idx]
             colour_vector <- colour_vector[-cat_idx]
-            show(paste(category, "cells were not found and not plotted"), sep="")
+            methods::show(paste(category, "cells were not found and not plotted"), sep="")
         }
     }
     
@@ -111,6 +111,6 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
             scale_color_manual(breaks = all_categories, values=all_colours)
     }
-    show(p)
+    methods::show(p)
     return(p)
 }

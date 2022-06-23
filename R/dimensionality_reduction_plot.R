@@ -49,7 +49,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
                 match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else{
-        show("Print select UMAP or TSNE as plot type")
+        methods::show("Print select UMAP or TSNE as plot type")
     }
     
     intensity_DR_layout$Cell_ID <- rownames(intensity_DR_layout)

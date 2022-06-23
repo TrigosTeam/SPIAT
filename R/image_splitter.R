@@ -156,16 +156,16 @@ image_splitter <- function(spe_object, number_of_splits, plot = FALSE,
                           axis.title.y = element_blank(),
                           axis.text.y = element_blank(),
                           axis.ticks.y = element_blank())
-                show(split_plot)}
+                methods::show(split_plot)}
             divided_image_spe <- format_colData_to_spe(divided_image)
             divided_image_obj[[paste(image_filename,"r", x,"c", y, sep="")]] <- 
                 divided_image_spe
         }
     }
     if(plot){
-        show(full_image)
+        methods::show(full_image)
         grDevices::dev.off()
-        show("PDF saved successfully")
+        methods::show("PDF saved successfully")
     }
     return(divided_image_obj)
 }

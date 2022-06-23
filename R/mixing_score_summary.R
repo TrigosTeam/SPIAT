@@ -50,10 +50,10 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
             tryCatch({
                 target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
                 if (nrow(reference_cells) == 0) {
-                    show(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
+                    methods::show(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
                 }
                 if (nrow(target_cells) == 0) {
-                    show(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
+                    methods::show(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
                 }
                 reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
                                                             "Cell.Y.Position")]
@@ -72,7 +72,7 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
                     normalised_mixing_score <- 2 * mixing_score * (nrow(reference_cells)-1) / nrow(target_cells)
                 }else {
                     normalised_mixing_score <- mixing_score <- NA
-                    show(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
+                    methods::show(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
                     #stop()
                 }
                 df <-  rbind(df[ ,df.cols], 

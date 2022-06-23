@@ -223,7 +223,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
     
     if (reference_phenotypes) {
         for (marker in markers) {
-            show(marker)
+            methods::show(marker)
             #exclude markers that are not reference markers
             #if (marker == tumour_marker) {
             #  next
@@ -302,7 +302,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     
                     p <- p + theme_bw()
                     
-                    show(p)
+                    methods::show(p)
                 }
             }
         }
@@ -335,15 +335,15 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                 
                 if (!is.null(selected_valley_xcord[[marker]])) {
                     p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
-                    show(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
+                    methods::show(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
                 } else {
                     p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
-                    show(paste(marker, " threshold intensity: ", marker_threshold))
+                    methods::show(paste(marker, " threshold intensity: ", marker_threshold))
                 }
                 
                 p <- p + theme_bw()
                 
-                show(p)  
+                methods::show(p)  
             }
         }
     }

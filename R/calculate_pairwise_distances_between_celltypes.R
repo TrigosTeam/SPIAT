@@ -31,7 +31,7 @@ calculate_pairwise_distances_between_celltypes <- function(
     
     #CHECK
     if (nrow(dat) == 0) {
-        show("There are no cells or no cells of specified cell types")
+        methods::show("There are no cells or no cells of specified cell types")
         cell_to_cell_dist_all <- c(Cell1 = NA, Cell2 = NA, Distance = NA, 
                                    Pair = NA, Type1 = NA, Type2 = NA) 
     }else{
@@ -40,9 +40,9 @@ calculate_pairwise_distances_between_celltypes <- function(
         
         #Creates a list of the number of cell types with all their 
         #corresponding cell ID's
-        cell_types = list()
+        cell_types <- list()
         for (eachType in unique(dat[, feature_colname])) {
-            cell_types[[eachType]] = as.character(
+            cell_types[[eachType]] <- as.character(
                 dat$Cell.ID[dat[, feature_colname] == eachType])
         }
         

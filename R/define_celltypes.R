@@ -48,7 +48,7 @@ define_celltypes <- function(spe_object,categories = NULL,
     
     # CHECK
     if (length(categories) != length(names)){
-        show("`length(categories) != length(names)`")
+        methods::show("`length(categories) != length(names)`")
         stop("The old and new cell type names should be of the same length!")
     }
     # default setting
@@ -68,8 +68,8 @@ define_celltypes <- function(spe_object,categories = NULL,
     names <- pre_names[match(categories, pre_categories)]
     
     if (print_names){
-        show(paste("Define new cell types basing on:", categories))
-        show(paste("The new cell types are:",names))
+        methods::show(paste("Define new cell types basing on:", categories))
+        methods::show(paste("The new cell types are:",names))
     }
     
     spe_object[[new_colname]] <- ""

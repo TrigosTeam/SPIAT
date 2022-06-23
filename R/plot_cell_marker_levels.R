@@ -46,7 +46,7 @@ plot_cell_marker_levels <- function(spe_object, marker) {
     intensity_by_marker <- formatted_data[rows_non_zero,]
     
     if (nrow(intensity_by_marker) == 0) {
-        show(paste("There are no true intensity for: ", marker, sep=""))
+        methods::show(paste("There are no true intensity for: ", marker, sep=""))
     }
     
     #log the intensity to improve contrast

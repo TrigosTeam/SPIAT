@@ -28,10 +28,10 @@ calculate_minimum_distances_between_celltypes <- function(spe_object,
     formatted_data <- formatted_data[formatted_data[,feature_colname] != "",]
     
     #Get the list of cells under each cell type
-    cell_types = list()
+    cell_types <- list()
     #assign cells to each specified cell type
     for (eachType in cell_types_of_interest) {
-        cell_types[[eachType]] = as.character(formatted_data$Cell.ID[
+        cell_types[[eachType]] <- as.character(formatted_data$Cell.ID[
             formatted_data[,feature_colname] == eachType])
     }
     #keep those cells that are selected
@@ -41,19 +41,19 @@ calculate_minimum_distances_between_celltypes <- function(spe_object,
     if (nrow(formatted_data) == 0){
         stop("No cells belong to the specified marker combinations of interest")
     }
-    show("Markers had been selected in minimum distance calculation: ")
-    show(unique(formatted_data[[feature_colname]]))
+    methods::show("Markers had been selected in minimum distance calculation: ")
+    methods::show(unique(formatted_data[[feature_colname]]))
     
     #different cell type combinations
-    permu = gtools::permutations(length(unique(
+    permu <- gtools::permutations(length(unique(
         formatted_data[[feature_colname]])), 2, repeats.allowed = TRUE)
     unique_cells <- unique(formatted_data[[feature_colname]]) #unique cell types
-    result = vector()
+    result <- vector()
     
     for (i in seq_len(nrow(permu))) {
-        eachPermu = permu[i, ]
-        name1 = unique_cells[eachPermu[1]]
-        name2 = unique_cells[eachPermu[2]]
+        eachPermu <- permu[i, ]
+        name1 <- unique_cells[eachPermu[1]]
+        name2 <- unique_cells[eachPermu[2]]
         
         cell_type1 <- as.character(cell_types[[name1]])
         cell_type2 <- as.character(cell_types[[name2]])

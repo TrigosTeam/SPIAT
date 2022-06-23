@@ -129,10 +129,10 @@ get_polygon <- function(xahull, arc, n_to_exclude){
         }
         else{
             c <- c+1
-            cell_ID = c()
+            cell_ID <- c()
             locs <- c()
             for (i in seq_len(dim(df)[1])){
-                cell_ID = df[i,7]
+                cell_ID <- df[i,7]
                 locs <- rbind(locs,xahull[cell_ID,c(1,2)])
             }
             poly_list[[c]] <- locs
@@ -148,7 +148,7 @@ plot_cell_basic <- function(spe_object, cell_types_of_interest, colour_vector,
                              feature_colname, cex = 0.4, ...) {
     Cell.X.Position <- Cell.Y.Position <- NULL
     assign(feature_colname, NULL)
-    formatted_data <- data.frame(colData(spe_object))
+    formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
     formatted_data <- cbind(formatted_data, 
                             data.frame(SpatialExperiment::spatialCoords(spe_object)))
     # delete column `sample_id`
@@ -161,7 +161,7 @@ plot_cell_basic <- function(spe_object, cell_types_of_interest, colour_vector,
     real_celltypes <- cell_types_of_interest
     for (phenotype in cell_types_of_interest) {
         if (!(phenotype %in% unique(formatted_data[[feature_colname]]))) {
-            show(paste(phenotype, "cells were not found"), sep = "")
+            methods::show(paste(phenotype, "cells were not found"), sep = "")
             real_celltypes <- real_celltypes[real_celltypes != phenotype]
         }
     }

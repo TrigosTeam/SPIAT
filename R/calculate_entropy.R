@@ -75,5 +75,5 @@ calculate_entropy <- function(spe_object, cell_types_of_interest,
                         entropy_type <- -(p_type)*log2(p_type)
                         entropy_all <- entropy_all + entropy_type}}
                 return(entropy_all)}}}else{
-        show("Cell type not found!")
+        methods::show("Cell type not found!")
         return(NA)}}

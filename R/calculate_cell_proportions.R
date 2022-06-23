@@ -26,15 +26,13 @@
 calculate_cell_proportions <- function(spe_object,  reference_celltypes = NULL, 
                                        celltypes_to_exclude = NULL, 
                                        feature_colname="Phenotype",plot.image = TRUE){
-
     Cell_type <- Percentage <- NULL
     #Reads the image file and deletes cell rows with NA positions
     cell_loc <- get_colData(spe_object)
     
     #CHECK
     if (nrow(cell_loc) == 0) {
-        stop("No cells found for calculating cell proportions")
-    }
+        stop("No cells found for calculating cell proportions")}
 
     #Creates frequency/bar plot of all cell types in the entire image
     cell_proportions <- as.data.frame(table(cell_loc[,feature_colname]))
@@ -45,10 +43,9 @@ calculate_cell_proportions <- function(spe_object,  reference_celltypes = NULL,
     if (!is.null(celltypes_to_exclude)) {
         for (celltype in celltypes_to_exclude) {
             cell_proportions <- 
-                cell_proportions[!grepl(celltype, cell_proportions[["Cell_type"]]), ]
-        }
-    } 
-    
+                cell_proportions[!grepl(celltype, 
+                                        cell_proportions[["Cell_type"]]), ]
+        }} 
     if(is.null(reference_celltypes)){
         celltype_cells <- cell_proportions
         celltype_cells_total <- sum(celltype_cells$Number_of_celltype)
@@ -77,10 +74,8 @@ calculate_cell_proportions <- function(spe_object,  reference_celltypes = NULL,
     
     if(plot.image){
         g <- ggplot(cell_proportions, aes(x=Cell_type, y=Percentage)) +
-            geom_bar(stat='identity') +
-            theme_bw()
-        show(g)
-    }
+            geom_bar(stat='identity') + theme_bw()
+        methods::show(g)}
     
     return(cell_proportions)
 }

@@ -85,7 +85,8 @@ format_image_to_spe <- function(format = "general", intensity_matrix = NULL,
                                 coord_y = NULL, path = NULL, markers = NULL, 
                                 locations = NULL,
                                 intensity_columns_interest = NULL, 
-                                dye_columns_interest = NULL){
+                                dye_columns_interest = NULL,
+                                path_to_codex_cell_phenotypes = NULL){
     if (format == "general"){
         intensity_matrix <- remove_intensity_na(intensity_matrix)
         
@@ -113,6 +114,6 @@ format_image_to_spe <- function(format = "general", intensity_matrix = NULL,
     }else if(format == "cellprofiler") {
        spe <- format_cellprofiler_to_spe(path = path, markers = markers, 
                  intensity_columns_interest = intensity_columns_interest)
-    } else { show("Please entre a valid format!" )}
+    } else { methods::show("Please entre a valid format!" )}
     return(spe)
 }

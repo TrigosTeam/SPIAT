@@ -105,7 +105,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
                 alpha <- 60} else if (n_cells > 5000){
                 alpha <- 90} else {
                 alpha <- (n_cells - 300)/160 + 60}
-            show(paste("The alpha of Polygon is:", alpha))
+            methods::show(paste("The alpha of Polygon is:", alpha))
             ahull <- alphahull::ahull(tumour_in_polygon$Cell.X.Position,
                                      tumour_in_polygon$Cell.Y.Position, 
                                      alpha = alpha)

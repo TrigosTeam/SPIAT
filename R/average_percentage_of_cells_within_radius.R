@@ -38,11 +38,12 @@ average_percentage_of_cells_within_radius <- function(spe_object,
     
     #CHECK
     if (nrow(reference_celltypes) == 0 || nrow(target_celltypes) == 0) {
-        show("There are no reference cells or no target cells")
+        methods::show("There are no reference cells or no target cells")
         return(NA)
     }else{
         #get the coordinates to find neighbours
-        reference_cell_cords <- reference_celltypes[,c("Cell.X.Position", "Cell.Y.Position")]
+        reference_cell_cords <- reference_celltypes[,c("Cell.X.Position", 
+                                                       "Cell.Y.Position")]
         
         #frNN output ids
         search_result <- dbscan::frNN(formatted_data[,c("Cell.X.Position", 
@@ -53,7 +54,7 @@ average_percentage_of_cells_within_radius <- function(spe_object,
         
         #CHECK
         if (length(rownums) == 0) {
-            show("There are no target cells within the radius")
+            methods::show("There are no target cells within the radius")
             return(NA)
         } else {
             output_percentage <- vector()
