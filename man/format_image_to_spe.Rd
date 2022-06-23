@@ -112,6 +112,6 @@ formatted_image <- format_image_to_spe(intensity_matrix=intensity_matrix,
 phenotypes = phenotypes, coord_x = coord_x,coord_y = coord_y)
 }
 \seealso{
-\code{\link{format_inform_to_sce}} \code{\link{format_halo_to_sce}}
-  \code{\link{format_codex_to_sce}} \code{\link{format_cellprofiler_to_sce}}
+\code{\link{format_inform_to_spe}} \code{\link{format_halo_to_spe}}
+  \code{\link{format_codex_to_spe}} \code{\link{format_cellprofiler_to_spe}}
 }

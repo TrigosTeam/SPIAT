@@ -58,8 +58,8 @@
 #'   the marker). Column names must match the order of the 'markers' parameter.
 #' @param path_to_codex_cell_phenotypes (Optional) For "CODEX".String of the
 #'   path to the Cluster ID/Cell type file.
-#' @seealso \code{\link{format_inform_to_sce}} \code{\link{format_halo_to_sce}}
-#'   \code{\link{format_codex_to_sce}} \code{\link{format_cellprofiler_to_sce}}
+#' @seealso \code{\link{format_inform_to_spe}} \code{\link{format_halo_to_spe}}
+#'   \code{\link{format_codex_to_spe}} \code{\link{format_cellprofiler_to_spe}}
 #'
 #' @return A SpatialExperiment object is returned
 #' @examples

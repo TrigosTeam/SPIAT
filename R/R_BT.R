@@ -19,16 +19,16 @@
 #' 
 R_BT <- function(spe_object, cell_type_of_interest, feature_colname){
     # identify the bordering cells
-    sce_border <- identify_bordering_cells(spe_object, 
+    spe_border <- identify_bordering_cells(spe_object, 
                                            reference_cell=cell_type_of_interest,
                                            feature_colname = feature_colname, 
                                            ahull_alpha = 40,
                                            n_to_exclude = 0)
     
     # count the number of bordering cells and tumour cells
-    n_tumour <- count_category(sce_border, cat = cell_type_of_interest,
+    n_tumour <- count_category(spe_border, cat = cell_type_of_interest,
                                feature_colname = feature_colname)
-    n_border <- count_category(sce_border, "Border","Region")
+    n_border <- count_category(spe_border, "Border","Region")
     # calculate the ratio
     r <- n_border/n_tumour
     

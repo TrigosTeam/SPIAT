@@ -9,7 +9,7 @@
 #' @import ggplot2
 #' @return A plot is returned
 #' @examples
-#' predicted_result <- predict_phenotypes(sce_object = simulated_image, thresholds = NULL,
+#' predicted_result <- predict_phenotypes(spe_object = simulated_image, thresholds = NULL,
 #' tumour_marker = "Tumour_marker",baseline_markers = c("Immune_marker1", "Immune_marker2", 
 #' "Immune_marker3", "Immune_marker4"), reference_phenotypes = TRUE)
 #' marker_prediction_plot(predicted_result, marker = "Tumour_marker")
@@ -44,7 +44,7 @@ marker_prediction_plot <- function(predicted_data, marker) {
               axis.ticks.x = element_blank(),
               axis.title.y = element_blank(),
               axis.text.y = element_blank(),
-              axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
+              axis.ticks.y = element_blank())
     
     #plot predicted intensity status
     title_pred <- paste("Predicted intensity status of ", marker, sep="")
@@ -59,6 +59,6 @@ marker_prediction_plot <- function(predicted_data, marker) {
               axis.ticks.x = element_blank(),
               axis.title.y = element_blank(),
               axis.text.y = element_blank(),
-              axis.ticks.y = element_blank(), legend.key.height = unit(2.5, "cm"))
+              axis.ticks.y = element_blank())
     gridExtra::grid.arrange(p_actual, p_pred, nrow=1)
 }

@@ -11,8 +11,8 @@
 #' @param keep Boolean. TRUE if vector of `celltypes` are the cells that are
 #'   going to be kept, FALSE if they are to be removed.
 #' @return A SpatialExperiment object is returned. The original image size
-#'   and cell count can be accessed by `attr(slim_sce, "original_cell_number")`
-#'   and `attr(slim_sce, "range_of_coords")`, where `slim_sce` is the output of
+#'   and cell count can be accessed by `attr(slim_spe, "original_cell_number")`
+#'   and `attr(slim_spe, "range_of_coords")`, where `slim_spe` is the output of
 #'   this function.
 #'
 #' @examples
@@ -42,18 +42,18 @@ select_celltypes <- function(spe_object, celltypes,
     ymin <- min(data$Cell.Y.Position)
     
     # delete the cell rows
-    if (keep) slim_sce <- 
+    if (keep) slim_spe <- 
         spe_object[, (spe_object[[feature_colname]] %in% celltypes)]
-    else slim_sce <- 
+    else slim_spe <- 
         spe_object[, !(spe_object[[feature_colname]] %in% celltypes)]
     
     # # delete the rownames from the spe_object 
     # SummarizedExperiment::colData(spe_object)$rownames <- NULL
     
     # save the original image info in the slim attr
-    attr(slim_sce, "original_cell_number") <- n_cells
-    attr(slim_sce, "range_of_coords") <- c(xmin = xmin, xmax = xmax, 
+    attr(slim_spe, "original_cell_number") <- n_cells
+    attr(slim_spe, "range_of_coords") <- c(xmin = xmin, xmax = xmax, 
                                            ymin = ymin, ymax = ymax)
     
-    return(slim_sce)
+    return(slim_spe)
 }

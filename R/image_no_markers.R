@@ -1,7 +1,7 @@
 #' SPE object of a formatted image without marker intensities (simulated by
 #' `spaSim` package)
 #'
-#' A dataset that contains a formatted sce object with cell ids and cell types
+#' A dataset that contains a formatted spe object with cell ids and cell types
 #' in `colData()` and cell coordinates in `spatialCoords()`. This dataset does
 #' not contain assays (marker intensities).
 #'

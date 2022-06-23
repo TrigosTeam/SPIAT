@@ -11,13 +11,13 @@
 #' @param feature_colname String specifying the feature column of interest.
 #' @return A ppp object is returned (defined in `spatstat` package)
 #' @examples
-#' ppp_object<-format_sce_to_ppp(SPIAT::defined_image, 
+#' ppp_object<-format_spe_to_ppp(SPIAT::defined_image, 
 #' feature_colname = "Cell.Type")
 
 format_spe_to_ppp <- function(spe_object, window_pol = FALSE, 
                               feature_colname="Phenotype") {
     
-    # get x, y coordinates and phenotypes from sce object
+    # get x, y coordinates and phenotypes from spe object
     spe_data <- get_colData(spe_object)
     spe_data <- spe_data[!duplicated(spe_data[,c("Cell.X.Position", 
                                                  "Cell.Y.Position")]),]

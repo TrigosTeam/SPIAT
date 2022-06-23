@@ -27,6 +27,6 @@ Formats an spe object into a ppp object which has the x,y
   coordinates
 }
 \examples{
-ppp_object<-format_sce_to_ppp(SPIAT::defined_image, 
+ppp_object<-format_spe_to_ppp(SPIAT::defined_image, 
 feature_colname = "Cell.Type")
 }

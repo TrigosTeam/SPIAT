@@ -25,8 +25,8 @@ going to be kept, FALSE if they are to be removed.}
 }
 \value{
 A SpatialExperiment object is returned. The original image size
-  and cell count can be accessed by `attr(slim_sce, "original_cell_number")`
-  and `attr(slim_sce, "range_of_coords")`, where `slim_sce` is the output of
+  and cell count can be accessed by `attr(slim_spe, "original_cell_number")`
+  and `attr(slim_spe, "range_of_coords")`, where `slim_spe` is the output of
   this function.
 }
 \description{

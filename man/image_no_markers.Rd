@@ -13,7 +13,7 @@ An spe object. colData contains 4951 rows (cells) and 3 columns
 image_no_markers
 }
 \description{
-A dataset that contains a formatted sce object with cell ids and cell types
+A dataset that contains a formatted spe object with cell ids and cell types
 in `colData()` and cell coordinates in `spatialCoords()`. This dataset does
 not contain assays (marker intensities).
 }
