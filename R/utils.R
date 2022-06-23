@@ -221,19 +221,6 @@ count_category <- function(spe_object, cat, feature_colname){
     return(count)
 }
 
-#' Split a large image into sub images
-#' @description Takes in an image in SpatialExperiment format, splits the image
-#'   into specified sections and returns a list of SpatialExperiment objects.
-#'   Users can choose to plot the cell positions in each sub image. Note that 
-#'   this function does not split the assay.
-#'
-#' @param spe_object `SpatialExperiment` object in the form of the output of
-#'   \code{\link{format_image_to_spe}}.
-#' @param number_of_splits Numeric. specifying the number of segments (e.g. 2 =
-#'   2x2, 3 = 3x3).
-#' @import ggplot2
-#' @return A list of data.frames is returned. Each data frame represents an
-#'   image without assay data.
 split_image <- function(spe_object, number_of_splits){
     Cell.X.Position <- Cell.Y.Position <- NULL
     #Reads the image file
