@@ -502,7 +502,7 @@ phenotypes have not been accurately assigned. We can use
 `marker_intensity_boxplot` to produce a boxplot for cells phenotyped as
 being positive or negative for a marker.
 
-```{r, fig.height = 1.5, fig.width = 2}
+```{r, fig.height = 2, fig.width = 3.2}
 marker_intensity_boxplot(formatted_image, "Immune_marker1")
 ```
 
@@ -522,7 +522,7 @@ intensity of a marker in each cell. This should be relatively even
 across the image and all phenotyped cells. Cells that were not
 phenotyped as being positive for the particular marker are excluded.
 
-```{r, fig.height=1.6, dpi = 72, out.width="100%"}
+```{r, fig.height=3, fig.width=6, dpi = 72, out.width="100%"}
 plot_cell_marker_levels(formatted_image, "Immune_marker1")
 ```
 
@@ -717,7 +717,7 @@ code.)
 For this part of the tutorial, we will be performing some basic analysis
 on this image:
 
-```{r}
+```{r, fig.height = 2.5}
 my_colors <- c("red", "blue", "darkcyan", "darkgreen")
   
 plot_cell_categories(formatted_image, c("Tumour", "Immune1", "Immune2", "Immune3"), 
