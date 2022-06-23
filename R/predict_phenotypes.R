@@ -33,6 +33,7 @@
 #'   distributions and cutoffs are plotted.
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom gridExtra grid.arrange
 #' @return An updated spe object with cell phenotypes or a data.frame of
 #'   predicted phenotypes
 #' @examples
@@ -222,6 +223,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
     }
     
     if (reference_phenotypes) {
+        p_list <- list()
         for (marker in markers) {
             methods::show(marker)
             #exclude markers that are not reference markers
@@ -289,8 +291,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                 
                 if(plot_distribution){
                     p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
-                    title <- paste("Density distribution of", marker, sep=" ")
-                    p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+                    p <- p + labs(title = marker, x = "Level of intensity", y = "Density")
                     
                     if (!is.null(selected_valley_xcord[[marker]])) {
                         p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
@@ -302,11 +303,17 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     
                     p <- p + theme_bw()
                     
-                    methods::show(p)
+                    # methods::show(p)
+                    p_list[[marker]] <- p
                 }
             }
+            
         }
+        n <- length(p_list)
+        nCol <- floor(sqrt(n))
+        do.call("grid.arrange", c(p_list, ncol=nCol))
     }else{
+        p_list <- list()
         for(marker in markers){
             #names of columns
             marker_status_name <- paste(marker, "_status", sep="")
@@ -330,8 +337,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
             
             if(plot_distribution){
                 p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
-                title <- paste("Density distribution of", marker, sep=" ")
-                p <- p + labs(title = title, x = "Level of intensity", y = "Density")
+                p <- p + labs(title = marker, x = "Level of intensity", y = "Density")
                 
                 if (!is.null(selected_valley_xcord[[marker]])) {
                     p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
@@ -343,9 +349,13 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                 
                 p <- p + theme_bw()
                 
-                methods::show(p)  
+                # methods::show(p)  
+                p_list[[marker]] <- p
             }
         }
+        n <- length(p_list)
+        nCol <- floor(sqrt(n))
+        do.call("grid.arrange", c(p_list, ncol=nCol))
     }
     
     phenotype_predictions <- predicted_data[,grep("_predicted_phenotype", colnames(predicted_data))]
