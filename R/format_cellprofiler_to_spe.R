@@ -31,6 +31,7 @@
 format_cellprofiler_to_spe <- function(path = NULL, 
                                 markers = NULL,  
                                 intensity_columns_interest = NULL){
+    ObjectNumber <- NULL
     # read in the image
     image <- utils::read.csv(path)
     # change "DNA" to "DAPI"
