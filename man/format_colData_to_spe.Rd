@@ -7,7 +7,8 @@
 format_colData_to_spe(df)
 }
 \arguments{
-\item{df}{Dataframe that will be the colData of the spe object.}
+\item{df}{Data frame that contains cell coordinates, phenotypes (if
+available) and other cell properties. The rownames should be cell ID}
 }
 \value{
 An SpatialExperiment object
@@ -18,7 +19,7 @@ Format a data frame into a SpatialExperiment class where the
   colData() and cell coordinates are stored under spatialCoords().
 }
 \examples{
-df <- data.frame(Cell.ID = c("Cell_1", "Cell_2"), Cell.X.Positions = c(2,5),
-Cell.Y.Positions = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
+df <- data.frame(row.names = c("Cell_1", "Cell_2"), Cell.X.Position = c(2,5),
+Cell.Y.Position = c(3.3, 8), Phenotypes = c("CD3", "CD3,CD8"))
 spe <- format_colData_to_spe(df)
 }
