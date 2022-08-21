@@ -1,8 +1,7 @@
 #' crossing_of_crossK
 #'
 #' @description Determine if there is a crossing in the cross K curves, to
-#'   further detect the existence of potential immune rings. --requires
-#'   additional explanation/reference. Cite own paper?
+#'   further detect the existence of potential immune rings. 
 #'
 #' @param df.cross Data.frame. The output of
 #'   \code{\link{calculate_cross_functions}}. Containing the positions of the

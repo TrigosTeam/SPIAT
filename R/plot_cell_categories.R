@@ -111,6 +111,5 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
             scale_color_manual(breaks = all_categories, values=all_colours)
     }
-    methods::show(p)
     return(p)
 }

@@ -55,6 +55,6 @@ marker_intensity_boxplot <- function(spe_object, marker){
     p <- p + stat_summary(fun.data = give.n, geom = "text")
     p <- p + theme_bw()
 
-    methods::show(p)
+    # methods::show(p)
     return(p)
 }

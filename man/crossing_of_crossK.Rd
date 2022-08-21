@@ -17,8 +17,7 @@ A number. The percentage of the crossing position of the specified
 }
 \description{
 Determine if there is a crossing in the cross K curves, to
-  further detect the existence of potential immune rings. --requires
-  additional explanation/reference. Cite own paper?
+  further detect the existence of potential immune rings.
 }
 \examples{
 df_cross <- calculate_cross_functions(SPIAT::defined_image, method="Kcross",
