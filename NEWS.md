@@ -1,3 +1,10 @@
+# SPIAT 0.99.3
+
+BUG FIXES
+
+* Added checks for `dimensionality_reduction_plot()` to return error when the 
+cell count in an image is too low.
+
 # SPIAT 0.99.2
 
 SIGNIFICANT USER-VISIBLE CHANGES
