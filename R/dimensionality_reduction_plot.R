@@ -20,7 +20,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
                                           scale=TRUE, 
                                           perplexity = 30, feature_colname){
     
-    Cell_ID <- X_coord <- Y_coord <- Label <- NULL
+    Cell_ID <- dim_X <- dim_Y <- Label <- NULL
     formatted_data <- get_colData(spe_object)
     
     intensity_matrix <- SummarizedExperiment::assay(spe_object)
@@ -36,7 +36,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
     if(plot_type == "UMAP"){
         intensity_DR <- umap::umap(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout <- as.data.frame(intensity_DR$data)
-        colnames(intensity_DR_layout) <- c("X_coord", "Y_coord")
+        colnames(intensity_DR_layout) <- c("dim_X", "dim_Y")
         intensity_DR_layout$Label <- 
             formatted_data[[feature_colname]][
                 match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
@@ -50,7 +50,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
         intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled,
                                      perplexity = perplexity)
         intensity_DR_layout <- as.data.frame(intensity_DR$Y)
-        colnames(intensity_DR_layout) <- c("X_coord", "Y_coord")
+        colnames(intensity_DR_layout) <- c("dim_X", "dim_Y")
         rownames(intensity_DR_layout) <- 
             rownames(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout$Label <- 
@@ -63,7 +63,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
     
     intensity_DR_layout$Cell_ID <- rownames(intensity_DR_layout)
     
-    g <- ggplot(intensity_DR_layout, aes(x=X_coord, y=Y_coord, label=Cell_ID))+
+    g <- ggplot(intensity_DR_layout, aes(x=dim_X, y=dim_Y, label=Cell_ID))+
         geom_point(aes(colour=Label))+
         ggtitle(plot_type)+
         theme_bw()+
