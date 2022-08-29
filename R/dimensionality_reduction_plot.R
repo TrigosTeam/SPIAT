@@ -8,7 +8,8 @@
 #' @param plot_type String. Choose from "UMAP" and "TSNE".
 #' @param scale Boolean. Whether scale the marker intensities.
 #' @param perplexity Numeric. Perplexity parameter of the Rtsne function (should
-#'   not be bigger than 3 * perplexity < n - 1, where n is the number of cells).
+#'   be positive and no bigger than 3 * perplexity < n - 1, where n is the
+#'   number of cells).
 #' @param feature_colname String. Specify the column name to group the cells.
 #'
 #' @return A plot
@@ -34,6 +35,9 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
     }
     
     if(plot_type == "UMAP"){
+        if (dim(formatted_data)[1] <= 14){
+            stop("The image should contain at least 15 cells to plot UMAP.")
+        }
         intensity_DR <- umap::umap(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout <- as.data.frame(intensity_DR$data)
         colnames(intensity_DR_layout) <- c("dim_X", "dim_Y")
@@ -42,6 +46,9 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
                 match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else if (plot_type == "TSNE"){
+        if (dim(formatted_data)[1] <= 4){
+            stop("The image should contain at least 5 cells to plot TSNE plot.")
+        }
         if (3 * perplexity > nrow(formatted_data)- 1){
             perplexity <- floor((nrow(formatted_data)-1)/3)
             warning("The perplexity for tsne has been changed to ", perplexity,
