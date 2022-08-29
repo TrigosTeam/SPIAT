@@ -1,9 +1,27 @@
+# SPIAT 0.99.2
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Added `perplexity` parameter to `dimensionality_reduction_plot()`.
+* Added `plot_final_border` parameter to `identify_bordering_cells()`.
+
+BUG FIXES
+
+* `image_splitter()` returns `NULL` for the sub-images that do not contain any 
+cells. 
+* `calculate_spatial_autocorrelation()`
+* `identify_bordering_cells()` only plots the bordering cells when bordering 
+cells are detected and the user chooses to plot them.
+* The calculation of one cell type to `All_cells_in_the_structure` in `calculate_proportions_of_cells_in_structure()` was incorrect. Now fixed.
+
 # SPIAT 0.99.1
 
 SIGNIFICANT USER-VISIBLE CHANGES
 
 * Updated the main object class from `SingleCellExperiment` to `SpatialExperiment`.
 * Replace "sce" with "spe" in function names.
+* Reading data by `format_image_to_spe()` using `general` format is recommended.
+For other data platforms, `format_inform_to_spe()`, `format_halo_to_spe()`, `format_codex_to_spe()`, and `format_cellprofiler_to_spe()` are also available.
 * Deleted "Visium" format option in `format_image_to_spe()`.
 * `image_splitter()` now returns a list of spe objects.
 
