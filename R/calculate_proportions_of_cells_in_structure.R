@@ -30,13 +30,15 @@ calculate_proportions_of_cells_in_structure <- function(spe_object,
     for(cell_type in cell_types_of_interest){
         temp <- data_local[data_local[,feature_colname] == cell_type,]
         p_i_in <- length(which(temp$Structure == "Infiltrated.immune"))/
-            length(which(data_local$Structure == "Inside"))
-        p_i_i.f.in <- length(which(temp$Structure =="Internal.margin.immune"))/
-            length(which(data_local$Structure == "Internal.margin"))
-        p_i_i.f.out <- length(which(temp$Structure=="External.margin.immune"))/
-            length(which(data_local$Structure == "External.margin"))
+            length(which(data_local$Structure %in% c("Inside", "Infiltrated.immune")))
+        p_i_i.f.in <- length(which(temp$Structure == "Internal.margin.immune"))/
+            length(which(data_local$Structure %in% 
+                             c("Internal.margin", "Internal.margin.immune")))
+        p_i_i.f.out <- length(which(temp$Structure == "External.margin.immune"))/
+            length(which(data_local$Structure %in%          
+                             c("External.margin", "External.margin.immune")))
         p_i_out <- length(which(temp$Structure == "Stromal.immune"))/
-            length(which(data_local$Structure == "Outside"))
+            length(which(data_local$Structure %in% c("Outside", "Stromal.immune")))
         
         proportions <- rbind(proportions,
                              c(cell_type, "All_cells_in_the_structure", 
