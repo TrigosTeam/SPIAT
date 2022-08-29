@@ -11,7 +11,8 @@ identify_bordering_cells(
   ahull_alpha = NULL,
   n_of_polygons = 1,
   draw = FALSE,
-  n_to_exclude = 10
+  n_to_exclude = 10,
+  plot_final_border = TRUE
 )
 }
 \arguments{
@@ -30,11 +31,13 @@ cell cluster.}
 \item{n_of_polygons}{Integer specifying the number of tumour regions defined
 by user.}
 
-\item{draw}{Boolean if user chooses to manually draw the tumour area or not.
+\item{draw}{Boolean if user chooses to manually select the tumour area or not.
 Default is False.}
 
 \item{n_to_exclude}{Integer. Clusters with cell count under this number will
 be deleted.}
+
+\item{plot_final_border}{Boolean if plot the identified bordering cells.}
 }
 \value{
 A new SPE object is returned

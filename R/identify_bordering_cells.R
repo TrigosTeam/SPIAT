@@ -17,10 +17,11 @@
 #'   cell cluster.
 #' @param n_of_polygons Integer specifying the number of tumour regions defined
 #'   by user.
-#' @param draw Boolean if user chooses to manually draw the tumour area or not.
+#' @param draw Boolean if user chooses to manually select the tumour area or not.
 #'   Default is False.
 #' @param n_to_exclude Integer. Clusters with cell count under this number will
 #'   be deleted.
+#' @param plot_final_border Boolean if plot the identified bordering cells.
 #' @export
 #' @return A new SPE object is returned
 #' @examples
@@ -30,7 +31,8 @@
 identify_bordering_cells <- function(spe_object, reference_cell, 
                                      feature_colname = "Cell.Type",
                                      ahull_alpha = NULL, n_of_polygons = 1, 
-                                     draw = FALSE, n_to_exclude = 10){
+                                     draw = FALSE, n_to_exclude = 10, 
+                                     plot_final_border = TRUE){
     # CHECK
     if (is.null(SummarizedExperiment::colData(spe_object)[,feature_colname])){
         stop("Undefined column name. Please check if input contains `feature_colname`!")
@@ -158,9 +160,13 @@ identify_bordering_cells <- function(spe_object, reference_cell,
     
     # plot and return #####
     SummarizedExperiment::colData(spe_object)$Region <- data[,"Region"]
-    plot(data[which(data$Region=="Border"), 
-              c("Cell.X.Position","Cell.Y.Position")], 
-         pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
-                                           "tumour bordering cells"))
+    # check if bordering cells are detected and if plot the border
+    if (dim(data[which(data$Region=="Border"),])[1]!=0 & 
+        isTRUE(plot_final_border)){
+        plot(data[which(data$Region=="Border"), 
+                  c("Cell.X.Position","Cell.Y.Position")], 
+             pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
+                                               "tumour bordering cells"))
+    }
     return(spe_object)
 }
