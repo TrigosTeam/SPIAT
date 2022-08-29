@@ -157,7 +157,9 @@ image_splitter <- function(spe_object, number_of_splits, plot = FALSE,
                           axis.text.y = element_blank(),
                           axis.ticks.y = element_blank())
                 methods::show(split_plot)}
-            divided_image_spe <- format_colData_to_spe(divided_image)
+            if (dim(divided_image)[1]==0){
+                divided_image_spe <- NA
+            } else divided_image_spe <- format_colData_to_spe(divided_image)
             divided_image_obj[[paste(image_filename,"r", x,"c", y, sep="")]] <- 
                 divided_image_spe
         }
