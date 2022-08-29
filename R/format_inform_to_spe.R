@@ -35,7 +35,7 @@ format_inform_to_spe <- function(path, markers, locations=NULL,
     Object.Id <- Cell.ID <- ObjectNumber <- NULL
 
     #read in the image file
-    image <- vroom::vroom(path)
+    image <- vroom::vroom(path, delim = "\t")
     #if Phenotype column exists,
     #remove all rows with empty phenotype/no markers
     if (is.null(image$Phenotype)){
