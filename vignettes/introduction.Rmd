@@ -645,7 +645,7 @@ predicted_image2 <-
                                        "Cell_4925", "Cell_4719", "Cell_469", 
                                        "Cell_1929", "Cell_310", "Cell_2536", 
                                        "Cell_321", "Cell_4195"), 
-                   feature_colname = "rowname", keep = FALSE)
+                   feature_colname = "Cell.ID", keep = FALSE)
 ```
 
 Then plot the TSNE again (not interactive). This time we see there are
