@@ -8,6 +8,7 @@ dimensionality_reduction_plot(
   spe_object,
   plot_type = "UMAP",
   scale = TRUE,
+  perplexity = 30,
   feature_colname
 )
 }
@@ -18,6 +19,9 @@ dimensionality_reduction_plot(
 \item{plot_type}{String. Choose from "UMAP" and "TSNE".}
 
 \item{scale}{Boolean. Whether scale the marker intensities.}
+
+\item{perplexity}{Numeric. Perplexity parameter of the Rtsne function (should
+not be bigger than 3 * perplexity < n - 1, where n is the number of cells).}
 
 \item{feature_colname}{String. Specify the column name to group the cells.}
 }
@@ -30,6 +34,6 @@ Generates the dimensionality reduction plots (UMAP or tSNE)
   selected column.
 }
 \examples{
-dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 
+dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE",
 feature_colname = "Phenotype")
 }

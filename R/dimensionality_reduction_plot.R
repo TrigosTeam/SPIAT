@@ -2,20 +2,23 @@
 #'
 #' @description Generates the dimensionality reduction plots (UMAP or tSNE)
 #'   based on marker intensities. Cells are grouped by the categories under the
-#'   selected column. 
+#'   selected column.
 #' @param spe_object SpatialExperiment object in the form of the output of
 #'   \code{\link{format_image_to_spe}}.
 #' @param plot_type String. Choose from "UMAP" and "TSNE".
 #' @param scale Boolean. Whether scale the marker intensities.
+#' @param perplexity Numeric. Perplexity parameter of the Rtsne function (should
+#'   not be bigger than 3 * perplexity < n - 1, where n is the number of cells).
 #' @param feature_colname String. Specify the column name to group the cells.
 #'
 #' @return A plot
 #' @export
-#' @examples 
-#' dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE", 
+#' @examples
+#' dimensionality_reduction_plot(SPIAT::simulated_image, plot_type = "TSNE",
 #' feature_colname = "Phenotype")
 dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP", 
-                                          scale=TRUE, feature_colname){
+                                          scale=TRUE, 
+                                          perplexity = 30, feature_colname){
     
     Cell_ID <- X_coord <- Y_coord <- Label <- NULL
     formatted_data <- get_colData(spe_object)
@@ -39,7 +42,13 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
                 match(rownames(intensity_DR_layout), formatted_data$Cell.ID)]
         
     }else if (plot_type == "TSNE"){
-        intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled)
+        if (3 * perplexity > nrow(formatted_data)- 1){
+            perplexity <- floor((nrow(formatted_data)-1)/3)
+            warning("The perplexity for tsne has been changed to ", perplexity,
+                    " due to the small cell count in the image.")
+        }
+        intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled,
+                                     perplexity = perplexity)
         intensity_DR_layout <- as.data.frame(intensity_DR$Y)
         colnames(intensity_DR_layout) <- c("X_coord", "Y_coord")
         rownames(intensity_DR_layout) <- 
