@@ -21,7 +21,8 @@ dimensionality_reduction_plot(
 \item{scale}{Boolean. Whether scale the marker intensities.}
 
 \item{perplexity}{Numeric. Perplexity parameter of the Rtsne function (should
-not be bigger than 3 * perplexity < n - 1, where n is the number of cells).}
+be positive and no bigger than 3 * perplexity < n - 1, where n is the
+number of cells).}
 
 \item{feature_colname}{String. Specify the column name to group the cells.}
 }
