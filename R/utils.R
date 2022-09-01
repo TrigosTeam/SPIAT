@@ -14,8 +14,9 @@ bind_info <- function(spe_object){
     formatted_data <- cbind(formatted_data, 
                             data.frame(SpatialExperiment::spatialCoords(spe_object)))
     #convert rowname to column
-    formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") 
-    
+    if (is.null(formatted_data$Cell.ID)){
+        formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID") 
+    }
     # get the intensity matrix
     intensity_matrix <- SummarizedExperiment::assay(spe_object)
     markers <- rownames(intensity_matrix)

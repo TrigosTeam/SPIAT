@@ -1,3 +1,9 @@
+# SPIAT 0.99.4
+
+BUG FIXES
+
+* Fixed internal function `bind_info()` to avoid duplicated columns.
+
 # SPIAT 0.99.3
 
 BUG FIXES
