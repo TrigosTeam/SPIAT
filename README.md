@@ -17,7 +17,13 @@ BiocManager::install(version='devel')
 
 BiocManager::install("SPIAT")
 ```
+You can also install the latest development version from Github.
 
+```{r install_github, eval = FALSE}
+if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")}
+devtools::install_github("TrigosTeam/SPIAT")
+```
 The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.
 
 ## Vignette 

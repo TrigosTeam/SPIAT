@@ -64,6 +64,12 @@ BiocManager::install("SPIAT")
 
 You can also install the latest development version from Github.
 
+```{r install_github, eval = FALSE}
+if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")}
+devtools::install_github("TrigosTeam/SPIAT")
+```
+
 ## Citing `SPIAT`
 
 We hope that `r Biocpkg("SPIAT")` will be useful for your research.
