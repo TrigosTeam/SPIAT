@@ -28,8 +28,8 @@ detection.}
 algorithm. The larger the number, the more cells will be included in one
 cell cluster.}
 
-\item{n_of_polygons}{Integer specifying the number of regions defined
-by user.}
+\item{n_of_polygons}{Integer specifying the number of regions defined by
+user.}
 
 \item{draw}{Boolean if user chooses to manually select the regions or not.
 Default is False.}
@@ -40,11 +40,13 @@ be deleted.}
 \item{plot_final_border}{Boolean if plot the identified bordering cells.}
 }
 \value{
-A new SPE object is returned
+A new SPE object is returned. The SPE object has a `Region` column
+  with "Border", "Inside" and "Outside" categories. The returned object also
+  has an attribute saving the number of clusters.
 }
 \description{
 Identify the cells bordering a group of cells of a particular
-  phenotype.
+  phenotype, and calculate the number of clustered groups of this cell type.
 }
 \details{
 The bordering cell detection algorithm is based on computing an
@@ -53,6 +55,8 @@ The bordering cell detection algorithm is based on computing an
   identified as the bordering cells.
 }
 \examples{
-spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+spe_border <- identify_bordering_cells(SPIAT::defined_image,
 reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
+n_clusters <- attr(spe_border, "n_of_clusters") # get the number of clusters
+n_clusters
 }

@@ -1,7 +1,7 @@
 #' identify_bordering_cells
 #'
 #' @description Identify the cells bordering a group of cells of a particular
-#'   phenotype.
+#'   phenotype, and calculate the number of clustered groups of this cell type.
 #' @details The bordering cell detection algorithm is based on computing an
 #'   alpha hull (Hemmer et al., 2020), a generalization of convex hull (Green
 #'   and Silverman, 1979). The cells detected to be on the alpha hull are
@@ -15,18 +15,22 @@
 #' @param ahull_alpha Number specifying the parameter for the alpha hull
 #'   algorithm. The larger the number, the more cells will be included in one
 #'   cell cluster.
-#' @param n_of_polygons Integer specifying the number of regions defined
-#'   by user.
+#' @param n_of_polygons Integer specifying the number of regions defined by
+#'   user.
 #' @param draw Boolean if user chooses to manually select the regions or not.
 #'   Default is False.
 #' @param n_to_exclude Integer. Clusters with cell count under this number will
 #'   be deleted.
 #' @param plot_final_border Boolean if plot the identified bordering cells.
 #' @export
-#' @return A new SPE object is returned
+#' @return A new SPE object is returned. The SPE object has a `Region` column
+#'   with "Border", "Inside" and "Outside" categories. The returned object also
+#'   has an attribute saving the number of clusters.
 #' @examples
-#' spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
+#' n_clusters <- attr(spe_border, "n_of_clusters") # get the number of clusters
+#' n_clusters
 
 identify_bordering_cells <- function(spe_object, reference_cell, 
                                      feature_colname = "Cell.Type",
@@ -87,7 +91,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
         buffered_polygon <- methods::slot(sp_obj@polygons[[1]]@Polygons[[i]],
                                           "coords")
         
-        # identify the  cells in the drawn polygon
+        # identify the cells in the drawn polygon
         inpolygon <- sp::point.in.polygon(
             data$Cell.X.Position, data$Cell.Y.Position, buffered_polygon[, 1], 
             buffered_polygon[, 2])
@@ -168,5 +172,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
              pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
                                                "bordering cells"))
     }
+    # save the number of clusters identified
+    attr(spe_object, "n_of_clusters") <- length(ahull_polygon)
     return(spe_object)
 }

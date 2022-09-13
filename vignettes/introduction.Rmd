@@ -1221,6 +1221,13 @@ formatted_border <- identify_bordering_cells(formatted_image,
                                              feature_colname="Cell.Type")
 ```
 
+```{r}
+# Get the number of tumour clusters
+attr(formatted_border, "n_of_clusters")
+```
+
+There are `r attr(formatted_border, "n_of_clusters")` tumour clusters in the image.
+
 ### Classification of cells based on their locations relative to the margin
 
 We can then define four locations relative to the margin based on
