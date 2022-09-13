@@ -149,7 +149,9 @@ general_format_image <- format_image_to_spe(format = "general",
 Please note that some SPIAT functions (like `identify_bordering_cells()`) 
 require the constructed image object to have cell IDs as `rownames` of the 
 colData and `colnames` of the intensity matrix. If no intensity matrix was 
-provided, please follow this example to do so. `rownames(colData(object_name)) <- paste("Cell", 1:nrow(colData(object_name)), sep="_")`
+provided, please follow this example to do so. `rownames(colData(object_name)) <- paste("Cell", 1:nrow(colData(object_name)), sep="_")`. Without intensity matrix, users can 
+proceed with the analyses with functions in SPIAT, except the ones that require 
+marker intensities as input.
 
 The formatted image now contains phenotypes, locations, and marker
 intensity information of 3 cells. Note that if users want to define cell
