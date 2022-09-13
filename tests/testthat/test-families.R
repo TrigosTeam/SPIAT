@@ -28,28 +28,28 @@ test_that("functions in cross K family work", {
     expect_equal(res, out)
 })
 
-test_that("functions in tumour structure family work", {
+test_that("functions in tissue structure family work", {
     ## identify_bordering_cells()
     res <- c("Inside", "Inside", "Border", "Inside")
     spe_border <- identify_bordering_cells(
         defined_image, reference_cell = "Tumour", feature_colname = "Cell.Type",
         n_to_exclude = 10)
-    # test if the data strcure is "SpatialExperiment"
+    # test if the data structure is "SpatialExperiment"
     expect_s4_class(spe_border, "SpatialExperiment") 
     
     out <- spe_border$Region[3776:3779]
     expect_equal(res, out) # test if the results are the same
     
-    ## R_BT()
-    # test if R_BT returns a number
-    n <- R_BT(defined_image, cell_type_of_interest = "Tumour", "Cell.Type")
+    ## R_BC()
+    # test if R_BC returns a number
+    n <- R_BC(defined_image, cell_type_of_interest = "Tumour", "Cell.Type")
     expect_is(n, "numeric")
     
-    ## calculate_distance_to_tumour_margin()
+    ## calculate_distance_to_margin()
     res <- c(83.54843614991348488275, 63.04062766766428183018, 
              0.00000000000000000000, 29.59984593965495847101)
     res1 <- c("Non-border", "Non-border", "Border", "Non-border")
-    spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+    spe_dist <- calculate_distance_to_margin(spe_border)
     # test if the data strcure is "SpatialExperiment"
     expect_s4_class(spe_dist, "SpatialExperiment") 
     out <- spe_dist$Distance.To.Border[3776:3779]
@@ -61,7 +61,7 @@ test_that("functions in tumour structure family work", {
     ## define_structure()
     res <- c("Internal.margin", "Internal.margin", "Border", "Internal.margin")
     spe_structure <- define_structure(
-        spe_dist, names_of_immune_cells = c("Immune1","Immune2","Immune3"),
+        spe_dist, cell_types_of_interest = c("Immune1","Immune2","Immune3"),
         feature_colname = "Cell.Type", n_margin_layers = 5)
     
     # test if the data strcure is "SpatialExperiment"
@@ -81,15 +81,15 @@ test_that("functions in tumour structure family work", {
                         "The_same_cell_type_in_the_whole_image", 
                         "The_same_cell_type_in_the_whole_image", 
                         "All_cells_in_the_structure"),
-        P.Infiltrated.Immune=as.numeric(c("0", "0.12576687", "0", "1", 
+        P.Infiltrated.CoI=as.numeric(c("0", "0.12576687", "0", "1", 
                                           "0", "0.06507937", "0.14385965")),
-        P.Internal.Margin.Immune = as.numeric(c("0", "0.08071749", "0", "1", 
+        P.Internal.Margin.CoI = as.numeric(c("0", "0.08071749", "0", "1", 
                                                 "0", "0.05714286", "0.08780488")),
-        P.External.Margin.Immune = as.numeric(c("0.001733102",  "0.681109185", 
+        P.External.Margin.CoI = as.numeric(c("0.001733102",  "0.681109185", 
                                                 "0.002538071", "0.997461929", 
                                                 "0.002958580", "0.623809524", 
                                                 "2.170329670")),
-        P.Stromal.Immune=as.numeric(c("0.09658928", "0.04585841", "0.67806841", 
+        P.Stromal.CoI=as.numeric(c("0.09658928", "0.04585841", "0.67806841", 
                                       "0.32193159", "0.99704142", "0.25396825", 
                                       "0.23943162")))
     out <- calculate_proportions_of_cells_in_structure(
@@ -102,8 +102,8 @@ test_that("functions in tumour structure family work", {
         Cell.Type = c("All_cell_types_of_interest", 
                       "All_cell_types_of_interest", 
                       "Immune1", "Immune1", "Immune3", "Immune3"),
-        Area = c("Tumor_area", "Stroma", "Tumor_area", "Stroma", "Tumor_area", 
-                 "Stroma"),
+        Area = c("Within_border_area", "Stroma", "Within_border_area", "Stroma",
+                 "Within_border_area",  "Stroma"),
         Min_d=as.numeric(c("10.9322494547641", "10.0238703579346", NA, 
                            "84.2001833941197", "10.9322494547641", 
                            "10.0238703579346")),

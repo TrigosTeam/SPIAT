@@ -22,16 +22,16 @@ identify_bordering_cells(
 \item{reference_cell}{String. Cells of this cell type will be used for border
 detection.}
 
-\item{feature_colname}{String that speficies the column of `reference_cell`.}
+\item{feature_colname}{String that specifies the column of `reference_cell`.}
 
 \item{ahull_alpha}{Number specifying the parameter for the alpha hull
 algorithm. The larger the number, the more cells will be included in one
 cell cluster.}
 
-\item{n_of_polygons}{Integer specifying the number of tumour regions defined
+\item{n_of_polygons}{Integer specifying the number of regions defined
 by user.}
 
-\item{draw}{Boolean if user chooses to manually select the tumour area or not.
+\item{draw}{Boolean if user chooses to manually select the regions or not.
 Default is False.}
 
 \item{n_to_exclude}{Integer. Clusters with cell count under this number will

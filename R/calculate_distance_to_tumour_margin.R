@@ -1,18 +1,18 @@
-#' calculate the distances of each cell to the tumour margin
+#' calculate the distances of each cell to the margin
 #'
-#' @description Returns a SPE object with the minimum distance from immune cells
-#'   to the identified tumour bordering cells.
+#' @description Returns a SPE object with the minimum distance from cells of
+#'   interest (CoI) to the identified bordering cells.
 #'
 #' @param spe_object SpatialExperiment object. It should contain information of
 #'   the detected bordering cells (`colData()` has `Region` column).
-#' @return An spe_object is returned
+#' @return An spe_object with a `Distance.To.Border` column is returned.
 #' @export
 #' @examples
-#' spe_border <- identify_bordering_cells(SPIAT::defined_image, 
+#' spe_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-#' spe_dist <- calculate_distance_to_tumour_margin(spe_border)
+#' spe_dist <- calculate_distance_to_margin(spe_border)
 
-calculate_distance_to_tumour_margin <- function(spe_object){
+calculate_distance_to_margin <- function(spe_object){
     
     #CHECK if the user has found the bordering cells yet
     if (is.null(spe_object$Region)){

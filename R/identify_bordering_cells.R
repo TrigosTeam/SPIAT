@@ -11,13 +11,13 @@
 #'   \code{\link{format_image_to_spe}}.
 #' @param reference_cell String. Cells of this cell type will be used for border
 #'   detection.
-#' @param feature_colname String that speficies the column of `reference_cell`.
+#' @param feature_colname String that specifies the column of `reference_cell`.
 #' @param ahull_alpha Number specifying the parameter for the alpha hull
 #'   algorithm. The larger the number, the more cells will be included in one
 #'   cell cluster.
-#' @param n_of_polygons Integer specifying the number of tumour regions defined
+#' @param n_of_polygons Integer specifying the number of regions defined
 #'   by user.
-#' @param draw Boolean if user chooses to manually select the tumour area or not.
+#' @param draw Boolean if user chooses to manually select the regions or not.
 #'   Default is False.
 #' @param n_to_exclude Integer. Clusters with cell count under this number will
 #'   be deleted.
@@ -87,7 +87,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
         buffered_polygon <- methods::slot(sp_obj@polygons[[1]]@Polygons[[i]],
                                           "coords")
         
-        # identify the tumour cells in the drawn polygon
+        # identify the  cells in the drawn polygon
         inpolygon <- sp::point.in.polygon(
             data$Cell.X.Position, data$Cell.Y.Position, buffered_polygon[, 1], 
             buffered_polygon[, 2])
@@ -166,7 +166,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
         plot(data[which(data$Region=="Border"), 
                   c("Cell.X.Position","Cell.Y.Position")], 
              pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
-                                               "tumour bordering cells"))
+                                               "bordering cells"))
     }
     return(spe_object)
 }

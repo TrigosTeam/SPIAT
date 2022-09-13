@@ -31,13 +31,13 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
     if (feature_colname == "Structure" & is.null(categories_of_interest)) {
         categories_of_interest <- c("Border",
                                     "Inside", 
-                                    "Infiltrated.immune",
+                                    "Infiltrated.CoI",
                                     "Outside",    
-                                    "Stromal.immune", 
+                                    "Stromal.CoI", 
                                     "Internal.margin",     
-                                    "Internal.margin.immune",
+                                    "Internal.margin.CoI",
                                     "External.margin", 
-                                    "External.margin.immune")
+                                    "External.margin.CoI")
         colour_vector <- c("black", "pink", "purple", "yellow", "orange", "lightgreen", "darkgreen", "lightblue", "blue")
     }
     

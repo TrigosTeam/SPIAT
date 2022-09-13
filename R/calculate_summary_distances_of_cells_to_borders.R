@@ -3,7 +3,7 @@
 #' @description Returns the mean, median and standard deviation of the distances
 #'   between a specified cell type to the border.
 #' @param spe_object SpatialExperiment object. It should contain information of
-#'   tumour structure and cell distances to tumour border (`colData()` has
+#'   tissue structure and cell distances to the tissue region border (`colData()` has
 #'   `Region` and `Distance.To.Border` columns).
 #' @param cell_types_of_interest String Vector of cell types to consider.
 #' @param feature_colname String specifying which column the interested cell
@@ -13,8 +13,8 @@
 #' @examples
 #' spe_border <- identify_bordering_cells(SPIAT::defined_image,
 #' reference_cell = "Tumour", feature_colname = "Cell.Type", n_to_exclude = 10)
-#' spe_dist <- calculate_distance_to_tumour_margin(spe_border)
-#' spe_structure <- define_structure(spe_dist, names_of_immune_cells =
+#' spe_dist <- calculate_distance_to_margin(spe_border)
+#' spe_structure <- define_structure(spe_dist, cell_types_of_interest =
 #' c("Immune1","Immune2","Immune3"), feature_colname = "Cell.Type",
 #' n_margin_layers = 5)
 #' calculate_summary_distances_of_cells_to_borders(spe_structure,
@@ -66,7 +66,7 @@ calculate_summary_distances_of_cells_to_borders <- function(
     
     sum_d <- summarise_dist(data_of_interest_in)
     
-    df <-  rbind(df, c("All_cell_types_of_interest", "Tumor_area", sum_d))
+    df <-  rbind(df, c("All_cell_types_of_interest", "Within_border_area", sum_d))
     ##### data out #####
     data_of_interest_out <- 
         data[which((data[[feature_colname]] %in% cell_types_of_interest) 
@@ -81,7 +81,7 @@ calculate_summary_distances_of_cells_to_borders <- function(
                                               (data$Region == "Inside")),]
         sum_d <- summarise_dist(data_of_interest_in)
         
-        df <-  rbind(df, c(type, "Tumor_area", sum_d))
+        df <-  rbind(df, c(type, "Within_border_area", sum_d))
         ##### data out #####
         data_of_interest_out <- data[which((data[[feature_colname]] %in% type) &
                                                (data$Region == "Outside")),]

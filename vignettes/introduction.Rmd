@@ -1169,13 +1169,18 @@ gradient_results <- entropy_gradient_aggregated(defined_image, cell_types_of_int
 plot(1:10,gradient_results$gradient_df[1, 3:12])
 ```
 
-## Characterising the immune microenvironment relative to the tumour margin
+## Characterising the distribution of the cells of interest in identified tissue regions
 
-In certain analysis the focus is understanding the spatial distribution
-of immune populations relative to the tumour margin. SPIAT includes
-methods to determine whether there is a clear tumour margin, to
-automatically identify the tumour margin, and finally to quantify the
-proportion of immune populations relative to the margin.
+In certain analysis the focus is to understand the spatial distribution
+of a certain type of cell populations relative to the tissue regions.
+
+One example of this functionality is to characterise the immune population in 
+tumour structures. The following analysis will focus on the tumour/immune 
+example, including determining whether there is a clear tumour margin,
+automatically identifying the tumour margin, and finally quantifying the
+proportion of immune populations relative to the margin. **However, these analyses**
+**can also be generalised to other tissue and cell types.**
+
 
 ### Determining whether there is a clear tumour margin
 
@@ -1192,11 +1197,11 @@ is high when there is a disproportional high number of tumour mangin
 cells compared to internal tumour cells.
 
 ```{r, fig.width = 2.7, fig.height = 3}
-R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
+R_BC(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")
 ```
 
 The result is
-`r R_BT(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`.
+`r R_BC(formatted_image, cell_type_of_interest = "Tumour", "Cell.Type")`.
 This low value means there are relatively low number of bordering cells
 compared to total tumour cells, meaning that this image has clear tumour
 margins.
@@ -1232,7 +1237,7 @@ knitr::include_graphics("tumour-structure.jpg")
 First, we calculate the distance of cells to the tumour margin.
 
 ```{r}
-formatted_distance <- calculate_distance_to_tumour_margin(formatted_border)
+formatted_distance <- calculate_distance_to_margin(formatted_border)
 ```
 
 Next, we classify cells based on their location. As a distance cutoff,
@@ -1245,7 +1250,7 @@ of cell layers to increase/decrease the margin width.
 names_of_immune_cells <- c("Immune1", "Immune2","Immune3")
 
 formatted_structure <- define_structure(
-  formatted_distance, names_of_immune_cells = names_of_immune_cells, 
+  formatted_distance, cell_types_of_interest = names_of_immune_cells, 
   feature_colname = "Cell.Type", n_margin_layers = 5)
 
 categories <- unique(formatted_structure$Structure)
