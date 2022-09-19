@@ -11,16 +11,16 @@ test_that("functions in cross K family work", {
         defined_image, method = "Kcross",
         cell_types_of_interest = c("Tumour","Immune3"),
         feature_colname ="Cell.Type", dist = 100, plot_results = FALSE)
-     # test if the data strcure is "fv"
+     # test if the data structure is "fv"
     expect_s3_class(df_cross, "fv")   
     
     out <- data.frame(df_cross[10:12,])
     expect_equal(res, out, tolerance = 1e-4) # test if the results are the same
     
     ## AUC_of_cross_function()
-    res <- 0.07372796865617478601
+    res <- 0.051703
     out <- AUC_of_cross_function(df_cross)
-    expect_equal(res, out)
+    expect_equal(res, out, tolerance = 1e-4)
     
     ## crossing_of_crossK(df_cross)
     res <- 0.5
