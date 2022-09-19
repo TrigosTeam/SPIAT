@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">9 September 2022</h4>
+            <h4 data-toc-skip class="date">19 September 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -172,7 +172,7 @@
 <span>                                            phenotypes <span class="op">=</span> <span class="va">phenotypes</span>, </span>
 <span>                                            coord_x <span class="op">=</span> <span class="va">coord_x</span>,coord_y <span class="op">=</span> <span class="va">coord_y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Note: 4 rows removed due to NA intensity values.</span></span></code></pre></div>
-<p>Please note that some SPIAT functions (like <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>) require the constructed image object to have cell IDs as <code>rownames</code> of the colData and <code>colnames</code> of the intensity matrix. If no intensity matrix was provided, please follow this example to do so. <code>rownames(colData(object_name)) &lt;- paste("Cell", 1:nrow(colData(object_name)), sep="_")</code></p>
+<p>Please note that some SPIAT functions (like <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>) require the constructed image object to have cell IDs as <code>rownames</code> of the colData and <code>colnames</code> of the intensity matrix. If no intensity matrix was provided, please follow this example to do so. <code>rownames(colData(object_name)) &lt;- paste("Cell", 1:nrow(colData(object_name)), sep="_")</code>. Without intensity matrix, users can proceed with the analyses with functions in SPIAT, except the ones that require marker intensities as input.</p>
 <p>The formatted image now contains phenotypes, locations, and marker intensity information of 3 cells. Note that if users want to define cell IDs, the cell IDs should be defined as the colnames of the intensity matrix. The order of the rows of the metadata should correspond to the order of the colnames of the intensity matrix. The function will automatically assign rownames to the <code><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords()</a></code> and <code>colData()</code> of the image (now as a <code>spatialExperiment</code> object).</p>
 <p>Use the following code to inspect the information.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -881,16 +881,17 @@
 </div>
 </div>
 <div class="section level3">
-<h3 id="characterising-the-immune-microenvironment-relative-to-the-tumour-margin">Characterising the immune microenvironment relative to the tumour margin<a class="anchor" aria-label="anchor" href="#characterising-the-immune-microenvironment-relative-to-the-tumour-margin"></a>
+<h3 id="characterising-the-distribution-of-the-cells-of-interest-in-identified-tissue-regions">Characterising the distribution of the cells of interest in identified tissue regions<a class="anchor" aria-label="anchor" href="#characterising-the-distribution-of-the-cells-of-interest-in-identified-tissue-regions"></a>
 </h3>
-<p>In certain analysis the focus is understanding the spatial distribution of immune populations relative to the tumour margin. SPIAT includes methods to determine whether there is a clear tumour margin, to automatically identify the tumour margin, and finally to quantify the proportion of immune populations relative to the margin.</p>
+<p>In certain analysis the focus is to understand the spatial distribution of a certain type of cell populations relative to the tissue regions.</p>
+<p>One example of this functionality is to characterise the immune population in tumour structures. The following analysis will focus on the tumour/immune example, including determining whether there is a clear tumour margin, automatically identifying the tumour margin, and finally quantifying the proportion of immune populations relative to the margin. <strong>However, these analyses</strong> <strong>can also be generalised to other tissue and cell types.</strong></p>
 <div class="section level4">
 <h4 id="determining-whether-there-is-a-clear-tumour-margin">Determining whether there is a clear tumour margin<a class="anchor" aria-label="anchor" href="#determining-whether-there-is-a-clear-tumour-margin"></a>
 </h4>
 <p>In some instances tumour cells are distributed in such a way that there are no clear tumour margins. While this can be derived intuitively in most cases, SPIAT offers a way of quantifying the ‘quality’ of the margin for downstream analyses. This is meant to be used to help flag images with relatively poor margins, and therefore we do not offer a cutoff value.</p>
 <p>To determine if there is a clear tumour margin, SPIAT can calculate the ratio of tumour bordering cells to tumour total cells (R-BT). This ratio is high when there is a disproportional high number of tumour mangin cells compared to internal tumour cells.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/R_BT.html">R_BT</a></span><span class="op">(</span><span class="va">formatted_image</span>, cell_type_of_interest <span class="op">=</span> <span class="st">"Tumour"</span>, <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/R_BC.html">R_BC</a></span><span class="op">(</span><span class="va">formatted_image</span>, cell_type_of_interest <span class="op">=</span> <span class="st">"Tumour"</span>, <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-63-1.png" width="60%"></p>
 <pre><code><span><span class="co">#&gt; [1] 0.2014652</span></span></code></pre>
 <p>The result is 0.2014652. This low value means there are relatively low number of bordering cells compared to total tumour cells, meaning that this image has clear tumour margins.</p>
@@ -905,6 +906,11 @@
 <span>                                             feature_colname<span class="op">=</span><span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The alpha of Polygon is: 63.24375"</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-64-1.png" width="60%"></p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get the number of tumour clusters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">formatted_border</span>, <span class="st">"n_of_clusters"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<p>There are 3 tumour clusters in the image.</p>
 </div>
 <div class="section level4">
 <h4 id="classification-of-cells-based-on-their-locations-relative-to-the-margin">Classification of cells based on their locations relative to the margin<a class="anchor" aria-label="anchor" href="#classification-of-cells-based-on-their-locations-relative-to-the-margin"></a>
@@ -912,25 +918,25 @@
 <p>We can then define four locations relative to the margin based on distances: “Internal margin”, “External margin”, “Outside” and “Inside”. Specifically, we define the area within a specified distance to the margin as either “Internal margin” (bordering the margin, inside the tumour area) and “External margin” (bordering the margin, surrounding the tumour area). The areas located further away than the specified distance from the margin are defined as “Inside” (i.e. the tumour area) and “Outside” (i.e. the tumour area).</p>
 <p><img src="tumour-structure.jpg" width="75%"></p>
 <p>First, we calculate the distance of cells to the tumour margin.</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">formatted_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_distance_to_tumour_margin.html">calculate_distance_to_tumour_margin</a></span><span class="op">(</span><span class="va">formatted_border</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">formatted_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_distance_to_margin.html">calculate_distance_to_margin</a></span><span class="op">(</span><span class="va">formatted_border</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Markers had been selected in minimum distance calculation: "</span></span>
 <span><span class="co">#&gt; [1] "Non-border" "Border"</span></span></code></pre></div>
 <p>Next, we classify cells based on their location. As a distance cutoff, we use a distance of 5 cells from the tumour margin. The function first calculates the average minimum distance between all pairs of nearest cells and then multiples this number by 5. Users can change the number of cell layers to increase/decrease the margin width.</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">names_of_immune_cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>, <span class="st">"Immune2"</span>,<span class="st">"Immune3"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">formatted_structure</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_structure.html">define_structure</a></span><span class="op">(</span></span>
-<span>  <span class="va">formatted_distance</span>, names_of_immune_cells <span class="op">=</span> <span class="va">names_of_immune_cells</span>, </span>
+<span>  <span class="va">formatted_distance</span>, cell_types_of_interest <span class="op">=</span> <span class="va">names_of_immune_cells</span>, </span>
 <span>  feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span>, n_margin_layers <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">formatted_structure</span><span class="op">$</span><span class="va">Structure</span><span class="op">)</span></span></code></pre></div>
 <p>We can plot and colour these structure categories.</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_cell_categories.html">plot_cell_categories</a></span><span class="op">(</span><span class="va">formatted_structure</span>, feature_colname <span class="op">=</span> <span class="st">"Structure"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-68-1.png" width="90%"></p>
-<p>We can also calculate the proportions of immune cells in each of the locations.</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_cell_categories.html">plot_cell_categories</a></span><span class="op">(</span><span class="va">formatted_structure</span>, feature_colname <span class="op">=</span> <span class="st">"Structure"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-69-1.png" width="90%"></p>
+<p>We can also calculate the proportions of immune cells in each of the locations.</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">immune_proportions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_proportions_of_cells_in_structure.html">calculate_proportions_of_cells_in_structure</a></span><span class="op">(</span></span>
 <span>  spe_object <span class="op">=</span> <span class="va">formatted_structure</span>, </span>
 <span>  cell_types_of_interest <span class="op">=</span> <span class="va">names_of_immune_cells</span>, feature_colname <span class="op">=</span><span class="st">"Cell.Type"</span><span class="op">)</span></span>
@@ -947,53 +953,42 @@
 <span><span class="co">#&gt; 8                Immune2  The_same_cell_type_in_the_whole_image</span></span>
 <span><span class="co">#&gt; 9                Immune3  The_same_cell_type_in_the_whole_image</span></span>
 <span><span class="co">#&gt; 10 All_cells_of_interest             All_cells_in_the_structure</span></span>
-<span><span class="co">#&gt;    P.Infiltrated.Immune P.Internal.Margin.Immune P.External.Margin.Immune</span></span>
-<span><span class="co">#&gt; 1            0.00000000               0.00000000              0.001733102</span></span>
-<span><span class="co">#&gt; 2            0.00000000               0.00000000              0.001733102</span></span>
-<span><span class="co">#&gt; 3            0.12576687               0.08071749              0.681109185</span></span>
-<span><span class="co">#&gt; 4            0.00000000               0.00000000              0.002531646</span></span>
-<span><span class="co">#&gt; 5            0.00000000               0.00000000              0.002531646</span></span>
-<span><span class="co">#&gt; 6            1.00000000               1.00000000              0.994936709</span></span>
-<span><span class="co">#&gt; 7            0.00000000               0.00000000              0.002958580</span></span>
-<span><span class="co">#&gt; 8            0.00000000               0.00000000              0.005617978</span></span>
-<span><span class="co">#&gt; 9            0.06507937               0.05714286              0.623809524</span></span>
-<span><span class="co">#&gt; 10           0.14385965               0.08780488              2.170329670</span></span>
-<span><span class="co">#&gt;    P.Stromal.Immune</span></span>
-<span><span class="co">#&gt; 1        0.09658928</span></span>
-<span><span class="co">#&gt; 2        0.05073087</span></span>
-<span><span class="co">#&gt; 3        0.04585841</span></span>
-<span><span class="co">#&gt; 4        0.50000000</span></span>
-<span><span class="co">#&gt; 5        0.26261128</span></span>
-<span><span class="co">#&gt; 6        0.23738872</span></span>
-<span><span class="co">#&gt; 7        0.99704142</span></span>
-<span><span class="co">#&gt; 8        0.99438202</span></span>
-<span><span class="co">#&gt; 9        0.25396825</span></span>
-<span><span class="co">#&gt; 10       0.23943162</span></span></code></pre></div>
+<span><span class="co">#&gt;    P.Infiltrated.CoI P.Internal.Margin.CoI P.External.Margin.CoI P.Stromal.CoI</span></span>
+<span><span class="co">#&gt; 1         0.00000000            0.00000000           0.001733102    0.09658928</span></span>
+<span><span class="co">#&gt; 2         0.00000000            0.00000000           0.001733102    0.05073087</span></span>
+<span><span class="co">#&gt; 3         0.12576687            0.08071749           0.681109185    0.04585841</span></span>
+<span><span class="co">#&gt; 4         0.00000000            0.00000000           0.002531646    0.50000000</span></span>
+<span><span class="co">#&gt; 5         0.00000000            0.00000000           0.002531646    0.26261128</span></span>
+<span><span class="co">#&gt; 6         1.00000000            1.00000000           0.994936709    0.23738872</span></span>
+<span><span class="co">#&gt; 7         0.00000000            0.00000000           0.002958580    0.99704142</span></span>
+<span><span class="co">#&gt; 8         0.00000000            0.00000000           0.005617978    0.99438202</span></span>
+<span><span class="co">#&gt; 9         0.06507937            0.05714286           0.623809524    0.25396825</span></span>
+<span><span class="co">#&gt; 10        0.14385965            0.08780488           2.170329670    0.23943162</span></span></code></pre></div>
 <p>Finally, we can calculate summaries of the distances for immune cells in the tumour structure.</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">immune_distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_summary_distances_of_cells_to_borders.html">calculate_summary_distances_of_cells_to_borders</a></span><span class="op">(</span></span>
 <span>  spe_object <span class="op">=</span> <span class="va">formatted_structure</span>, </span>
 <span>  cell_types_of_interest <span class="op">=</span> <span class="va">names_of_immune_cells</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">immune_distances</span></span>
-<span><span class="co">#&gt;                    Cell.Type       Area    Min_d    Max_d    Mean_d  Median_d</span></span>
-<span><span class="co">#&gt; 1 All_cell_types_of_interest Tumor_area 10.93225 192.4094  86.20042  88.23299</span></span>
-<span><span class="co">#&gt; 2 All_cell_types_of_interest     Stroma 10.02387 984.0509 218.11106 133.18220</span></span>
-<span><span class="co">#&gt; 3                    Immune1 Tumor_area       NA       NA        NA        NA</span></span>
-<span><span class="co">#&gt; 4                    Immune1     Stroma 84.20018 970.7749 346.14096 301.01535</span></span>
-<span><span class="co">#&gt; 5                    Immune2 Tumor_area       NA       NA        NA        NA</span></span>
-<span><span class="co">#&gt; 6                    Immune2     Stroma 79.42753 984.0509 333.26374 284.09062</span></span>
-<span><span class="co">#&gt; 7                    Immune3 Tumor_area 10.93225 192.4094  86.20042  88.23299</span></span>
-<span><span class="co">#&gt; 8                    Immune3     Stroma 10.02387 971.5638 102.79227  68.19218</span></span>
-<span><span class="co">#&gt;    St.dev_d</span></span>
-<span><span class="co">#&gt; 1  45.27414</span></span>
-<span><span class="co">#&gt; 2 199.87586</span></span>
-<span><span class="co">#&gt; 3        NA</span></span>
-<span><span class="co">#&gt; 4 187.04247</span></span>
-<span><span class="co">#&gt; 5        NA</span></span>
-<span><span class="co">#&gt; 6 185.67518</span></span>
-<span><span class="co">#&gt; 7  45.27414</span></span>
-<span><span class="co">#&gt; 8 131.32714</span></span></code></pre></div>
+<span><span class="co">#&gt;                    Cell.Type               Area    Min_d    Max_d    Mean_d</span></span>
+<span><span class="co">#&gt; 1 All_cell_types_of_interest Within_border_area 10.93225 192.4094  86.20042</span></span>
+<span><span class="co">#&gt; 2 All_cell_types_of_interest             Stroma 10.02387 984.0509 218.11106</span></span>
+<span><span class="co">#&gt; 3                    Immune1 Within_border_area       NA       NA        NA</span></span>
+<span><span class="co">#&gt; 4                    Immune1             Stroma 84.20018 970.7749 346.14096</span></span>
+<span><span class="co">#&gt; 5                    Immune2 Within_border_area       NA       NA        NA</span></span>
+<span><span class="co">#&gt; 6                    Immune2             Stroma 79.42753 984.0509 333.26374</span></span>
+<span><span class="co">#&gt; 7                    Immune3 Within_border_area 10.93225 192.4094  86.20042</span></span>
+<span><span class="co">#&gt; 8                    Immune3             Stroma 10.02387 971.5638 102.79227</span></span>
+<span><span class="co">#&gt;    Median_d  St.dev_d</span></span>
+<span><span class="co">#&gt; 1  88.23299  45.27414</span></span>
+<span><span class="co">#&gt; 2 133.18220 199.87586</span></span>
+<span><span class="co">#&gt; 3        NA        NA</span></span>
+<span><span class="co">#&gt; 4 301.01535 187.04247</span></span>
+<span><span class="co">#&gt; 5        NA        NA</span></span>
+<span><span class="co">#&gt; 6 284.09062 185.67518</span></span>
+<span><span class="co">#&gt; 7  88.23299  45.27414</span></span>
+<span><span class="co">#&gt; 8  68.19218 131.32714</span></span></code></pre></div>
 <p>Note that for cell types that are not present in a tumour structure, there will be NAs in the results.</p>
 </div>
 </div>
@@ -1011,43 +1006,43 @@
 <p>For <em>Hierarchical Clustering algorithm</em> and <em>dbscan</em>, users need to specify a radius that defines the distance for an interaction. We suggest users to test different radii and select the one that generates intuitive clusters upon visualisation. Cells not assigned to clusters are assigned as <code>Cluster_NA</code> in the output table. The argument <code>min_neighborhood_size</code> specifies the threshold of a neighborhood size to be considered as a neighborhood. Smaller neighbourhoods will be outputted, but will not be assigned a number.</p>
 <p><em>Rphenograph</em> uses the number of nearest neighbours to detect clusters. This number should be specified by <code>min_neighborhood_size</code> argument. We also encourage users to test different values.</p>
 <p>For this part of the tutorial, we will use the image <code>image_no_markers</code> simulated with the <code>spaSim</code> package. This image contains “Tumour”, “Immune”, “Immune1” and “Immune2” cells without marker intensities.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"image_no_markers"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot_cell_categories.html">plot_cell_categories</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Immune"</span>,<span class="st">"Immune1"</span>,<span class="st">"Immune2"</span>,<span class="st">"Others"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span>,<span class="st">"darkgreen"</span>, <span class="st">"brown"</span>,<span class="st">"lightgray"</span><span class="op">)</span>, <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-71-1.png" width="75%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-72-1.png" width="75%"></p>
 <p>Users are recommended to test out different radii and then visualise the clustering results. To aid in this process, users can use the <code><a href="../reference/average_minimum_distance.html">average_minimum_distance()</a></code> function, which calculates the average minimum distance between all cells in an image, and can be used as a starting point.</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_minimum_distance.html">average_minimum_distance</a></span><span class="op">(</span><span class="va">image_no_markers</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 17.01336</span></span></code></pre></div>
 <p>We then identify the cellular neighbourhoods using our heirarchical algorithm with a radius of 50, and with a minimum neighbourhood size of 100. Cells assigned to neighbourhoods smaller than 100 will be assigned to the “Cluster_NA” neighbourhood.</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/identify_neighborhoods.html">identify_neighborhoods</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, method <span class="op">=</span> <span class="st">"hierarchical"</span>, min_neighborhood_size <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune"</span>, <span class="st">"Immune1"</span>, <span class="st">"Immune2"</span><span class="op">)</span>, radius <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>  feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-73-1.png" width="60%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-74-1.png" width="60%"></p>
 <p>This plot shows clusters of “Immune”, “Immune1” and “Immune2” cells. Each number and colour corresponds to a distinct cluster. Black cells correspond to ‘free’, un-clustered cells.</p>
 <p>We can visualise the cell composition of neighborhoods. To do this, we can use <code><a href="../reference/composition_of_neighborhoods.html">composition_of_neighborhoods()</a></code> to obtain the percentages of cells with a specific marker within each neighborhood and the number of cells in the neighborhood.</p>
 <p>In this example we select cellular neighbourhoods with at least 5 cells.</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">neighorhoods_vis</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/composition_of_neighborhoods.html">composition_of_neighborhoods</a></span><span class="op">(</span><span class="va">clusters</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span><span class="va">neighorhoods_vis</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">neighorhoods_vis</span><span class="op">[</span><span class="va">neighorhoods_vis</span><span class="op">$</span><span class="va">Total_number_of_cells</span> <span class="op">&gt;=</span><span class="fl">5</span>,<span class="op">]</span></span></code></pre></div>
 <p>Finally, we can use <code><a href="../reference/plot_composition_heatmap.html">plot_composition_heatmap()</a></code> to produce a heatmap showing the marker percentages within each cluster, which can be used to classify the derived neighbourhoods.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_composition_heatmap.html">plot_composition_heatmap</a></span><span class="op">(</span><span class="va">neighorhoods_vis</span>, feature_colname<span class="op">=</span><span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-75-1.png" width="70%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-76-1.png" width="70%"></p>
 <p>This plot shows that Cluster_1 and Cluster_2 contain all three types of immune cells. Cluster_3 does not have Immune1 cells. Cluster_1 and Cluster_2 are more similar to the free cells (cells not assigned to clusters) in their composition than Cluster_3.</p>
 <div class="section level4">
 <h4 id="average-nearest-neighbour-index-anni">Average Nearest Neighbour Index (ANNI)<a class="anchor" aria-label="anchor" href="#average-nearest-neighbour-index-anni"></a>
 </h4>
 <p>We can test for the presence of neighbourhoods using ANNI. We can calculate the ANNI with the function <code><a href="../reference/average_nearest_neighbor_index.html">average_nearest_neighbor_index()</a></code>, which takes one cell type of interest (e.g. <code>Cluster_1</code> under <code>Neighborhood</code> column of <code>clusters</code> object) or a combinations of cell types (e.g. <code>Immune1</code> and <code>Immune2</code> cells under <code>Cell.Type</code> column of <code>image_no_markers</code> object) and outputs whether there is a clear neighbourhood (clustered) or unclear (dispersed/random), along with a P value for the estimate.</p>
 <p>Here show the examples for both one cell type and multiple cell types.</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_nearest_neighbor_index.html">average_nearest_neighbor_index</a></span><span class="op">(</span><span class="va">clusters</span>, reference_celltypes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cluster_1"</span><span class="op">)</span>, </span>
 <span>                               feature_colname<span class="op">=</span><span class="st">"Neighborhood"</span>, p_val <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $pattern</span></span>
@@ -1055,7 +1050,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`p-value`</span></span>
 <span><span class="co">#&gt; [1] 2.623132e-68</span></span></code></pre></div>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_nearest_neighbor_index.html">average_nearest_neighbor_index</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, reference_celltypes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune"</span>, <span class="st">"Immune1"</span> , <span class="st">"Immune2"</span><span class="op">)</span>, </span>
 <span>  feature_colname<span class="op">=</span><span class="st">"Cell.Type"</span>, p_val <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
@@ -1071,7 +1066,7 @@
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
 </h2>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
@@ -1092,7 +1087,7 @@
 <span><span class="co">#&gt; [8] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] SPIAT_0.99.4                SpatialExperiment_1.6.1    </span></span>
+<span><span class="co">#&gt;  [1] SPIAT_0.99.5                SpatialExperiment_1.6.1    </span></span>
 <span><span class="co">#&gt;  [3] SingleCellExperiment_1.18.0 SummarizedExperiment_1.26.1</span></span>
 <span><span class="co">#&gt;  [5] Biobase_2.56.0              GenomicRanges_1.48.0       </span></span>
 <span><span class="co">#&gt;  [7] GenomeInfoDb_1.32.4         IRanges_2.30.1             </span></span>
@@ -1111,12 +1106,12 @@
 <span><span class="co">#&gt;  [15] fansi_1.0.3               magrittr_2.0.3           </span></span>
 <span><span class="co">#&gt;  [17] memoise_2.0.1             cluster_2.1.4            </span></span>
 <span><span class="co">#&gt;  [19] doParallel_1.0.17         tensor_1.5               </span></span>
-<span><span class="co">#&gt;  [21] tzdb_0.3.0                limma_3.52.2             </span></span>
+<span><span class="co">#&gt;  [21] tzdb_0.3.0                limma_3.52.3             </span></span>
 <span><span class="co">#&gt;  [23] ComplexHeatmap_2.12.1     R.utils_2.12.0           </span></span>
 <span><span class="co">#&gt;  [25] vroom_1.5.7               pkgdown_2.0.6            </span></span>
 <span><span class="co">#&gt;  [27] spatstat.sparse_2.1-1     colorspace_2.0-3         </span></span>
 <span><span class="co">#&gt;  [29] ggrepel_0.9.1             textshaping_0.3.6        </span></span>
-<span><span class="co">#&gt;  [31] xfun_0.32                 dplyr_1.0.10             </span></span>
+<span><span class="co">#&gt;  [31] xfun_0.33                 dplyr_1.0.10             </span></span>
 <span><span class="co">#&gt;  [33] crayon_1.5.1              RCurl_1.98-1.8           </span></span>
 <span><span class="co">#&gt;  [35] jsonlite_1.8.0            spatstat.data_2.2-0      </span></span>
 <span><span class="co">#&gt;  [37] iterators_1.0.14          glue_1.6.2               </span></span>
@@ -1157,20 +1152,20 @@
 <span><span class="co">#&gt; [107] spatstat.utils_2.3-1      tibble_3.1.8             </span></span>
 <span><span class="co">#&gt; [109] bslib_0.4.0               stringi_1.7.8            </span></span>
 <span><span class="co">#&gt; [111] highr_0.9                 desc_1.4.2               </span></span>
-<span><span class="co">#&gt; [113] lattice_0.20-45           Matrix_1.4-1             </span></span>
+<span><span class="co">#&gt; [113] lattice_0.20-45           Matrix_1.5-1             </span></span>
 <span><span class="co">#&gt; [115] vctrs_0.4.1               pillar_1.8.1             </span></span>
-<span><span class="co">#&gt; [117] lifecycle_1.0.1           rhdf5filters_1.8.0       </span></span>
+<span><span class="co">#&gt; [117] lifecycle_1.0.2           rhdf5filters_1.8.0       </span></span>
 <span><span class="co">#&gt; [119] BiocManager_1.30.18       GlobalOptions_0.1.2      </span></span>
 <span><span class="co">#&gt; [121] spatstat.geom_2.4-0       jquerylib_0.1.4          </span></span>
 <span><span class="co">#&gt; [123] cowplot_1.1.1             data.table_1.14.2        </span></span>
-<span><span class="co">#&gt; [125] bitops_1.0-7              raster_3.5-29            </span></span>
-<span><span class="co">#&gt; [127] R6_2.5.1                  bookdown_0.28            </span></span>
+<span><span class="co">#&gt; [125] bitops_1.0-7              raster_3.6-3             </span></span>
+<span><span class="co">#&gt; [127] R6_2.5.1                  bookdown_0.29            </span></span>
 <span><span class="co">#&gt; [129] gridExtra_2.3             codetools_0.2-18         </span></span>
 <span><span class="co">#&gt; [131] gtools_3.9.3              assertthat_0.2.1         </span></span>
 <span><span class="co">#&gt; [133] rhdf5_2.40.0              rprojroot_2.0.3          </span></span>
 <span><span class="co">#&gt; [135] rjson_0.2.21              GenomeInfoDbData_1.2.8   </span></span>
 <span><span class="co">#&gt; [137] mgcv_1.8-40               parallel_4.2.1           </span></span>
-<span><span class="co">#&gt; [139] terra_1.6-7               grid_4.2.1               </span></span>
+<span><span class="co">#&gt; [139] terra_1.6-17              grid_4.2.1               </span></span>
 <span><span class="co">#&gt; [141] rpart_4.1.16              beachmat_2.12.0          </span></span>
 <span><span class="co">#&gt; [143] tidyr_1.2.1               rmarkdown_2.16           </span></span>
 <span><span class="co">#&gt; [145] DelayedMatrixStats_1.18.0 Rtsne_0.16               </span></span>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,29 @@
       <small>Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.99.5" id="spiat-0995">SPIAT 0.99.5<a class="anchor" aria-label="anchor" href="#spiat-0995"></a></h2>
+<p>SIGNIFICANT USER-VISIBLE CHANGES</p>
+<ul><li>Generalised functions in tumour structure families to suit other tissue and cell types, not restricted to tumour and immune cells. The affected functions include:<ol style="list-style-type: decimal"><li>
+<code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code> - deleted “tumour” from the plot title;</li>
+<li>
+<code><a href="../reference/plot_cell_categories.html">plot_cell_categories()</a></code> - cell categories changed to not contain “immune” when <code>feature_colname == "Structure"</code>;</li>
+<li>
+<code>calculate_distance_to_tumour_margin()</code> renamed to <code><a href="../reference/calculate_distance_to_margin.html">calculate_distance_to_margin()</a></code>;</li>
+<li>
+<code>R_BT()</code> renamed to <code><a href="../reference/R_BC.html">R_BC()</a></code>;</li>
+<li>
+<code><a href="../reference/calculate_summary_distances_of_cells_to_borders.html">calculate_summary_distances_of_cells_to_borders()</a></code> - one column in the returned data frame has name change;</li>
+<li>
+<code>defined_strcture()</code> - parameter <code>name_of_immune_cells</code> renamed to <code>cell_types_of_interest</code>;</li>
+</ol></li>
+<li>
+<code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code> can return the number of clusters of the specified cell type.</li>
+</ul><p>BUG FIXES</p>
+<ul><li>Fixed the calculation of the normalised cross-K AUC in <code>AUC_of_cross_funcion()</code>.</li>
+<li>
+<code>identify_neighborhood()</code> returns an SPE object instead of sending <code>ERROR</code> when the cells of interest do no form any clusters.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.99.4" id="spiat-0994">SPIAT 0.99.4<a class="anchor" aria-label="anchor" href="#spiat-0994"></a></h2>
 <p>BUG FIXES</p>

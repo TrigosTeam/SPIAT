@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>spe_object</dt>
 <dd><p>SpatialExperiment object. It should contain information of
-tumour structure and cell distances to tumour border (`colData()` has
+tissue structure and cell distances to the tissue region border (`colData()` has
 `Region` and `Distance.To.Border` columns).</p></dd>
 
 
@@ -97,28 +97,28 @@ types are from.</p></dd>
 <span class="r-in"><span>reference_cell <span class="op">=</span> <span class="st">"Tumour"</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span>, n_to_exclude <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The alpha of Polygon is: 63.24375"</span>
 <span class="r-plt img"><img src="calculate_summary_distances_of_cells_to_borders-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">spe_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_distance_to_tumour_margin.html">calculate_distance_to_tumour_margin</a></span><span class="op">(</span><span class="va">spe_border</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">spe_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_distance_to_margin.html">calculate_distance_to_margin</a></span><span class="op">(</span><span class="va">spe_border</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Markers had been selected in minimum distance calculation: "</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Non-border" "Border"    </span>
-<span class="r-in"><span><span class="va">spe_structure</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_structure.html">define_structure</a></span><span class="op">(</span><span class="va">spe_dist</span>, names_of_immune_cells <span class="op">=</span></span></span>
+<span class="r-in"><span><span class="va">spe_structure</span> <span class="op">&lt;-</span> <span class="fu"><a href="define_structure.html">define_structure</a></span><span class="op">(</span><span class="va">spe_dist</span>, cell_types_of_interest <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>,<span class="st">"Immune2"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span>,</span></span>
 <span class="r-in"><span>n_margin_layers <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">calculate_summary_distances_of_cells_to_borders</span><span class="op">(</span><span class="va">spe_structure</span>,</span></span>
 <span class="r-in"><span>cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune1"</span>,<span class="st">"Immune3"</span><span class="op">)</span>,feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    Cell.Type       Area    Min_d    Max_d    Mean_d  Median_d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 All_cell_types_of_interest Tumor_area 10.93225 192.4094  86.20042  88.23299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 All_cell_types_of_interest     Stroma 10.02387 971.5638 195.10637 101.95113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    Immune1 Tumor_area       NA       NA        NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    Immune1     Stroma 84.20018 970.7749 346.14096 301.01535</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    Immune3 Tumor_area 10.93225 192.4094  86.20042  88.23299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                    Immune3     Stroma 10.02387 971.5638 102.79227  68.19218</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    St.dev_d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  45.27414</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 194.68507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 187.04247</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  45.27414</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 131.32714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Cell.Type               Area    Min_d    Max_d    Mean_d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 All_cell_types_of_interest Within_border_area 10.93225 192.4094  86.20042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 All_cell_types_of_interest             Stroma 10.02387 971.5638 195.10637</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    Immune1 Within_border_area       NA       NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    Immune1             Stroma 84.20018 970.7749 346.14096</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    Immune3 Within_border_area 10.93225 192.4094  86.20042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                    Immune3             Stroma 10.02387 971.5638 102.79227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Median_d  St.dev_d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  88.23299  45.27414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 101.95113 194.68507</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 301.01535 187.04247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  88.23299  45.27414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  68.19218 131.32714</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
