@@ -40,7 +40,9 @@ cluster. Need to specify when `method` is "hierarchical" or "dbscan".}
 }
 \value{
 An spe object and a plot is returned. The spe object contains
-  information of the defined neighborhood
+  information of the defined neighborhood under "Neighborhood" column. The
+  cells of interest that do not form clusters are labelled "Free_cell", cells
+  not of interest are labelled `NA`.
 }
 \description{
 Uses Euclidean distances to identify neighborhoods of cells.
