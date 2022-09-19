@@ -20,8 +20,8 @@ AUC_of_cross_function <- function(df.cross){
         pracma::trapz(df.cross$r,df.cross$theo)
     
     # get the cross k result image size
-    X <- max(df.cross$theo)
-    Y <- max(df.cross$r)
+    X <- max(df.cross$r)
+    Y <- max(c(df.cross$theo, df.cross$border))
     
     # calculate normalised AUC
     n_AUC <- AUC/(X*Y)
