@@ -1,3 +1,24 @@
+# SPIAT 0.99.5
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Generalised functions in tumour structure families to suit other tissue and cell
+types, not restricted to tumour and immune cells. The affected functions include:
+    1. `identify_bordering_cells()` - deleted "tumour" from the plot title;
+    2. `plot_cell_categories()` - cell categories changed to not contain "immune" when `feature_colname == "Structure"`;
+    3. `calculate_distance_to_tumour_margin()` renamed to `calculate_distance_to_margin()`;
+    4. `R_BT()` renamed to `R_BC()`;
+    5. `calculate_summary_distances_of_cells_to_borders()` - one column in the returned data frame has name change;
+    6. `defined_strcture()` - parameter `name_of_immune_cells` renamed to `cell_types_of_interest`;
+* `identify_bordering_cells()` can return the number of clusters of the 
+specified cell type.
+
+BUG FIXES
+
+* Fixed the calculation of the normalised cross-K AUC in `AUC_of_cross_funcion()`.
+* `identify_neighborhood()` returns an SPE object instead of sending `ERROR` 
+when the cells of interest do no form any clusters.
+
 # SPIAT 0.99.4
 
 BUG FIXES
