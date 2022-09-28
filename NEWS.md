@@ -1,3 +1,17 @@
+# SPIAT 0.99.6
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* `identify_bordering_cells()` emit Warning when no bordering cells are detected.
+
+BUG FIXES
+
+* Fixed the message displayed for NA removal when formatting image using 
+"general" format.
+* Fixed plot functions to display only one plot. `plot_marker_level_heatmap()`, 
+and `plot_distance_heatmap()`.
+
+
 # SPIAT 0.99.5
 
 SIGNIFICANT USER-VISIBLE CHANGES
