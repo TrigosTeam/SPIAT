@@ -4,7 +4,8 @@ remove_intensity_na <- function(intensity_columns) {
     intensity_columns <- stats::na.omit(intensity_columns)
     n_after <- nrow(intensity_columns)
     n <- n_before - n_after
-    message(sprintf("Note: %i rows removed due to NA intensity values.",n))
+    if (n !=0) {
+        message(sprintf("Note: %i rows removed due to NA intensity values.",n))}
     return(intensity_columns)
 }
 
