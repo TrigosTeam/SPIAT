@@ -165,12 +165,13 @@ identify_bordering_cells <- function(spe_object, reference_cell,
     # plot and return #####
     SummarizedExperiment::colData(spe_object)$Region <- data[,"Region"]
     # check if bordering cells are detected and if plot the border
-    if (dim(data[which(data$Region=="Border"),])[1]!=0 & 
-        isTRUE(plot_final_border)){
-        plot(data[which(data$Region=="Border"), 
-                  c("Cell.X.Position","Cell.Y.Position")], 
-             pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
-                                               "bordering cells"))
+    if (dim(data[which(data$Region=="Border"),])[1]!=0){
+        warning("There are no bordering cells detected when alpha = ", ahull_alpha)
+        if (isTRUE(plot_final_border)){
+            plot(data[which(data$Region=="Border"), 
+                      c("Cell.X.Position","Cell.Y.Position")], 
+                 pch = 19, cex = 0.3, main = paste(attr(spe_object, "name"),
+                                                   "bordering cells"))}
     }
     # save the number of clusters identified
     attr(spe_object, "n_of_clusters") <- length(ahull_polygon)
