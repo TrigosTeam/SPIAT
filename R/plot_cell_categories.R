@@ -64,7 +64,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
             cat_idx <- match(category, categories_of_interest)
             categories_of_interest <- categories_of_interest[-cat_idx]
             colour_vector <- colour_vector[-cat_idx]
-            methods::show(paste(category, "cells were not found and not plotted", sep=""))
+            methods::show(paste(category, "cells were not found and not plotted", sep=" "))
         }
     }
     
@@ -99,6 +99,8 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
                            size = cex) 
         }
         p <- p +
+            theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                     panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
             scale_color_manual(breaks = all_categories, values=all_colours)
@@ -107,6 +109,8 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
         p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) +
             geom_point(aes_string(colour = feature_colname), size = cex)
         p <- p +
+            theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                     panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
             scale_color_manual(breaks = all_categories, values=all_colours)
