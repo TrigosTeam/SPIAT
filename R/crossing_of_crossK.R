@@ -1,7 +1,7 @@
 #' crossing_of_crossK
 #'
 #' @description Determine if there is a crossing in the cross K curves, to
-#'   further detect the existence of potential immune rings. 
+#'   further detect the existence of potential immune rings.
 #'
 #' @param df.cross Data.frame. The output of
 #'   \code{\link{calculate_cross_functions}}. Containing the positions of the
@@ -25,7 +25,7 @@ crossing_of_crossK <- function(df.cross){
     if (length(ix) == 1 && ix/n > 0.04){
         methods::show("Crossing of cross K function is detected for this image, indicating a potential immune ring.")
         perc <- round(ix/n *100,2)
-        methods::show(paste("The crossing happens at the", 
+        methods::show(paste("The crossing happens at the ",
                    perc, "% of the specified distance.", sep = ""))
     }
     else ix <- NA

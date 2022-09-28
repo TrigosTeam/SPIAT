@@ -20,6 +20,7 @@
 #'   positive markers has to be the same as the order in the assay.
 #'
 #' @export
+#' @import SpatialExperiment
 #' @param format String specifying the format of the data source. Default is
 #'   "general" (RECOMMENDED), where the cell phenotypes, coordinates and marker
 #'   intensities are imported manually by the user. Other formats include
@@ -80,16 +81,16 @@
 #' formatted_image <- format_image_to_spe(intensity_matrix=intensity_matrix,
 #' phenotypes = phenotypes, coord_x = coord_x,coord_y = coord_y)
 
-format_image_to_spe <- function(format = "general", intensity_matrix = NULL, 
-                                phenotypes = NULL, coord_x = NULL, 
-                                coord_y = NULL, path = NULL, markers = NULL, 
+format_image_to_spe <- function(format = "general", intensity_matrix = NULL,
+                                phenotypes = NULL, coord_x = NULL,
+                                coord_y = NULL, path = NULL, markers = NULL,
                                 locations = NULL,
-                                intensity_columns_interest = NULL, 
+                                intensity_columns_interest = NULL,
                                 dye_columns_interest = NULL,
                                 path_to_codex_cell_phenotypes = NULL){
     if (format == "general"){
         intensity_matrix <- remove_intensity_na(intensity_matrix)
-        
+
         metadata_columns <- data.frame(Phenotype = phenotypes,
                                        Cell.X.Position = coord_x,
                                        Cell.Y.Position = coord_y)
@@ -99,20 +100,20 @@ format_image_to_spe <- function(format = "general", intensity_matrix = NULL,
             spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
     } else if (format == "inForm") {
        spe <- format_inform_to_spe(path = path, markers = markers,
-                                   locations = locations, 
-                                   intensity_columns_interest = 
+                                   locations = locations,
+                                   intensity_columns_interest =
                                        intensity_columns_interest)
     }else if (format == "HALO"){
        spe <- format_halo_to_spe(path = path, markers = markers,
-                                 locations = locations, 
+                                 locations = locations,
                                  dye_columns_interest = dye_columns_interest,
-                                 intensity_columns_interest = 
+                                 intensity_columns_interest =
                                      intensity_columns_interest)
     } else if(format == "CODEX"){
-       spe <- format_codex_to_spe(path = path, markers = markers, 
+       spe <- format_codex_to_spe(path = path, markers = markers,
                  path_to_codex_cell_phenotypes = path_to_codex_cell_phenotypes)
     }else if(format == "cellprofiler") {
-       spe <- format_cellprofiler_to_spe(path = path, markers = markers, 
+       spe <- format_cellprofiler_to_spe(path = path, markers = markers,
                  intensity_columns_interest = intensity_columns_interest)
     } else { methods::show("Please entre a valid format!" )}
     return(spe)
