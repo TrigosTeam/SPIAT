@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">19 September 2022</h4>
+            <h4 data-toc-skip class="date">28 September 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -143,7 +143,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://trigosteam.github.io/SPIAT/">SPIAT</a></span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/format_image_to_spe.html">format_image_to_spe()</a></code> is the main function to read in data to SPIAT. <code><a href="../reference/format_image_to_spe.html">format_image_to_spe()</a></code> creates a <code>SpatialExperiment</code> object which is used in all subsequent functions. The key data points of interest for SPIAT are cell coordinates, marker intensities and cell phenotypes for each cell.</p>
-<p><code><a href="../reference/format_image_to_spe.html">format_image_to_spe()</a></code> has specific options to read in data generated from inForm, HALO, CODEX and cellprofiler. However, we advice pre-formatting the data before input to SPIAT so that accepted by the ‘general’ option (shown below). This is due to often inconsistencies in the column names or data formats across different versions or as a result of different user options when using the other platforms.</p>
+<p><code><a href="../reference/format_image_to_spe.html">format_image_to_spe()</a></code> has specific options to read in data generated from inForm, HALO, CODEX and cellprofiler. However, we advise pre-formatting the data before input to SPIAT so that accepted by the ‘general’ option (shown below). This is due to often inconsistencies in the column names or data formats across different versions or as a result of different user options when using the other platforms.</p>
 <div class="section level4">
 <h4 id="reading-in-data-through-the-general-option-recommended">Reading in data through the ‘general’ option (RECOMMENDED)<a class="anchor" aria-label="anchor" href="#reading-in-data-through-the-general-option-recommended"></a>
 </h4>
@@ -170,8 +170,7 @@
 <span><span class="va">general_format_image</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_image_to_spe.html">format_image_to_spe</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"general"</span>, </span>
 <span>                                            intensity_matrix <span class="op">=</span> <span class="va">intensity_matrix</span>,</span>
 <span>                                            phenotypes <span class="op">=</span> <span class="va">phenotypes</span>, </span>
-<span>                                            coord_x <span class="op">=</span> <span class="va">coord_x</span>,coord_y <span class="op">=</span> <span class="va">coord_y</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Note: 4 rows removed due to NA intensity values.</span></span></code></pre></div>
+<span>                                            coord_x <span class="op">=</span> <span class="va">coord_x</span>,coord_y <span class="op">=</span> <span class="va">coord_y</span><span class="op">)</span></span></code></pre></div>
 <p>Please note that some SPIAT functions (like <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>) require the constructed image object to have cell IDs as <code>rownames</code> of the colData and <code>colnames</code> of the intensity matrix. If no intensity matrix was provided, please follow this example to do so. <code>rownames(colData(object_name)) &lt;- paste("Cell", 1:nrow(colData(object_name)), sep="_")</code>. Without intensity matrix, users can proceed with the analyses with functions in SPIAT, except the ones that require marker intensities as input.</p>
 <p>The formatted image now contains phenotypes, locations, and marker intensity information of 3 cells. Note that if users want to define cell IDs, the cell IDs should be defined as the colnames of the intensity matrix. The order of the rows of the metadata should correspond to the order of the colnames of the intensity matrix. The function will automatically assign rownames to the <code><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords()</a></code> and <code>colData()</code> of the image (now as a <code>spatialExperiment</code> object).</p>
 <p>Use the following code to inspect the information.</p>
@@ -374,7 +373,7 @@
 </h4>
 <p>In SPIAT We define as <strong>markers</strong> proteins whose levels where queried by OPAL, CODEX or other platforms.</p>
 <p>Examples of markers are “AMACR” for prostate cancer cells, “panCK” for epithelial tumour cells, “CD3” for T cells or “CD20” for B cells.</p>
-<p>The combination of markers results in a specific <strong>cell phenotype</strong>. For example, a cell positive for both “CD3” and “CD4” markers has the “CD3,CD4” <strong>cell phenotype</strong>. <strong>The phenotype has to be strictly formatted in such</strong> <strong>way where each positive marker has to be separated by a coma, with no space in</strong> <strong>between, and the order of the positive markers has to be the same as the order </strong> <strong>in <code>assay()</code>.</strong></p>
+<p>The combination of markers results in a specific <strong>cell phenotype</strong>. For example, a cell positive for both “CD3” and “CD4” markers has the “CD3,CD4” <strong>cell phenotype</strong>. <strong>The phenotype has to be strictly formatted in such</strong> <strong>way where each positive marker has to be separated by a comma, with no space in</strong> <strong>between, and the order of the positive markers has to be the same as the order </strong> <strong>in <code>assay()</code>.</strong></p>
 <p>Finally, we define a <strong>cell type</strong> as a name assigned by the user to a cell phenotype. For example, a user can name “CD3,CD4” cells as “helper T cells”. We would refer to “helper T cells” therefore as a <strong>cell type</strong>.</p>
 </div>
 <div class="section level4">
@@ -463,7 +462,7 @@
 <p>For large images, there is also the option of ‘blurring’ the image, where the image is split into multiple small areas, and marker intensities are averaged within each. The image is blurred based on the <code>num_splits</code> parameter.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_marker_level_heatmap.html">plot_marker_level_heatmap</a></span><span class="op">(</span><span class="va">formatted_image</span>, num_splits <span class="op">=</span> <span class="fl">100</span>, <span class="st">"Tumour_marker"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-23-1.png" width="75%"><img src="introduction_files/figure-html/unnamed-chunk-23-2.png" width="75%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-23-1.png" width="75%"></p>
 </div>
 <div class="section level4">
 <h4 id="identifying-incorrect-phenotypes">Identifying incorrect phenotypes<a class="anchor" aria-label="anchor" href="#identifying-incorrect-phenotypes"></a>
@@ -657,7 +656,7 @@
 <p>These pairwise cell distances can then be visualised as a heatmap with <code><a href="../reference/plot_distance_heatmap.html">plot_distance_heatmap()</a></code>. This example shows the average pairwise distances between cell types. Note that the pairwise distances are symmetrical (the average distance between cell type A and cell type B is the same as the average distance between cell Type B and cell Type A).</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_distance_heatmap.html">plot_distance_heatmap</a></span><span class="op">(</span>phenotype_distances_result <span class="op">=</span> <span class="va">summary_distances</span>, metric <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-42-1.png" width="75%"><img src="introduction_files/figure-html/unnamed-chunk-42-2.png" width="75%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-42-1.png" width="75%"></p>
 <p>This plot shows that Tumour cells are interacting most closely with Tumour cells and Immune3 cells.</p>
 </div>
 <div class="section level5">
@@ -698,7 +697,7 @@
 <p>Similarly, the summary statistics of the minimum distances can also be visualised by a heatmap. This example shows the average minimum distance between cell types.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_distance_heatmap.html">plot_distance_heatmap</a></span><span class="op">(</span>phenotype_distances_result <span class="op">=</span> <span class="va">min_summary_dist</span>, metric <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-46-1.png" width="75%"><img src="introduction_files/figure-html/unnamed-chunk-46-2.png" width="75%"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-46-1.png" width="75%"></p>
 </div>
 </div>
 </div>
@@ -747,7 +746,7 @@
 <div class="section level4">
 <h4 id="cross-k-function">Cross K function<a class="anchor" aria-label="anchor" href="#cross-k-function"></a>
 </h4>
-<p>Cross K function calculates the number of target cell types across a range of raddi from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are four patterns that can be distinguished from K-cross function, as illustrated in the plots below. (taken from <a href="https://blog.jlevente.com/understanding-the-cross-k-function/" class="external-link">here</a> in April 2021).</p>
+<p>Cross K function calculates the number of target cell types across a range of radii from a reference cell type, and compares the behaviour of the input image with an image of randomly distributed points using a Poisson point process. There are four patterns that can be distinguished from K-cross function, as illustrated in the plots below. (taken from <a href="https://blog.jlevente.com/understanding-the-cross-k-function/" class="external-link">here</a> in April 2021).</p>
 <p><img src="cross-k-function.jpg" width="100%"></p>
 <p>Here, the black line represents the input image, the red line represents a randomly distributed point pattern.</p>
 <ul>
@@ -795,7 +794,7 @@
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/crossing_of_crossK.html">crossing_of_crossK</a></span><span class="op">(</span><span class="va">df_cross</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Crossing of cross K function is detected for this image, indicating a potential immune ring."</span></span>
-<span><span class="co">#&gt; [1] "The crossing happens at the50% of the specified distance."</span></span>
+<span><span class="co">#&gt; [1] "The crossing happens at the 50% of the specified distance."</span></span>
 <span><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
 <p>The result shows that the crossing happens at 50% of the specified distance (100) of the cross K function, which is very close to the edge of the tumour cluster. This means that the crossing is not due to the randomness in cell distribution, nor due to two close located immune and tumour clusters. This result aligns with the observation that there is an immune ring surrounding the tumour cluster.</p>
 </div>
@@ -837,8 +836,8 @@
 <div class="section level4">
 <h4 id="gradients-based-on-concentric-circles">Gradients (based on concentric circles)<a class="anchor" aria-label="anchor" href="#gradients-based-on-concentric-circles"></a>
 </h4>
-<p>We can use the <code>gradient()</code> function to calculate metrics (entropy, mixing score, percentage of cells within radius, marker intensity) for a range of radii from reference cells. Here, an increasing circle is drawn around each cell of the reference cell type and the desired score is calculated for cells within each circle.</p>
-<p>The first iten in the vector used for <code>cell_types_of_interest</code> marks the reference cells and the second item the target cells. Here, Immune1 cells are reference cells and Immune2 are target cells.</p>
+<p>We can use the <code><a href="../reference/compute_gradient.html">compute_gradient()</a></code> function to calculate metrics (entropy, mixing score, percentage of cells within radius, marker intensity) for a range of radii from reference cells. Here, an increasing circle is drawn around each cell of the reference cell type and the desired score is calculated for cells within each circle.</p>
+<p>The first item in the vector used for <code>cell_types_of_interest</code> marks the reference cells and the second item the target cells. Here, Immune1 cells are reference cells and Immune2 are target cells.</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gradient_positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">gradient_entropy</span> <span class="op">&lt;-</span> </span>
@@ -889,7 +888,7 @@
 <h4 id="determining-whether-there-is-a-clear-tumour-margin">Determining whether there is a clear tumour margin<a class="anchor" aria-label="anchor" href="#determining-whether-there-is-a-clear-tumour-margin"></a>
 </h4>
 <p>In some instances tumour cells are distributed in such a way that there are no clear tumour margins. While this can be derived intuitively in most cases, SPIAT offers a way of quantifying the ‘quality’ of the margin for downstream analyses. This is meant to be used to help flag images with relatively poor margins, and therefore we do not offer a cutoff value.</p>
-<p>To determine if there is a clear tumour margin, SPIAT can calculate the ratio of tumour bordering cells to tumour total cells (R-BT). This ratio is high when there is a disproportional high number of tumour mangin cells compared to internal tumour cells.</p>
+<p>To determine if there is a clear tumour margin, SPIAT can calculate the ratio of tumour bordering cells to tumour total cells (R-BT). This ratio is high when there is a disproportional high number of tumour margin cells compared to internal tumour cells.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/R_BC.html">R_BC</a></span><span class="op">(</span><span class="va">formatted_image</span>, cell_type_of_interest <span class="op">=</span> <span class="st">"Tumour"</span>, <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-63-1.png" width="60%"></p>
@@ -899,7 +898,7 @@
 <div class="section level4">
 <h4 id="automatic-identification-of-the-tumour-margin">Automatic identification of the tumour margin<a class="anchor" aria-label="anchor" href="#automatic-identification-of-the-tumour-margin"></a>
 </h4>
-<p>We can identify margins with <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>. This function leverages off the alpha hull method <span class="citation">(Pateiro-Lopez, Rodriguez-Casal, and. 2019)</span> from the alphahull package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.</p>
+<p>We can identify margins with <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>. This function leverages off the alpha hull method <span class="citation">(Pateiro-Lopez, Rodriguez-Casal, and. 2019)</span> from the alpha hull package. Here we use tumour cells (Tumour_marker) as the reference to identify the bordering cells but any cell type can be used.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">formatted_border</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/identify_bordering_cells.html">identify_bordering_cells</a></span><span class="op">(</span><span class="va">formatted_image</span>, </span>
 <span>                                             reference_cell <span class="op">=</span> <span class="st">"Tumour"</span>, </span>
@@ -1017,7 +1016,7 @@
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_minimum_distance.html">average_minimum_distance</a></span><span class="op">(</span><span class="va">image_no_markers</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 17.01336</span></span></code></pre></div>
-<p>We then identify the cellular neighbourhoods using our heirarchical algorithm with a radius of 50, and with a minimum neighbourhood size of 100. Cells assigned to neighbourhoods smaller than 100 will be assigned to the “Cluster_NA” neighbourhood.</p>
+<p>We then identify the cellular neighbourhoods using our hierarchical algorithm with a radius of 50, and with a minimum neighbourhood size of 100. Cells assigned to neighbourhoods smaller than 100 will be assigned to the “Cluster_NA” neighbourhood.</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/identify_neighborhoods.html">identify_neighborhoods</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, method <span class="op">=</span> <span class="st">"hierarchical"</span>, min_neighborhood_size <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -1087,7 +1086,7 @@
 <span><span class="co">#&gt; [8] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] SPIAT_0.99.5                SpatialExperiment_1.6.1    </span></span>
+<span><span class="co">#&gt;  [1] SPIAT_0.99.6                SpatialExperiment_1.6.1    </span></span>
 <span><span class="co">#&gt;  [3] SingleCellExperiment_1.18.0 SummarizedExperiment_1.26.1</span></span>
 <span><span class="co">#&gt;  [5] Biobase_2.56.0              GenomicRanges_1.48.0       </span></span>
 <span><span class="co">#&gt;  [7] GenomeInfoDb_1.32.4         IRanges_2.30.1             </span></span>
@@ -1134,12 +1133,12 @@
 <span><span class="co">#&gt;  [71] sass_0.4.2                deldir_1.0-6             </span></span>
 <span><span class="co">#&gt;  [73] alphahull_2.5             locfit_1.5-9.6           </span></span>
 <span><span class="co">#&gt;  [75] utf8_1.2.2                tidyselect_1.1.2         </span></span>
-<span><span class="co">#&gt;  [77] labeling_0.4.2            rlang_1.0.5              </span></span>
+<span><span class="co">#&gt;  [77] labeling_0.4.2            rlang_1.0.6              </span></span>
 <span><span class="co">#&gt;  [79] reshape2_1.4.4            munsell_0.5.0            </span></span>
 <span><span class="co">#&gt;  [81] tools_4.2.1               cachem_1.0.6             </span></span>
-<span><span class="co">#&gt;  [83] cli_3.4.0                 dbscan_1.1-10            </span></span>
+<span><span class="co">#&gt;  [83] cli_3.4.1                 dbscan_1.1-10            </span></span>
 <span><span class="co">#&gt;  [85] generics_0.1.3            splancs_2.01-43          </span></span>
-<span><span class="co">#&gt;  [87] ggridges_0.5.3            mmand_1.6.2              </span></span>
+<span><span class="co">#&gt;  [87] ggridges_0.5.4            mmand_1.6.2              </span></span>
 <span><span class="co">#&gt;  [89] evaluate_0.16             stringr_1.4.1            </span></span>
 <span><span class="co">#&gt;  [91] fastmap_1.1.0             yaml_2.3.5               </span></span>
 <span><span class="co">#&gt;  [93] ragg_1.2.2                goftest_1.2-3            </span></span>
@@ -1147,7 +1146,7 @@
 <span><span class="co">#&gt;  [97] fs_1.5.2                  purrr_0.3.4              </span></span>
 <span><span class="co">#&gt;  [99] RANN_2.6.1                nlme_3.1-159             </span></span>
 <span><span class="co">#&gt; [101] sparseMatrixStats_1.8.0   R.oo_1.25.0              </span></span>
-<span><span class="co">#&gt; [103] pracma_2.3.8              compiler_4.2.1           </span></span>
+<span><span class="co">#&gt; [103] pracma_2.4.2              compiler_4.2.1           </span></span>
 <span><span class="co">#&gt; [105] png_0.1-7                 plotly_4.10.0            </span></span>
 <span><span class="co">#&gt; [107] spatstat.utils_2.3-1      tibble_3.1.8             </span></span>
 <span><span class="co">#&gt; [109] bslib_0.4.0               stringi_1.7.8            </span></span>
