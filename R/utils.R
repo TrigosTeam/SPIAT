@@ -1,11 +1,13 @@
 # function to remove rows where intensity is NA
 remove_intensity_na <- function(intensity_columns) {
-    n_before <- nrow(intensity_columns)
-    intensity_columns <- stats::na.omit(intensity_columns)
-    n_after <- nrow(intensity_columns)
-    n <- n_before - n_after
-    if (n !=0) {
-        message(sprintf("Note: %i rows removed due to NA intensity values.",n))}
+    if (!is.null(intensity_columns)){
+        n_before <- nrow(intensity_columns)
+        intensity_columns <- stats::na.omit(intensity_columns)
+        n_after <- nrow(intensity_columns)
+        n <- n_before - n_after
+        if (n !=0) {
+            message(sprintf("Note: %i rows removed due to NA intensity values.",n))}
+    }
     return(intensity_columns)
 }
 
