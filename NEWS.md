@@ -1,3 +1,10 @@
+# SPIAT 0.99.7
+
+BUG FIXES
+
+* Fixed formatting image error when `intensity_matrix` is NULL under "general" 
+option.
+
 # SPIAT 0.99.6
 
 SIGNIFICANT USER-VISIBLE CHANGES
