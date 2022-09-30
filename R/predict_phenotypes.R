@@ -303,15 +303,10 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     
                     p <- p + theme_bw()
                     
-                    # methods::show(p)
                     p_list[[marker]] <- p
                 }
             }
-            
         }
-        n <- length(p_list)
-        nCol <- floor(sqrt(n))
-        do.call("grid.arrange", c(p_list, ncol=nCol))
     }else{
         p_list <- list()
         for(marker in markers){
@@ -346,13 +341,12 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     p <- p + geom_vline(aes(xintercept = marker_threshold), linetype = "dashed")
                     methods::show(paste(marker, " threshold intensity: ", marker_threshold))
                 }
-                
                 p <- p + theme_bw()
-                
-                # methods::show(p)  
                 p_list[[marker]] <- p
             }
         }
+    }
+    if (plot_distribution){
         n <- length(p_list)
         nCol <- floor(sqrt(n))
         do.call("grid.arrange", c(p_list, ncol=nCol))
