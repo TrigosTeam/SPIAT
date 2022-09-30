@@ -1,3 +1,11 @@
+# SPIAT 0.99.8
+
+BUG FIXES
+
+* Fixed `format_image_to_spe()` "general" format. The NA intensity value removal 
+was for markers. Instead, it should remove cells that have NA marker intensities.
+* Fixed `predict_phenotypes()` plot error.
+
 # SPIAT 0.99.7
 
 BUG FIXES
