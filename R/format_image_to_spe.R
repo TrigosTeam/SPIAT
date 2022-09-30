@@ -89,15 +89,40 @@ format_image_to_spe <- function(format = "general", intensity_matrix = NULL,
                                 dye_columns_interest = NULL,
                                 path_to_codex_cell_phenotypes = NULL){
     if (format == "general"){
-        intensity_matrix <- remove_intensity_na(intensity_matrix)
+        if (is.null(intensity_matrix)){
+            Cell_IDs <- seq_len(length(phenotypes))
+            metadata_columns <- data.frame(Cell.ID = Cell_IDs,
+                                           Phenotype = phenotypes,
+                                           Cell.X.Position = coord_x,
+                                           Cell.Y.Position = coord_y)
+            spe <- SpatialExperiment::SpatialExperiment(
+                assay = NULL,
+                colData = metadata_columns,
+                spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
+        }
+        else{
+            Cell_IDs <- colnames(intensity_matrix)
+            metadata_columns <- data.frame(Cell.ID = Cell_IDs,
+                                           Phenotype = phenotypes,
+                                           Cell.X.Position = coord_x,
+                                           Cell.Y.Position = coord_y)
+            intensity_columns <- t(intensity_matrix)
+            intensity_columns <- remove_intensity_na(intensity_columns)
+            # remove the corresponding cells info in metadata
+            metadata_columns <- metadata_columns[
+                !metadata_columns$Cell.ID %in% names(attr(intensity_columns, "na.action")),]
+            #transpose the matrix so every column is a cell and every row is a marker
+            assay_data_matrix <- as.matrix(intensity_columns)
+            colnames(assay_data_matrix) <- NULL
+            rownames(assay_data_matrix) <- NULL
+            assay_data_matrix_t <- t(assay_data_matrix)
+            spe <- SpatialExperiment::SpatialExperiment(
+                assay = assay_data_matrix_t,
+                colData = metadata_columns,
+                spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
+        }
+        
 
-        metadata_columns <- data.frame(Phenotype = phenotypes,
-                                       Cell.X.Position = coord_x,
-                                       Cell.Y.Position = coord_y)
-        spe <- SpatialExperiment::SpatialExperiment(
-            assay = intensity_matrix,
-            colData = metadata_columns,
-            spatialCoordsNames = c("Cell.X.Position", "Cell.Y.Position"))
     } else if (format == "inForm") {
        spe <- format_inform_to_spe(path = path, markers = markers,
                                    locations = locations,
