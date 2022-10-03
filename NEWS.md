@@ -1,3 +1,8 @@
+# SPIAT 0.99.9
+
+* Fixed `format_image_to_spe()` "general" format. Assigned rownames (markers) 
+and colnames (Cell IDs) to the assay of the formatted spe object.
+
 # SPIAT 0.99.8
 
 BUG FIXES
