@@ -1,3 +1,10 @@
+# SPIAT 0.99.11
+
+BUG FIXES
+
+* Renamed the file of `R_BC()`.
+* Fixed a minor bug in `identify_bordering_cells()` that causes error.
+
 # SPIAT 0.99.10
 
 SIGNIFICANT USER-VISIBLE CHANGES
@@ -6,6 +13,8 @@ SIGNIFICANT USER-VISIBLE CHANGES
 be difference between returning `NA` and `0`. See updated documentation.
 
 # SPIAT 0.99.9
+
+BUG FIXES
 
 * Fixed `format_image_to_spe()` "general" format. Assigned rownames (markers) 
 and colnames (Cell IDs) to the assay of the formatted spe object.

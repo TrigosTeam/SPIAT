@@ -96,7 +96,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
             data$Cell.X.Position, data$Cell.Y.Position, buffered_polygon[, 1], 
             buffered_polygon[, 2])
         allcells_in_polygon <- data[which(inpolygon!= 0),
-                                   c("Phenotype","Cell.X.Position",
+                                   c(feature_colname,"Cell.X.Position",
                                      "Cell.Y.Position",feature_colname)]
         tumour_in_polygon <- 
             allcells_in_polygon[which(allcells_in_polygon[,feature_colname] == 
@@ -151,7 +151,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
                 unique(rbind(
                     points_in_polygon, 
                     allcells_in_polygon[which(in_p == 1),
-                                        c("Phenotype", "Cell.X.Position",
+                                        c(feature_colname, "Cell.X.Position",
                                           "Cell.Y.Position",
                                           feature_colname)]))}
         points_in_polygon_df <- as.data.frame(points_in_polygon)
