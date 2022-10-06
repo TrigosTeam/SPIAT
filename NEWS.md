@@ -1,3 +1,10 @@
+# SPIAT 0.99.10
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* `mixing_score_summary()` ensures returning data in any situation. There will 
+be difference between returning `NA` and `0`. See updated documentation.
+
 # SPIAT 0.99.9
 
 * Fixed `format_image_to_spe()` "general" format. Assigned rownames (markers) 
