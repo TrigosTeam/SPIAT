@@ -85,7 +85,7 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
                     mixing_score <- reference_target_interactions/reference_reference_interactions
                     normalised_mixing_score <- 2 * mixing_score * (nrow(reference_cells)-1) / nrow(target_cells)
                 }else {
-                    normalised_mixing_score <- mixing_score <- NA
+                    normalised_mixing_score <- mixing_score <- 0
                     methods::show(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
                     #stop()
                 }
