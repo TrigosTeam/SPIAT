@@ -21,11 +21,15 @@
 #' @param target_celltype String Vector. Cell types of the target cells.
 #' @param feature_colname String specifying the column with the desired cell
 #'   type annotations.
-#' @param radius The maximum radius around a reference cell type for another cell
-#'   to be considered an interaction.
+#' @param radius The maximum radius around a reference cell type for another
+#'   cell to be considered an interaction.
 #' @import dplyr
-#' @return A data.frame of cell numbers, mixing scores, and normalised mixing
-#'   scores.
+#' @return A data.frame of cell numbers, number of cell interactions,  mixing
+#'   scores, and normalised mixing scores. If there are no reference or target
+#'   cells found in the image, or there are no reference cells found within the
+#'   specified radius of any reference cells,the returned (normalised) mixing
+#'   scores will be NA. If there are no target cells found within the radius of
+#'   any refernece cells, the returned (normalised) mixing scores will be 0.
 #' @export
 #' @examples
 #' mixing_score_summary(SPIAT::defined_image, reference_celltype = "Tumour", target_celltype="Immune1",
@@ -46,15 +50,25 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
             if (i == j) {
                 df <-  rbind(df[ ,df.cols], 
                              c(i, j, nrow(reference_cells), nrow(target_cells), NA, NA, NA, NA))
-            }     
-            tryCatch({
-                target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
-                if (nrow(reference_cells) == 0) {
-                    methods::show(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
-                }
-                if (nrow(target_cells) == 0) {
-                    methods::show(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
-                }
+            }   
+            target_cells <- formatted_data[formatted_data[,feature_colname] == j,]
+            if (nrow(reference_cells) == 0) {
+                methods::show(paste("There are no unique reference cells of specified celltype", i, "for target cell", j))
+                df <-  rbind(df[ ,df.cols], 
+                             c(i, j, 0, nrow(target_cells), 0, 0, NA, NA))
+            }
+            else if (nrow(target_cells) == 0) {
+                methods::show(paste("There are no unique target cells of specified celltype", j, "for reference cell", i))
+                reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
+                                                            "Cell.Y.Position")]
+                reference_reference_result <- dbscan::frNN(reference_cell_cords, 
+                                                           eps = radius, sort = FALSE)
+                reference_reference_interactions <- sum(rapply(reference_reference_result$id, 
+                                                               length))
+                df <-  rbind(df[ ,df.cols], 
+                             c(i, j, nrow(reference_cells), 0, 0, reference_reference_interactions, NA, NA))
+            }
+            else{
                 reference_cell_cords <- reference_cells[, c("Cell.X.Position", 
                                                             "Cell.Y.Position")]
                 target_cell_cords <- target_cells[, c("Cell.X.Position", 
@@ -77,11 +91,11 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
                 }
                 df <-  rbind(df[ ,df.cols], 
                              c(i, j, nrow(reference_cells), nrow(target_cells), reference_target_interactions, reference_reference_interactions, mixing_score, normalised_mixing_score))
-            }, error=function(e){})
+            }
         }
     }
     df[,3:8] <- vapply(df[,3:8],as.numeric,numeric(nrow(df[,3:8])))
-
+    
     df <- df[-1,]
     return(df)
 }

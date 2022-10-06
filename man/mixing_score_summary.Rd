@@ -20,15 +20,19 @@ mixing_score_summary(
 
 \item{target_celltype}{String Vector. Cell types of the target cells.}
 
-\item{radius}{The maximum radius around a reference cell type for another cell
-to be considered an interaction.}
+\item{radius}{The maximum radius around a reference cell type for another
+cell to be considered an interaction.}
 
 \item{feature_colname}{String specifying the column with the desired cell
 type annotations.}
 }
 \value{
-A data.frame of cell numbers, mixing scores, and normalised mixing
-  scores.
+A data.frame of cell numbers, number of cell interactions,  mixing
+  scores, and normalised mixing scores. If there are no reference or target
+  cells found in the image, or there are no reference cells found within the
+  specified radius of any reference cells,the returned (normalised) mixing
+  scores will be NA. If there are no target cells found within the radius of
+  any refernece cells, the returned (normalised) mixing scores will be 0.
 }
 \description{
 Produces a data.frame with mixing scores of input reference and
