@@ -20,9 +20,10 @@
 #' @param p_val Numeric. The p value threshold to determine the significance of
 #'   a pattern.
 #' @export
-#' @return A list with the pattern type and a p value
+#' @return A list with the ANN index, the pattern type and the corresponding p
+#'   value
 #' @examples
-#' average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes = 
+#' average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes =
 #' "Tumour", feature_colname = "Cell.Type")
 
 average_nearest_neighbor_index <- function(spe_object, reference_celltypes, 
@@ -51,6 +52,7 @@ average_nearest_neighbor_index <- function(spe_object, reference_celltypes,
         y <- ppp$window$yrange[2] - ppp$window$yrange[1]
         area <- x*y
         ann.e <- 0.5/sqrt(n/area)
+        ANN_index <- ann.p/ann.e
         se <- 0.26136/sqrt(n*n/area)
         z <- (ann.p - ann.e)/se
         p <- stats::pnorm(-abs(z))
@@ -63,8 +65,8 @@ average_nearest_neighbor_index <- function(spe_object, reference_celltypes,
         }
         else{pattern <- "Random"}
         
-        ANN_index <- list(pattern, p)
-        names(ANN_index) <- c("pattern" ,"p-value")
+        output <- list(ANN_index, pattern, p)
+        names(output) <- c("ANN_index", "pattern" ,"p-value")
     }
-    return(ANN_index)
+    return(output)
 }

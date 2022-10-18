@@ -16,6 +16,7 @@ test_that("average_minimum_distance() works", {
 
 test_that("average_nearest_neighbor_index() works", {
     res <- list()
+    res$ANN_index <- 0.7864656
     res$pattern <- "Clustered"
     res$`p-value` <- 7.11006e-32
     out <- average_nearest_neighbor_index(defined_image, "Tumour", "Cell.Type")

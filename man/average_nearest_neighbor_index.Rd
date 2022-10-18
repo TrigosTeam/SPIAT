@@ -25,7 +25,8 @@ used for ANNI calculation.}
 a pattern.}
 }
 \value{
-A list with the pattern type and a p value
+A list with the ANN index, the pattern type and the corresponding p
+  value
 }
 \description{
 Calculate the the average nearest neighbor (ANN) index of a
@@ -42,6 +43,6 @@ ANN index is a statistical test to test for the presence of clusters
   significance of the pattern.
 }
 \examples{
-average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes = 
+average_nearest_neighbor_index(SPIAT::defined_image, reference_celltypes =
 "Tumour", feature_colname = "Cell.Type")
 }
