@@ -1,3 +1,10 @@
+# SPIAT 0.99.12
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* `average_nearest_neighbor_index()` now returns the index along with the 
+pattern type and the p value.
+
 # SPIAT 0.99.11
 
 BUG FIXES
