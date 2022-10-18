@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the SPIAT package</h1>
                         <h4 data-toc-skip class="author">Anna Trigos, Yuzhou Feng, Tianpei Yang, Mabel Li, John Zhu, Volkan Ozcoban, Maria Doyle</h4>
             
-            <h4 data-toc-skip class="date">6 October 2022</h4>
+            <h4 data-toc-skip class="date">18 October 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -1044,6 +1044,9 @@
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_nearest_neighbor_index.html">average_nearest_neighbor_index</a></span><span class="op">(</span><span class="va">clusters</span>, reference_celltypes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cluster_1"</span><span class="op">)</span>, </span>
 <span>                               feature_colname<span class="op">=</span><span class="st">"Neighborhood"</span>, p_val <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $ANN_index</span></span>
+<span><span class="co">#&gt; [1] 0.4696608</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pattern</span></span>
 <span><span class="co">#&gt; [1] "Clustered"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1053,6 +1056,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/average_nearest_neighbor_index.html">average_nearest_neighbor_index</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, reference_celltypes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune"</span>, <span class="st">"Immune1"</span> , <span class="st">"Immune2"</span><span class="op">)</span>, </span>
 <span>  feature_colname<span class="op">=</span><span class="st">"Cell.Type"</span>, p_val <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $ANN_index</span></span>
+<span><span class="co">#&gt; [1] 0.9968575</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pattern</span></span>
 <span><span class="co">#&gt; [1] "Random"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1086,7 +1092,7 @@
 <span><span class="co">#&gt; [8] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] SPIAT_0.99.11               SpatialExperiment_1.6.1    </span></span>
+<span><span class="co">#&gt;  [1] SPIAT_0.99.12               SpatialExperiment_1.6.1    </span></span>
 <span><span class="co">#&gt;  [3] SingleCellExperiment_1.18.1 SummarizedExperiment_1.26.1</span></span>
 <span><span class="co">#&gt;  [5] Biobase_2.56.0              GenomicRanges_1.48.0       </span></span>
 <span><span class="co">#&gt;  [7] GenomeInfoDb_1.32.4         IRanges_2.30.1             </span></span>
@@ -1098,7 +1104,7 @@
 <span><span class="co">#&gt;   [1] circlize_0.4.15           systemfonts_1.0.4        </span></span>
 <span><span class="co">#&gt;   [3] plyr_1.8.7                lazyeval_0.2.2           </span></span>
 <span><span class="co">#&gt;   [5] sp_1.5-0                  splines_4.2.1            </span></span>
-<span><span class="co">#&gt;   [7] BiocParallel_1.30.3       crosstalk_1.2.0          </span></span>
+<span><span class="co">#&gt;   [7] BiocParallel_1.30.4       crosstalk_1.2.0          </span></span>
 <span><span class="co">#&gt;   [9] ggplot2_3.3.6             elsa_1.1-28              </span></span>
 <span><span class="co">#&gt;  [11] digest_0.6.29             foreach_1.5.2            </span></span>
 <span><span class="co">#&gt;  [13] htmltools_0.5.3           magick_2.7.3             </span></span>
@@ -1132,19 +1138,19 @@
 <span><span class="co">#&gt;  [69] farver_2.1.1              scuttle_1.6.3            </span></span>
 <span><span class="co">#&gt;  [71] sass_0.4.2                deldir_1.0-6             </span></span>
 <span><span class="co">#&gt;  [73] alphahull_2.5             locfit_1.5-9.6           </span></span>
-<span><span class="co">#&gt;  [75] utf8_1.2.2                tidyselect_1.1.2         </span></span>
+<span><span class="co">#&gt;  [75] utf8_1.2.2                tidyselect_1.2.0         </span></span>
 <span><span class="co">#&gt;  [77] labeling_0.4.2            rlang_1.0.6              </span></span>
 <span><span class="co">#&gt;  [79] reshape2_1.4.4            munsell_0.5.0            </span></span>
 <span><span class="co">#&gt;  [81] tools_4.2.1               cachem_1.0.6             </span></span>
 <span><span class="co">#&gt;  [83] cli_3.4.1                 dbscan_1.1-10            </span></span>
 <span><span class="co">#&gt;  [85] generics_0.1.3            splancs_2.01-43          </span></span>
 <span><span class="co">#&gt;  [87] ggridges_0.5.4            mmand_1.6.2              </span></span>
-<span><span class="co">#&gt;  [89] evaluate_0.16             stringr_1.4.1            </span></span>
+<span><span class="co">#&gt;  [89] evaluate_0.17             stringr_1.4.1            </span></span>
 <span><span class="co">#&gt;  [91] fastmap_1.1.0             yaml_2.3.5               </span></span>
 <span><span class="co">#&gt;  [93] ragg_1.2.3                goftest_1.2-3            </span></span>
 <span><span class="co">#&gt;  [95] knitr_1.40                bit64_4.0.5              </span></span>
-<span><span class="co">#&gt;  [97] fs_1.5.2                  purrr_0.3.4              </span></span>
-<span><span class="co">#&gt;  [99] RANN_2.6.1                nlme_3.1-159             </span></span>
+<span><span class="co">#&gt;  [97] fs_1.5.2                  purrr_0.3.5              </span></span>
+<span><span class="co">#&gt;  [99] RANN_2.6.1                nlme_3.1-160             </span></span>
 <span><span class="co">#&gt; [101] sparseMatrixStats_1.8.0   R.oo_1.25.0              </span></span>
 <span><span class="co">#&gt; [103] pracma_2.4.2              compiler_4.2.1           </span></span>
 <span><span class="co">#&gt; [105] png_0.1-7                 plotly_4.10.0            </span></span>
@@ -1153,10 +1159,10 @@
 <span><span class="co">#&gt; [111] highr_0.9                 desc_1.4.2               </span></span>
 <span><span class="co">#&gt; [113] lattice_0.20-45           Matrix_1.5-1             </span></span>
 <span><span class="co">#&gt; [115] vctrs_0.4.2               pillar_1.8.1             </span></span>
-<span><span class="co">#&gt; [117] lifecycle_1.0.2           rhdf5filters_1.8.0       </span></span>
+<span><span class="co">#&gt; [117] lifecycle_1.0.3           rhdf5filters_1.8.0       </span></span>
 <span><span class="co">#&gt; [119] BiocManager_1.30.18       GlobalOptions_0.1.2      </span></span>
 <span><span class="co">#&gt; [121] spatstat.geom_2.4-0       jquerylib_0.1.4          </span></span>
-<span><span class="co">#&gt; [123] cowplot_1.1.1             data.table_1.14.2        </span></span>
+<span><span class="co">#&gt; [123] cowplot_1.1.1             data.table_1.14.4        </span></span>
 <span><span class="co">#&gt; [125] bitops_1.0-7              raster_3.6-3             </span></span>
 <span><span class="co">#&gt; [127] R6_2.5.1                  bookdown_0.29            </span></span>
 <span><span class="co">#&gt; [129] gridExtra_2.3             codetools_0.2-18         </span></span>
@@ -1166,8 +1172,8 @@
 <span><span class="co">#&gt; [137] mgcv_1.8-40               parallel_4.2.1           </span></span>
 <span><span class="co">#&gt; [139] terra_1.6-17              grid_4.2.1               </span></span>
 <span><span class="co">#&gt; [141] rpart_4.1.16              beachmat_2.12.0          </span></span>
-<span><span class="co">#&gt; [143] tidyr_1.2.1               rmarkdown_2.16           </span></span>
-<span><span class="co">#&gt; [145] DelayedMatrixStats_1.18.1 Rtsne_0.16               </span></span>
+<span><span class="co">#&gt; [143] tidyr_1.2.1               rmarkdown_2.17           </span></span>
+<span><span class="co">#&gt; [145] DelayedMatrixStats_1.18.2 Rtsne_0.16               </span></span>
 <span><span class="co">#&gt; [147] interp_1.1-3</span></span></code></pre></div>
 </div>
 <div class="section level2">

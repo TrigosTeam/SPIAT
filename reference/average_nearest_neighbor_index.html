@@ -14,7 +14,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SPIAT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,8 @@ a pattern.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A list with the pattern type and a p value</p>
+<p>A list with the ANN index, the pattern type and the corresponding p
+  value</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -112,8 +113,11 @@ a pattern.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">average_nearest_neighbor_index</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, reference_celltypes <span class="op">=</span> </span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">average_nearest_neighbor_index</span><span class="op">(</span><span class="fu">SPIAT</span><span class="fu">::</span><span class="va"><a href="defined_image.html">defined_image</a></span>, reference_celltypes <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="st">"Tumour"</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ANN_index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7864656</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pattern</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clustered"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
