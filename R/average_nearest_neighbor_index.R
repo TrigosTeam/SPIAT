@@ -39,7 +39,7 @@ average_nearest_neighbor_index <- function(spe_object, reference_celltypes,
     
     if(nrow(data) == 0){
         methods::show("No reference cells found")
-        ANN_index <- list(pattern=NA,`p-value`=NA)
+        output <- list(ANN_index=NA, pattern=NA,`p-value`=NA)
     }else{
         object<-format_colData_to_spe(data)
         
