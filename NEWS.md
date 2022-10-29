@@ -1,3 +1,10 @@
+# SPIAT 0.99.13
+
+BUG FIXES
+
+* Minor bug in `average_nearest_neighbor_index()` - the variable `output` was 
+not defined when there is no reference cell found in the image.
+
 # SPIAT 0.99.12
 
 SIGNIFICANT USER-VISIBLE CHANGES
