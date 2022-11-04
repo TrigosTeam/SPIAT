@@ -102,20 +102,28 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
             # if the number of cells in a neighborhood is smaller than min_neighborhood_size, then name the cluster as NA
             summarised_data <- formatted_data %>% group_by(Cluster) %>% summarise(n=n())
             big_clusters <- summarised_data[summarised_data$n>min_neighborhood_size,"Cluster"]$Cluster
-            formatted_data[formatted_data$Cluster %in% big_clusters, "size"] <- "larger"
-            cluster_ids <- unique(formatted_data[formatted_data$size == "larger","Cluster"])
-            n_cluster <- length(cluster_ids)
-            n <- 1
-            for (cluster_id in cluster_ids){
-                if (!is.na(cluster_id)){
-                    formatted_data[which(formatted_data$Cluster == cluster_id), "new_cluster"] <- n
-                    n <- n+1
-                }
+            if (length(big_clusters) == 0) {
+                formatted_data[formatted_data[[feature_colname]] %in% 
+                                   cell_types_of_interest, "Cluster"] <- "Free_cell"
+                plot_clusters <- FALSE
+                message("There are no clusters detected in this image. All cells of interest are free cells.")
             }
-            formatted_data$Cluster <- formatted_data$new_cluster
-            formatted_data$Cluster <- as.character(formatted_data$Cluster)
-            formatted_data$new_cluster <- NULL
-            formatted_data$size <- NULL      
+            else{
+                formatted_data[formatted_data$Cluster %in% big_clusters, "size"] <- "larger"
+                cluster_ids <- unique(formatted_data[formatted_data$size == "larger","Cluster"])
+                n_cluster <- length(cluster_ids)
+                n <- 1
+                for (cluster_id in cluster_ids){
+                    if (!is.na(cluster_id)){
+                        formatted_data[which(formatted_data$Cluster == cluster_id), "new_cluster"] <- n
+                        n <- n+1
+                    }
+                }
+                formatted_data$Cluster <- formatted_data$new_cluster
+                formatted_data$Cluster <- as.character(formatted_data$Cluster)
+                formatted_data$new_cluster <- NULL
+                formatted_data$size <- NULL     
+            }
         }else{
             formatted_data[formatted_data[[feature_colname]] %in% 
                                cell_types_of_interest, "Cluster"] <- "Free_cell"
@@ -154,10 +162,10 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
         label_location <- vector()
         for (Clusternumber in seq_len(number_of_clusters)) {
             cells_in_Cluster <- cells_in_clusters[cells_in_clusters$Cluster == Clusternumber, ]
-            minX <- min(cells_in_Cluster$Cell.X.Position)
-            maxX <- max(cells_in_Cluster$Cell.X.Position)
-            minY <- min(cells_in_Cluster$Cell.Y.Position)
-            maxY <- max(cells_in_Cluster$Cell.Y.Position)
+            minX <- min(cells_in_Cluster$Cell.X.Position, na.rm = TRUE)
+            maxX <- max(cells_in_Cluster$Cell.X.Position, na.rm = TRUE)
+            minY <- min(cells_in_Cluster$Cell.Y.Position, na.rm = TRUE)
+            maxY <- max(cells_in_Cluster$Cell.Y.Position, na.rm = TRUE)
             averageX <- (minX + maxX)/2
             averageY <- (minY + maxY)/2
             
@@ -171,11 +179,11 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
         cluster_colours <- dittoSeq::dittoColors()[seq_len(number_of_clusters)]
         
         q <- ggplot(cells_in_clusters, aes(x=Cell.X.Position, y=Cell.Y.Position))
-        q <- q + geom_point(aes(color = Cluster))#, size = 0.01)
+        q <- q + geom_point(aes(color = Cluster))
         q <- q + geom_text(data = label_location, aes(x = Xpos, y = Ypos, label = Cluster))
         q <- q + scale_color_manual(values=cluster_colours)
         if(dim(cells_not_in_clusters)[1]!=0){
-            q <- q + geom_point(data = cells_not_in_clusters,  colour = "black")#,size = 0.01)
+            q <- q + geom_point(data = cells_not_in_clusters,  colour = "black")
         }
         q <- q + xlab("Cell.X.Position") + ylab("Cell.Y.Position") +
             theme_bw() + 
@@ -188,12 +196,12 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
     formatted_data_with_clusters$Cluster <- paste0("Cluster_", as.character(formatted_data_with_clusters$Cluster))
     formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
     formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_Free_cell"] <- "Free_cell"
+    colnames(formatted_data_with_clusters)[which(colnames(formatted_data_with_clusters) == "Cluster")] <- "Neighborhood"
     SummarizedExperiment::colData(spe_object) <- methods::as(merge(data.frame(SummarizedExperiment::colData(spe_object)),
-                                                               formatted_data_with_clusters[,c("Cell.ID","Cluster")],
-                                                               by.x = "row.names", by.y = "Cell.ID", all.x = TRUE), "DFrame")
+                                                                   formatted_data_with_clusters[,c("Cell.ID","Neighborhood")],
+                                                                   by.x = "Cell.ID", by.y = "Cell.ID", all.x = TRUE), "DFrame")
     rownames(SummarizedExperiment::colData(spe_object)) <- SummarizedExperiment::colData(spe_object)$Row.names
     SummarizedExperiment::colData(spe_object)$Row.names <- NULL
-    colnames(SummarizedExperiment::colData(spe_object))[colnames(SummarizedExperiment::colData(spe_object)) == "Cluster"] <- "Neighborhood"
     
     return(spe_object)
 }
