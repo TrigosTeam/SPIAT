@@ -1,3 +1,11 @@
+# SPIAT 0.99.14
+
+BUG FIXES
+
+* Fixed bugs in `identify_neighborhoods()`:
+1) Assign "Free_cell" to the cells of interest when the number of clustered cells are smaller than `min_cluster_size` in each cluster; 
+2) Fixed spe_object output (Adding "Neighborhood" column had a bug previously).
+
 # SPIAT 0.99.13
 
 BUG FIXES
