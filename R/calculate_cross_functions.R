@@ -15,7 +15,7 @@
 #' @param dist Number (OPTIONAL) The largest distance between two cell types at
 #'   which K function is evaluated. If NULL, use the default distances set by
 #'   cross functions.
-#' @importFrom spatstat.core Gcross Kcross.inhom Lcross Jcross Kcross
+#' @importFrom spatstat.explore Gcross Kcross.inhom Lcross Jcross Kcross
 #' @importFrom spatstat.geom ppp
 #' @return An object of class "fv" defined in `spatstat` package.
 #' @export
