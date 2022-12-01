@@ -197,8 +197,8 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
     formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_NA"] <- "Free_cell"
     formatted_data_with_clusters$Cluster[formatted_data_with_clusters$Cluster == "Cluster_Free_cell"] <- "Free_cell"
     colnames(formatted_data_with_clusters)[which(colnames(formatted_data_with_clusters) == "Cluster")] <- "Neighborhood"
-    if (is.null(colData(spe_object)$Cell.ID)){
-        colData(spe_object)$Cell.ID <- rownames(colData(spe_object))
+    if (is.null(SummarizedExperiment::colData(spe_object)$Cell.ID)){
+        SummarizedExperiment::colData(spe_object)$Cell.ID <- rownames(SummarizedExperiment::colData(spe_object))
     }
     SummarizedExperiment::colData(spe_object) <- methods::as(merge(data.frame(SummarizedExperiment::colData(spe_object)),
                                                                    formatted_data_with_clusters[,c("Cell.ID","Neighborhood")],
