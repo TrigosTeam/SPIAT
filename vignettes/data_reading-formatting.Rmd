@@ -427,3 +427,14 @@ formatted_image <- define_celltypes(
     names = c("Tumour", "Immune1", "Immune2", "Immune3", "Others"),
     new_colname = "Cell.Type")
 ```
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+# Author Contributions
+
+AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD and YF
+wrote the vignette. AT, YF and TY designed the package.
