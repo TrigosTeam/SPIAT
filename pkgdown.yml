@@ -2,7 +2,13 @@ pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
+  basic_analysis: basic_analysis.html
+  cell-colocalisation: cell-colocalisation.html
   data_reading-formatting: data_reading-formatting.html
   introduction: introduction.html
-last_built: 2022-12-01T04:30Z
+  neighborhood: neighborhood.html
+  quality-control_visualisation: quality-control_visualisation.html
+  spatial-heterogeneity: spatial-heterogeneity.html
+  tissue-structure: tissue-structure.html
+last_built: 2022-12-02T05:53Z
 

@@ -4,6 +4,12 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/basic_analysis.html</loc>
+  </url>
+  <url>
+    <loc>/articles/cell-colocalisation.html</loc>
+  </url>
+  <url>
     <loc>/articles/data_reading-formatting.html</loc>
   </url>
   <url>
@@ -11,6 +17,18 @@
   </url>
   <url>
     <loc>/articles/introduction.html</loc>
+  </url>
+  <url>
+    <loc>/articles/neighborhood.html</loc>
+  </url>
+  <url>
+    <loc>/articles/quality-control_visualisation.html</loc>
+  </url>
+  <url>
+    <loc>/articles/spatial-heterogeneity.html</loc>
+  </url>
+  <url>
+    <loc>/articles/tissue-structure.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
