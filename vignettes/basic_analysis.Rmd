@@ -1,0 +1,189 @@
+---
+title: "Basic analyses"
+author: "Yuzhou Feng"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+library(SPIAT)
+```
+
+In this vignette we will use an inForm data file that's already been
+formatted for SPIAT with `format_image_to_spe()`, which we can load with
+`data()`. We will use `define_celltypes()` to define the cells with certain 
+combinations of markers.
+
+```{r}
+data("simulated_image")
+
+# define cell types
+formatted_image <- define_celltypes(
+    simulated_image, 
+    categories = c("Tumour_marker","Immune_marker1,Immune_marker2", 
+                   "Immune_marker1,Immune_marker3", 
+                   "Immune_marker1,Immune_marker2,Immune_marker4", "OTHER"), 
+    category_colname = "Phenotype", 
+    names = c("Tumour", "Immune1", "Immune2", "Immune3", "Others"),
+    new_colname = "Cell.Type")
+```
+
+We will be performing some basic analyses on this image. Here is the 
+visualisation of the cell coordinates.
+
+```{r, fig.height = 2.5}
+my_colors <- c("red", "blue", "darkcyan", "darkgreen")
+  
+plot_cell_categories(spe_object = formatted_image, 
+                     categories_of_interest = 
+                       c("Tumour", "Immune1", "Immune2", "Immune3"), 
+                     colour_vector = my_colors, 
+                     feature_colname = "Cell.Type")
+```
+
+# Cell percentages
+
+We can obtain the number and proportion of each cell type with
+`calculate_cell_proportions()`. We can use `reference_celltypes` to
+specify cell types to use as the reference. For example, "Total" will
+calculate the proportion of each cell type against all cells. We can
+exclude any cell types that are not of interest e.g. "Undefined" with
+`celltypes_to_exclude`.
+
+```{r, fig.width=3, fig.height = 2.2}
+p_cells <- calculate_cell_proportions(formatted_image, 
+                                      reference_celltypes = NULL, 
+                                      feature_colname ="Cell.Type",
+                                      celltypes_to_exclude = "Others",
+                                      plot.image = TRUE)
+p_cells
+```
+
+Alternatively, we can also visualise cell type proportions as barplots
+using `plot_cell_percentages()`.
+
+```{r, fig.height=1.2, fig.width = 3.8}
+plot_cell_percentages(cell_proportions = p_cells, 
+                      cells_to_exclude = "Tumour", cellprop_colname="Proportion_name")
+
+```
+
+# Cell distances
+
+## Pairwise cell distances
+
+We can calculate the pairwise distances between two cell types (cell
+type A and cell type B) with
+`calculate_pairwise_distances_between_cell_types()`. This function
+calculates the distances of all cells of type A against all cells of
+type B.
+
+This function returns a data frame that contains all the pairwise
+distances between each cell of cell type A and cell type B.
+
+```{r}
+distances <- calculate_pairwise_distances_between_celltypes(
+  spe_object = formatted_image, 
+  cell_types_of_interest = c("Tumour", "Immune1", "Immune3"),
+  feature_colname = "Cell.Type")
+```
+
+The pairwise distances can be visualised as a violin plot with
+`plot_cell_distances_violin()`.
+
+```{r, fig.height = 4, fig.width=6, out.width="75%"}
+plot_cell_distances_violin(distances)
+```
+
+We can also calculate summary statistics for the distances between each
+combination of cell types, the mean, median, min, max and standard
+deviation, with `calculate_summary_distances_between_celltypes()`.
+
+```{r}
+summary_distances <- calculate_summary_distances_between_celltypes(distances)
+
+summary_distances
+```
+
+An example of the interpretation of this result is: "average pairwise
+distance between cells of `r summary_distances[4,"Reference"]` and
+`r summary_distances[4,"Target"]` is `r round(summary_distances[4,"Mean"],4)`".
+
+These pairwise cell distances can then be visualised as a heatmap with
+`plot_distance_heatmap()`. This example shows the average pairwise
+distances between cell types. Note that the pairwise distances are
+symmetrical (the average distance between cell type A and cell type B is
+the same as the average distance between cell Type B and cell Type A).
+
+```{r, fig.height = 2.5, out.width = "75%"}
+plot_distance_heatmap(phenotype_distances_result = summary_distances, metric = "mean")
+```
+
+This plot shows that Tumour cells are interacting most closely with
+Tumour cells and Immune3 cells.
+
+## Minimum cell distances
+
+We can also calculate the minimum distances between cell types with
+`calculate_minimum_distances_between_celltypes()`. Unlike the pairwise
+distance where we calculate the distances between all cell types of
+interest, here we only identify the distance to the closest cell of type
+B to each of the reference cells of type A.
+
+```{r}
+min_dist <- calculate_minimum_distances_between_celltypes(
+  spe_object = formatted_image, 
+  cell_types_of_interest = c("Tumour", "Immune1", "Immune2","Immune3", "Others"),
+  feature_colname = "Cell.Type")
+```
+
+The minimum distances can be visualised as a violin plot with
+`plot_cell_distances_violin()`. Visualisation of this distribution often
+reveals whether pairs of cells are evenly spaced across the image, or
+whether there are clusters of pairs of cell types.
+
+```{r, fig.height = 5, fig.width=8, out.width="75%"}
+plot_cell_distances_violin(cell_to_cell_dist = min_dist)
+```
+
+We can also calculate summary statistics for the distances between each
+combination of cell types, the mean, median, min, max and standard
+deviation, with `calculate_summary_distances_between_celltypes()`.
+
+```{r}
+min_summary_dist <- calculate_summary_distances_between_celltypes(min_dist)
+
+# show the first five rows
+min_summary_dist[seq_len(5),]
+```
+
+Unlike the pairwise distance, the minimum distances are not symmetrical,
+and therefore we output a summary of the minimum distances specifying
+the reference and target cell types used.
+
+An example of the interpretation of this result is: "average minimum
+distance between cells of `r min_summary_dist[4,"Reference"]` and
+`r min_summary_dist[4,"Target"]` is `r round(min_summary_dist[4,"Mean"], 5)`".
+
+Similarly, the summary statistics of the minimum distances can also be
+visualised by a heatmap. This example shows the average minimum distance
+between cell types.
+
+```{r, fig.height = 2.5, out.width = "75%"}
+plot_distance_heatmap(phenotype_distances_result = min_summary_dist, metric = "mean")
+```
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+# Author Contributions
+
+AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD and YF
+wrote the vignette. AT, YF and TY designed the package.
