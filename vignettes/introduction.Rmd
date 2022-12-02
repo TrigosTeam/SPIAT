@@ -48,9 +48,15 @@ An overview of the functions available is shown in the figure below.
 knitr::include_graphics("SPIAT-overview.jpg")
 ```
 
-Here are the vignettes for other modules of analyses with SPIAT:
-[Data reading and formatting](data_reading-formatting.html)
-[Quality control and visualisation](quality-control_visualisation.html)
+# You can access the vignettes for other modules of SPIAT here:
+
+## [Data reading and formatting](data_reading-formatting.html)
+## [Quality control and visualisation](quality-control_visualisation.html)
+## [Basic analysis](basic_analysis.html)
+## [Cell colocalisation](cell-colocalisation.html)
+## [Spatial heterogeneity](spatial-heterogeneity.html)
+## [Tissue structure](tissue-structure.html)
+## [Cellular neighborhood](neighborhood.html)
 
 # Installing `SPIAT`
 
@@ -81,14 +87,6 @@ approach. Thank you!
 ## Citation info
 citation("SPIAT")
 ```
-
-
-
-
-You can access the vignettes for other modules of SPIAT here:
-[Data reading and formatting](data_reading-formatting.html)
-
-
 
 
 # Author Contributions

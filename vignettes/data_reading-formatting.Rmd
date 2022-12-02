@@ -428,6 +428,16 @@ formatted_image <- define_celltypes(
     new_colname = "Cell.Type")
 ```
 
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Tissue structure](tissue-structure.html)
+ - [Cellular neighborhood](neighborhood.html)
+ 
 # Reproducibility
 
 ```{r}

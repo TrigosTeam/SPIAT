@@ -1,5 +1,5 @@
 ---
-title: "Cell colocalisation"
+title: "Quantifying cell colocalisation with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
 output: html_document
@@ -206,6 +206,16 @@ randomness in cell distribution, nor due to two close located immune and
 tumour clusters. This result aligns with the observation that there is
 an immune ring surrounding the tumour cluster.
 
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Tissue structure](tissue-structure.html)
+ - [Cellular neighborhood](neighborhood.html)
+ 
 # Reproducibility
 
 ```{r}

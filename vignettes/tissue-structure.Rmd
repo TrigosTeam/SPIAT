@@ -1,5 +1,5 @@
 ---
-title: "Characterise tissue structure with SPIAT"
+title: "Characterising tissue structure with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
 output: html_document
@@ -155,6 +155,16 @@ immune_distances
 
 Note that for cell types that are not present in a tumour structure,
 there will be NAs in the results.
+
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Cellular neighborhood](neighborhood.html)
 
 # Reproducibility
 

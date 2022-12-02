@@ -144,6 +144,16 @@ gradient_results <- entropy_gradient_aggregated(defined_image, cell_types_of_int
 plot(1:10,gradient_results$gradient_df[1, 3:12])
 ```
 
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Tissue structure](tissue-structure.html)
+ - [Cellular neighborhood](neighborhood.html)
+ 
 # Reproducibility
 
 ```{r}
