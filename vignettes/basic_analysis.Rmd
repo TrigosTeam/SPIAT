@@ -1,5 +1,5 @@
 ---
-title: "Basic analyses"
+title: "Basic analyses with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
 output: html_document
@@ -177,6 +177,16 @@ between cell types.
 plot_distance_heatmap(phenotype_distances_result = min_summary_dist, metric = "mean")
 ```
 
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Tissue structure](tissue-structure.html)
+ - [Cellular neighborhood](neighborhood.html)
+ 
 # Reproducibility
 
 ```{r}

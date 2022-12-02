@@ -1,5 +1,5 @@
 ---
-title: "Quality control and visualisation"
+title: "Quality control and visualisation with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
 output: html_document
@@ -280,6 +280,16 @@ plot, we have disabled the interactive plot in the vignette. (You can
 interactively move the plot around to obtain a better view with the same
 code.)
 
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Tissue structure](tissue-structure.html)
+ - [Cellular neighborhood](neighborhood.html)
+ 
 # Reproducibility
 
 ```{r}

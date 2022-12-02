@@ -1,5 +1,5 @@
 ---
-title: "Cellular neighborhood with SPIAT"
+title: "Identifying cellular neighborhood with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
 output: html_document
@@ -139,6 +139,16 @@ If the p value of ANNI is larger than the threshold, the pattern will be
 "Random". Although we give a default p value cutoff of 5e-6, we suggest
 the users to define their own cutoff based on the images and how they
 define the patterns "Clustered" and "Dispersed".
+
+# You can access the vignettes for other modules of SPIAT here:
+
+ - [Overview of SPIAT](introduction.html)
+ - [Data reading and formatting](data_reading-formatting.html)
+ - [Quality control and visualisation](quality-control_visualisation.html)
+ - [Basic analysis](basic_analysis.html)
+ - [Cell colocalisation](cell-colocalisation.html)
+ - [Spatial heterogeneity](spatial-heterogeneity.html)
+ - [Tissue structure](tissue-structure.html)
 
 # Reproducibility
 
