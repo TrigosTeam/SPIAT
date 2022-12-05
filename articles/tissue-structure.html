@@ -103,7 +103,7 @@
                         <h4 data-toc-skip class="author">Yuzhou
 Feng</h4>
             
-            <h4 data-toc-skip class="date">2022-12-02</h4>
+            <h4 data-toc-skip class="date">2022-12-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/tissue-structure.Rmd" class="external-link"><code>vignettes/tissue-structure.Rmd</code></a></small>
       <div class="hidden name"><code>tissue-structure.Rmd</code></div>
@@ -170,9 +170,10 @@ that this image has clear tumour margins.</p>
 <h3 id="automatic-identification-of-the-tumour-margin">Automatic identification of the tumour margin<a class="anchor" aria-label="anchor" href="#automatic-identification-of-the-tumour-margin"></a>
 </h3>
 <p>We can identify margins with <code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>.
-This function leverages off the alpha hull method <span class="citation">[@alphahull]</span> from the alpha hull package. Here
-we use tumour cells (Tumour_marker) as the reference to identify the
-bordering cells but any cell type can be used.</p>
+This function leverages off the alpha hull method <span class="citation">(Pateiro-Lopez, Rodriguez-Casal, and. 2019)</span> from
+the alpha hull package. Here we use tumour cells (Tumour_marker) as the
+reference to identify the bordering cells but any cell type can be
+used.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">formatted_border</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/identify_bordering_cells.html">identify_bordering_cells</a></span><span class="op">(</span><span class="va">formatted_image</span>, </span>
 <span>                                             reference_cell <span class="op">=</span> <span class="st">"Tumour"</span>, </span>
@@ -325,66 +326,75 @@ visualisation</a></li>
 <span><span class="co">##  [7] GenomeInfoDb_1.32.4         IRanges_2.30.1             </span></span>
 <span><span class="co">##  [9] S4Vectors_0.34.0            BiocGenerics_0.42.0        </span></span>
 <span><span class="co">## [11] MatrixGenerics_1.8.1        matrixStats_0.63.0         </span></span>
+<span><span class="co">## [13] BiocStyle_2.24.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] nlme_3.1-160              spatstat.sparse_3.0-0    </span></span>
-<span><span class="co">##   [3] bitops_1.0-7              fs_1.5.2                 </span></span>
-<span><span class="co">##   [5] rprojroot_2.0.3           tools_4.2.2              </span></span>
-<span><span class="co">##   [7] bslib_0.4.1               utf8_1.2.2               </span></span>
-<span><span class="co">##   [9] R6_2.5.1                  alphahull_2.5            </span></span>
-<span><span class="co">##  [11] HDF5Array_1.24.2          DBI_1.1.3                </span></span>
-<span><span class="co">##  [13] colorspace_2.0-3          rhdf5filters_1.8.0       </span></span>
-<span><span class="co">##  [15] withr_2.5.0               sp_1.5-1                 </span></span>
-<span><span class="co">##  [17] splancs_2.01-43           tidyselect_1.2.0         </span></span>
-<span><span class="co">##  [19] gridExtra_2.3             compiler_4.2.2           </span></span>
-<span><span class="co">##  [21] sgeostat_1.0-27           textshaping_0.3.6        </span></span>
-<span><span class="co">##  [23] cli_3.4.1                 spatstat.explore_3.0-5   </span></span>
-<span><span class="co">##  [25] desc_1.4.2                DelayedArray_0.22.0      </span></span>
-<span><span class="co">##  [27] labeling_0.4.2            sass_0.4.4               </span></span>
-<span><span class="co">##  [29] scales_1.2.1              spatstat.data_3.0-0      </span></span>
-<span><span class="co">##  [31] pkgdown_2.0.6             goftest_1.2-3            </span></span>
-<span><span class="co">##  [33] systemfonts_1.0.4         stringr_1.4.1            </span></span>
-<span><span class="co">##  [35] digest_0.6.30             spatstat.utils_3.0-1     </span></span>
-<span><span class="co">##  [37] rmarkdown_2.18            R.utils_2.12.2           </span></span>
-<span><span class="co">##  [39] XVector_0.36.0            pkgconfig_2.0.3          </span></span>
-<span><span class="co">##  [41] htmltools_0.5.3           sparseMatrixStats_1.8.0  </span></span>
-<span><span class="co">##  [43] highr_0.9                 fastmap_1.1.0            </span></span>
-<span><span class="co">##  [45] limma_3.52.4              rlang_1.0.6              </span></span>
-<span><span class="co">##  [47] DelayedMatrixStats_1.18.2 farver_2.1.1             </span></span>
-<span><span class="co">##  [49] jquerylib_0.1.4           generics_0.1.3           </span></span>
-<span><span class="co">##  [51] jsonlite_1.8.3            gtools_3.9.4             </span></span>
-<span><span class="co">##  [53] spatstat.random_3.0-1     BiocParallel_1.30.4      </span></span>
-<span><span class="co">##  [55] dplyr_1.0.10              R.oo_1.25.0              </span></span>
-<span><span class="co">##  [57] RCurl_1.98-1.9            magrittr_2.0.3           </span></span>
-<span><span class="co">##  [59] GenomeInfoDbData_1.2.8    scuttle_1.6.3            </span></span>
-<span><span class="co">##  [61] interp_1.1-3              Matrix_1.5-1             </span></span>
-<span><span class="co">##  [63] Rcpp_1.0.9                munsell_0.5.0            </span></span>
-<span><span class="co">##  [65] Rhdf5lib_1.18.2           fansi_1.0.3              </span></span>
-<span><span class="co">##  [67] abind_1.4-5               lifecycle_1.0.3          </span></span>
-<span><span class="co">##  [69] R.methodsS3_1.8.2         stringi_1.7.8            </span></span>
-<span><span class="co">##  [71] yaml_2.3.6                edgeR_3.38.4             </span></span>
-<span><span class="co">##  [73] zlibbioc_1.42.0           rhdf5_2.40.0             </span></span>
-<span><span class="co">##  [75] grid_4.2.2                parallel_4.2.2           </span></span>
-<span><span class="co">##  [77] dqrng_0.3.0               deldir_1.0-6             </span></span>
-<span><span class="co">##  [79] lattice_0.20-45           beachmat_2.12.0          </span></span>
-<span><span class="co">##  [81] tensor_1.5                locfit_1.5-9.6           </span></span>
-<span><span class="co">##  [83] magick_2.7.3              knitr_1.41               </span></span>
-<span><span class="co">##  [85] pillar_1.8.1              spatstat.geom_3.0-3      </span></span>
-<span><span class="co">##  [87] rjson_0.2.21              codetools_0.2-18         </span></span>
-<span><span class="co">##  [89] glue_1.6.2                evaluate_0.18            </span></span>
-<span><span class="co">##  [91] vctrs_0.5.1               RANN_2.6.1               </span></span>
-<span><span class="co">##  [93] polyclip_1.10-4           gtable_0.3.1             </span></span>
-<span><span class="co">##  [95] purrr_0.3.5               assertthat_0.2.1         </span></span>
-<span><span class="co">##  [97] cachem_1.0.6              ggplot2_3.4.0            </span></span>
-<span><span class="co">##  [99] xfun_0.35                 DropletUtils_1.16.0      </span></span>
-<span><span class="co">## [101] ragg_1.2.4                tibble_3.1.8             </span></span>
-<span><span class="co">## [103] memoise_2.0.1</span></span></code></pre>
+<span><span class="co">##   [1] colorspace_2.0-3          rjson_0.2.21             </span></span>
+<span><span class="co">##   [3] deldir_1.0-6              rprojroot_2.0.3          </span></span>
+<span><span class="co">##   [5] scuttle_1.6.3             XVector_0.36.0           </span></span>
+<span><span class="co">##   [7] fs_1.5.2                  spatstat.data_3.0-0      </span></span>
+<span><span class="co">##   [9] farver_2.1.1              fansi_1.0.3              </span></span>
+<span><span class="co">##  [11] codetools_0.2-18          R.methodsS3_1.8.2        </span></span>
+<span><span class="co">##  [13] sparseMatrixStats_1.8.0   cachem_1.0.6             </span></span>
+<span><span class="co">##  [15] knitr_1.41                polyclip_1.10-4          </span></span>
+<span><span class="co">##  [17] jsonlite_1.8.3            R.oo_1.25.0              </span></span>
+<span><span class="co">##  [19] HDF5Array_1.24.2          spatstat.sparse_3.0-0    </span></span>
+<span><span class="co">##  [21] BiocManager_1.30.19       compiler_4.2.2           </span></span>
+<span><span class="co">##  [23] dqrng_0.3.0               assertthat_0.2.1         </span></span>
+<span><span class="co">##  [25] Matrix_1.5-1              fastmap_1.1.0            </span></span>
+<span><span class="co">##  [27] limma_3.52.4              cli_3.4.1                </span></span>
+<span><span class="co">##  [29] htmltools_0.5.3           tools_4.2.2              </span></span>
+<span><span class="co">##  [31] gtable_0.3.1              glue_1.6.2               </span></span>
+<span><span class="co">##  [33] GenomeInfoDbData_1.2.8    RANN_2.6.1               </span></span>
+<span><span class="co">##  [35] dplyr_1.0.10              Rcpp_1.0.9               </span></span>
+<span><span class="co">##  [37] jquerylib_0.1.4           pkgdown_2.0.6            </span></span>
+<span><span class="co">##  [39] vctrs_0.5.1               rhdf5filters_1.8.0       </span></span>
+<span><span class="co">##  [41] sgeostat_1.0-27           spatstat.explore_3.0-5   </span></span>
+<span><span class="co">##  [43] nlme_3.1-160              DelayedMatrixStats_1.18.2</span></span>
+<span><span class="co">##  [45] spatstat.random_3.0-1     xfun_0.35                </span></span>
+<span><span class="co">##  [47] stringr_1.5.0             beachmat_2.12.0          </span></span>
+<span><span class="co">##  [49] lifecycle_1.0.3           gtools_3.9.4             </span></span>
+<span><span class="co">##  [51] goftest_1.2-3             edgeR_3.38.4             </span></span>
+<span><span class="co">##  [53] zlibbioc_1.42.0           scales_1.2.1             </span></span>
+<span><span class="co">##  [55] ragg_1.2.4                spatstat.utils_3.0-1     </span></span>
+<span><span class="co">##  [57] parallel_4.2.2            rhdf5_2.40.0             </span></span>
+<span><span class="co">##  [59] yaml_2.3.6                memoise_2.0.1            </span></span>
+<span><span class="co">##  [61] gridExtra_2.3             ggplot2_3.4.0            </span></span>
+<span><span class="co">##  [63] sass_0.4.4                stringi_1.7.8            </span></span>
+<span><span class="co">##  [65] highr_0.9                 desc_1.4.2               </span></span>
+<span><span class="co">##  [67] BiocParallel_1.30.4       rlang_1.0.6              </span></span>
+<span><span class="co">##  [69] pkgconfig_2.0.3           systemfonts_1.0.4        </span></span>
+<span><span class="co">##  [71] bitops_1.0-7              evaluate_0.18            </span></span>
+<span><span class="co">##  [73] lattice_0.20-45           purrr_0.3.5              </span></span>
+<span><span class="co">##  [75] tensor_1.5                Rhdf5lib_1.18.2          </span></span>
+<span><span class="co">##  [77] labeling_0.4.2            tidyselect_1.2.0         </span></span>
+<span><span class="co">##  [79] magrittr_2.0.3            bookdown_0.30            </span></span>
+<span><span class="co">##  [81] R6_2.5.1                  magick_2.7.3             </span></span>
+<span><span class="co">##  [83] generics_0.1.3            DelayedArray_0.22.0      </span></span>
+<span><span class="co">##  [85] DBI_1.1.3                 pillar_1.8.1             </span></span>
+<span><span class="co">##  [87] withr_2.5.0               abind_1.4-5              </span></span>
+<span><span class="co">##  [89] RCurl_1.98-1.9            sp_1.5-1                 </span></span>
+<span><span class="co">##  [91] tibble_3.1.8              DropletUtils_1.16.0      </span></span>
+<span><span class="co">##  [93] interp_1.1-3              utf8_1.2.2               </span></span>
+<span><span class="co">##  [95] spatstat.geom_3.0-3       rmarkdown_2.18           </span></span>
+<span><span class="co">##  [97] locfit_1.5-9.6            grid_4.2.2               </span></span>
+<span><span class="co">##  [99] splancs_2.01-43           digest_0.6.30            </span></span>
+<span><span class="co">## [101] alphahull_2.5             R.utils_2.12.2           </span></span>
+<span><span class="co">## [103] textshaping_0.3.6         munsell_0.5.0            </span></span>
+<span><span class="co">## [105] bslib_0.4.1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author Contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
 </h2>
 <p>AT, YF, TY, ML, JZ, VO, MD are authors of the package code. MD and YF
 wrote the vignette. AT, YF and TY designed the package.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-alphahull" class="csl-entry">
+Pateiro-Lopez, Beatriz, Alberto Rodriguez-Casal, and. 2019.
+<em>Alphahull: Generalization of the Convex Hull of a Sample of Points
+in the Plane</em>. <a href="https://CRAN.R-project.org/package=alphahull" class="external-link">https://CRAN.R-project.org/package=alphahull</a>.
+</div>
+</div>
 </div>
   </div>
 
