@@ -196,9 +196,13 @@ path to the Cluster ID/Cell type file.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>Note for "cellprofiler" format, when specifying `markers`, please
-  use "DAPI" to replace "DNA" due to implementation. The output data will
-  include "DAPI" instead of "DNA".</p>
+    <p>If the user inputs `intensity_matrix`, please make sure the
+  `colnames` of the intensity matrix are the cell IDs. If the
+  `intensity_matrix` is `NULL`, the function will automatically assign IDs to
+  the cells.</p>
+<p>Note for "cellprofiler" format, when specifying `markers`, please use
+  "DAPI" to replace "DNA" due to implementation. The output data will include
+  "DAPI" instead of "DNA".</p>
 <p>The format of "Phenotype" column: For example, a cell positive for both
   "CD3" and "CD4" markers has the "CD3,CD4" **cell phenotype**. The phenotype
   has to be strictly formatted in such way where each positive marker has to

@@ -148,6 +148,14 @@ the same order as in the <code>intensity_matrix</code>. If you have
 <code>Ymax</code> columns in the raw data, we advise calculating the
 average to obtain a single X and Y coordinate, which you can then use as
 input to <code>coord_x</code> and <code>coord_y</code>.</p>
+<p>Specifically, if <code>intensity_matrix</code> is available, please
+make sure the <code>colnames</code> of the intensity matrix are the cell
+IDs as some SPIAT functions (like
+<code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>) require the constructed image
+object to have cell IDs as <code>rownames</code> of the colData and
+<code>colnames</code> of the intensity matrix. If
+<code>intensity_matrix</code> is <code>NULL</code>, the function will
+automatically assign IDs to the cells.</p>
 <p>Here we use some dummy data to illustrate how to read “general”
 format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -172,15 +180,6 @@ format.</p>
 <span>                                            intensity_matrix <span class="op">=</span> <span class="va">intensity_matrix</span>,</span>
 <span>                                            phenotypes <span class="op">=</span> <span class="va">phenotypes</span>, </span>
 <span>                                            coord_x <span class="op">=</span> <span class="va">coord_x</span>,coord_y <span class="op">=</span> <span class="va">coord_y</span><span class="op">)</span></span></code></pre></div>
-<p>Please note that some SPIAT functions (like
-<code><a href="../reference/identify_bordering_cells.html">identify_bordering_cells()</a></code>) require the constructed image
-object to have cell IDs as <code>rownames</code> of the colData and
-<code>colnames</code> of the intensity matrix. If no intensity matrix
-was provided, please follow this example to do so.
-<code>rownames(colData(object_name)) &lt;- paste("Cell", 1:nrow(colData(object_name)), sep="_")</code>.
-Without intensity matrix, users can proceed with the analyses with
-functions in SPIAT, except the ones that require marker intensities as
-input.</p>
 <p>The formatted image now contains phenotypes, locations, and marker
 intensity information of 3 cells. Note that if users want to define cell
 IDs, the cell IDs should be defined as the colnames of the intensity
@@ -189,7 +188,8 @@ order of the colnames of the intensity matrix. The function will
 automatically assign rownames to the <code><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords()</a></code> and
 <code>colData()</code> of the image (now as a
 <code>spatialExperiment</code> object).</p>
-<p>Use the following code to inspect the information.</p>
+<p>Use the following code to inspect the formatted SpatialExperiment
+object.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># phenotypes and cell properties (if available)</span></span>
 <span><span class="fu">colData</span><span class="op">(</span><span class="va">general_format_image</span><span class="op">)</span></span></code></pre></div>
