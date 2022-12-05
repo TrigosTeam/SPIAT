@@ -1,0 +1,14 @@
+- category: Introduction
+  vignettes:
+    - title: Overview of the SPIAT package
+      name: introduction
+      summary: |
+        A basic overview of SPIAT that includes an introduction to common analytical workflows.
+      image: SPIAT-overview.jpg
+
+
+- category: Analyses
+  vignettes:
+    - name: data_reading-formatting
+      title: Reading in data and data formatting in SPIAT
+      link: https://trigosteam.github.io/SPIAT/articles/data_reading-formatting.html
