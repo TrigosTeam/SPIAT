@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/SPIAT.html</loc>
+  </url>
+  <url>
     <loc>/articles/basic_analysis.html</loc>
   </url>
   <url>
@@ -14,9 +17,6 @@
   </url>
   <url>
     <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/introduction.html</loc>
   </url>
   <url>
     <loc>/articles/neighborhood.html</loc>
