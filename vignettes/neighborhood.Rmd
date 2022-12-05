@@ -155,7 +155,7 @@ define the patterns "Clustered" and "Dispersed".
 
 # You can access the vignettes for other modules of SPIAT here:
 
- - [Overview of SPIAT](introduction.html)
+ - [Overview of SPIAT](SPIAT.html)
  - [Data reading and formatting](data_reading-formatting.html)
  - [Quality control and visualisation](quality-control_visualisation.html)
  - [Basic analysis](basic_analysis.html)

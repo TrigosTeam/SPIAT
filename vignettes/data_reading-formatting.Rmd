@@ -444,7 +444,7 @@ formatted_image <- define_celltypes(
 
 # You can access the vignettes for other modules of SPIAT here:
 
- - [Overview of SPIAT](introduction.html)
+ - [Overview of SPIAT](SPIAT.html)
  - [Quality control and visualisation](quality-control_visualisation.html)
  - [Basic analysis](basic_analysis.html)
  - [Cell colocalisation](cell-colocalisation.html)

@@ -295,7 +295,7 @@ code.)
 
 # You can access the vignettes for other modules of SPIAT here:
 
- - [Overview of SPIAT](introduction.html)
+ - [Overview of SPIAT](SPIAT.html)
  - [Data reading and formatting](data_reading-formatting.html)
  - [Basic analysis](basic_analysis.html)
  - [Cell colocalisation](cell-colocalisation.html)
