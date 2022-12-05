@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.2</span>
       </span>
     </div>
 
@@ -119,13 +119,13 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># The following initializes usage of Bioc devel</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">'devel'</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"SPIAT"</span><span class="op">)</span></span></code></pre></div>
 <p>You can also install the latest development version from Github.</p>
-<p><code>{r install_github, eval = FALSE} if (!requireNamespace("devtools", quietly = TRUE)) {       install.packages("devtools")} devtools::install_github("TrigosTeam/SPIAT")</code> The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">}</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"TrigosTeam/SPIAT"</span><span class="op">)</span></span></code></pre></div>
+<p>The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.</p>
 </div>
 <div class="section level2">
 <h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
@@ -135,13 +135,12 @@
 <div class="section level2">
 <h2 id="authors-of-the-package">Authors of the package<a class="anchor" aria-label="anchor" href="#authors-of-the-package"></a>
 </h2>
-<p>Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and desgined the package.</p>
+<p>Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and designed the package.</p>
 </div>
 <div class="section level2">
 <h2 id="paper-reference">Paper reference<a class="anchor" aria-label="anchor" href="#paper-reference"></a>
 </h2>
 <p>Our latest paper is currently under review! However, you can have a look at our previous SPIAT pre-print here: <a href="https://www.biorxiv.org/content/10.1101/2020.05.28.122614v1" class="external-link uri">https://www.biorxiv.org/content/10.1101/2020.05.28.122614v1</a></p>
-<p>Note that the version used in the manuscript under review is v0.99.0. The release can be accessed <a href="https://github.com/TrigosTeam/SPIAT/releases/tag/v0.99.0" class="external-link">here</a>.</p>
 </div>
 </div>
   </div>
@@ -174,8 +173,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Anna Trigos <br><small class="roles"> Author </small>  </li>
-<li>Yuzhou  Feng <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Anna Trigos <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5915-2952" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Yuzhou  Feng <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2955-4053" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Tianpei  Yang <br><small class="roles"> Author </small>  </li>
 <li>Mabel  Li <br><small class="roles"> Author </small>  </li>
 <li>John  Zhu <br><small class="roles"> Author </small>  </li>
