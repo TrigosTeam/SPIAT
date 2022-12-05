@@ -9,9 +9,14 @@
 #'   constructed input), or data from other platforms including inForm, HALO,
 #'   CODEX and cellprofiler. Alternatively, users can use the specific function
 #'   for each format.
-#' @details Note for "cellprofiler" format, when specifying `markers`, please
-#'   use "DAPI" to replace "DNA" due to implementation. The output data will
-#'   include "DAPI" instead of "DNA".
+#' @details If the user inputs `intensity_matrix`, please make sure the
+#'   `colnames` of the intensity matrix are the cell IDs. If the
+#'   `intensity_matrix` is `NULL`, the function will automatically assign IDs to
+#'   the cells.
+#'
+#'   Note for "cellprofiler" format, when specifying `markers`, please use
+#'   "DAPI" to replace "DNA" due to implementation. The output data will include
+#'   "DAPI" instead of "DNA".
 #'
 #'   The format of "Phenotype" column: For example, a cell positive for both
 #'   "CD3" and "CD4" markers has the "CD3,CD4" **cell phenotype**. The phenotype
