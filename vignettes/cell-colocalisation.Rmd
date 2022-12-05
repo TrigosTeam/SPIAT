@@ -2,7 +2,20 @@
 title: "Quantifying cell colocalisation with SPIAT"
 author: "Yuzhou Feng"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    toc_float: true
+    toc_depth: 4
+package: "`r pkg_ver('SPIAT')`"
+bibliography: "`r file.path(system.file(package='SPIAT', 'vignettes'), 'introduction.bib')`"    
+vignette: >
+  %\VignetteIndexEntry{Quantifying cell colocalisation with SPIAT}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
