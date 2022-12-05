@@ -1,3 +1,18 @@
+# SPIAT 1.1.2
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Re-organised the vignettes.  
+
+# SPIAT 1.1.1
+
+BUG FIXES
+* Fix bug when Cell.ID column is missing from the spe_object in `identify_neighborhood()`.
+
+# SPIAT 1.1.0
+
+Development version on Bioconductor 3.17.
+
 # SPIAT 0.99.14
 
 BUG FIXES
