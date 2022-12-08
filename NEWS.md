@@ -1,3 +1,8 @@
+# SPIAT 1.1.3
+
+BUG FIXES
+* The calculation of cell types of interest to `All_cells_in_the_structure` in `calculate_proportions_of_cells_in_structure()` was incorrect. Now fixed.
+
 # SPIAT 1.1.2
 
 SIGNIFICANT USER-VISIBLE CHANGES
