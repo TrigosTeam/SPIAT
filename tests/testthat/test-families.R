@@ -82,16 +82,16 @@ test_that("functions in tissue structure family work", {
                         "The_same_cell_type_in_the_whole_image", 
                         "All_cells_in_the_structure"),
         P.Infiltrated.CoI=as.numeric(c("0", "0.12576687", "0", "1", 
-                                          "0", "0.06507937", "0.14385965")),
+                                          "0", "0.06507937", "0.12576687")),
         P.Internal.Margin.CoI = as.numeric(c("0", "0.08071749", "0", "1", 
-                                                "0", "0.05714286", "0.08780488")),
+                                                "0", "0.05714286", "0.08071749")),
         P.External.Margin.CoI = as.numeric(c("0.001733102",  "0.681109185", 
                                                 "0.002538071", "0.997461929", 
                                                 "0.002958580", "0.623809524", 
-                                                "2.170329670")),
+                                                "0.684575390")),
         P.Stromal.CoI=as.numeric(c("0.09658928", "0.04585841", "0.67806841", 
                                       "0.32193159", "0.99704142", "0.25396825", 
-                                      "0.23943162")))
+                                      "0.19317856")))
     out <- calculate_proportions_of_cells_in_structure(
         spe_structure, cell_types_of_interest = c("Immune1","Immune3"),
         feature_colname = "Cell.Type")

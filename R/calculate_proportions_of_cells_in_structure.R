@@ -88,15 +88,15 @@ calculate_proportions_of_cells_in_structure <- function(spe_object,
     
     #Total interested cells relative to all cells in each area
     p_i_in <- length(which(data_local$Structure == "Infiltrated.CoI"))/
-        length(which(data_local$Structure == "Inside"))
+        length(which(data_local$Structure %in% c("Inside", "Infiltrated.CoI")))
     p_i_i.f.in <- length(which(data_local$Structure=="Internal.margin.CoI"))/
-        length(which(data_local$Structure == "Internal.margin"))
+        length(which(data_local$Structure %in% c("Internal.margin", "Internal.margin.CoI")))
     # proportion of CoI cells of the invasive front that are outside
     p_i_i.f.out <-length(which(data_local$Structure=="External.margin.CoI"))/
-        length(which(data_local$Structure == "External.margin"))
+        length(which(data_local$Structure %in% c("External.margin", "External.margin.CoI")))
     # proportion of exclusice CoI cells that are out of the tumour region
     p_i_out <- length(which(data_local$Structure == "Stromal.CoI"))/
-        length(which(data_local$Structure == "Outside"))
+        length(which(data_local$Structure %in% c("Outside", "Stromal.CoI")))
     
     proportions <- rbind(
         proportions, c("All_cells_of_interest", "All_cells_in_the_structure", 
