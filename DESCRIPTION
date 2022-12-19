@@ -69,7 +69,6 @@ Imports:
     spatstat.explore,
     raster,
     sp,
-    xROI,
     elsa,
     Rtsne,
     umap,
@@ -81,7 +80,8 @@ Suggests:
     knitr,
     rmarkdown,
     pkgdown,
-    testthat
+    testthat,
+    xROI
 biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/trigosteam/SPIAT/issues
 RoxygenNote: 7.2.0
