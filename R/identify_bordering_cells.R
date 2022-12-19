@@ -74,6 +74,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
     }else{
         l <- list()
         for (i in seq_len(n_of_polygons)){
+            requireNamespace("xROI", quietly = TRUE)
             draw.polys <- xROI::drawPolygon()
             poly <- sp::Polygon(draw.polys, hole = FALSE)
             l[[i]] <- poly}}
