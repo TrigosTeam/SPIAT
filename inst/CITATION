@@ -11,7 +11,7 @@ bibentry(
     person("Volkan", "Ozcoban"),
     person("Maria", "Doyle")
   ),
-  note = "R package version 0.99.0",
+  note = "R package version 1.0.3",
   year = "2022",
   url = "https://trigosteam.github.io/SPIAT/"),
 bibentry(
