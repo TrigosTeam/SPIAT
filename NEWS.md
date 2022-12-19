@@ -1,3 +1,38 @@
+# SPIAT 1.0.3
+
+BUG FIXES
+
+* Fixed error when there are only one cell in the clusters. (`identify_neighborhoods()`).
+* The calculation of cell types of interest to `All_cells_in_the_structure` in `calculate_proportions_of_cells_in_structure()` was incorrect. Now fixed.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Re-organised the vignettes.  
+
+# SPIAT 1.0.2
+
+BUG FIXES
+* Fix bug when Cell.ID column is missing from the spe_object in `identify_neighborhood()`.
+
+# SPIAT 1.0.0
+
+SPIAT released on Bioconductor 3.16.
+
+# SPIAT 0.99.14
+
+BUG FIXES
+
+* Fixed bugs in `identify_neighborhoods()`:
+1) Assign "Free_cell" to the cells of interest when the number of clustered cells are smaller than `min_cluster_size` in each cluster; 
+2) Fixed spe_object output (Adding "Neighborhood" column had a bug previously).
+
+# SPIAT 0.99.13
+
+BUG FIXES
+
+* Minor bug in `average_nearest_neighbor_index()` - the variable `output` was 
+not defined when there is no reference cell found in the image.
+
 # SPIAT 0.99.12
 
 SIGNIFICANT USER-VISIBLE CHANGES
