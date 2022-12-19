@@ -53,111 +53,114 @@ identify_neighborhoods <- function(spe_object, method = "hierarchical",
     
     #CHECK
     if (nrow(formatted_data) == 0) {
-        stop("There are no cells in data/no cells for the phenotypes of interest")
-    }
-    
-    
-    # hierarchical clustering
-    if (method == "hierarchical"){
-        rownames(formatted_data) <- formatted_data$Cell.ID
-        
-        # compute the similarity matrix between cells pairwisely (negtive dist)
-        sim_close <- - apcluster::negDistMat(formatted_data[,c("Cell.X.Position", "Cell.Y.Position")])
-        
-        sim_close[sim_close > radius] <- NA
-        sim_close[sim_close == 0] <- NA
-        
-        #Remove rows, columns with only NAs
-        sim_close <- sim_close[apply(sim_close, 1, function(x){
-            if(sum(is.na(x)) == length(x)){
-                return(FALSE)
-            }else{
-                return(TRUE)
-            }} ),]
-        
-        if (is.null(dim(sim_close))){
-            formatted_data$Cluster <- NA
-            plot_clusters <- FALSE
-        }else{
-            if (nrow(sim_close) == 0) {
-                formatted_data[formatted_data[[feature_colname]] %in% 
-                                   cell_types_of_interest, "Cluster"] <- "Free_cell"
+        message("There are no cells in data/no cells for the phenotypes of interest")
+        formatted_data <- get_colData(spe_object)
+        formatted_data$Cluster <- NA
+        plot_clusters <- FALSE
+    }else{
+        # hierarchical clustering
+        if (method == "hierarchical"){
+            rownames(formatted_data) <- formatted_data$Cell.ID
+            
+            # compute the similarity matrix between cells pairwisely (negtive dist)
+            sim_close <- - apcluster::negDistMat(formatted_data[,c("Cell.X.Position", "Cell.Y.Position")])
+            
+            sim_close[sim_close > radius] <- NA
+            sim_close[sim_close == 0] <- NA
+            
+            #Remove rows, columns with only NAs
+            sim_close <- sim_close[apply(sim_close, 1, function(x){
+                if(sum(is.na(x)) == length(x)){
+                    return(FALSE)
+                }else{
+                    return(TRUE)
+                }} ),]
+            
+            if (is.null(dim(sim_close))){
+                formatted_data$Cluster <- NA
                 plot_clusters <- FALSE
-                message("There are no clusters detected in this image. All cells of interest are free cells.")
-            }
-            else {
-                sim_close <- sim_close[, apply(sim_close, 2, 
-                                               function(x) {
-                                                   if (sum(is.na(x)) == length(x)) {
-                                                       return(FALSE)
-                                                   }
-                                                   else {
-                                                       return(TRUE)
-                                                   }
-                                               })]
-                cells_in_cluster <- rownames(sim_close)
-                sim_close <- ifelse(is.na(sim_close), 1, 0)
-                if (nrow(sim_close) != 0 & ncol(sim_close) != 
-                    0) {
-                    h <- stats::hclust(stats::as.dist(sim_close), 
-                                       method = "single")
-                    local_clusters <- stats::cutree(h, h = 0.5)
-                    formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, 
-                                                                                names(local_clusters))])
-                }
-                else {
-                    formatted_data$Cluster <- NA
-                }
-                summarised_data <- formatted_data %>% group_by(Cluster) %>% 
-                    summarise(n = n())
-                big_clusters <- summarised_data[summarised_data$n > 
-                                                    min_neighborhood_size, "Cluster"]$Cluster
-                if (length(big_clusters) == 0) {
+            }else{
+                if (nrow(sim_close) == 0) {
                     formatted_data[formatted_data[[feature_colname]] %in% 
                                        cell_types_of_interest, "Cluster"] <- "Free_cell"
                     plot_clusters <- FALSE
                     message("There are no clusters detected in this image. All cells of interest are free cells.")
                 }
                 else {
-                    formatted_data[formatted_data$Cluster %in% big_clusters, 
-                                   "size"] <- "larger"
-                    cluster_ids <- unique(formatted_data[formatted_data$size == 
-                                                             "larger", "Cluster"])
-                    n_cluster <- length(cluster_ids)
-                    n <- 1
-                    for (cluster_id in cluster_ids) {
-                        if (!is.na(cluster_id)) {
-                            formatted_data[which(formatted_data$Cluster == 
-                                                     cluster_id), "new_cluster"] <- n
-                            n <- n + 1
-                        }
+                    sim_close <- sim_close[, apply(sim_close, 2, 
+                                                   function(x) {
+                                                       if (sum(is.na(x)) == length(x)) {
+                                                           return(FALSE)
+                                                       }
+                                                       else {
+                                                           return(TRUE)
+                                                       }
+                                                   })]
+                    cells_in_cluster <- rownames(sim_close)
+                    sim_close <- ifelse(is.na(sim_close), 1, 0)
+                    if (nrow(sim_close) != 0 & ncol(sim_close) != 
+                        0) {
+                        h <- stats::hclust(stats::as.dist(sim_close), 
+                                           method = "single")
+                        local_clusters <- stats::cutree(h, h = 0.5)
+                        formatted_data$Cluster <- as.character(local_clusters[match(formatted_data$Cell.ID, 
+                                                                                    names(local_clusters))])
                     }
-                    formatted_data$Cluster <- formatted_data$new_cluster
-                    formatted_data$Cluster <- as.character(formatted_data$Cluster)
-                    formatted_data$new_cluster <- NULL
-                    formatted_data$size <- NULL
+                    else {
+                        formatted_data$Cluster <- NA
+                    }
+                    summarised_data <- formatted_data %>% group_by(Cluster) %>% 
+                        summarise(n = n())
+                    big_clusters <- summarised_data[summarised_data$n > 
+                                                        min_neighborhood_size, "Cluster"]$Cluster
+                    if (length(big_clusters) == 0) {
+                        formatted_data[formatted_data[[feature_colname]] %in% 
+                                           cell_types_of_interest, "Cluster"] <- "Free_cell"
+                        plot_clusters <- FALSE
+                        message("There are no clusters detected in this image. All cells of interest are free cells.")
+                    }
+                    else {
+                        formatted_data[formatted_data$Cluster %in% big_clusters, 
+                                       "size"] <- "larger"
+                        cluster_ids <- unique(formatted_data[formatted_data$size == 
+                                                                 "larger", "Cluster"])
+                        n_cluster <- length(cluster_ids)
+                        n <- 1
+                        for (cluster_id in cluster_ids) {
+                            if (!is.na(cluster_id)) {
+                                formatted_data[which(formatted_data$Cluster == 
+                                                         cluster_id), "new_cluster"] <- n
+                                n <- n + 1
+                            }
+                        }
+                        formatted_data$Cluster <- formatted_data$new_cluster
+                        formatted_data$Cluster <- as.character(formatted_data$Cluster)
+                        formatted_data$new_cluster <- NULL
+                        formatted_data$size <- NULL
+                    }
                 }
             }
         }
+        else if (method == "dbscan"){
+            cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+            #Use dbscan to generate clusters
+            db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_neighborhood_size)
+            #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
+            formatted_data$Cluster <- factor(db$cluster + 1)
+        }
+        else if (method == "rphenograph"){
+            # if (requireNamespace("Rphenograph", quietly = TRUE)) {
+            #   cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
+            #   Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
+            #   formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
+            # } 
+            stop("This option is not available for this version yet! Check dev version for this function!")
+        }
+        else {
+            stop("Please select a valid clustering method, current options: dbscan")
+        }
     }
-    else if (method == "dbscan"){
-        cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-        #Use dbscan to generate clusters
-        db <- dbscan::dbscan(cell_cords, eps = radius, minPts = min_neighborhood_size)
-        #since dbscan outputs cluster 0 as noise, we add 1 to all cluster numbers to keep it consistent
-        formatted_data$Cluster <- factor(db$cluster + 1)
-    }
-    else if (method == "rphenograph"){
-        # if (requireNamespace("Rphenograph", quietly = TRUE)) {
-        #   cell_cords <- formatted_data[,c("Cell.X.Position", "Cell.Y.Position")]
-        #   Rphenograph_out <- Rphenograph::Rphenograph(cell_cords, k = k)
-        #   formatted_data$Cluster <- factor(igraph::membership(Rphenograph_out[[2]]))
-        # } 
-        stop("This option is not available for this version yet! Check dev version for this function!")
-    }
-    else {
-        stop("Please select a valid clustering method, current options: dbscan")
-    }
+    
     
     #get cells assigned to clusters
     cells_in_clusters <- formatted_data[stats::complete.cases(formatted_data),]
