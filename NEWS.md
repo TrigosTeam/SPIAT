@@ -1,3 +1,8 @@
+# SPIAT 1.1.4
+
+BUG FIXES
+* Fixed error when there are only one cell in the clusters. (`identify_neighborhoods()`).
+
 # SPIAT 1.1.3
 
 BUG FIXES
