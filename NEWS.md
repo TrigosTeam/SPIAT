@@ -1,3 +1,14 @@
+# SPIAT 1.0.4
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Return message instead of error when there are no cells of interest present 
+in the image (`identify_neighborhoods()`).
+
+NOTES
+
+* Moved package `xROI` from imports to suggests.
+
 # SPIAT 1.0.3
 
 BUG FIXES
@@ -12,6 +23,7 @@ SIGNIFICANT USER-VISIBLE CHANGES
 # SPIAT 1.0.2
 
 BUG FIXES
+
 * Fix bug when Cell.ID column is missing from the spe_object in `identify_neighborhood()`.
 
 # SPIAT 1.0.0
