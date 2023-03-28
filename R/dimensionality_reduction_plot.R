@@ -38,6 +38,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
         if (dim(formatted_data)[1] <= 14){
             stop("The image should contain at least 15 cells to plot UMAP.")
         }
+        requireNamespace("umap", quietly = TRUE)
         intensity_DR <- umap::umap(intensity_matrix_no_DAPI_scaled)
         intensity_DR_layout <- as.data.frame(intensity_DR$data)
         colnames(intensity_DR_layout) <- c("dim_X", "dim_Y")
@@ -54,6 +55,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
             warning("The perplexity for tsne has been changed to ", perplexity,
                     " due to the small cell count in the image.")
         }
+        requireNamespace("Rtsne", quietly = TRUE)
         intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled,
                                      perplexity = perplexity)
         intensity_DR_layout <- as.data.frame(intensity_DR$Y)

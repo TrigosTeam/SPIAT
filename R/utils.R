@@ -212,7 +212,7 @@ plot_cell_basic <- function(spe_object, cell_types_of_interest, colour_vector,
     y.max <- max(formatted_data$Cell.Y.Position)
     x <- x.max + 2
     y <- y.max/2
-    
+    requireNamespace("graphics", quietly = TRUE)
     graphics::par(mar=c(5.1, 4.1, 4.1, 5.1), xpd=TRUE)
     graphics::legend(x,y, legend=all_phenotypes,
            col=all_colours, cex=0.6, pch = 19, box.lty=0, bg='gray')

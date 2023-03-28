@@ -61,7 +61,6 @@ Imports:
     stats,
     utils,
     vroom,
-    ComplexHeatmap,
     dittoSeq,
     spatstat.geom,
     alphahull,
@@ -69,11 +68,6 @@ Imports:
     spatstat.explore,
     raster,
     sp,
-    elsa,
-    Rtsne,
-    umap,
-    rlang,
-    graphics,
     SummarizedExperiment
 Suggests:
     BiocStyle,
@@ -81,7 +75,12 @@ Suggests:
     rmarkdown,
     pkgdown,
     testthat,
-    xROI
+    graphics,
+    Rtsne,
+    umap,
+    rlang,
+    ComplexHeatmap,
+    elsa
 biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/trigosteam/SPIAT/issues
 RoxygenNote: 7.2.0
