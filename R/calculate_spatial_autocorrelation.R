@@ -17,6 +17,7 @@
 
 calculate_spatial_autocorrelation <- function(raster_obj, 
                                               metric = "globalmoran"){
+    requireNamespace("elsa", quietly = TRUE)
     raster_obj@data@values[is.na(raster_obj@data@values)] = 0
     if (metric == "GearyC"){
         return(elsa::geary(raster_obj, d1=0, d2=600))

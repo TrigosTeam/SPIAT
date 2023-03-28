@@ -49,6 +49,7 @@ plot_composition_heatmap <- function(composition, pheno_to_exclude = NULL,
     
     #plot the heatmap
     map_cols <- grDevices::colorRampPalette(c("white", "red"))(1000)
+    requireNamespace("ComplexHeatmap", quietly = TRUE)
     ha <- ComplexHeatmap::HeatmapAnnotation(
         "size" = ComplexHeatmap::anno_barplot(cluster_size), 
         show_annotation_name = FALSE)
