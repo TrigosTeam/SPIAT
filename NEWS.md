@@ -1,3 +1,14 @@
+# SPIAT 1.1.5
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Return message instead of error when there are no cells of interest present in the image (identify_neighborhoods()).
+* Removed the option of manually defining tumour regions in `identify_bordering_cells()`. Removed parameters `n_of_polygons` and `draw`.
+
+NOTES
+
+* Moved the following packages from Imports to Suggestions: graphics, umap, Rtsne, rlang, ComplexHeatmap and elsa. SpatialExperiment requires version >= 1.8.0. Removed xROI.
+
 # SPIAT 1.1.4
 
 BUG FIXES
