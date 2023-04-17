@@ -1,3 +1,13 @@
+# SPIAT 1.0.5
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Removed the option of manually defining tumour regions in `identify_bordering_cells()`. Removed parameters `n_of_polygons` and `draw`.
+
+NOTES
+
+* Moved the following packages from Imports to Suggestions: graphics, umap, Rtsne, rlang, ComplexHeatmap and elsa. SpatialExperiment requires version >= 1.8.0. Removed xROI.
+
 # SPIAT 1.0.4
 
 SIGNIFICANT USER-VISIBLE CHANGES
