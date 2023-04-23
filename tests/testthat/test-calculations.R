@@ -142,9 +142,9 @@ test_that("mixing_score_summary() works", {
                       Number_of_reference_cells = 819,
                       Number_of_target_cells = 338,
                       Reference_target_interaction = 80,
-                      Reference_reference_interaction = 5026,
-                      Mixing_score = 0.0159,
-                      Normalised_mixing_score = 0.077)
+                      Reference_reference_interaction = 2513,
+                      Mixing_score = 0.03183446,
+                      Normalised_mixing_score = 0.0385)
     
     out <- mixing_score_summary(defined_image, reference_celltype = "Tumour", 
                                 target_celltype="Immune1",

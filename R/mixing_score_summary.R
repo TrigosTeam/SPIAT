@@ -64,7 +64,7 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
                 reference_reference_result <- dbscan::frNN(reference_cell_cords, 
                                                            eps = radius, sort = FALSE)
                 reference_reference_interactions <- sum(rapply(reference_reference_result$id, 
-                                                               length))
+                                                               length))/2 # halve it to avoid counting each ref-ref interaction twice
                 df <-  rbind(df[ ,df.cols], 
                              c(i, j, nrow(reference_cells), 0, 0, reference_reference_interactions, NA, NA))
             }
@@ -80,10 +80,10 @@ mixing_score_summary <- function(spe_object, reference_celltype, target_celltype
                 reference_reference_result <- dbscan::frNN(reference_cell_cords, 
                                                            eps = radius, sort = FALSE)
                 reference_reference_interactions <- sum(rapply(reference_reference_result$id, 
-                                                               length))
+                                                               length))/2 # halve it to avoid counting each ref-ref interaction twice
                 if (reference_reference_interactions != 0) {
                     mixing_score <- reference_target_interactions/reference_reference_interactions
-                    normalised_mixing_score <- 2 * mixing_score * (nrow(reference_cells)-1) / nrow(target_cells)
+                    normalised_mixing_score <- 0.5 * mixing_score * (nrow(reference_cells)-1) / nrow(target_cells)
                 }else {
                     normalised_mixing_score <- mixing_score <- 0
                     methods::show(paste("There are no reference to reference interactions for", j, "in the specified radius, cannot calculate mixing score"))
