@@ -1,3 +1,9 @@
+# SPIAT 1.1.6
+
+BUG FIXES
+
+* Fixed the mixing score and normalised mixing score calculation. Each reference-reference interaction is now counted once (was treated directional and counted twice) and the fraction of normalised mixing score is fixed.
+
 # SPIAT 1.1.5
 
 SIGNIFICANT USER-VISIBLE CHANGES
