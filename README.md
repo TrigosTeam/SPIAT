@@ -30,5 +30,5 @@ The vignette with an overview of the package can be accessed from the top Menu u
 Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and designed the package. 
 
 ## Paper reference
-Our latest paper is currently under review! However, you can have a look at our previous SPIAT pre-print here:
-https://www.biorxiv.org/content/10.1101/2020.05.28.122614v1
+Please check our latest paper for more information!
+Yuzhou Feng et al, Spatial analysis with SPIAT and spaSim to characterize and simulate tissue microenvironments, Nature Communications (2023). DOI: 10.1038/s41467-023-37822-0
