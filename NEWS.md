@@ -1,3 +1,11 @@
+# SPIAT 1.3.1
+
+* Added citation to the newly published paper.
+
+# SPIAT 1.3.0
+
+Development version on Bioconductor 3.18.
+
 # SPIAT 1.1.6
 
 BUG FIXES
