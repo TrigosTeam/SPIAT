@@ -82,6 +82,7 @@ identify_bordering_cells <- function(spe_object, reference_cell,
     
     # ahull of the tumour cells
     # define the value of alpha
+    requireNamespace("alphahull", quietly = TRUE)
     if (is.null(ahull_alpha)){
         n_cells <- dim(tumour_in_polygon)[1]
         if (n_cells<200){
