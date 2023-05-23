@@ -31,14 +31,14 @@ plot_cell_marker_levels <- function(spe_object, marker) {
     
     #selecting cells that do not contain the marker
     #for one entry that is not marker
-    rows <- formatted_data[formatted_data$Phenotype != marker, ] 
+    #rows <- formatted_data[formatted_data$Phenotype != marker, ] 
     #for multiple entries that does not contain marker
-    rows <- rows[!grepl(marker, rows$Phenotype), ] 
+    #rows <- rows[!grepl(marker, rows$Phenotype), ] 
     
     #for those cell without the marker, set marker intensity to 0
     #and merge the formatted_data
-    rows[, marker] <- 0
-    formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),]<-rows
+    #rows[, marker] <- 0
+    #formatted_data[match(rows$Cell.ID,formatted_data$Cell.ID),]<-rows
     
     #selecting the cells that have intensity for a specific marker
     column <- which(colnames(formatted_data) == marker)
