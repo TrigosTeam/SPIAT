@@ -130,6 +130,7 @@ marker_surface_plot <- function(spe_object, num_splits, marker, x_position_min =
     #rename the matrix
     mean_marker_level <- my_matrix
 
+    requireNamespace("plotly", quietly = TRUE)
     plotly::plot_ly(z = ~mean_marker_level, reversescale = TRUE) %>% plotly::add_surface()
     
 

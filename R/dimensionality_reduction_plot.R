@@ -20,7 +20,7 @@
 dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP", 
                                           scale=TRUE, 
                                           perplexity = 30, feature_colname){
-    
+    requireNamespace("plotly", quietly = TRUE)
     Cell_ID <- dim_X <- dim_Y <- Label <- NULL
     formatted_data <- get_colData(spe_object)
     
