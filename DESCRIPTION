@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",

@@ -1,3 +1,10 @@
+# SPIAT 1.2.2
+
+NOTES
+
+* Fixed typo in citation and SPIAT overview diagram.
+* Moved the following packages from Imports to Suggestions: alphahull, plotly.
+
 # SPIAT 1.2.1
 
 * Added citation to the newly published paper.
