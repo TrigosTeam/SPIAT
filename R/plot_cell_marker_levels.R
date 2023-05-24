@@ -52,7 +52,7 @@ plot_cell_marker_levels <- function(spe_object, marker) {
     #log the intensity to improve contrast
     intensity_by_marker[,marker] <- log10(intensity_by_marker[,marker])
     
-    ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position,
+    g <- ggplot(intensity_by_marker, aes(x = Cell.X.Position, y = Cell.Y.Position,
                                     colour = eval(parse(text = marker)))) +
         geom_point(aes(colour=eval(parse(text = marker))),size = 0.1) +
         ggtitle(marker) +
@@ -68,4 +68,5 @@ plot_cell_marker_levels <- function(spe_object, marker) {
               axis.title.y = element_blank(),
               axis.text.y = element_blank(),
               axis.ticks.y = element_blank())
+    methods::show(g)
 }
