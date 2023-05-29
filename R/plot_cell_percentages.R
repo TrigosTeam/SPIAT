@@ -18,8 +18,6 @@ plot_cell_percentages <- function(cell_proportions, cells_to_exclude =NULL,
     
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     Cell_type <- Percentage <- Percentage_label <- NULL
-    
-    requireNamespace("rlang", quietly = TRUE)
     cellprop_colname <- rlang::ensym(cellprop_colname)
     
     cell_proportions$Percentage_label <- 
