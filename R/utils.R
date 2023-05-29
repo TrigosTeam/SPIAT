@@ -32,8 +32,8 @@ bind_info <- function(spe_object){
     # bind
     formatted_data <- cbind(formatted_data, intensity_t)
     
-    # delete column `sample_id`
-    formatted_data$sample_id <- NULL
+    # shouldn't delete column `sample_id`
+    # formatted_data$sample_id <- NULL
     
     return(formatted_data)
 }
@@ -47,8 +47,8 @@ get_colData <- function(spe_object){
         formatted_data <- formatted_data %>% tibble::rownames_to_column("Cell.ID")
     }
     
-    # delete column `sample_id`
-    formatted_data$sample_id <- NULL
+    # shouldn't delete column `sample_id`
+    # formatted_data$sample_id <- NULL
     
     return(formatted_data)
 }
@@ -157,8 +157,8 @@ plot_cell_basic <- function(spe_object, cell_types_of_interest, colour_vector,
     formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
     formatted_data <- cbind(formatted_data, 
                             data.frame(SpatialExperiment::spatialCoords(spe_object)))
-    # delete column `sample_id`
-    formatted_data$sample_id <- NULL
+    # shouldn't delete column `sample_id`
+    # formatted_data$sample_id <- NULL 
     
     if (length(cell_types_of_interest) != length(colour_vector)) {
         stop("The colour vector is not the same length as the celltypes of interest")
