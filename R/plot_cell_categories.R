@@ -15,6 +15,7 @@
 #'   categories). By default is FALSE.
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom rlang .data
 #' @return A plot is returned
 #' @examples
 #' categories_of_interest <- c("Tumour", "Immune1","Immune2","Immune3")
@@ -91,7 +92,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
     }
     
     if (layered){
-        p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) 
+        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) 
         for (type in categories_of_interest){
             p <- p +
                 geom_point(data = formatted_data[which(formatted_data[[feature_colname]] == type),],
@@ -106,8 +107,8 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
             scale_color_manual(breaks = all_categories, values=all_colours)
     }
     else{
-        p <- ggplot(formatted_data, aes_string(x = "Cell.X.Position", y = "Cell.Y.Position")) +
-            geom_point(aes_string(colour = feature_colname), size = cex)
+        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
+            geom_point(aes(colour = .data[[feature_colname]]), size = cex)
         p <- p +
             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                      panel.background = element_blank(), axis.line = element_line(colour = "black"))+

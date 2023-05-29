@@ -13,6 +13,7 @@
 #'   interest.
 #' @param log.scale Boolean whether to log the data.
 #' @import ggplot2
+#' @importFrom rlang .data
 #' @return With method "box" or "density a plot is returned. With method "t" or
 #'   "wilcox", the text output from the test are returned.
 #' @examples
@@ -66,7 +67,7 @@ measure_association_to_cell_properties <- function(spe_object, property = "Cell.
         # get colourblind-friendly colours
         colours <- dittoSeq::dittoColors()[seq_len(2)]
         
-        p <- ggplot(formatted_data, aes_string(x=property, color = feature_colname)) + 
+        p <- ggplot(formatted_data, aes(x=.data[[property]], color = .data[[feature_colname]])) + 
             geom_density() + 
             labs(x = property) +
             scale_color_manual(values = colours) +
@@ -81,7 +82,9 @@ measure_association_to_cell_properties <- function(spe_object, property = "Cell.
             return(c(y = max(x)+1, label = length(x)))
         }
         
-        p <- ggplot(formatted_data, aes_string(feature_colname,property, fill = feature_colname)) + 
+        p <- ggplot(formatted_data, aes(.data[[feature_colname]],
+                                        .data[[property]], 
+                                        fill = .data[[feature_colname]])) + 
             geom_boxplot()  +
             stat_summary(fun.data = give.n, geom = "text", vjust = -0.5) +
             ylab(property) +
