@@ -125,8 +125,8 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
         if (!is.null(thresholds) && !is.na(thresholds[match(marker,markers)])) {
             #there is a threshold value specified for the marker, use the threshold
             marker_threshold <- thresholds[match(marker,markers)]
-            sprintf("(%s has threshold specified: %s)", marker, as.character(marker_threshold))
-            selected_valley_xcord[[marker]] <- NULL
+            methods::show( paste0(marker, " has threshold specified: ",as.character(marker_threshold)))
+            selected_valley_xcord[[marker]] <- marker_threshold
             
             #get the threshold predictions
             predictions_by_threshold <- data.frame(mmand::threshold(marker_specific_level, level = marker_threshold))
@@ -153,9 +153,9 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
             valley_df <- valley_df[valley_df$valley_ycords <= density_threshold_for_valley, ]
             
             selected_valley_xcord[[marker]] <- valley_df$valley_xcords[1]
+            #using the selected valley as the threshold
+            predictions_by_threshold <- data.frame(mmand::threshold(marker_specific_level, level = selected_valley_xcord[[marker]]))
         }
-        #using the selected valley as the threshold
-        predictions_by_threshold <- data.frame(mmand::threshold(marker_specific_level, level = selected_valley_xcord[[marker]]))
         colnames(predictions_by_threshold) <- paste(marker, "_predicted_phenotype", sep="")
         formatted_data <- cbind(formatted_data, predictions_by_threshold)
     }
@@ -173,7 +173,6 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
     baseline_cells <- unique(baseline_cells)
     
     #Tumor marker levels in these cells
-    
     formatted_data_baseline <- formatted_data[formatted_data$Cell.ID %in% baseline_cells,tumour_marker]
     if(length(unique(formatted_data_baseline)) != 2){
         cutoff_for_tumour <- stats::quantile(formatted_data_baseline, 0.95)
@@ -188,8 +187,8 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
     if (!is.null(thresholds)) {
         #there is a threshold value specified for the marker, use the threshold
         marker_threshold <- thresholds[match(tumour_marker,markers)]
-        sprintf("(%s has threshold specified: %s)", tumour_marker, as.character(marker_threshold))
-        selected_valley_xcord[[marker]] <- NULL
+        methods::show(paste0(tumour_marker, " has threshold specified: ", as.character(marker_threshold)))
+        selected_valley_xcord[[tumour_marker]] <- marker_threshold
         
         #get the threshold predictions
         predictions_by_threshold <- data.frame(mmand::threshold(tumour_specific_level, level = marker_threshold))
@@ -213,9 +212,9 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                                   selected_valley_xcord[[tumour_marker]], cutoff_for_tumour)
         selected_valley_xcord[[tumour_marker]] <- final_threshold
         predictions_by_threshold <- data.frame(mmand::threshold(tumour_specific_level, level = final_threshold))
-        colnames(predictions_by_threshold) <- paste(tumour_marker, "_predicted_phenotype", sep="")
-        formatted_data <- cbind(formatted_data, predictions_by_threshold)
     }
+    colnames(predictions_by_threshold) <- paste(tumour_marker, "_predicted_phenotype", sep="")
+    formatted_data <- cbind(formatted_data, predictions_by_threshold)
     predicted_data <- formatted_data
     
     if(!is.null(nuclear_marker)){
@@ -333,7 +332,7 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
             if(plot_distribution){
                 p <- ggplot(level_and_accuracy, aes(x=Marker_level)) + geom_density()
                 p <- p + labs(title = marker, x = "Level of intensity", y = "Density")
-                
+
                 if (!is.null(selected_valley_xcord[[marker]])) {
                     p <- p + geom_vline(aes(xintercept = selected_valley_xcord[[marker]]), linetype = "dashed")
                     methods::show(paste(marker, " threshold intensity: ", selected_valley_xcord[[marker]]))
@@ -342,15 +341,16 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     methods::show(paste(marker, " threshold intensity: ", marker_threshold))
                 }
                 p <- p + theme_bw()
-                p_list[[marker]] <- p
+                plot(p)
+                # p_list[[marker]] <- p
             }
         }
     }
-    if (plot_distribution){
-        n <- length(p_list)
-        nCol <- floor(sqrt(n))
-        do.call("grid.arrange", c(p_list, ncol=nCol))
-    }
+    # if (plot_distribution){
+    #     n <- length(p_list)
+    #     nCol <- floor(sqrt(n))
+    #     do.call("grid.arrange", c(p_list, ncol=nCol))
+    # }
     
     phenotype_predictions <- predicted_data[,grep("_predicted_phenotype", colnames(predicted_data))]
     colnames(phenotype_predictions) <- gsub("_predicted_phenotype", "", colnames(phenotype_predictions))
