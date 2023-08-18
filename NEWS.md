@@ -1,3 +1,13 @@
+# SPIAT 1.3.3
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Fixed thresholding bug in `predict_phenotypes()`.
+
+NOTES
+
+* Added Shiny App (reading data) link.
+
 # SPIAT 1.3.2
 
 NOTES
