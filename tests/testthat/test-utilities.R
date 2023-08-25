@@ -220,10 +220,10 @@ test_that("predict_phenotypes works", {
                              "Immune_marker3", "Immune_marker4"), 
         reference_phenotypes = TRUE)
     
-    out <- predicted_result[1:2,c(1,10:19)]
+    out <- predicted_result[1:2,c(1,11:20)]
     
     expect_is(predicted_result, "data.frame")
-    expect_equal(dim(predicted_result), c(4951, 19))
+    expect_equal(dim(predicted_result), c(4951, 20))
     expect_equal(out, res)
     
     # test it works when reference_phenotypes = FALSE

@@ -26,9 +26,12 @@ The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.
 
 The vignette with an overview of the package can be accessed from the top Menu under Articles or by clicking [here](https://trigosteam.github.io/SPIAT/articles/introduction.html).
 
+We have published a Shiny App to assist reading and formatting spatial data into SPE objects that are compatible with SPIAT functions. Please follow the instructions [here] ("https://github.com/TrigosTeam/SPIAT-shiny") to download the Shiny App and start the journey!
+
 ## Authors of the package
 Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and designed the package. 
 
 ## Paper reference
 Please check our latest paper for more information!
+
 Yuzhou Feng et al, Spatial analysis with SPIAT and spaSim to characterize and simulate tissue microenvironments, Nature Communications (2023). DOI: 10.1038/s41467-023-37822-0

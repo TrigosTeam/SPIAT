@@ -26,6 +26,7 @@
 #' @param maxY Integer used to specify the maximum y boundary to be
 #'   splitted.
 #' @import ggplot2
+#' @importFrom rlang .data
 #' @return A list of spe objects is returned. Each data frame represents an
 #'   image without assay data.
 #' @examples

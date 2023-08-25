@@ -105,6 +105,7 @@ marker_surface_plot_stack <- function(spe_object, num_splits, markers_to_plot, s
         }
     }
     
+    requireNamespace("plotly", quietly = TRUE)
     #start plotting the surface plots
     p <- plotly::plot_ly()
     
