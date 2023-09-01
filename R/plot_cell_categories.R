@@ -92,29 +92,30 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
     }
     
     if (layered){
-        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) 
-        for (type in categories_of_interest){
-            p <- p +
-                geom_point(data = formatted_data[which(formatted_data[[feature_colname]] == type),],
-                           color = colour_vector[match(type, categories_of_interest)],
-                           size = cex) 
-        }
+        all_cell_types_ordered <- c(categories_of_interest, 
+                                    setdiff(unique(formatted_data[[feature_colname]]), categories_of_interest))
+        formatted_data[[feature_colname]] <- as.factor(formatted_data[[feature_colname]])
+        levels(formatted_data[[feature_colname]]) <- all_cell_types_ordered
+        
+        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
+            geom_point(aes(colour = .data[[feature_colname]]), size = cex)
         p <- p +
             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                     panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+                  panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
-            scale_color_manual(breaks = all_categories, values=all_colours)
+            scale_color_manual(breaks = categories_of_interest, values=colour_vector)
     }
     else{
         p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
             geom_point(aes(colour = .data[[feature_colname]]), size = cex)
         p <- p +
             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                     panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+                  panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
             scale_color_manual(breaks = all_categories, values=all_colours)
     }
     return(p)
 }
+
