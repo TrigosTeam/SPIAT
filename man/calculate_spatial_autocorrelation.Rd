@@ -4,7 +4,7 @@
 \alias{calculate_spatial_autocorrelation}
 \title{calculate_spatial_autocorrelation}
 \usage{
-calculate_spatial_autocorrelation(raster_obj, metric = "globalmoran")
+calculate_spatial_autocorrelation(raster_obj, metric = "globalmoran", d = NULL)
 }
 \arguments{
 \item{raster_obj}{Raster object in the form of the output of
@@ -12,6 +12,10 @@ calculate_spatial_autocorrelation(raster_obj, metric = "globalmoran")
 
 \item{metric}{String. The method for calculating spatial autocorrelation.
 Choose from "globalmoran" and "GearyC".}
+
+\item{d}{Numeric. Upper bound local distance. The argument `d2` from function 
+\link[elsa]{moran}. Default is NULL and the distance will be calculated 
+automatically from the number of splits and the extent of the grid image.}
 }
 \value{
 A number is returned
