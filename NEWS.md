@@ -1,3 +1,15 @@
+# SPAIT 1.2.3
+
+BUG FIXES
+
+* Fixed thresholding bug in `predict_phenotypes()`.
+* Added legends to `plot_cell_categories()` plots when `layered = TRUE`.
+* Added a distance parameter to fix the dimension error in `calculate_spatial_autocorrelation()`.
+
+NOTES
+
+* Added Shiny App (reading data) link.
+
 # SPIAT 1.2.2
 
 NOTES
