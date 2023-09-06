@@ -1,3 +1,10 @@
+# SPIAT 1.3.4
+
+BUG FIXES
+
+* Added legends to `plot_cell_categories()` plots when `layered = TRUE`.
+* Added a distance parameter to fix the dimension error in `calculate_spatial_autocorrelation()`.
+
 # SPIAT 1.3.3
 
 SIGNIFICANT USER-VISIBLE CHANGES
