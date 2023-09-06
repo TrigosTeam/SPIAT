@@ -129,23 +129,23 @@ test_that("functions in spatial heterogeneity family work", {
     ## grid_metrics()
     res <- c(0.7793498, 0.9995910, 0.9612366, 0.9456603, 0.8812909,
              0.9915529, 0.7617327, 0.4586858, 0.9905577, 0.9798688)
-    grid <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 5,
+    g <- grid_metrics(defined_image, FUN = calculate_entropy, n_split = 5,
                          cell_types_of_interest=c("Tumour","Immune3"), 
                          feature_colname = "Cell.Type")
     # test if the data strcure is "RasterLayer"
-    expect_s4_class(grid, "RasterLayer")   
+    expect_s4_class(g, "RasterLayer")   
     
-    out <- grid@data@values[1:10]
+    out <- g@data@values[1:10]
     expect_equal(res, out, tolerance = 1e-4) # test if the results are the same
     
     ## calculate_percentage_of_grids()
     res <- 96
-    out <- calculate_percentage_of_grids(grid, threshold = 0.75, above = TRUE)
+    out <- calculate_percentage_of_grids(g, threshold = 0.75, above = TRUE)
     expect_equal(res, out, tolerance = 1e-4)
     
     ## calculate_spatial_autocorrelation
     res <- -0.1152657
-    out <- calculate_spatial_autocorrelation(grid, metric = "globalmoran")
+    out <- calculate_spatial_autocorrelation(g, metric = "globalmoran", d = 600)
     expect_equal(res, out, tolerance = 1e-4)
 })
 
