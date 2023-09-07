@@ -104,7 +104,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
                   panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
-            scale_color_manual(breaks = categories_of_interest, values=colour_vector)
+            scale_color_manual(breaks = categories_of_interest, values=c(all_colours))
     }
     else{
         p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
