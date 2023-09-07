@@ -22,7 +22,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.3</span>
       </span>
     </div>
 
@@ -175,17 +175,20 @@ distributions and cutoffs are plotted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker3"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker4"</span>
-<span class="r-plt img"><img src="predict_phenotypes-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># update the predicted phenotypes</span></span></span>
 <span class="r-in"><span><span class="va">predicted_spe_image</span> <span class="op">&lt;-</span> <span class="fu">predict_phenotypes</span><span class="op">(</span>spe_object <span class="op">=</span> <span class="va">simulated_image</span>, thresholds <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>tumour_marker <span class="op">=</span> <span class="st">"Tumour_marker"</span>,baseline_markers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune_marker1"</span>, <span class="st">"Immune_marker2"</span>,</span></span>
 <span class="r-in"><span><span class="st">"Immune_marker3"</span>, <span class="st">"Immune_marker4"</span><span class="op">)</span>, reference_phenotypes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Tumour_marker  threshold intensity:  0.445450443784465"</span>
+<span class="r-plt img"><img src="predict_phenotypes-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker1  threshold intensity:  0.116980867970434"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker2  threshold intensity:  0.124283809517202"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker3  threshold intensity:  0.0166413130263845"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker4  threshold intensity:  0.00989731350898589"</span>
 <span class="r-plt img"><img src="predict_phenotypes-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker2  threshold intensity:  0.124283809517202"</span>
+<span class="r-plt img"><img src="predict_phenotypes-3.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker3  threshold intensity:  0.0166413130263845"</span>
+<span class="r-plt img"><img src="predict_phenotypes-4.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Immune_marker4  threshold intensity:  0.00989731350898589"</span>
+<span class="r-plt img"><img src="predict_phenotypes-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>

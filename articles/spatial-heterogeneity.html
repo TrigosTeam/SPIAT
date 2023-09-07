@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.3</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
                         <h4 data-toc-skip class="author">Yuzhou
 Feng</h4>
             
-            <h4 data-toc-skip class="date">2023-05-24</h4>
+            <h4 data-toc-skip class="date">2023-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/HEAD/vignettes/spatial-heterogeneity.Rmd" class="external-link"><code>vignettes/spatial-heterogeneity.Rmd</code></a></small>
       <div class="hidden name"><code>spatial-heterogeneity.Rmd</code></div>
@@ -172,6 +172,14 @@ input.</p>
 <span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grid_metrics.html">grid_metrics</a></span><span class="op">(</span><span class="va">defined_image</span>, FUN <span class="op">=</span> <span class="va">calculate_entropy</span>, n_split <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                     cell_types_of_interest<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, </span>
 <span>                     feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,</span></span>
+<span><span class="co">## which was just loaded, will retire in October 2023.</span></span>
+<span><span class="co">## Please refer to R-spatial evolution reports for details, especially</span></span>
+<span><span class="co">## https://r-spatial.org/r/2023/05/15/evolution4.html.</span></span>
+<span><span class="co">## It may be desirable to make the sf package available;</span></span>
+<span><span class="co">## package maintainers should consider adding sf to Suggests:.</span></span>
+<span><span class="co">## The sp package is now running under evolution status 2</span></span>
+<span><span class="co">##      (status 2 uses the sf package in place of rgdal)</span></span></code></pre>
 <p><img src="spatial-heterogeneity_files/figure-html/unnamed-chunk-4-1.png" width="70%"></p>
 <p>After calculating the localised entropy for each of the grid squares,
 we can apply metrics like percentages of grid squares with patterns
@@ -182,12 +190,12 @@ threshold depends on the pattern and metric the user chooses to find the
 localised pattern. Here we chose 0.75 for entropy because 0.75 is
 roughly the entropy of two cell types when their ratio is 1:5 or
 5:1.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calculate_percentage_of_grids.html">calculate_percentage_of_grids</a></span><span class="op">(</span><span class="va">grid</span>, threshold <span class="op">=</span> <span class="fl">0.75</span>, above <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 13</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calculate_spatial_autocorrelation.html">calculate_spatial_autocorrelation</a></span><span class="op">(</span><span class="va">grid</span>, metric <span class="op">=</span> <span class="st">"globalmoran"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 0.09446964</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 0.2197134</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="gradients-based-on-concentric-circles">Gradients (based on concentric circles)<a class="anchor" aria-label="anchor" href="#gradients-based-on-concentric-circles"></a>
@@ -201,7 +209,7 @@ and the desired score is calculated for cells within each circle.</p>
 <code>cell_types_of_interest</code> marks the reference cells and the
 second item the target cells. Here, Immune1 cells are reference cells
 and Immune2 are target cells.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gradient_positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">gradient_entropy</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/compute_gradient.html">compute_gradient</a></span><span class="op">(</span><span class="va">defined_image</span>, radii <span class="op">=</span> <span class="va">gradient_positions</span>, </span>
@@ -209,7 +217,7 @@ and Immune2 are target cells.</p>
 <span>                   feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">gradient_entropy</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 3</span></span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gradient_entropy</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##         Cell.X.Position Cell.Y.Position Immune1 Immune2 total Immune1_log2</span></span>
 <span><span class="co">## Cell_15       109.67027        17.12956       1       0     1            0</span></span>
@@ -246,7 +254,7 @@ surrounding each reference cell, and calculate a single entropy score.
 We have created a specific function for this -
 <code><a href="../reference/entropy_gradient_aggregated.html">entropy_gradient_aggregated()</a></code>. The output of this function
 is an overall entropy score for each radii.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gradient_pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">500</span>, <span class="fl">50</span><span class="op">)</span> <span class="co">##radii</span></span>
 <span><span class="va">gradient_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/entropy_gradient_aggregated.html">entropy_gradient_aggregated</a></span><span class="op">(</span><span class="va">defined_image</span>, cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune3"</span>,<span class="st">"Tumour"</span><span class="op">)</span>,</span>
 <span>                                                feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span>, radii <span class="op">=</span> <span class="va">gradient_pos</span><span class="op">)</span></span>
@@ -273,11 +281,11 @@ visualisation</a></li>
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
 </h2>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.0 (2023-04-21)</span></span>
+<pre><code><span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -297,64 +305,64 @@ visualisation</a></li>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] SPIAT_1.2.2                 SpatialExperiment_1.10.0   </span></span>
-<span><span class="co">##  [3] SingleCellExperiment_1.22.0 SummarizedExperiment_1.30.1</span></span>
+<span><span class="co">##  [1] SPIAT_1.2.3                 SpatialExperiment_1.10.0   </span></span>
+<span><span class="co">##  [3] SingleCellExperiment_1.22.0 SummarizedExperiment_1.30.2</span></span>
 <span><span class="co">##  [5] Biobase_2.60.0              GenomicRanges_1.52.0       </span></span>
-<span><span class="co">##  [7] GenomeInfoDb_1.36.0         IRanges_2.34.0             </span></span>
+<span><span class="co">##  [7] GenomeInfoDb_1.36.2         IRanges_2.34.1             </span></span>
 <span><span class="co">##  [9] S4Vectors_0.38.1            BiocGenerics_0.46.0        </span></span>
-<span><span class="co">## [11] MatrixGenerics_1.12.0       matrixStats_0.63.0         </span></span>
+<span><span class="co">## [11] MatrixGenerics_1.12.3       matrixStats_1.0.0          </span></span>
 <span><span class="co">## [13] BiocStyle_2.28.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] bitops_1.0-7              deldir_1.0-9             </span></span>
 <span><span class="co">##   [3] gridExtra_2.3             rlang_1.1.1              </span></span>
-<span><span class="co">##   [5] magrittr_2.0.3            compiler_4.3.0           </span></span>
-<span><span class="co">##   [7] spatstat.geom_3.2-1       DelayedMatrixStats_1.22.0</span></span>
-<span><span class="co">##   [9] systemfonts_1.0.4         vctrs_0.6.2              </span></span>
+<span><span class="co">##   [5] magrittr_2.0.3            compiler_4.3.1           </span></span>
+<span><span class="co">##   [7] spatstat.geom_3.2-5       DelayedMatrixStats_1.22.6</span></span>
+<span><span class="co">##   [9] systemfonts_1.0.4         vctrs_0.6.3              </span></span>
 <span><span class="co">##  [11] stringr_1.5.0             pkgconfig_2.0.3          </span></span>
 <span><span class="co">##  [13] crayon_1.5.2              fastmap_1.1.1            </span></span>
-<span><span class="co">##  [15] magick_2.7.4              XVector_0.40.0           </span></span>
-<span><span class="co">##  [17] scuttle_1.10.1            utf8_1.2.3               </span></span>
-<span><span class="co">##  [19] rmarkdown_2.21            ragg_1.2.5               </span></span>
-<span><span class="co">##  [21] purrr_1.0.1               xfun_0.39                </span></span>
+<span><span class="co">##  [15] magick_2.7.5              XVector_0.40.0           </span></span>
+<span><span class="co">##  [17] scuttle_1.10.2            utf8_1.2.3               </span></span>
+<span><span class="co">##  [19] rmarkdown_2.24            ragg_1.2.5               </span></span>
+<span><span class="co">##  [21] purrr_1.0.2               xfun_0.40                </span></span>
 <span><span class="co">##  [23] zlibbioc_1.46.0           cachem_1.0.8             </span></span>
-<span><span class="co">##  [25] beachmat_2.16.0           jsonlite_1.8.4           </span></span>
+<span><span class="co">##  [25] beachmat_2.16.0           jsonlite_1.8.7           </span></span>
 <span><span class="co">##  [27] goftest_1.2-3             highr_0.10               </span></span>
-<span><span class="co">##  [29] rhdf5filters_1.12.1       DelayedArray_0.26.3      </span></span>
+<span><span class="co">##  [29] rhdf5filters_1.12.1       DelayedArray_0.26.7      </span></span>
 <span><span class="co">##  [31] spatstat.utils_3.0-3      Rhdf5lib_1.22.0          </span></span>
-<span><span class="co">##  [33] BiocParallel_1.34.2       terra_1.7-29             </span></span>
-<span><span class="co">##  [35] parallel_4.3.0            R6_2.5.1                 </span></span>
-<span><span class="co">##  [37] bslib_0.4.2               stringi_1.7.12           </span></span>
-<span><span class="co">##  [39] spatstat.data_3.0-1       limma_3.56.1             </span></span>
-<span><span class="co">##  [41] jquerylib_0.1.4           Rcpp_1.0.10              </span></span>
-<span><span class="co">##  [43] bookdown_0.34             knitr_1.42               </span></span>
+<span><span class="co">##  [33] BiocParallel_1.34.2       terra_1.7-39             </span></span>
+<span><span class="co">##  [35] parallel_4.3.1            R6_2.5.1                 </span></span>
+<span><span class="co">##  [37] bslib_0.5.1               stringi_1.7.12           </span></span>
+<span><span class="co">##  [39] spatstat.data_3.0-1       limma_3.56.2             </span></span>
+<span><span class="co">##  [41] jquerylib_0.1.4           Rcpp_1.0.11              </span></span>
+<span><span class="co">##  [43] bookdown_0.35             knitr_1.43               </span></span>
 <span><span class="co">##  [45] tensor_1.5                R.utils_2.12.2           </span></span>
-<span><span class="co">##  [47] Matrix_1.5-4              tidyselect_1.2.0         </span></span>
+<span><span class="co">##  [47] Matrix_1.5-4.1            tidyselect_1.2.0         </span></span>
 <span><span class="co">##  [49] abind_1.4-5               yaml_2.3.7               </span></span>
 <span><span class="co">##  [51] codetools_0.2-19          spatstat.random_3.1-5    </span></span>
 <span><span class="co">##  [53] spatstat.explore_3.2-1    lattice_0.21-8           </span></span>
 <span><span class="co">##  [55] tibble_3.2.1              evaluate_0.21            </span></span>
 <span><span class="co">##  [57] desc_1.4.2                polyclip_1.10-4          </span></span>
 <span><span class="co">##  [59] elsa_1.1-28               pillar_1.9.0             </span></span>
-<span><span class="co">##  [61] BiocManager_1.30.20       dbscan_1.1-11            </span></span>
-<span><span class="co">##  [63] generics_0.1.3            sp_1.6-0                 </span></span>
+<span><span class="co">##  [61] BiocManager_1.30.22       dbscan_1.1-11            </span></span>
+<span><span class="co">##  [63] generics_0.1.3            sp_2.0-0                 </span></span>
 <span><span class="co">##  [65] rprojroot_2.0.3           RCurl_1.98-1.12          </span></span>
-<span><span class="co">##  [67] ggplot2_3.4.2             sparseMatrixStats_1.12.0 </span></span>
+<span><span class="co">##  [67] ggplot2_3.4.3             sparseMatrixStats_1.12.2 </span></span>
 <span><span class="co">##  [69] munsell_0.5.0             scales_1.2.1             </span></span>
-<span><span class="co">##  [71] glue_1.6.2                tools_4.3.0              </span></span>
-<span><span class="co">##  [73] locfit_1.5-9.7            fs_1.6.2                 </span></span>
-<span><span class="co">##  [75] rhdf5_2.44.0              grid_4.3.0               </span></span>
-<span><span class="co">##  [77] DropletUtils_1.20.0       edgeR_3.42.2             </span></span>
+<span><span class="co">##  [71] glue_1.6.2                tools_4.3.1              </span></span>
+<span><span class="co">##  [73] locfit_1.5-9.8            fs_1.6.3                 </span></span>
+<span><span class="co">##  [75] rhdf5_2.44.0              grid_4.3.1               </span></span>
+<span><span class="co">##  [77] DropletUtils_1.20.0       edgeR_3.42.4             </span></span>
 <span><span class="co">##  [79] colorspace_2.1-0          nlme_3.1-162             </span></span>
-<span><span class="co">##  [81] GenomeInfoDbData_1.2.10   raster_3.6-20            </span></span>
+<span><span class="co">##  [81] GenomeInfoDbData_1.2.10   raster_3.6-23            </span></span>
 <span><span class="co">##  [83] HDF5Array_1.28.1          cli_3.6.1                </span></span>
-<span><span class="co">##  [85] spatstat.sparse_3.0-1     textshaping_0.3.6        </span></span>
-<span><span class="co">##  [87] fansi_1.0.4               S4Arrays_1.0.4           </span></span>
-<span><span class="co">##  [89] dplyr_1.1.2               gtable_0.3.3             </span></span>
-<span><span class="co">##  [91] R.methodsS3_1.8.2         sass_0.4.6               </span></span>
-<span><span class="co">##  [93] digest_0.6.31             dqrng_0.3.0              </span></span>
+<span><span class="co">##  [85] spatstat.sparse_3.0-2     textshaping_0.3.6        </span></span>
+<span><span class="co">##  [87] fansi_1.0.4               S4Arrays_1.0.6           </span></span>
+<span><span class="co">##  [89] dplyr_1.1.3               gtable_0.3.4             </span></span>
+<span><span class="co">##  [91] R.methodsS3_1.8.2         sass_0.4.7               </span></span>
+<span><span class="co">##  [93] digest_0.6.33             dqrng_0.3.1              </span></span>
 <span><span class="co">##  [95] rjson_0.2.21              memoise_2.0.1            </span></span>
-<span><span class="co">##  [97] htmltools_0.5.5           pkgdown_2.0.7            </span></span>
+<span><span class="co">##  [97] htmltools_0.5.6           pkgdown_2.0.7            </span></span>
 <span><span class="co">##  [99] R.oo_1.25.0               lifecycle_1.0.3</span></span></code></pre>
 </div>
 <div class="section level2">

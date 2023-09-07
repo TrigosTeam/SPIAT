@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.3</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_spatial_autocorrelation</span><span class="op">(</span><span class="va">raster_obj</span>, metric <span class="op">=</span> <span class="st">"globalmoran"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_spatial_autocorrelation</span><span class="op">(</span><span class="va">raster_obj</span>, metric <span class="op">=</span> <span class="st">"globalmoran"</span>, d <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -99,6 +99,12 @@
 <dt>metric</dt>
 <dd><p>String. The method for calculating spatial autocorrelation.
 Choose from "globalmoran" and "GearyC".</p></dd>
+
+
+<dt>d</dt>
+<dd><p>Numeric. Upper bound local distance. The argument `d2` from function 
+<a href="https://rdrr.io/pkg/elsa/man/autocor.html" class="external-link">moran</a>. Default is NULL and the distance will be calculated 
+automatically from the number of splits and the extent of the grid image.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -115,7 +121,7 @@ Choose from "globalmoran" and "GearyC".</p></dd>
 <span class="r-in"><span>feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="calculate_spatial_autocorrelation-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">calculate_spatial_autocorrelation</span><span class="op">(</span><span class="va">grid</span>, metric <span class="op">=</span> <span class="st">"globalmoran"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1152657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1094212</span>
 </code></pre></div>
     </div>
   </div>
