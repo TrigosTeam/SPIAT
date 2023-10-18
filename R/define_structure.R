@@ -13,7 +13,9 @@
 #' @param cell_types_of_interest String Vector of the names of the particular
 #'   types of cells.
 #' @param n_margin_layers Integer. The number of layers of cells that compose
-#'   the internal/external margins.
+#'   the internal/external margins. Default is 5.
+#' @param margin_dist Numeric. The width of the internal/external margins. 
+#'   Default is NULL. Only use when `n_margin_layers` is NULL.
 #' @param feature_colname String Specifying the column that contains the names
 #'   of the immune cells.
 #' @import dplyr
@@ -42,15 +44,17 @@
 
 define_structure <- function(spe_object, cell_types_of_interest, 
                              feature_colname = "Cell.Type",
-                             n_margin_layers = 5){
+                             n_margin_layers = 5,
+                             margin_dist = NULL){
     
     # calculate the width of internal/external margin
-    min_dist <- average_minimum_distance(spe_object)
-    margin_dist <- n_margin_layers * min_dist
-    sprintf("How many layers of cells in the external/internal margin: %i", 
-            n_margin_layers)
-    sprintf("The width of internal/external margin: %f", margin_dist)
-    
+    if (is.null(margin_dist)) {
+        min_dist <- average_minimum_distance(spe_object)
+        margin_dist <- n_margin_layers * min_dist
+        sprintf("How many layers of cells in the external/internal margin: %i", 
+                n_margin_layers)
+        sprintf("The width of internal/external margin: %f", margin_dist)
+    }
     #CHECK if the distance to bordering cells is calculated
     if (is.null(spe_object$Distance.To.Border)){
         stop(sprintf("Distance.To.Border not calculated yet for %i", 

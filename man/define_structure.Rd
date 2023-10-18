@@ -8,7 +8,8 @@ define_structure(
   spe_object,
   cell_types_of_interest,
   feature_colname = "Cell.Type",
-  n_margin_layers = 5
+  n_margin_layers = 5,
+  margin_dist = NULL
 )
 }
 \arguments{
@@ -23,7 +24,10 @@ types of cells.}
 of the immune cells.}
 
 \item{n_margin_layers}{Integer. The number of layers of cells that compose
-the internal/external margins.}
+the internal/external margins. Default is 5.}
+
+\item{margin_dist}{Numeric. The width of the internal/external margins. 
+Default is NULL. Only use when `n_margin_layers` is NULL.}
 }
 \value{
 A new spe object is returned. Under the `Region` column, there will
