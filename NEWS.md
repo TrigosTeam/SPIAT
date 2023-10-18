@@ -1,3 +1,9 @@
+# SPIAT 1.3.5
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+* Added a new argument `margin_dist` for `define_structure()`. Specifying the margin width with microns instead of layers of cells.
+
 # SPIAT 1.3.4
 
 BUG FIXES
