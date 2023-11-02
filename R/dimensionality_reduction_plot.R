@@ -57,6 +57,7 @@ dimensionality_reduction_plot <- function(spe_object, plot_type = "UMAP",
         }
         requireNamespace("Rtsne", quietly = TRUE)
         intensity_DR <- Rtsne::Rtsne(intensity_matrix_no_DAPI_scaled,
+                                     check_duplicates = FALSE,
                                      perplexity = perplexity)
         intensity_DR_layout <- as.data.frame(intensity_DR$Y)
         colnames(intensity_DR_layout) <- c("dim_X", "dim_Y")
