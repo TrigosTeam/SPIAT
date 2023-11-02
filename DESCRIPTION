@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 1.5.0
+Version: 1.5.1
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -41,7 +41,7 @@ Description: SPIAT (**Sp**atial **I**mage **A**nalysis of **T**issues) is an R
     microenvironment relative to tumor areas, analysis of cellular neighborhoods, 
     and the quantification of spatial heterogeneity, providing a comprehensive 
     toolkit for spatial data analysis.
-License: Artistic-2.0
+License: Artistic-2.0 + file LICENSE
 Encoding: UTF-8
 Depends: 
     R (>= 4.2.0),
