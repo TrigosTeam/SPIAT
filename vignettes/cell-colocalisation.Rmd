@@ -82,7 +82,7 @@ To help identify suitable radii for
 `plot_average_intensity()`. This function calculates the average intensity
 of a target marker for a number of user-supplied radii values, and plots
 the intensity level at each specified radius as a line graph. The radius
-unit is pixels.
+unit is microns.
 
 ```{r, fig.height = 2.2, fig.width = 4}
 plot_average_intensity(spe_object=formatted_image, reference_marker="Immune_marker3", 
