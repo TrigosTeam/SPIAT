@@ -59,7 +59,5 @@ plot_cell_percentages <- function(cell_proportions, cells_to_exclude =NULL,
                       position = position_stack(vjust = 0.5), size = 2) +
             coord_flip()
         methods::show(cell_percentages_no_tumour_plot)
-    }
-    methods::show(cell_percentages_full_plot)
-    return(cell_percentages_full_plot)
+    }else methods::show(cell_percentages_full_plot)
 }
