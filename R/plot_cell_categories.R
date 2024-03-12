@@ -46,7 +46,6 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
     Cell.X.Position <- Cell.Y.Position <- Category <- NULL
     
     if (methods::is(spe_object, 'SpatialExperiment')){
-        # formatted_data <- data.frame(SummarizedExperiment::colData(spe_object))
         formatted_data <- get_colData(spe_object)
     }
     else formatted_data <- spe_object
@@ -75,36 +74,29 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
         ][[feature_colname]] <- "OTHER"
     }
     
-    #Assign the colour to corresponding phenotypes in df
-    formatted_data$color <- ""
-    for (category in categories_of_interest) {
-        idx <- which(categories_of_interest == category)
-        formatted_data[formatted_data[[feature_colname]] == category, ]$color <- colour_vector[idx]
-    }
-    
     if (any(formatted_data[[feature_colname]] == "OTHER")) {
-        formatted_data[formatted_data[[feature_colname]] == "OTHER", ]$color <- "lightgrey"
-        all_categories <- c(categories_of_interest, "OTHER")
-        all_colours <- c(colour_vector, "lightgrey")
+        all_categories <- c("OTHER", categories_of_interest)
+        all_colours <- c("lightgrey", colour_vector)
     } else {
         all_categories <- categories_of_interest
         all_colours <- colour_vector
     }
     
     if (layered){
-        all_cell_types_ordered <- c(categories_of_interest, 
-                                    setdiff(unique(formatted_data[[feature_colname]]), categories_of_interest))
-        formatted_data[[feature_colname]] <- as.factor(formatted_data[[feature_colname]])
-        levels(formatted_data[[feature_colname]]) <- all_cell_types_ordered
-        
-        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
-            geom_point(aes(colour = .data[[feature_colname]]), size = cex)
+        p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) 
+        for (type in all_categories){
+            assign(type, all_colours[match(type, all_categories)])
+            p <- p +
+                geom_point(data = formatted_data[which(formatted_data[[feature_colname]] == type),],
+                           aes(colour = !!(sym(type))),
+                           size = cex) 
+        }
         p <- p +
             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                   panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
-            scale_color_manual(breaks = categories_of_interest, values=c(all_colours))
+            scale_color_identity(name = "Cell.Type", guide = "legend", breaks = all_colours, labels = all_categories) 
     }
     else{
         p <- ggplot(formatted_data, aes(x = .data$Cell.X.Position, y = .data$Cell.Y.Position)) +
@@ -114,7 +106,7 @@ plot_cell_categories <- function(spe_object, categories_of_interest = NULL,
                   panel.background = element_blank(), axis.line = element_line(colour = "black"))+
             guides(alpha = "none") +
             ggtitle(paste(attr(spe_object, "name"), feature_colname, sep = " ")) +
-            scale_color_manual(breaks = all_categories, values=all_colours)
+            scale_colour_manual(breaks = all_categories, values=all_colours)
     }
     return(p)
 }
