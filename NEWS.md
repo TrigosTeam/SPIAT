@@ -1,3 +1,9 @@
+# SPIAT 1.5.2
+
+NOTES
+
+* `plot_cell_percentages()` now returns the plot.
+
 # SPIAT 1.5.1
 
 BUG FIXES
