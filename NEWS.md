@@ -1,3 +1,7 @@
+# SPIAT 1.4.2
+
+* Fixed the wrong layering in `plot_cell_categories()` and added legend when `layer=TRUE`.
+
 # SPIAT 1.4.1
 
 BUG FIXES
