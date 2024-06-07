@@ -8,6 +8,7 @@
 #' @param spe_object SpatialExperiment object in the form of the output of
 #'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker to plot.
+#' @param feature_colname String. Column containing marker information
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned
