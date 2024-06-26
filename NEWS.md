@@ -1,3 +1,7 @@
+# SPIAT 1.6.1
+
+Release version on Bioconductor 3.19.
+
 # SPIAT 1.5.3
 
 BUG FIXES
