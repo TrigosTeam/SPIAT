@@ -4,13 +4,15 @@
 \alias{marker_intensity_boxplot}
 \title{marker_intensity_boxplot}
 \usage{
-marker_intensity_boxplot(spe_object, marker)
+marker_intensity_boxplot(spe_object, marker, feature_colname = "Phenotype")
 }
 \arguments{
 \item{spe_object}{SpatialExperiment object in the form of the output of
 \code{\link{format_image_to_spe}}.}
 
 \item{marker}{String. Marker being queried.}
+
+\item{feature_colname}{String. Column containing marker information}
 }
 \value{
 A plot is returned

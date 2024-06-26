@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 1.5.1
+Version: 1.7.1
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -85,7 +85,7 @@ Suggests:
     elsa
 biocViews: BiomedicalInformatics, CellBiology, Spatial, Clustering, DataImport, ImmunoOncology, QualityControl, SingleCell, Software, Visualization
 BugReports: https://github.com/trigosteam/SPIAT/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 LazyData: true
 VignetteBuilder: knitr
 URL: https://trigosteam.github.io/SPIAT/
