@@ -5,6 +5,7 @@
 #' @param spe_object SpatialExperiment object in the form of the output of
 #'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker being queried.
+#' @param feature_colname String. Column containing marker information
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned
@@ -12,17 +13,17 @@
 #' marker_intensity_boxplot(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
-marker_intensity_boxplot <- function(spe_object, marker){
+marker_intensity_boxplot <- function(spe_object, marker, feature_colname = "Phenotype"){
     # setting these variables to NULL as otherwise get "no visible binding for global variable" in R check
     intensity <- NULL
 
     formatted_data <- bind_info(spe_object)
 
     #selecting cells that do express the marker
-    intensity_true <- formatted_data[grepl(marker, formatted_data$Phenotype), ]
+    intensity_true <- formatted_data[grepl(marker, formatted_data[[feature_colname]]), ]
 
     #selecting cells that do not contain the marker
-    intensity_false <- formatted_data[!grepl(marker, formatted_data$Phenotype), ] #for multiple entries that does not contain marker
+    intensity_false <- formatted_data[!grepl(marker, formatted_data[[feature_colname]]), ] #for multiple entries that does not contain marker
 
     #select the specific marker and add a boolean of intensity
     if (nrow(intensity_true) != 0) {
