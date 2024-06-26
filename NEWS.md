@@ -1,3 +1,13 @@
+# SPIAT 1.7.1
+
+BUG FIXES
+
+* Added `feature_colname` parameter to functions `plot_cell_marker_levels()` and `marker_intensity_boxplot()`. 
+
+# SPIAT 1.7.0 
+
+Development version on Bioconductor 3.20.
+
 # SPIAT 1.5.3
 
 BUG FIXES
