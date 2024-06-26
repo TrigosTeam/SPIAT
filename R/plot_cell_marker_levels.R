@@ -8,6 +8,7 @@
 #' @param spe_object SpatialExperiment object in the form of the output of
 #'   \code{\link{format_image_to_spe}}.
 #' @param marker String. Marker to plot.
+#' @param feature_colname String. Column containing marker information
 #' @import dplyr
 #' @import ggplot2
 #' @return A plot is returned
@@ -15,7 +16,7 @@
 #' plot_cell_marker_levels(SPIAT::simulated_image, "Immune_marker1")
 #' @export
 
-plot_cell_marker_levels <- function(spe_object, marker) {
+plot_cell_marker_levels <- function(spe_object, marker, feature_colname = "Phenotype") {
 
     Cell.X.Position <- Cell.Y.Position <- NULL
     
@@ -31,9 +32,9 @@ plot_cell_marker_levels <- function(spe_object, marker) {
     
     #selecting cells that do not contain the marker
     #for one entry that is not marker
-    rows <- formatted_data[formatted_data$Phenotype != marker, ] 
+    rows <- formatted_data[formatted_data[[feature_colname]] != marker, ] 
     #for multiple entries that does not contain marker
-    rows <- rows[!grepl(marker, rows$Phenotype), ] 
+    rows <- rows[!grepl(marker, rows[[feature_colname]]), ] 
     
     #for those cell without the marker, set marker intensity to 0
     #and merge the formatted_data
