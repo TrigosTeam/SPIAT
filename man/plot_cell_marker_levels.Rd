@@ -4,13 +4,15 @@
 \alias{plot_cell_marker_levels}
 \title{plot_cell_marker_levels}
 \usage{
-plot_cell_marker_levels(spe_object, marker)
+plot_cell_marker_levels(spe_object, marker, feature_colname = "Phenotype")
 }
 \arguments{
 \item{spe_object}{SpatialExperiment object in the form of the output of
 \code{\link{format_image_to_spe}}.}
 
 \item{marker}{String. Marker to plot.}
+
+\item{feature_colname}{String. Column containing marker information}
 }
 \value{
 A plot is returned
