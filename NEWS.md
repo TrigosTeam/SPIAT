@@ -1,3 +1,9 @@
+# SPIAT 1.7.2
+
+BUG FIXES
+
+* Fixed cluster assignment issue in function `identify_neighborhoods()`.
+
 # SPIAT 1.7.1
 
 BUG FIXES
