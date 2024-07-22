@@ -1,3 +1,9 @@
+# SPIAT 1.6.2
+
+BUG FIXES
+
+* Fixed cluster assignment issue in function `identify_neighborhoods()`.
+
 # SPIAT 1.6.1
 
 Release version on Bioconductor 3.19.
