@@ -13,7 +13,7 @@ two curves. Columns contain "r", "border" and "theo".}
 }
 \value{
 A number. The percentage of the crossing position of the specified
-  distance.
+  distance. Returns NA when the crossing happens too close to the y axis (<4%).
 }
 \description{
 Determine if there is a crossing in the cross K curves, to
