@@ -8,7 +8,7 @@
 #'   two curves. Columns contain "r", "border" and "theo".
 #'
 #' @return A number. The percentage of the crossing position of the specified
-#'   distance.
+#'   distance. Returns NA when the crossing happens too close to the y axis (<4%). 
 #' @export
 #'
 #' @examples
