@@ -1,3 +1,7 @@
+# SPIAT 1.6.3
+
+Vignettes updated.
+
 # SPIAT 1.6.2
 
 BUG FIXES
