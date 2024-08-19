@@ -1,216 +1,74 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/SPIAT.html</loc>
-  </url>
-  <url>
-    <loc>/articles/basic_analysis.html</loc>
-  </url>
-  <url>
-    <loc>/articles/cell-colocalisation.html</loc>
-  </url>
-  <url>
-    <loc>/articles/data_reading-formatting.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/neighborhood.html</loc>
-  </url>
-  <url>
-    <loc>/articles/quality-control_visualisation.html</loc>
-  </url>
-  <url>
-    <loc>/articles/spatial-heterogeneity.html</loc>
-  </url>
-  <url>
-    <loc>/articles/tissue-structure.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AUC_of_cross_function.html</loc>
-  </url>
-  <url>
-    <loc>/reference/R_BC.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SPIAT-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/average_marker_intensity_within_radius.html</loc>
-  </url>
-  <url>
-    <loc>/reference/average_minimum_distance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/average_nearest_neighbor_index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/average_percentage_of_cells_within_radius.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_cell_proportions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_cross_functions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_distance_to_margin.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_entropy.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_minimum_distances_between_celltypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_pairwise_distances_between_celltypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_percentage_of_grids.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_proportions_of_cells_in_structure.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_spatial_autocorrelation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_summary_distances_between_celltypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_summary_distances_of_cells_to_borders.html</loc>
-  </url>
-  <url>
-    <loc>/reference/composition_of_neighborhoods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_gradient.html</loc>
-  </url>
-  <url>
-    <loc>/reference/crossing_of_crossK.html</loc>
-  </url>
-  <url>
-    <loc>/reference/define_celltypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/define_structure.html</loc>
-  </url>
-  <url>
-    <loc>/reference/defined_image.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dimensionality_reduction_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/entropy_gradient_aggregated.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_cellprofiler_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_codex_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_colData_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_halo_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_image_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_inform_to_spe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/format_spe_to_ppp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grid_metrics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/identify_bordering_cells.html</loc>
-  </url>
-  <url>
-    <loc>/reference/identify_neighborhoods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/image_no_markers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/image_splitter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/marker_intensity_boxplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/marker_prediction_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/marker_surface_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/marker_surface_plot_stack.html</loc>
-  </url>
-  <url>
-    <loc>/reference/measure_association_to_cell_properties.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixing_score_summary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/number_of_cells_within_radius.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_average_intensity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_cell_categories.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_cell_distances_violin.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_cell_marker_levels.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_cell_percentages.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_composition_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_distance_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_marker_level_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict_phenotypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/select_celltypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulated_image.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/SPIAT.html</loc></url>
+<url><loc>/articles/basic_analysis.html</loc></url>
+<url><loc>/articles/cell-colocalisation.html</loc></url>
+<url><loc>/articles/data_reading-formatting.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/neighborhood.html</loc></url>
+<url><loc>/articles/quality-control_visualisation.html</loc></url>
+<url><loc>/articles/spatial-heterogeneity.html</loc></url>
+<url><loc>/articles/tissue-structure.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/AUC_of_cross_function.html</loc></url>
+<url><loc>/reference/R_BC.html</loc></url>
+<url><loc>/reference/SPIAT-package.html</loc></url>
+<url><loc>/reference/average_marker_intensity_within_radius.html</loc></url>
+<url><loc>/reference/average_minimum_distance.html</loc></url>
+<url><loc>/reference/average_nearest_neighbor_index.html</loc></url>
+<url><loc>/reference/average_percentage_of_cells_within_radius.html</loc></url>
+<url><loc>/reference/calculate_cell_proportions.html</loc></url>
+<url><loc>/reference/calculate_cross_functions.html</loc></url>
+<url><loc>/reference/calculate_distance_to_margin.html</loc></url>
+<url><loc>/reference/calculate_entropy.html</loc></url>
+<url><loc>/reference/calculate_minimum_distances_between_celltypes.html</loc></url>
+<url><loc>/reference/calculate_pairwise_distances_between_celltypes.html</loc></url>
+<url><loc>/reference/calculate_percentage_of_grids.html</loc></url>
+<url><loc>/reference/calculate_proportions_of_cells_in_structure.html</loc></url>
+<url><loc>/reference/calculate_spatial_autocorrelation.html</loc></url>
+<url><loc>/reference/calculate_summary_distances_between_celltypes.html</loc></url>
+<url><loc>/reference/calculate_summary_distances_of_cells_to_borders.html</loc></url>
+<url><loc>/reference/composition_of_neighborhoods.html</loc></url>
+<url><loc>/reference/compute_gradient.html</loc></url>
+<url><loc>/reference/crossing_of_crossK.html</loc></url>
+<url><loc>/reference/define_celltypes.html</loc></url>
+<url><loc>/reference/define_structure.html</loc></url>
+<url><loc>/reference/defined_image.html</loc></url>
+<url><loc>/reference/dimensionality_reduction_plot.html</loc></url>
+<url><loc>/reference/entropy_gradient_aggregated.html</loc></url>
+<url><loc>/reference/format_cellprofiler_to_spe.html</loc></url>
+<url><loc>/reference/format_codex_to_spe.html</loc></url>
+<url><loc>/reference/format_colData_to_spe.html</loc></url>
+<url><loc>/reference/format_halo_to_spe.html</loc></url>
+<url><loc>/reference/format_image_to_spe.html</loc></url>
+<url><loc>/reference/format_inform_to_spe.html</loc></url>
+<url><loc>/reference/format_spe_to_ppp.html</loc></url>
+<url><loc>/reference/grid_metrics.html</loc></url>
+<url><loc>/reference/identify_bordering_cells.html</loc></url>
+<url><loc>/reference/identify_neighborhoods.html</loc></url>
+<url><loc>/reference/image_no_markers.html</loc></url>
+<url><loc>/reference/image_splitter.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/marker_intensity_boxplot.html</loc></url>
+<url><loc>/reference/marker_prediction_plot.html</loc></url>
+<url><loc>/reference/marker_surface_plot.html</loc></url>
+<url><loc>/reference/marker_surface_plot_stack.html</loc></url>
+<url><loc>/reference/measure_association_to_cell_properties.html</loc></url>
+<url><loc>/reference/mixing_score_summary.html</loc></url>
+<url><loc>/reference/number_of_cells_within_radius.html</loc></url>
+<url><loc>/reference/plot_average_intensity.html</loc></url>
+<url><loc>/reference/plot_cell_categories.html</loc></url>
+<url><loc>/reference/plot_cell_distances_violin.html</loc></url>
+<url><loc>/reference/plot_cell_marker_levels.html</loc></url>
+<url><loc>/reference/plot_cell_percentages.html</loc></url>
+<url><loc>/reference/plot_composition_heatmap.html</loc></url>
+<url><loc>/reference/plot_distance_heatmap.html</loc></url>
+<url><loc>/reference/plot_marker_level_heatmap.html</loc></url>
+<url><loc>/reference/predict_phenotypes.html</loc></url>
+<url><loc>/reference/select_celltypes.html</loc></url>
+<url><loc>/reference/simulated_image.html</loc></url>
 </urlset>
+

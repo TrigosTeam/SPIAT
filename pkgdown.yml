@@ -1,14 +1,13 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  SPIAT: SPIAT.html
   basic_analysis: basic_analysis.html
   cell-colocalisation: cell-colocalisation.html
   data_reading-formatting: data_reading-formatting.html
   neighborhood: neighborhood.html
   quality-control_visualisation: quality-control_visualisation.html
   spatial-heterogeneity: spatial-heterogeneity.html
+  SPIAT: SPIAT.html
   tissue-structure: tissue-structure.html
-last_built: 2024-03-20T03:36Z
-
+last_built: 2024-08-19T14:27Z
