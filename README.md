@@ -24,7 +24,7 @@ The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.
 
 ## Vignette 
 
-The vignette with an overview of the package can be accessed from the top Menu under Articles or by clicking [here](https://trigosteam.github.io/SPIAT/articles/introduction.html).
+The vignette with an overview of the package can be accessed from the top Menu under Articles or by clicking [here](https://trigosteam.github.io/SPIAT/articles/SPIAT.html).
 
 We have published a Shiny App to assist reading and formatting spatial data into SPE objects that are compatible with SPIAT functions. Please follow the instructions [here] ("https://github.com/TrigosTeam/SPIAT-shiny") to download the Shiny App and start the journey!
 
