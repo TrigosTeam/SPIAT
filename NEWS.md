@@ -1,3 +1,9 @@
+# SPIAT 1.7.3
+
+BUG FIXES
+
+* Fixed missing plots in function `predict_phenotypes()` when `reference_phenotypes=TRUE`.
+
 # SPIAT 1.7.2
 
 BUG FIXES
