@@ -301,8 +301,8 @@ predict_phenotypes <- function(spe_object, thresholds = NULL, tumour_marker,
                     }
                     
                     p <- p + theme_bw()
-                    
-                    p_list[[marker]] <- p
+                    plot(p)
+                    #p_list[[marker]] <- p
                 }
             }
         }
