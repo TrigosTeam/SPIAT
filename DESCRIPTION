@@ -1,7 +1,7 @@
 Package: SPIAT
 Type: Package
 Title: Spatial Image Analysis of Tissues
-Version: 1.7.2
+Version: 1.9.1
 Authors@R: c(
     person(given = "Anna",
            family="Trigos",
@@ -12,7 +12,7 @@ Authors@R: c(
            family = " Feng",
            role=c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2955-4053"),
-           email="yuzhou.feng@petermac.org"),
+           email="yuzhou0610@gmail.com"),
     person(given = "Tianpei",
            family = " Yang",
            role="aut",

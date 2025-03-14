@@ -1,3 +1,13 @@
+# SPIAT 1.9.1
+
+Please open an issue on our Github page (https://github.com/TrigosTeam/SPIAT/issues) when encountering any issue with the package.
+
+# SPIAT 1.7.3
+
+BUG FIXES
+
+* Fixed missing plots in function `predict_phenotypes()` when `reference_phenotypes=TRUE`.
+
 # SPIAT 1.7.2
 
 BUG FIXES
