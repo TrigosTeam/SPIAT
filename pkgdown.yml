@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   basic_analysis: basic_analysis.html
@@ -10,4 +10,4 @@ articles:
   spatial-heterogeneity: spatial-heterogeneity.html
   SPIAT: SPIAT.html
   tissue-structure: tissue-structure.html
-last_built: 2024-08-19T14:45Z
+last_built: 2025-03-14T00:48Z
