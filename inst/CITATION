@@ -11,8 +11,8 @@ bibentry(
     person("Volkan", "Ozcoban"),
     person("Maria", "Doyle")
   ),
-  note = "R package version 1.7.3",
-  year = "2024",
+  note = "R package version 1.9.1",
+  year = "2025",
   url = "https://trigosteam.github.io/SPIAT/"),
 bibentry(
     bibtype = "article",
