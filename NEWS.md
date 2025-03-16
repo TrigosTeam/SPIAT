@@ -1,7 +1,3 @@
-# SPIAT 1.9.1
-
-Please open an issue on our Github page (https://github.com/TrigosTeam/SPIAT/issues) when encountering any issue with the package.
-
 # SPIAT 1.9.0
 
 Development version on Bioconductor 3.21.

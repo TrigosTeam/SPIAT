@@ -26,6 +26,9 @@ The estimated installation time on a Windows 10 (64-bit) system is 1.5 minutes.
 
 The vignette with an overview of the package can be accessed from the top Menu under Articles or by clicking [here](https://trigosteam.github.io/SPIAT/articles/SPIAT.html).
 
+## Issues
+
+Please open an issue on our Github page (https://github.com/TrigosTeam/SPIAT/issues) if you have any questions.
 
 ## Authors of the package
 Yuzhou Feng, Tianpei Yang, Volkan Ozcoban, Mabel Li and John Zhu developed the package, including developing algorithms, writing code and designing the package. Yuzhou Feng and Maria Doyle did the package cleaning and wrote the tutorial. Anna Trigos conceived, supervised the work, developed algorithms and designed the package. 
