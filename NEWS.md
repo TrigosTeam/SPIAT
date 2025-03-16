@@ -2,8 +2,6 @@
 
 Release version on Bioconductor 3.20.
 
-Please open an issue on our Github page (https://github.com/TrigosTeam/SPIAT/issues) when encountering an issue with the package. 
-
 BUG FIXES
 
 * Show distribution plots when `reference_phenotypes` and `plot_distribution` are `TRUE` in function `predict_phenotypes()`.
