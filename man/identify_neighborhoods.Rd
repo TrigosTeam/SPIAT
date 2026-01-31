@@ -47,7 +47,8 @@ An spe object and a plot is returned. The spe object contains
 \description{
 Uses Euclidean distances to identify neighborhoods of cells.
   Three clustering methods are available, including hierarchical clustering,
-  dbscan, and (Rphenograph).
+  dbscan, and Rphenograph (Note: While Rphenograph option cannot be run directly in 
+  this package, the code is available and commented out.)
 }
 \examples{
 neighborhoods <- identify_neighborhoods(image_no_markers, method = "hierarchical",
