@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.12.1</span>
       </span>
     </div>
 
@@ -103,9 +103,9 @@ SPIAT</h1>
                         <h4 data-toc-skip class="author">Yuzhou
 Feng</h4>
             
-            <h4 data-toc-skip class="date">2025-03-16</h4>
+            <h4 data-toc-skip class="date">2026-01-31</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_20/vignettes/neighborhood.Rmd" class="external-link"><code>vignettes/neighborhood.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_22/vignettes/neighborhood.Rmd" class="external-link"><code>vignettes/neighborhood.Rmd</code></a></small>
       <div class="hidden name"><code>neighborhood.Rmd</code></div>
 
     </div>
@@ -134,7 +134,12 @@ rest being ‘non-interacting’. Hierarchical clustering is then used to
 separate the clusters. Larger radii will result in the merging of
 individual clusters.</li>
 <li><a href="https://cran.r-project.org/web/packages/dbscan/index.html" class="external-link"><em>dbscan</em></a></li>
-<li><a href="https://github.com/JinmiaoChenLab/Rphenograph" class="external-link"><em>phenograph</em></a></li>
+<li>
+<a href="https://github.com/JinmiaoChenLab/Rphenograph" class="external-link"><em>phenograph</em></a>
+(Note: While this option cannot be run directly in package, the code is
+available and commented out in
+<code>/SPIAT/R/identify_neighborhoods.R</code>. This is due to
+Bioconductor dependency restrictions.</li>
 </ul>
 <p>For <em>Hierarchical Clustering algorithm</em> and <em>dbscan</em>,
 users need to specify a radius that defines the distance for an
@@ -158,7 +163,7 @@ cells without marker intensities.</p>
 <span><span class="fu"><a href="../reference/plot_cell_categories.html">plot_cell_categories</a></span><span class="op">(</span></span>
 <span>  <span class="va">image_no_markers</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Immune"</span>,<span class="st">"Immune1"</span>,<span class="st">"Immune2"</span>,<span class="st">"Others"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span>,<span class="st">"darkgreen"</span>, <span class="st">"brown"</span>,<span class="st">"lightgray"</span><span class="op">)</span>, <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="neighborhood_files/figure-html/unnamed-chunk-2-1.png" width="75%"></p>
+<p><img src="neighborhood_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="75%"></p>
 <p>Users are recommended to test out different radii and then visualise
 the clustering results. To aid in this process, users can use the
 <code><a href="../reference/average_minimum_distance.html">average_minimum_distance()</a></code> function, which calculates the
@@ -176,7 +181,7 @@ to the “Cluster_NA” neighbourhood.</p>
 <span>  <span class="va">image_no_markers</span>, method <span class="op">=</span> <span class="st">"hierarchical"</span>, min_neighborhood_size <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Immune"</span>, <span class="st">"Immune1"</span>, <span class="st">"Immune2"</span><span class="op">)</span>, radius <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>  feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="neighborhood_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="neighborhood_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 <p>This plot shows clusters of “Immune”, “Immune1” and “Immune2” cells.
 Each number and colour corresponds to a distinct cluster. Black cells
 correspond to ‘free’, un-clustered cells.</p>
@@ -196,7 +201,7 @@ produce a heatmap showing the marker percentages within each cluster,
 which can be used to classify the derived neighbourhoods.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_composition_heatmap.html">plot_composition_heatmap</a></span><span class="op">(</span><span class="va">neighorhoods_vis</span>, feature_colname<span class="op">=</span><span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="neighborhood_files/figure-html/unnamed-chunk-6-1.png" width="70%"></p>
+<p><img src="neighborhood_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="70%"></p>
 <p>This plot shows that Cluster_1 and Cluster_2 contain all three types
 of immune cells. Cluster_3 does not have Immune1 cells. Cluster_1 and
 Cluster_2 are more similar to the free cells (cells not assigned to
@@ -265,9 +270,9 @@ visualisation</a></li>
 </h2>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.3 (2025-02-28)</span></span>
+<pre><code><span><span class="co">## R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -287,48 +292,47 @@ visualisation</a></li>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] SPIAT_1.8.1                 SpatialExperiment_1.16.0   </span></span>
-<span><span class="co">##  [3] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0</span></span>
-<span><span class="co">##  [5] Biobase_2.66.0              GenomicRanges_1.58.0       </span></span>
-<span><span class="co">##  [7] GenomeInfoDb_1.42.3         IRanges_2.40.1             </span></span>
-<span><span class="co">##  [9] S4Vectors_0.44.0            BiocGenerics_0.52.0        </span></span>
-<span><span class="co">## [11] MatrixGenerics_1.18.1       matrixStats_1.5.0          </span></span>
-<span><span class="co">## [13] BiocStyle_2.34.0           </span></span>
+<span><span class="co">##  [1] SPIAT_1.12.1                SpatialExperiment_1.20.0   </span></span>
+<span><span class="co">##  [3] SingleCellExperiment_1.32.0 SummarizedExperiment_1.40.0</span></span>
+<span><span class="co">##  [5] Biobase_2.70.0              GenomicRanges_1.62.1       </span></span>
+<span><span class="co">##  [7] Seqinfo_1.0.0               IRanges_2.44.0             </span></span>
+<span><span class="co">##  [9] S4Vectors_0.48.0            BiocGenerics_0.56.0        </span></span>
+<span><span class="co">## [11] generics_0.1.4              MatrixGenerics_1.22.0      </span></span>
+<span><span class="co">## [13] matrixStats_1.5.0           BiocStyle_2.38.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] deldir_2.0-4            gridExtra_2.3           rlang_1.1.5            </span></span>
-<span><span class="co">##  [4] magrittr_2.0.3          clue_0.3-66             GetoptLong_1.0.5       </span></span>
-<span><span class="co">##  [7] ggridges_0.5.6          compiler_4.4.3          spatstat.geom_3.3-5    </span></span>
-<span><span class="co">## [10] png_0.1-8               systemfonts_1.2.1       vctrs_0.6.5            </span></span>
-<span><span class="co">## [13] reshape2_1.4.4          stringr_1.5.1           shape_1.4.6.1          </span></span>
-<span><span class="co">## [16] pkgconfig_2.0.3         crayon_1.5.3            fastmap_1.2.0          </span></span>
-<span><span class="co">## [19] magick_2.8.5            XVector_0.46.0          labeling_0.4.3         </span></span>
-<span><span class="co">## [22] rmarkdown_2.29          UCSC.utils_1.2.0        ragg_1.3.3             </span></span>
-<span><span class="co">## [25] xfun_0.51               zlibbioc_1.52.0         cachem_1.1.0           </span></span>
-<span><span class="co">## [28] jsonlite_1.9.1          goftest_1.2-3           DelayedArray_0.32.0    </span></span>
-<span><span class="co">## [31] spatstat.utils_3.1-2    cluster_2.1.8           parallel_4.4.3         </span></span>
-<span><span class="co">## [34] R6_2.6.1                bslib_0.9.0             stringi_1.8.4          </span></span>
-<span><span class="co">## [37] RColorBrewer_1.1-3      spatstat.data_3.1-4     spatstat.univar_3.1-2  </span></span>
-<span><span class="co">## [40] jquerylib_0.1.4         Rcpp_1.0.14             bookdown_0.42          </span></span>
-<span><span class="co">## [43] iterators_1.0.14        knitr_1.49              tensor_1.5             </span></span>
-<span><span class="co">## [46] Matrix_1.7-2            tidyselect_1.2.1        abind_1.4-8            </span></span>
-<span><span class="co">## [49] yaml_2.3.10             doParallel_1.0.17       codetools_0.2-20       </span></span>
-<span><span class="co">## [52] spatstat.random_3.3-2   spatstat.explore_3.3-4  lattice_0.22-6         </span></span>
-<span><span class="co">## [55] tibble_3.2.1            plyr_1.8.9              withr_3.0.2            </span></span>
-<span><span class="co">## [58] evaluate_1.0.3          desc_1.4.3              polyclip_1.10-7        </span></span>
-<span><span class="co">## [61] circlize_0.4.16         pillar_1.10.1           BiocManager_1.30.25    </span></span>
-<span><span class="co">## [64] foreach_1.5.2           generics_0.1.3          ggplot2_3.5.1          </span></span>
-<span><span class="co">## [67] munsell_0.5.1           scales_1.3.0            apcluster_1.4.13       </span></span>
-<span><span class="co">## [70] glue_1.8.0              pheatmap_1.0.12         tools_4.4.3            </span></span>
-<span><span class="co">## [73] dittoSeq_1.18.0         RANN_2.6.2              fs_1.6.5               </span></span>
-<span><span class="co">## [76] cowplot_1.1.3           grid_4.4.3              colorspace_2.1-1       </span></span>
-<span><span class="co">## [79] nlme_3.1-167            GenomeInfoDbData_1.2.13 cli_3.6.4              </span></span>
-<span><span class="co">## [82] spatstat.sparse_3.1-0   textshaping_1.0.0       S4Arrays_1.6.0         </span></span>
-<span><span class="co">## [85] ComplexHeatmap_2.22.0   dplyr_1.1.4             gtable_0.3.6           </span></span>
-<span><span class="co">## [88] sass_0.4.9              digest_0.6.37           SparseArray_1.6.2      </span></span>
-<span><span class="co">## [91] ggrepel_0.9.6           rjson_0.2.23            htmlwidgets_1.6.4      </span></span>
-<span><span class="co">## [94] farver_2.1.2            htmltools_0.5.8.1       pkgdown_2.1.1          </span></span>
-<span><span class="co">## [97] lifecycle_1.0.4         httr_1.4.7              GlobalOptions_0.1.2</span></span></code></pre>
+<span><span class="co">##  [1] deldir_2.0-4           gridExtra_2.3          rlang_1.1.7           </span></span>
+<span><span class="co">##  [4] magrittr_2.0.4         clue_0.3-66            GetoptLong_1.1.0      </span></span>
+<span><span class="co">##  [7] otel_0.2.0             ggridges_0.5.7         compiler_4.5.2        </span></span>
+<span><span class="co">## [10] spatstat.geom_3.7-0    png_0.1-8              systemfonts_1.3.1     </span></span>
+<span><span class="co">## [13] vctrs_0.7.1            reshape2_1.4.5         stringr_1.6.0         </span></span>
+<span><span class="co">## [16] shape_1.4.6.1          pkgconfig_2.0.3        crayon_1.5.3          </span></span>
+<span><span class="co">## [19] fastmap_1.2.0          magick_2.9.0           XVector_0.50.0        </span></span>
+<span><span class="co">## [22] labeling_0.4.3         rmarkdown_2.30         ragg_1.5.0            </span></span>
+<span><span class="co">## [25] xfun_0.56              cachem_1.1.0           jsonlite_2.0.0        </span></span>
+<span><span class="co">## [28] goftest_1.2-3          DelayedArray_0.36.0    spatstat.utils_3.2-1  </span></span>
+<span><span class="co">## [31] cluster_2.1.8.1        parallel_4.5.2         R6_2.6.1              </span></span>
+<span><span class="co">## [34] bslib_0.10.0           stringi_1.8.7          RColorBrewer_1.1-3    </span></span>
+<span><span class="co">## [37] spatstat.data_3.1-9    spatstat.univar_3.1-6  jquerylib_0.1.4       </span></span>
+<span><span class="co">## [40] Rcpp_1.1.1             bookdown_0.46          iterators_1.0.14      </span></span>
+<span><span class="co">## [43] knitr_1.51             tensor_1.5.1           Matrix_1.7-4          </span></span>
+<span><span class="co">## [46] tidyselect_1.2.1       abind_1.4-8            yaml_2.3.12           </span></span>
+<span><span class="co">## [49] doParallel_1.0.17      codetools_0.2-20       spatstat.random_3.4-4 </span></span>
+<span><span class="co">## [52] spatstat.explore_3.7-0 lattice_0.22-7         tibble_3.3.1          </span></span>
+<span><span class="co">## [55] plyr_1.8.9             withr_3.0.2            S7_0.2.1              </span></span>
+<span><span class="co">## [58] evaluate_1.0.5         desc_1.4.3             polyclip_1.10-7       </span></span>
+<span><span class="co">## [61] circlize_0.4.17        pillar_1.11.1          BiocManager_1.30.27   </span></span>
+<span><span class="co">## [64] foreach_1.5.2          ggplot2_4.0.1          scales_1.4.0          </span></span>
+<span><span class="co">## [67] apcluster_1.4.14       glue_1.8.0             pheatmap_1.0.13       </span></span>
+<span><span class="co">## [70] tools_4.5.2            dittoSeq_1.22.0        RANN_2.6.2            </span></span>
+<span><span class="co">## [73] fs_1.6.6               cowplot_1.2.0          grid_4.5.2            </span></span>
+<span><span class="co">## [76] colorspace_2.1-2       nlme_3.1-168           cli_3.6.5             </span></span>
+<span><span class="co">## [79] spatstat.sparse_3.1-0  textshaping_1.0.4      S4Arrays_1.10.1       </span></span>
+<span><span class="co">## [82] ComplexHeatmap_2.26.0  dplyr_1.1.4            gtable_0.3.6          </span></span>
+<span><span class="co">## [85] sass_0.4.10            digest_0.6.39          SparseArray_1.10.8    </span></span>
+<span><span class="co">## [88] ggrepel_0.9.6          rjson_0.2.23           htmlwidgets_1.6.4     </span></span>
+<span><span class="co">## [91] farver_2.1.2           htmltools_0.5.9        pkgdown_2.2.0         </span></span>
+<span><span class="co">## [94] lifecycle_1.0.5        GlobalOptions_0.1.3</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author Contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
@@ -353,7 +357,7 @@ wrote the vignette. AT, YF and TY designed the package.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

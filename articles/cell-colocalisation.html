@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.12.1</span>
       </span>
     </div>
 
@@ -102,9 +102,9 @@
                         <h4 data-toc-skip class="author">Yuzhou
 Feng</h4>
             
-            <h4 data-toc-skip class="date">2025-03-16</h4>
+            <h4 data-toc-skip class="date">2026-01-31</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_20/vignettes/cell-colocalisation.Rmd" class="external-link"><code>vignettes/cell-colocalisation.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_22/vignettes/cell-colocalisation.Rmd" class="external-link"><code>vignettes/cell-colocalisation.Rmd</code></a></small>
       <div class="hidden name"><code>cell-colocalisation.Rmd</code></div>
 
     </div>
@@ -168,7 +168,7 @@ graph. The radius unit is microns.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_average_intensity.html">plot_average_intensity</a></span><span class="op">(</span>spe_object<span class="op">=</span><span class="va">formatted_image</span>, reference_marker<span class="op">=</span><span class="st">"Immune_marker3"</span>, </span>
 <span>                       target_marker<span class="op">=</span><span class="st">"Immune_marker2"</span>, radii<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">35</span>, <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-5-1.png" width="384"></p>
+<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="384"></p>
 <p>This plot shows low levels of Immune_marker3 were observed in cells
 near Immune_marker2+ cells and these levels increased at larger radii.
 This suggests Immune_marker2+ and Immune_marker3+ cells may not be
@@ -206,7 +206,7 @@ the input image with an image of randomly distributed points using a
 Poisson point process. There are four patterns that can be distinguished
 from K-cross function, as illustrated in the plots below. (taken from <a href="https://blog.jlevente.com/understanding-the-cross-k-function/" class="external-link">here</a>
 in April 2021).</p>
-<p><img src="cross-k-function.jpg" width="100%"></p>
+<p><img src="cross-k-function.jpg" class="r-plt" alt="" width="100%"></p>
 <p>Here, the black line represents the input image, the red line
 represents a randomly distributed point pattern.</p>
 <ul>
@@ -234,7 +234,7 @@ target population.</p>
 <span>                                      cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune2"</span><span class="op">)</span>, </span>
 <span>                                      feature_colname <span class="op">=</span><span class="st">"Cell.Type"</span>,</span>
 <span>                                      dist <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-8-1.png" width="403.2"></p>
+<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="403.2"></p>
 <p>The results shows similar pattern as the 4th plot in the cross K
 diagram. This means “Tumour” cells and “Immune2” cells are not
 colocalised (or form separate clusters).</p>
@@ -270,14 +270,14 @@ tests, these generally fall within at a quarter to half of the image
 size, but users are encouraged to experiment with their datasets.</p>
 <p>Here we use the colocalisation of “Tumour” and “Immune3” cells as an
 example. Let’s revisit the example image.</p>
-<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 <p>Compute the cross K function between “Tumour” and “Immune3”:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_cross</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_cross_functions.html">calculate_cross_functions</a></span><span class="op">(</span><span class="va">formatted_image</span>, method <span class="op">=</span> <span class="st">"Kcross"</span>, </span>
 <span>                                      cell_types_of_interest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>,<span class="st">"Immune3"</span><span class="op">)</span>, </span>
 <span>                                      feature_colname <span class="op">=</span><span class="st">"Cell.Type"</span>,</span>
 <span>                                      dist <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-11-1.png" width="384"></p>
+<p><img src="cell-colocalisation_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="384"></p>
 <p>Then find the intersection of the observed and expected cross K
 curves.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -312,9 +312,9 @@ visualisation</a></li>
 </h2>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.3 (2025-02-28)</span></span>
+<pre><code><span><span class="co">## R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -334,41 +334,39 @@ visualisation</a></li>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] SPIAT_1.8.1                 SpatialExperiment_1.16.0   </span></span>
-<span><span class="co">##  [3] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0</span></span>
-<span><span class="co">##  [5] Biobase_2.66.0              GenomicRanges_1.58.0       </span></span>
-<span><span class="co">##  [7] GenomeInfoDb_1.42.3         IRanges_2.40.1             </span></span>
-<span><span class="co">##  [9] S4Vectors_0.44.0            BiocGenerics_0.52.0        </span></span>
-<span><span class="co">## [11] MatrixGenerics_1.18.1       matrixStats_1.5.0          </span></span>
-<span><span class="co">## [13] BiocStyle_2.34.0           </span></span>
+<span><span class="co">##  [1] SPIAT_1.12.1                SpatialExperiment_1.20.0   </span></span>
+<span><span class="co">##  [3] SingleCellExperiment_1.32.0 SummarizedExperiment_1.40.0</span></span>
+<span><span class="co">##  [5] Biobase_2.70.0              GenomicRanges_1.62.1       </span></span>
+<span><span class="co">##  [7] Seqinfo_1.0.0               IRanges_2.44.0             </span></span>
+<span><span class="co">##  [9] S4Vectors_0.48.0            BiocGenerics_0.56.0        </span></span>
+<span><span class="co">## [11] generics_0.1.4              MatrixGenerics_1.22.0      </span></span>
+<span><span class="co">## [13] matrixStats_1.5.0           BiocStyle_2.38.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] tidyselect_1.2.1        dplyr_1.1.4             farver_2.1.2           </span></span>
-<span><span class="co">##  [4] fastmap_1.2.0           pracma_2.4.4            spatstat.geom_3.3-5    </span></span>
-<span><span class="co">##  [7] spatstat.explore_3.3-4  digest_0.6.37           lifecycle_1.0.4        </span></span>
-<span><span class="co">## [10] spatstat.data_3.1-4     magrittr_2.0.3          dbscan_1.2.2           </span></span>
-<span><span class="co">## [13] compiler_4.4.3          rlang_1.1.5             sass_0.4.9             </span></span>
-<span><span class="co">## [16] tools_4.4.3             yaml_2.3.10             knitr_1.49             </span></span>
-<span><span class="co">## [19] S4Arrays_1.6.0          labeling_0.4.3          htmlwidgets_1.6.4      </span></span>
-<span><span class="co">## [22] DelayedArray_0.32.0     abind_1.4-8             withr_3.0.2            </span></span>
-<span><span class="co">## [25] desc_1.4.3              grid_4.4.3              polyclip_1.10-7        </span></span>
-<span><span class="co">## [28] colorspace_2.1-1        ggplot2_3.5.1           scales_1.3.0           </span></span>
-<span><span class="co">## [31] spatstat.utils_3.1-2    cli_3.6.4               rmarkdown_2.29         </span></span>
-<span><span class="co">## [34] crayon_1.5.3            ragg_1.3.3              generics_0.1.3         </span></span>
-<span><span class="co">## [37] httr_1.4.7              rjson_0.2.23            cachem_1.1.0           </span></span>
-<span><span class="co">## [40] zlibbioc_1.52.0         BiocManager_1.30.25     XVector_0.46.0         </span></span>
-<span><span class="co">## [43] vctrs_0.6.5             Matrix_1.7-2            jsonlite_1.9.1         </span></span>
-<span><span class="co">## [46] bookdown_0.42           tensor_1.5              systemfonts_1.2.1      </span></span>
-<span><span class="co">## [49] magick_2.8.5            spatstat.univar_3.1-2   jquerylib_0.1.4        </span></span>
-<span><span class="co">## [52] goftest_1.2-3           glue_1.8.0              spatstat.random_3.3-2  </span></span>
-<span><span class="co">## [55] pkgdown_2.1.1           gtable_0.3.6            deldir_2.0-4           </span></span>
-<span><span class="co">## [58] UCSC.utils_1.2.0        munsell_0.5.1           tibble_3.2.1           </span></span>
-<span><span class="co">## [61] pillar_1.10.1           htmltools_0.5.8.1       GenomeInfoDbData_1.2.13</span></span>
-<span><span class="co">## [64] R6_2.6.1                textshaping_1.0.0       evaluate_1.0.3         </span></span>
-<span><span class="co">## [67] lattice_0.22-6          bslib_0.9.0             Rcpp_1.0.14            </span></span>
-<span><span class="co">## [70] gridExtra_2.3           SparseArray_1.6.2       nlme_3.1-167           </span></span>
-<span><span class="co">## [73] spatstat.sparse_3.1-0   xfun_0.51               fs_1.6.5               </span></span>
-<span><span class="co">## [76] pkgconfig_2.0.3</span></span></code></pre>
+<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             </span></span>
+<span><span class="co">##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
+<span><span class="co">##  [7] spatstat.sparse_3.1-0  lattice_0.22-7         spatstat.utils_3.2-1  </span></span>
+<span><span class="co">## [10] vctrs_0.7.1            tools_4.5.2            goftest_1.2-3         </span></span>
+<span><span class="co">## [13] tibble_3.3.1           pkgconfig_2.0.3        Matrix_1.7-4          </span></span>
+<span><span class="co">## [16] RColorBrewer_1.1-3     S7_0.2.1               desc_1.4.3            </span></span>
+<span><span class="co">## [19] lifecycle_1.0.5        deldir_2.0-4           compiler_4.5.2        </span></span>
+<span><span class="co">## [22] farver_2.1.2           textshaping_1.0.4      spatstat.explore_3.7-0</span></span>
+<span><span class="co">## [25] htmltools_0.5.9        sass_0.4.10            yaml_2.3.12           </span></span>
+<span><span class="co">## [28] pracma_2.4.6           pkgdown_2.2.0          pillar_1.11.1         </span></span>
+<span><span class="co">## [31] jquerylib_0.1.4        DelayedArray_0.36.0    cachem_1.1.0          </span></span>
+<span><span class="co">## [34] dbscan_1.2.4           spatstat.univar_3.1-6  magick_2.9.0          </span></span>
+<span><span class="co">## [37] abind_1.4-8            nlme_3.1-168           spatstat.geom_3.7-0   </span></span>
+<span><span class="co">## [40] tidyselect_1.2.1       digest_0.6.39          dplyr_1.1.4           </span></span>
+<span><span class="co">## [43] bookdown_0.46          labeling_0.4.3         polyclip_1.10-7       </span></span>
+<span><span class="co">## [46] fastmap_1.2.0          grid_4.5.2             cli_3.6.5             </span></span>
+<span><span class="co">## [49] SparseArray_1.10.8     magrittr_2.0.4         S4Arrays_1.10.1       </span></span>
+<span><span class="co">## [52] spatstat.data_3.1-9    withr_3.0.2            tensor_1.5.1          </span></span>
+<span><span class="co">## [55] scales_1.4.0           rmarkdown_2.30         XVector_0.50.0        </span></span>
+<span><span class="co">## [58] otel_0.2.0             gridExtra_2.3          ragg_1.5.0            </span></span>
+<span><span class="co">## [61] evaluate_1.0.5         knitr_1.51             rlang_1.1.7           </span></span>
+<span><span class="co">## [64] Rcpp_1.1.1             spatstat.random_3.4-4  glue_1.8.0            </span></span>
+<span><span class="co">## [67] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              </span></span>
+<span><span class="co">## [70] systemfonts_1.3.1      fs_1.6.6</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author Contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
@@ -401,7 +399,7 @@ by Multiplexed Ion Beam Imaging.”</span> <em>Cell</em> 174 (6): 1373–87.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

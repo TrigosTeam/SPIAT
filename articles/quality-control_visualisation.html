@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPIAT</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.12.1</span>
       </span>
     </div>
 
@@ -103,9 +103,9 @@ SPIAT</h1>
                         <h4 data-toc-skip class="author">Yuzhou
 Feng</h4>
             
-            <h4 data-toc-skip class="date">2025-03-16</h4>
+            <h4 data-toc-skip class="date">2026-01-31</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_20/vignettes/quality-control_visualisation.Rmd" class="external-link"><code>vignettes/quality-control_visualisation.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/trigosteam/SPIAT/blob/RELEASE_3_22/vignettes/quality-control_visualisation.Rmd" class="external-link"><code>vignettes/quality-control_visualisation.Rmd</code></a></small>
       <div class="hidden name"><code>quality-control_visualisation.Rmd</code></div>
 
     </div>
@@ -150,7 +150,7 @@ phenotypes have not been accurately assigned. We can use
 phenotyped as being positive or negative for a marker.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/marker_intensity_boxplot.html">marker_intensity_boxplot</a></span><span class="op">(</span><span class="va">formatted_image</span>, <span class="st">"Immune_marker1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-3-1.png" width="307.2"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="307.2"></p>
 <p>Note that if phenotypes were obtained from software that uses machine
 learning to determine positive cells, which generally also take into
 account properties such as cell shape, nucleus size etc., rather than a
@@ -170,7 +170,7 @@ were not phenotyped as being positive for the particular marker are
 excluded.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_cell_marker_levels.html">plot_cell_marker_levels</a></span><span class="op">(</span><span class="va">formatted_image</span>, <span class="st">"Immune_marker1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="heatmaps-of-marker-levels">Heatmaps of marker levels<a class="anchor" aria-label="anchor" href="#heatmaps-of-marker-levels"></a>
@@ -181,7 +181,7 @@ intensities are averaged within each. The image is blurred based on the
 <code>num_splits</code> parameter.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_marker_level_heatmap.html">plot_marker_level_heatmap</a></span><span class="op">(</span><span class="va">formatted_image</span>, num_splits <span class="op">=</span> <span class="fl">100</span>, <span class="st">"Tumour_marker"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-5-1.png" width="75%"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="75%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -244,15 +244,15 @@ remove specific misclassified cells.</p>
 <span>                                                           <span class="st">"Immune_marker4"</span><span class="op">)</span>,</span>
 <span>                                      reference_phenotypes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Tumour_marker  threshold intensity:  0.445450443784465"</span></span></code></pre>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## [1] "Immune_marker1  threshold intensity:  0.116980867970434"</span></span></code></pre>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## [1] "Immune_marker2  threshold intensity:  0.124283809517202"</span></span></code></pre>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-3.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## [1] "Immune_marker3  threshold intensity:  0.0166413130263845"</span></span></code></pre>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-4.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## [1] "Immune_marker4  threshold intensity:  0.00989731350898589"</span></span></code></pre>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-5.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-7-5.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Then define the cell types based on predicted phenotypes</span></span>
 <span><span class="va">predicted_image2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_celltypes.html">define_celltypes</a></span><span class="op">(</span></span>
@@ -279,7 +279,7 @@ function from the <code>plotly</code> package. Due to the file size
 restriction, we only show a screenshot of the interactive tSNE plot.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html" class="external-link">ggplotly</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="tSNE1.jpg" width="70%"></p>
+<p><img src="tSNE1.jpg" class="r-plt" alt="" width="70%"></p>
 <p>The plot shows that there are four clear clusters based on marker
 intensities. This is consistent with the cell definition from the marker
 combinations from the “Phenotype” column. (The interactive t-SNE plot
@@ -307,7 +307,7 @@ are fewer misclassified cells.</p>
 <span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dimensionality_reduction_plot.html">dimensionality_reduction_plot</a></span><span class="op">(</span><span class="va">predicted_image2</span>, plot_type <span class="op">=</span> <span class="st">"TSNE"</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plotly::ggplotly(g) # uncomment this code to interact with the plot</span></span></code></pre></div>
-<p><img src="tSNE2.jpg" width="70%"></p>
+<p><img src="tSNE2.jpg" class="r-plt" alt="" width="70%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -330,7 +330,7 @@ put in the category “OTHER” and coloured lightgrey.</p>
 <span>                     categories_of_interest <span class="op">=</span> </span>
 <span>                       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Immune1"</span>, <span class="st">"Immune2"</span>, <span class="st">"Immune3"</span><span class="op">)</span>, </span>
 <span>                     colour_vector <span class="op">=</span> <span class="va">my_colors</span>, feature_colname <span class="op">=</span> <span class="st">"Cell.Type"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="quality-control_visualisation_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
 <p><code><a href="../reference/plot_cell_categories.html">plot_cell_categories()</a></code> also allows the users to plot the
 categories layer by layer when there are too many cells by setting
 <code>layered</code> parameter as <code>TRUE</code>. Then the cells will
@@ -350,7 +350,7 @@ of the points.</p>
 interactive plot in this vignette. Here only shows a screen shot. (You
 can interactively move the plot around to obtain a better view with the
 same code).</p>
-<p><img src="marker_surface1.jpg" width="75%"></p>
+<p><img src="marker_surface1.jpg" class="r-plt" alt="" width="75%"></p>
 </div>
 <div class="section level3">
 <h3 id="d-stacked-surface-plot">3D stacked surface plot<a class="anchor" aria-label="anchor" href="#d-stacked-surface-plot"></a>
@@ -361,7 +361,7 @@ intensity level of specified markers and enables the identification of
 co-occurring and mutually exclusive markers.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/marker_surface_plot_stack.html">marker_surface_plot_stack</a></span><span class="op">(</span><span class="va">formatted_image</span>, num_splits<span class="op">=</span><span class="fl">15</span>, markers<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tumour_marker"</span>, <span class="st">"Immune_marker1"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="marker_surface2.jpg" width="75%"></p>
+<p><img src="marker_surface2.jpg" class="r-plt" alt="" width="75%"></p>
 <p>The stacked surface plots of the Tumour_marker and Immune_marker1
 cells in this example shows how Tumour_marker and Immune_marker1 are
 mutually exclusive as the peaks and valleys are opposite. Similar to the
@@ -389,9 +389,9 @@ formatting</a></li>
 </h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.3 (2025-02-28)</span></span>
+<pre><code><span><span class="co">## R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -411,43 +411,42 @@ formatting</a></li>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] SPIAT_1.8.1                 SpatialExperiment_1.16.0   </span></span>
-<span><span class="co">##  [3] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0</span></span>
-<span><span class="co">##  [5] Biobase_2.66.0              GenomicRanges_1.58.0       </span></span>
-<span><span class="co">##  [7] GenomeInfoDb_1.42.3         IRanges_2.40.1             </span></span>
-<span><span class="co">##  [9] S4Vectors_0.44.0            BiocGenerics_0.52.0        </span></span>
-<span><span class="co">## [11] MatrixGenerics_1.18.1       matrixStats_1.5.0          </span></span>
-<span><span class="co">## [13] BiocStyle_2.34.0           </span></span>
+<span><span class="co">##  [1] SPIAT_1.12.1                SpatialExperiment_1.20.0   </span></span>
+<span><span class="co">##  [3] SingleCellExperiment_1.32.0 SummarizedExperiment_1.40.0</span></span>
+<span><span class="co">##  [5] Biobase_2.70.0              GenomicRanges_1.62.1       </span></span>
+<span><span class="co">##  [7] Seqinfo_1.0.0               IRanges_2.44.0             </span></span>
+<span><span class="co">##  [9] S4Vectors_0.48.0            BiocGenerics_0.56.0        </span></span>
+<span><span class="co">## [11] generics_0.1.4              MatrixGenerics_1.22.0      </span></span>
+<span><span class="co">## [13] matrixStats_1.5.0           BiocStyle_2.38.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] tidyselect_1.2.1        viridisLite_0.4.2       dplyr_1.1.4            </span></span>
-<span><span class="co">##  [4] farver_2.1.2            lazyeval_0.2.2          fastmap_1.2.0          </span></span>
-<span><span class="co">##  [7] pracma_2.4.4            spatstat.geom_3.3-5     spatstat.explore_3.3-4 </span></span>
-<span><span class="co">## [10] digest_0.6.37           lifecycle_1.0.4         spatstat.data_3.1-4    </span></span>
-<span><span class="co">## [13] magrittr_2.0.3          compiler_4.4.3          rlang_1.1.5            </span></span>
-<span><span class="co">## [16] sass_0.4.9              tools_4.4.3             yaml_2.3.10            </span></span>
-<span><span class="co">## [19] data.table_1.17.0       knitr_1.49              S4Arrays_1.6.0         </span></span>
-<span><span class="co">## [22] labeling_0.4.3          htmlwidgets_1.6.4       DelayedArray_0.32.0    </span></span>
-<span><span class="co">## [25] abind_1.4-8             Rtsne_0.17              purrr_1.0.4            </span></span>
-<span><span class="co">## [28] withr_3.0.2             desc_1.4.3              grid_4.4.3             </span></span>
-<span><span class="co">## [31] polyclip_1.10-7         colorspace_2.1-1        ggplot2_3.5.1          </span></span>
-<span><span class="co">## [34] scales_1.3.0            spatstat.utils_3.1-2    cli_3.6.4              </span></span>
-<span><span class="co">## [37] rmarkdown_2.29          crayon_1.5.3            ragg_1.3.3             </span></span>
-<span><span class="co">## [40] generics_0.1.3          httr_1.4.7              rjson_0.2.23           </span></span>
-<span><span class="co">## [43] cachem_1.1.0            zlibbioc_1.52.0         BiocManager_1.30.25    </span></span>
-<span><span class="co">## [46] XVector_0.46.0          vctrs_0.6.5             Matrix_1.7-2           </span></span>
-<span><span class="co">## [49] jsonlite_1.9.1          bookdown_0.42           tensor_1.5             </span></span>
-<span><span class="co">## [52] crosstalk_1.2.1         systemfonts_1.2.1       magick_2.8.5           </span></span>
-<span><span class="co">## [55] plotly_4.10.4           tidyr_1.3.1             spatstat.univar_3.1-2  </span></span>
-<span><span class="co">## [58] jquerylib_0.1.4         goftest_1.2-3           glue_1.8.0             </span></span>
-<span><span class="co">## [61] spatstat.random_3.3-2   pkgdown_2.1.1           gtable_0.3.6           </span></span>
-<span><span class="co">## [64] deldir_2.0-4            UCSC.utils_1.2.0        munsell_0.5.1          </span></span>
-<span><span class="co">## [67] tibble_3.2.1            pillar_1.10.1           htmltools_0.5.8.1      </span></span>
-<span><span class="co">## [70] GenomeInfoDbData_1.2.13 R6_2.6.1                textshaping_1.0.0      </span></span>
-<span><span class="co">## [73] evaluate_1.0.3          lattice_0.22-6          mmand_1.6.3            </span></span>
-<span><span class="co">## [76] bslib_0.9.0             Rcpp_1.0.14             gridExtra_2.3          </span></span>
-<span><span class="co">## [79] SparseArray_1.6.2       nlme_3.1-167            spatstat.sparse_3.1-0  </span></span>
-<span><span class="co">## [82] xfun_0.51               fs_1.6.5                pkgconfig_2.0.3</span></span></code></pre>
+<span><span class="co">##  [1] tidyselect_1.2.1       viridisLite_0.4.2      dplyr_1.1.4           </span></span>
+<span><span class="co">##  [4] farver_2.1.2           S7_0.2.1               lazyeval_0.2.2        </span></span>
+<span><span class="co">##  [7] fastmap_1.2.0          spatstat.geom_3.7-0    pracma_2.4.6          </span></span>
+<span><span class="co">## [10] spatstat.explore_3.7-0 digest_0.6.39          lifecycle_1.0.5       </span></span>
+<span><span class="co">## [13] spatstat.data_3.1-9    magrittr_2.0.4         compiler_4.5.2        </span></span>
+<span><span class="co">## [16] rlang_1.1.7            sass_0.4.10            tools_4.5.2           </span></span>
+<span><span class="co">## [19] yaml_2.3.12            data.table_1.18.2.1    knitr_1.51            </span></span>
+<span><span class="co">## [22] S4Arrays_1.10.1        labeling_0.4.3         htmlwidgets_1.6.4     </span></span>
+<span><span class="co">## [25] DelayedArray_0.36.0    RColorBrewer_1.1-3     abind_1.4-8           </span></span>
+<span><span class="co">## [28] Rtsne_0.17             purrr_1.2.1            withr_3.0.2           </span></span>
+<span><span class="co">## [31] desc_1.4.3             grid_4.5.2             polyclip_1.10-7       </span></span>
+<span><span class="co">## [34] ggplot2_4.0.1          scales_1.4.0           spatstat.utils_3.2-1  </span></span>
+<span><span class="co">## [37] cli_3.6.5              rmarkdown_2.30         ragg_1.5.0            </span></span>
+<span><span class="co">## [40] otel_0.2.0             httr_1.4.7             rjson_0.2.23          </span></span>
+<span><span class="co">## [43] cachem_1.1.0           BiocManager_1.30.27    XVector_0.50.0        </span></span>
+<span><span class="co">## [46] vctrs_0.7.1            Matrix_1.7-4           jsonlite_2.0.0        </span></span>
+<span><span class="co">## [49] bookdown_0.46          tensor_1.5.1           crosstalk_1.2.2       </span></span>
+<span><span class="co">## [52] systemfonts_1.3.1      magick_2.9.0           plotly_4.12.0         </span></span>
+<span><span class="co">## [55] tidyr_1.3.2            spatstat.univar_3.1-6  jquerylib_0.1.4       </span></span>
+<span><span class="co">## [58] goftest_1.2-3          glue_1.8.0             spatstat.random_3.4-4 </span></span>
+<span><span class="co">## [61] pkgdown_2.2.0          gtable_0.3.6           deldir_2.0-4          </span></span>
+<span><span class="co">## [64] tibble_3.3.1           pillar_1.11.1          htmltools_0.5.9       </span></span>
+<span><span class="co">## [67] R6_2.6.1               textshaping_1.0.4      evaluate_1.0.5        </span></span>
+<span><span class="co">## [70] lattice_0.22-7         mmand_1.6.3            bslib_0.10.0          </span></span>
+<span><span class="co">## [73] Rcpp_1.1.1             gridExtra_2.3          SparseArray_1.10.8    </span></span>
+<span><span class="co">## [76] nlme_3.1-168           spatstat.sparse_3.1-0  xfun_0.56             </span></span>
+<span><span class="co">## [79] fs_1.6.6               pkgconfig_2.0.3</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author Contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
@@ -472,7 +471,7 @@ wrote the vignette. AT, YF and TY designed the package.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
