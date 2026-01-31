@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Yuzhou  Feng \email{yuzhou.feng@petermac.org} (\href{https://orcid.org/0000-0002-2955-4053}{ORCID})
+\strong{Maintainer}: Yuzhou  Feng \email{yuzhou0610@gmail.com} (\href{https://orcid.org/0000-0002-2955-4053}{ORCID})
 
 Authors:
 \itemize{
