@@ -43,7 +43,7 @@ three algorithms for the detection of neighbourhoods.
     separate the clusters. Larger radii will result in the merging of
     individual clusters.
 -   [*dbscan*](https://cran.r-project.org/web/packages/dbscan/index.html)
--   [*phenograph*](https://github.com/JinmiaoChenLab/Rphenograph)
+-   [*phenograph*](https://github.com/JinmiaoChenLab/Rphenograph) (Note: While this option cannot be run directly in package, the code is available and commented out in `/SPIAT/R/identify_neighborhoods.R`. This is due to Bioconductor dependency restrictions.
 
 For *Hierarchical Clustering algorithm* and *dbscan*, users need to
 specify a radius that defines the distance for an interaction. We
